@@ -1,12 +1,21 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/crud/consumer_auto_orders.js": "/js/crud/consumer_auto_orders.js",
+    "/js/crud/consumer_qr_codes.js": "/js/crud/consumer_qr_codes.js",
+    "/js/crud/consumer_subsidizations.js": "/js/crud/consumer_subsidizations.js",
+    "/js/crud/consumers.js": "/js/crud/consumers.js",
     "/js/crud/location_group.js": "/js/crud/location_group.js",
     "/js/crud/locations.js": "/js/crud/locations.js",
     "/js/crud/menu_categories.js": "/js/crud/menu_categories.js",
     "/js/crud/menu_items.js": "/js/crud/menu_items.js",
+    "/js/crud/orders.js": "/js/crud/orders.js",
+    "/js/crud/payments.js": "/js/crud/payments.js",
+    "/js/crud/settings.js": "/js/crud/settings.js",
     "/js/crud/subsidization_organizations.js": "/js/crud/subsidization_organizations.js",
+    "/js/crud/subsidized_menu_categories.js": "/js/crud/subsidized_menu_categories.js",
     "/js/crud/users.js": "/js/crud/users.js",
     "/js/crud/vacation.js": "/js/crud/vacation.js",
+    "/js/crud/vacation_location_group.js": "/js/crud/vacation_location_group.js",
     "/js/crud/voucher_limits.js": "/js/crud/voucher_limits.js"
 }

@@ -137,6 +137,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('vacation-location-group/{id}', 'VacationLocationGroupController@show')->name('vacation-location-group.show');
     Route::put('vacation-location-group/{id}', 'VacationLocationGroupController@update')->name('vacation-location-group.update');
     Route::delete('vacation-location-group/{id}', "VacationLocationGroupController@destroy")->name('vacation-location-group.destroy');
+
     /** subsidized-menu-categories routes */
     Route::get('subsidized-menu-categories/get-all', 'SubsidizedMenuCategoriesController@getAll')->name('subsidized-menu-categories.get-all');
     Route::get('subsidized-menu-categories/get-structure', 'SubsidizedMenuCategoriesController@getIndexStructure')->name('subsidized-menu-categories.index-structure');
@@ -149,6 +150,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('subsidized-menu-categories/{id}', 'SubsidizedMenuCategoriesController@show')->name('subsidized-menu-categories.show');
     Route::put('subsidized-menu-categories/{id}', 'SubsidizedMenuCategoriesController@update')->name('subsidized-menu-categories.update');
     Route::delete('subsidized-menu-categories/{id}', "SubsidizedMenuCategoriesController@destroy")->name('subsidized-menu-categories.destroy');
+
     /** consumers routes */
     Route::get('consumers/get-all', 'ConsumerController@getAll')->name('consumers.get-all');
     Route::get('consumers/get-structure', 'ConsumerController@getIndexStructure')->name('consumers.index-structure');
@@ -161,6 +163,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('consumers/{id}', 'ConsumerController@show')->name('consumers.show');
     Route::put('consumers/{id}', 'ConsumerController@update')->name('consumers.update');
     Route::delete('consumers/{id}', "ConsumerController@destroy")->name('consumers.destroy');
+
     /** consumer-subsidizations routes */
     Route::get('consumer-subsidizations/get-all', 'ConsumerSubsidizationController@getAll')->name('consumer-subsidizations.get-all');
     Route::get('consumer-subsidizations/get-structure', 'ConsumerSubsidizationController@getIndexStructure')->name('consumer-subsidizations.index-structure');
@@ -174,6 +177,68 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::put('consumer-subsidizations/{id}', 'ConsumerSubsidizationController@update')->name('consumer-subsidizations.update');
     Route::delete('consumer-subsidizations/{id}', "ConsumerSubsidizationController@destroy")->name('consumer-subsidizations.destroy');
 
+
+    /** orders routes */
+    Route::get('orders/get-all', 'OrderController@getAll')->name('orders.get-all');
+    Route::get('orders/get-structure', 'OrderController@getIndexStructure')->name('orders.index-structure');
+    Route::get('orders/get-view-structure', 'OrderController@getViewStructure')->name('orders.view-structure');
+    Route::get('orders/get-one/{id}', 'OrderController@getOne')->name('orders.get-one');
+    Route::get('orders', "OrderController@index")->name('orders.index');
+    Route::get('orders/create', 'OrderController@create')->name('orders.create');
+    Route::post('orders', "OrderController@store")->name('orders.store');
+    Route::get('orders/{id}/edit', 'OrderController@edit')->name('orders.edit');
+    Route::get('orders/{id}', 'OrderController@show')->name('orders.show');
+    Route::put('orders/{id}', 'OrderController@update')->name('orders.update');
+    Route::delete('orders/{id}', "OrderController@destroy")->name('orders.destroy');
+    /** consumer-auto-orders routes */
+    Route::get('consumer-auto-orders/get-all', 'ConsumerAutoOrderController@getAll')->name('consumer-auto-orders.get-all');
+    Route::get('consumer-auto-orders/get-structure', 'ConsumerAutoOrderController@getIndexStructure')->name('consumer-auto-orders.index-structure');
+    Route::get('consumer-auto-orders/get-view-structure', 'ConsumerAutoOrderController@getViewStructure')->name('consumer-auto-orders.view-structure');
+    Route::get('consumer-auto-orders/get-one/{id}', 'ConsumerAutoOrderController@getOne')->name('consumer-auto-orders.get-one');
+    Route::get('consumer-auto-orders', "ConsumerAutoOrderController@index")->name('consumer-auto-orders.index');
+    Route::get('consumer-auto-orders/create', 'ConsumerAutoOrderController@create')->name('consumer-auto-orders.create');
+    Route::post('consumer-auto-orders', "ConsumerAutoOrderController@store")->name('consumer-auto-orders.store');
+    Route::get('consumer-auto-orders/{id}/edit', 'ConsumerAutoOrderController@edit')->name('consumer-auto-orders.edit');
+    Route::get('consumer-auto-orders/{id}', 'ConsumerAutoOrderController@show')->name('consumer-auto-orders.show');
+    Route::put('consumer-auto-orders/{id}', 'ConsumerAutoOrderController@update')->name('consumer-auto-orders.update');
+    Route::delete('consumer-auto-orders/{id}', "ConsumerAutoOrderController@destroy")->name('consumer-auto-orders.destroy');
+    /** payments routes */
+    Route::get('payments/get-all', 'PaymentController@getAll')->name('payments.get-all');
+    Route::get('payments/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
+    Route::get('payments/get-view-structure', 'PaymentController@getViewStructure')->name('payments.view-structure');
+    Route::get('payments/get-one/{id}', 'PaymentController@getOne')->name('payments.get-one');
+    Route::get('payments', "PaymentController@index")->name('payments.index');
+    Route::get('payments/create', 'PaymentController@create')->name('payments.create');
+    Route::post('payments', "PaymentController@store")->name('payments.store');
+    Route::get('payments/{id}/edit', 'PaymentController@edit')->name('payments.edit');
+    Route::get('payments/{id}', 'PaymentController@show')->name('payments.show');
+    Route::put('payments/{id}', 'PaymentController@update')->name('payments.update');
+    Route::delete('payments/{id}', "PaymentController@destroy")->name('payments.destroy');
+    /** consumer-qr-codes routes */
+    Route::get('consumer-qr-codes/get-all', 'ConsumerQrCodeController@getAll')->name('consumer-qr-codes.get-all');
+    Route::get('consumer-qr-codes/get-structure', 'ConsumerQrCodeController@getIndexStructure')->name('consumer-qr-codes.index-structure');
+    Route::get('consumer-qr-codes/get-view-structure', 'ConsumerQrCodeController@getViewStructure')->name('consumer-qr-codes.view-structure');
+    Route::get('consumer-qr-codes/get-one/{id}', 'ConsumerQrCodeController@getOne')->name('consumer-qr-codes.get-one');
+    Route::get('consumer-qr-codes', "ConsumerQrCodeController@index")->name('consumer-qr-codes.index');
+    Route::get('consumer-qr-codes/create', 'ConsumerQrCodeController@create')->name('consumer-qr-codes.create');
+    Route::post('consumer-qr-codes', "ConsumerQrCodeController@store")->name('consumer-qr-codes.store');
+    Route::get('consumer-qr-codes/{id}/edit', 'ConsumerQrCodeController@edit')->name('consumer-qr-codes.edit');
+    Route::get('consumer-qr-codes/{id}', 'ConsumerQrCodeController@show')->name('consumer-qr-codes.show');
+    Route::put('consumer-qr-codes/{id}', 'ConsumerQrCodeController@update')->name('consumer-qr-codes.update');
+    Route::delete('consumer-qr-codes/{id}', "ConsumerQrCodeController@destroy")->name('consumer-qr-codes.destroy');
+
+    /** settings routes */
+    Route::get('settings/get-all', 'SettingController@getAll')->name('settings.get-all');
+    Route::get('settings/get-structure', 'SettingController@getIndexStructure')->name('settings.index-structure');
+    Route::get('settings/get-view-structure', 'SettingController@getViewStructure')->name('settings.view-structure');
+    Route::get('settings/get-one/{id}', 'SettingController@getOne')->name('settings.get-one');
+    Route::get('settings', "SettingController@index")->name('settings.index');
+    Route::get('settings/create', 'SettingController@create')->name('settings.create');
+    Route::post('settings', "SettingController@store")->name('settings.store');
+    Route::get('settings/{id}/edit', 'SettingController@edit')->name('settings.edit');
+    Route::get('settings/{id}', 'SettingController@show')->name('settings.show');
+    Route::put('settings/{id}', 'SettingController@update')->name('settings.update');
+    Route::delete('settings/{id}', "SettingController@destroy")->name('settings.destroy');
 
 });
 

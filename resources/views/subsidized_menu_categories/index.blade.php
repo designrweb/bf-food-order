@@ -1,3 +1,5 @@
+@extends('layouts.admin')
+
 @section('content')
     <div id="grid-index-page">
         <grid-index :main_route="'subsidized-menu-categories'"></grid-index>

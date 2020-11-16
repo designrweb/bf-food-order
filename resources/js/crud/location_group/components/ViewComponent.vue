@@ -9,9 +9,9 @@
                     </div>
                     <div class="col-12 col-sm-4 action-buttons">
                         <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
-                                     :mainRoute="actionsRoute"></edit-button>
+                                     :mainRoute="main_route"></edit-button>
                         <delete-button v-if="allowActions.edit && allowActions.all" :id="id"
-                                       :mainRoute="actionsRoute"></delete-button>
+                                       :mainRoute="main_route"></delete-button>
                     </div>
                 </div>
 

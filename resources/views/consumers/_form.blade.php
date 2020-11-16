@@ -3,6 +3,8 @@
  * @var array $resource
  */
 ?>
+@extends('layouts.admin')
+
 @section('content')
     <div id="grid-form-page">
         @if(!empty($resource))

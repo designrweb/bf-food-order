@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title"></h3>
-            <create-button v-if="allowActions.create && allowActions.all" :mainRoute="actionsRoute"></create-button>
+            <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
         </div>
         <div class="card-body overflow-auto">
             <div class="text-center" v-if="isPageBusy">
@@ -39,11 +39,11 @@
                 </template>
                 <template v-slot:cell()="data">
                     <div v-if="data.field.key ==='actions'" class="d-flex">
-                        <view-button v-if="allowActions.view" :mainRoute="actionsRoute"
+                        <view-button v-if="allowActions.view" :mainRoute="main_route"
                                      :id="data.item.id"></view-button>
-                        <edit-button v-if="allowActions.edit" :mainRoute="actionsRoute"
+                        <edit-button v-if="allowActions.edit" :mainRoute="main_route"
                                      :id="data.item.id"></edit-button>
-                        <delete-button v-if="allowActions.delete" :mainRoute="actionsRoute"
+                        <delete-button v-if="allowActions.delete" :mainRoute="main_route"
                                        :id="data.item.id"></delete-button>
                     </div>
                     <div v-else>

@@ -108,14 +108,6 @@ class UserService extends BaseModelService
                 'label' => 'Email'
             ],
             [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
-            [
                 'key'   => 'user_info.first_name',
                 'label' => 'First Name'
             ],
@@ -134,6 +126,14 @@ class UserService extends BaseModelService
             ], [
                 'key'   => 'user_info.street',
                 'label' => 'Street'
+            ],
+            [
+                'key'   => 'created_at',
+                'label' => 'Created At'
+            ],
+            [
+                'key'   => 'updated_at',
+                'label' => 'Updated At'
             ],
         ];
 
@@ -156,20 +156,20 @@ class UserService extends BaseModelService
                 'label' => 'Email'
             ],
             [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
-            [
                 'key'   => 'user_info.first_name',
                 'label' => 'First Name'
             ],
             [
                 'key'   => 'user_info.last_name',
                 'label' => 'Last Name'
+            ],
+            [
+                'key'   => 'created_at',
+                'label' => 'Created At'
+            ],
+            [
+                'key'   => 'updated_at',
+                'label' => 'Updated At'
             ],
         ];
     }

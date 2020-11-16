@@ -27,18 +27,14 @@ class UserSearch extends BaseSearch
         $this->applyFilter('users.updated_at', request('filters.updated_at'));
 
         $this->builder->when(request('filters.user_info.first_name'), function (Builder $q) {
-            $q->whereHas('userInfo', function ($q) {
-                $q->where('user_info.first_name', 'like', '%' . request('filters.user_info.first_name') . '%');
-            });
+            $q->where('user_info.first_name', 'like', '%' . request('filters.user_info.first_name') . '%');
         });
 
         $this->builder->when(request('filters.user_info.last_name'), function (Builder $q) {
-            $q->whereHas('userInfo', function ($q) {
-                $q->where('user_info.last_name', 'like', '%' . request('filters.user_info.last_name') . '%');
-            });
+            $q->where('user_info.last_name', 'like', '%' . request('filters.user_info.last_name') . '%');
         });
 
-        // search
+        // sort
         $this->applySort('users.id', request('sort.id'));
         $this->applySort('users.name', request('sort.name'));
         $this->applySort('users.email', request('sort.email'));

@@ -3,6 +3,8 @@
  * @var array $resource
  */
 ?>
+@extends('layouts.admin')
+
 @section('content')
     <div id="grid-view-page">
         <grid-view :main_route="'consumer-subsidizations'" :id="{{$resource['id']}}"></grid-view>

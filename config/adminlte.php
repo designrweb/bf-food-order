@@ -249,57 +249,82 @@ return [
         [
             'text' => 'Subsidization organizations',
             'url'  => 'admin/subsidization-organizations',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Menu categories',
             'url'  => 'admin/menu-categories',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Vacations',
             'url'  => 'admin/vacations',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Locations',
             'url'  => 'admin/locations',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Voucher Limits',
             'url'  => 'admin/voucher-limits',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Menu Items',
             'url'  => 'admin/menu-items',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Location Groups',
             'url'  => 'admin/location-groups',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
-            'text' => 'vacation-location-group',
+            'text' => 'Vacation Location Group',
             'url'  => 'admin/vacation-location-group',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
-            'text' => 'subsidized-menu-categories',
+            'text' => 'Subsidized Menu Categories',
             'url'  => 'admin/subsidized-menu-categories',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
-            'text' => 'consumers',
+            'text' => 'Consumers',
             'url'  => 'admin/consumers',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
         ],
         [
-            'text' => 'consumer-subsidizations',
+            'text' => 'Consumer Subsidizations',
             'url'  => 'admin/consumer-subsidizations',
-            'icon' => 'fas fa-users',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Orders',
+            'url'  => 'admin/orders',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Consumer Auto Orders',
+            'url'  => 'admin/consumer-auto-orders',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Payments',
+            'url'  => 'admin/payments',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Consumer QR Codes',
+            'url'  => 'admin/consumer-qr-codes',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Settings',
+            'url'  => 'admin/settings',
+            'icon' => 'far fa-fw fa-file',
         ],
 
 
