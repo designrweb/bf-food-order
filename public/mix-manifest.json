@@ -1,0 +1,12 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/crud/location_group.js": "/js/crud/location_group.js",
+    "/js/crud/locations.js": "/js/crud/locations.js",
+    "/js/crud/menu_categories.js": "/js/crud/menu_categories.js",
+    "/js/crud/menu_items.js": "/js/crud/menu_items.js",
+    "/js/crud/subsidization_organizations.js": "/js/crud/subsidization_organizations.js",
+    "/js/crud/users.js": "/js/crud/users.js",
+    "/js/crud/vacation.js": "/js/crud/vacation.js",
+    "/js/crud/voucher_limits.js": "/js/crud/voucher_limits.js"
+}
