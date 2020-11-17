@@ -7,6 +7,9 @@ The main purpose of the application is to organize food ordering and it consumin
 3) Run `npm install`
 4) Then build assets `npm run dev`
 
+### Seed the user
+`php artisan db:seed` (default password is admin)
+
 ## CRUD generator 
 Check [docs](https://github.com/andriyburda/crud-generator/blob/master/readme.md#usage) for more details
 

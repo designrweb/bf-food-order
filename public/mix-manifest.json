@@ -13,6 +13,7 @@
     "/js/crud/payments.js": "/js/crud/payments.js",
     "/js/crud/settings.js": "/js/crud/settings.js",
     "/js/crud/subsidization_organizations.js": "/js/crud/subsidization_organizations.js",
+    "/js/crud/subsidization_rules.js": "/js/crud/subsidization_rules.js",
     "/js/crud/subsidized_menu_categories.js": "/js/crud/subsidized_menu_categories.js",
     "/js/crud/users.js": "/js/crud/users.js",
     "/js/crud/vacation.js": "/js/crud/vacation.js",

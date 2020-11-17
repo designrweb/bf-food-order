@@ -15,7 +15,7 @@ class CreateConsumerSubsidizationsTable extends Migration
     {
         Schema::create('consumer_subsidizations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('subsidization_rule_id')->nullable()->index('consumer_subsidizations_subsidization_rule_id_foreign');
+            $table->unsignedBigInteger('subsidization_rules_id')->nullable()->index('consumer_subsidizations_subsidization_rules_id_foreign');
             $table->date('subsidization_start')->nullable();
             $table->date('subsidization_end')->nullable();
             $table->string('subsidization_document')->nullable();

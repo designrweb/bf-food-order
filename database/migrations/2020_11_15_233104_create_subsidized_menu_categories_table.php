@@ -15,7 +15,7 @@ class CreateSubsidizedMenuCategoriesTable extends Migration
     {
         Schema::create('subsidized_menu_categories', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->unsignedBigInteger('subsidization_rule_id')->index('subsidized_menu_categories_subsidization_rule_id_foreign');
+            $table->unsignedBigInteger('subsidization_rules_id')->index('subsidized_menu_categories_subsidization_rules_id_foreign');
             $table->unsignedBigInteger('menu_category_id')->index('subsidized_menu_categories_menu_category_id_foreign');
             $table->integer('percent')->nullable();
             $table->timestamps();

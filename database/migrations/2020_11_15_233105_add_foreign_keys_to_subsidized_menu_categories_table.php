@@ -15,7 +15,7 @@ class AddForeignKeysToSubsidizedMenuCategoriesTable extends Migration
     {
         Schema::table('subsidized_menu_categories', function (Blueprint $table) {
             $table->foreign('menu_category_id')->references('id')->on('menu_categories')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign('subsidization_rule_id')->references('id')->on('subsidization_rule')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('subsidization_rules_id')->references('id')->on('subsidization_rules')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -28,7 +28,7 @@ class AddForeignKeysToSubsidizedMenuCategoriesTable extends Migration
     {
         Schema::table('subsidized_menu_categories', function (Blueprint $table) {
             $table->dropForeign('subsidized_menu_categories_menu_category_id_foreign');
-            $table->dropForeign('subsidized_menu_categories_subsidization_rule_id_foreign');
+            $table->dropForeign('subsidized_menu_categories_subsidization_rules_id_foreign');
         });
     }
 }

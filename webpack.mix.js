@@ -29,4 +29,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/orders.js', 'public/js/crud')
     .js('resources/js/crud/consumer_auto_orders.js', 'public/js/crud')
     .js('resources/js/crud/consumer_subsidizations.js', 'public/js/crud')
+    .js('resources/js/crud/subsidization_rules.js', 'public/js/crud')
     .sass('resources/sass/app.scss', 'public/css');

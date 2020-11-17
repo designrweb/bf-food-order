@@ -326,6 +326,11 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'far fa-fw fa-file',
         ],
+        [
+            'text' => 'Subsidization Rules',
+            'url'  => 'admin/subsidization-rules',
+            'icon' => 'far fa-fw fa-file',
+        ],
 
 
         [

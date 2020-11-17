@@ -240,6 +240,20 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::put('settings/{id}', 'SettingController@update')->name('settings.update');
     Route::delete('settings/{id}', "SettingController@destroy")->name('settings.destroy');
 
+    /** subsidization-rules routes */
+    Route::get('subsidization-rules/get-all', 'SubsidizationRuleController@getAll')->name('subsidization-rules.get-all');
+    Route::get('subsidization-rules/get-structure', 'SubsidizationRuleController@getIndexStructure')->name('subsidization-rules.index-structure');
+    Route::get('subsidization-rules/get-view-structure', 'SubsidizationRuleController@getViewStructure')->name('subsidization-rules.view-structure');
+    Route::get('subsidization-rules/get-one/{id}', 'SubsidizationRuleController@getOne')->name('subsidization-rules.get-one');
+    Route::get('subsidization-rules', "SubsidizationRuleController@index")->name('subsidization-rules.index');
+    Route::get('subsidization-rules/create', 'SubsidizationRuleController@create')->name('subsidization-rules.create');
+    Route::post('subsidization-rules', "SubsidizationRuleController@store")->name('subsidization-rules.store');
+    Route::get('subsidization-rules/{id}/edit', 'SubsidizationRuleController@edit')->name('subsidization-rules.edit');
+    Route::get('subsidization-rules/{id}', 'SubsidizationRuleController@show')->name('subsidization-rules.show');
+    Route::put('subsidization-rules/{id}', 'SubsidizationRuleController@update')->name('subsidization-rules.update');
+    Route::delete('subsidization-rules/{id}', "SubsidizationRuleController@destroy")->name('subsidization-rules.destroy');
+
+
 });
 
 Auth::routes();
