@@ -3,9 +3,11 @@ The main purpose of the application is to organize food ordering and it consumin
 
 ## Set up
 1) Clone the repo
-2) Run `composer install`
-3) Run `npm install`
-4) Then build assets `npm run dev`
+2) Checki if you have access to the repo and then run:    
+ `git clone https://github.com/andriyburda/crud-generator packages/bigfood/grid`   
+3) Run `composer install`
+4) Run `npm install`
+5) Then build assets `npm run dev`
 
 ### Seed the user
 `php artisan db:seed` (default password is admin)
