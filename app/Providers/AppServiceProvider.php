@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,9 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        FormRequest::macro('test', function () {
-            return get_class($this);
-        });
+        //
     }
 
     /**
