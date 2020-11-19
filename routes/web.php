@@ -253,7 +253,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::put('subsidization-rules/{id}', 'SubsidizationRuleController@update')->name('subsidization-rules.update');
     Route::delete('subsidization-rules/{id}', "SubsidizationRuleController@destroy")->name('subsidization-rules.destroy');
 
-
+    /** images-upload routes */
+    Route::post('images/store', 'ImageController@storeImage');
+    Route::post('images/remove', 'ImageController@removeImage');
 });
 
 Auth::routes();

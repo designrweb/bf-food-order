@@ -3,29 +3,30 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
- * @property integer $id
- * @property integer $location_group_id
- * @property integer $user_id
- * @property string $account_id
- * @property string $firstname
- * @property string $lastname
- * @property string $birthday
- * @property string $imageurl
- * @property float $balance
- * @property int $balance_limit
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
+ * @property integer       $id
+ * @property integer       $location_group_id
+ * @property integer       $user_id
+ * @property string        $account_id
+ * @property string        $firstname
+ * @property string        $lastname
+ * @property string        $birthday
+ * @property string        $imageurl
+ * @property float         $balance
+ * @property int           $balance_limit
+ * @property string        $created_at
+ * @property string        $updated_at
+ * @property string        $deleted_at
  * @property LocationGroup $locationGroup
- * @property User $user
+ * @property User          $user
  */
 class Consumer extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -49,5 +50,22 @@ class Consumer extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getImageurlAttribute($value)
+    {
+        return !empty($value) ? asset('consumer/' . $value) : null;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setImageurlAttribute($value)
+    {
+        $this->attributes['imageurl'] = str_replace(asset('consumer') . '/','', $value);
     }
 }

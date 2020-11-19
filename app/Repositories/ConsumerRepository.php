@@ -6,6 +6,7 @@ use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Consumer;
 use App\QueryBuilders\ConsumerSearch;
+use App\Services\ImageService;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 
@@ -14,9 +15,21 @@ class ConsumerRepository implements RepositoryInterface
     /** @var Consumer */
     protected $model;
 
-    public function __construct(Consumer $model)
+    /**
+     * @var ImageService
+     */
+    protected $imageService;
+
+    /**
+     * ConsumerRepository constructor.
+     *
+     * @param Consumer     $model
+     * @param ImageService $imageService
+     */
+    public function __construct(Consumer $model, ImageService $imageService)
     {
         $this->model = $model;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -39,7 +52,11 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        return new ConsumerResource($this->model->create($data));
+        $model = $this->model->create($data);
+
+        $this->imageService->storeImage($data, $model);
+
+        return new ConsumerResource($model);
     }
 
     /**
@@ -51,6 +68,8 @@ class ConsumerRepository implements RepositoryInterface
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
+
+        $this->imageService->storeImage($data, $model);
 
         return new ConsumerResource($model);
     }
