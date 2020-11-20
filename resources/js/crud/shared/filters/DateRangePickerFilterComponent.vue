@@ -29,7 +29,6 @@ export default {
   data() {
     return {
       value:  {},
-      format: 'mm/dd/yyyy',
     }
   },
   filters:    {
