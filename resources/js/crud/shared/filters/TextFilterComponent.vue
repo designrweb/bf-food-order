@@ -4,6 +4,7 @@
             v-model="value"
             @change="changeHandler"
             @input="inputHandler"
+            autocomplete="off"
             :placeholder="filterLabel"
             :ref="'filter.'+filterName"
         ></b-form-input>
