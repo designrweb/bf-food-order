@@ -46,6 +46,7 @@ export class UrlBuilder {
 
     _prepareFiltersUrl() {
         let filterQuery = '';
+        let filterValue = '';
 
         if (!this.filters) return filterQuery;
         let iteration = 1;
@@ -53,7 +54,13 @@ export class UrlBuilder {
             if (this.filters[key].length == 0) continue;
             if (iteration > 1) filterQuery += '&';
 
-            filterQuery += 'filters' + this._prepareKey(key) + '=' + this.filters[key];
+            if (this.filters[key] instanceof Object  ) {
+                filterValue = JSON.stringify(this.filters[key]);
+            } else{
+                filterValue = this.filters[key];
+            }
+
+            filterQuery += 'filters' + this._prepareKey(key) + '=' + filterValue;
             iteration += 1;
         }
 

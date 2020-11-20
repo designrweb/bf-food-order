@@ -1,6 +1,6 @@
 <template>
   <b-input-group class="mb-3">
-    <date-range-picker v-model="value" :ref="'filter.'+filterName" @toggle="togglePicker" :single-date-picker="true" :ranges="false" :locale-data="{format: 'yyyy/mm/dd'}">
+    <date-range-picker v-model="value" :ref="'filter.'+filterName" @toggle="togglePicker" :single-date-picker="true" :ranges="false" :locale-data="{format: 'yyyy/mm/dd'}" @update="inputHandler">
     </date-range-picker>
   </b-input-group>
 </template>
