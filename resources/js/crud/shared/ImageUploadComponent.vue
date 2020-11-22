@@ -17,7 +17,7 @@
           @loading-end="loadingEndImage">
         <img slot="placeholder" src="/image/placeholder.png"/>
       </croppa>
-      <button type="button" class="btn btn-success mt-1" v-if="entityId" @click="uploadImage">Upload Image</button>
+      <button type="button" class="btn btn-success mt-1" v-if="imageBase64" @click="uploadImage">Upload Image</button>
     </div>
   </div>
 </template>
@@ -35,13 +35,15 @@ export default {
   },
   data:    () => ({
     isLoading:   false,
+    imageBase64: false,
+    dataUpload:  {},
     croppaImage: {}
   }),
   methods: {
     loadingEndImage() {
-      let imageBase64 = this.croppaImage.generateDataUrl();
+      this.imageBase64 = this.croppaImage.generateDataUrl();
 
-      this.emitChanger(imageBase64);
+      this.emitChange();
     },
     async uploadImage() {
       this.isLoading = true;
@@ -59,14 +61,14 @@ export default {
     async removeImage() {
       this.isLoading = true;
 
-      this.emitChanger();
-
       if (this.entityId) {
         let response = await removeImage(this.dataUpload);
 
         if (response.data.success === false) {
           this._showToastError(response.data.message);
         } else {
+          this.imageBase64 = null;
+          this.emitChange({[this.imageFieldName]: null});
           this._showToastSuccess(response.data.message);
         }
       }
@@ -89,19 +91,21 @@ export default {
         autoHideDelay: 3000,
       });
     },
-    emitChanger(imageBase64 = null) {
+    emitChange(extraData = {}) {
       this.dataUpload = {
-        '_imageBase64':    imageBase64,
+        '_imageBase64':    this.imageBase64,
         '_entityId':       this.entityId,
         '_entityName':     this.entityName,
         '_imageFieldName': this.imageFieldName,
       };
 
+      this.dataUpload = {...this.dataUpload, ...extraData}
+
       this.$emit('changed', this.dataUpload);
     }
   },
   created() {
-    this.emitChanger();
+    this.emitChange();
   },
 
 }

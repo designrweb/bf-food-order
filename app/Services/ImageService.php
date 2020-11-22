@@ -38,14 +38,18 @@ class ImageService
             $_entityId       = !empty($model->id) ? $model->id : $request['_entityId'];
             $_imageFieldName = $request['_imageFieldName'];
             $_imageBase64    = $request['_imageBase64'];
-            $extension       = explode('/', mime_content_type($_imageBase64))[1];
-            $fileName        = time() . '.' . $extension;
-
-            $_imageBase64 = str_replace('data:image/png;base64,', '', $_imageBase64);
-            $_imageBase64 = str_replace(' ', '+', $_imageBase64);
+            $_imageBase64    = str_replace(' ', '+', $_imageBase64);
 
             try {
-                Storage::disk($_entityName)->put($fileName, base64_decode($_imageBase64));
+                if (!$_entityModel::IS_BASE64) {
+                    $extension    = explode('/', mime_content_type($_imageBase64))[1];
+                    $_imageBase64 = str_replace('data:image/png;base64,', '', $_imageBase64);
+                    $fileName     = time() . '.' . $extension;
+
+                    Storage::disk($_entityName)->put($fileName, base64_decode($_imageBase64));
+
+                    $_imageBase64 = $fileName;
+                }
 
                 $model = $_entityModel::find($_entityId);
 
@@ -57,7 +61,7 @@ class ImageService
                 }
 
                 $model->update([
-                    $_imageFieldName => $fileName
+                    $_imageFieldName => $_imageBase64
                 ]);
             } catch (\Exception $e) {
                 $message = $e->getMessage();

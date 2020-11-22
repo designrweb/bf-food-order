@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * @property integer       $id
@@ -24,6 +23,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class Consumer extends Model
 {
+    const IS_BASE64 = true;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -58,7 +59,13 @@ class Consumer extends Model
      */
     public function getImageurlAttribute($value)
     {
-        return !empty($value) ? asset('consumer/' . $value) : null;
+        if (self::IS_BASE64 && !empty($value)) {
+            return $value;
+        } elseif (!self::IS_BASE64 && !empty($value)) {
+            return asset('consumer/' . $value);
+        }
+
+        return null;
     }
 
     /**
@@ -66,6 +73,10 @@ class Consumer extends Model
      */
     public function setImageurlAttribute($value)
     {
-        $this->attributes['imageurl'] = str_replace(asset('consumer') . '/','', $value);
+        if (!self::IS_BASE64) {
+            $this->attributes['imageurl'] = str_replace(asset('consumer') . '/', '', $value);
+        } else {
+            $this->attributes['imageurl'] = $value;
+        }
     }
 }
