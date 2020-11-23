@@ -85,21 +85,6 @@
                 form = {...form, ...data};
               }"
           ></image-upload-component>
-          <!--          <b-form-group-->
-          <!--              id="input-group-imageurl"-->
-          <!--              label="Imageurl"-->
-          <!--              label-for="input-imageurl"-->
-          <!--          >-->
-          <!--            <b-form-input-->
-          <!--                id="input-imageurl"-->
-          <!--                v-model="form.imageurl"-->
-          <!--                hidden-->
-          <!--                placeholder="Imageurl"-->
-          <!--            ></b-form-input>-->
-          <!--            <b-form-invalid-feedback :state="validation['imageurl']['state']">-->
-          <!--              {{ validation['imageurl']['message'] }}-->
-          <!--            </b-form-invalid-feedback>-->
-          <!--          </b-form-group>-->
           <b-form-group
               id="input-group-balance"
               label="Balance"

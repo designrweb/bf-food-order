@@ -17,7 +17,10 @@
           @loading-end="loadingEndImage">
         <img slot="placeholder" src="/image/placeholder.png"/>
       </croppa>
-      <button type="button" class="btn btn-success mt-1" v-if="imageBase64" @click="uploadImage">Upload Image</button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-warning mt-1 mr-5" v-if="imageBase64" @click="rotateImage">Rotate</button>
+        <button type="button" class="btn btn-success mt-1" v-if="imageBase64 && entityId" @click="uploadImage">Upload Image</button>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +43,15 @@ export default {
     croppaImage: {}
   }),
   methods: {
+    rotateImage() {
+      this.croppaImage.rotate();
+
+      setTimeout(() => {
+        this.croppaImage.applyMetadata(this.croppaImage.getMetadata());
+        this.imageBase64 = this.croppaImage.generateDataUrl();
+        this.emitChange();
+      },100)
+    },
     loadingEndImage() {
       this.imageBase64 = this.croppaImage.generateDataUrl();
 
