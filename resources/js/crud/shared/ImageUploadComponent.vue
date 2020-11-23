@@ -8,8 +8,8 @@
           v-model="croppaImage"
           :prevent-white-space="true"
           :show-loading="true"
-          :width="300"
-          :height="400"
+          :width="width"
+          :height="height"
           :initialImage="image"
           :zoom-speed="5"
           :placeholder="''"
@@ -33,6 +33,14 @@ export default {
   props:   {
     imageFieldName: String,
     image:          String | null,
+    width:          {
+      type:    Number,
+      default: 300
+    },
+    height:         {
+      type:    Number,
+      default: 400
+    },
     entityId:       String | Number,
     entityName:     String,
   },
@@ -50,7 +58,7 @@ export default {
         this.croppaImage.applyMetadata(this.croppaImage.getMetadata());
         this.imageBase64 = this.croppaImage.generateDataUrl();
         this.emitChange();
-      },100)
+      }, 100)
     },
     loadingEndImage() {
       this.imageBase64 = this.croppaImage.generateDataUrl();
