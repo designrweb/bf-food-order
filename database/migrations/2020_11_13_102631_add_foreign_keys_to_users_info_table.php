@@ -13,7 +13,7 @@ class AddForeignKeysToUsersInfoTable extends Migration
      */
     public function up()
     {
-        Schema::table('users_info', function (Blueprint $table) {
+        Schema::table('user_info', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
@@ -25,8 +25,8 @@ class AddForeignKeysToUsersInfoTable extends Migration
      */
     public function down()
     {
-        Schema::table('users_info', function (Blueprint $table) {
-            $table->dropForeign('users_info_users_id_fk');
+        Schema::table('user_info', function (Blueprint $table) {
+            $table->dropForeign('user_info_users_id_fk');
         });
     }
 }

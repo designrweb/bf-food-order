@@ -13,7 +13,7 @@ class CreateVacationLocationGroupTable extends Migration
      */
     public function up()
     {
-        Schema::create('vacation_location_groups', function (Blueprint $table) {
+        Schema::create('vacation_location_group', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vacation_id')->index('vacation_location_group_vacation_id_foreign');
             $table->unsignedBigInteger('location_group_id')->index('vacation_location_group_location_group_id_foreign');
@@ -27,6 +27,6 @@ class CreateVacationLocationGroupTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacation_location_groups');
+        Schema::dropIfExists('vacation_location_group');
     }
 }
