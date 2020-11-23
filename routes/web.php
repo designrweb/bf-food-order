@@ -253,6 +253,18 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::put('subsidization-rules/{id}', 'SubsidizationRuleController@update')->name('subsidization-rules.update');
     Route::delete('subsidization-rules/{id}', "SubsidizationRuleController@destroy")->name('subsidization-rules.destroy');
 
+    /** companies routes */
+    Route::get('companies/get-all', 'CompanyController@getAll')->name('companies.get-all');
+    Route::get('companies/get-structure', 'CompanyController@getIndexStructure')->name('companies.index-structure');
+    Route::get('companies/get-view-structure', 'CompanyController@getViewStructure')->name('companies.view-structure');
+    Route::get('companies/get-one/{id}', 'CompanyController@getOne')->name('companies.get-one');
+    Route::get('companies', "CompanyController@index")->name('companies.index');
+    Route::get('companies/create', 'CompanyController@create')->name('companies.create');
+    Route::post('companies', "CompanyController@store")->name('companies.store');
+    Route::get('companies/{id}/edit', 'CompanyController@edit')->name('companies.edit');
+    Route::get('companies/{id}', 'CompanyController@show')->name('companies.show');
+    Route::put('companies/{id}', 'CompanyController@update')->name('companies.update');
+    Route::delete('companies/{id}', "CompanyController@destroy")->name('companies.destroy');
 
 });
 
