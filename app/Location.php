@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property string $name
- * @property string $street
- * @property int $zip
- * @property string $city
- * @property string $email
- * @property string $slug
- * @property string $image_name
+ * @property string  $name
+ * @property string  $street
+ * @property int     $zip
+ * @property string  $city
+ * @property integer $company_id
+ * @property string  $email
+ * @property string  $slug
+ * @property string  $image_name
  */
 class Location extends Model
 {
@@ -34,5 +35,13 @@ class Location extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(Company::class);
+    }
 
 }

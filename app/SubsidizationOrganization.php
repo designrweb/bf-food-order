@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property string $name
- * @property string $zip
- * @property string $city
- * @property string $street
- * @property int $created_at
- * @property int $updated_at
- * @property int $deleted_at
+ * @property string  $name
+ * @property string  $zip
+ * @property string  $city
+ * @property string  $street
+ * @property integer $company_id
+ * @property int     $created_at
+ * @property int     $updated_at
+ * @property int     $deleted_at
  */
 class SubsidizationOrganization extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -27,5 +28,13 @@ class SubsidizationOrganization extends Model
      * @var array
      */
     protected $fillable = ['name', 'zip', 'city', 'street', 'created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(Company::class);
+    }
 
 }
