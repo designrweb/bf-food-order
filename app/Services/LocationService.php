@@ -93,6 +93,25 @@ class LocationService extends BaseModelService
     }
 
     /**
+     * @param $data
+     * @param $id
+     * @return bool
+     */
+    public function updateImage($data, $id)
+    {
+        return $this->repository->updateImage($data, $id);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function removeImage($id)
+    {
+        return $this->repository->removeImage($id);
+    }
+
+    /**
      * @param Model $model
      * @return array
      */

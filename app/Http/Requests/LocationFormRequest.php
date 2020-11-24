@@ -30,6 +30,7 @@ class LocationFormRequest extends FormRequest
             'city'       => 'nullable|string',
             'email'      => 'nullable|email',
             'image_name' => 'nullable|string',
+            'company_id' => 'required|numeric',
         ];
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationResource;
+use App\Company;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class LocationController
@@ -69,13 +70,15 @@ class LocationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('locations._form');
+        $companiesList = Company::getCompaniesList();
+
+        return view('locations._form', [
+            'companiesList' => $companiesList
+        ]);
     }
 
     /**
@@ -97,8 +100,8 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('locations.view', compact('resource'));
     }
@@ -121,7 +124,7 @@ class LocationController extends Controller
      * Update the specified resource in storage.
      *
      * @param LocationFormRequest $request
-     * @param int     $id
+     * @param int                 $id
      * @return array
      */
     public function update(LocationFormRequest $request, $id)
@@ -133,7 +136,7 @@ class LocationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -151,5 +154,39 @@ class LocationController extends Controller
     public function getViewStructure(Request $request)
     {
         return $this->service->getViewStructure();
+    }
+
+    /**
+     * @param $request
+     * @param $id
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    public function updateImage(Request $request, $id)
+    {
+        $this->service->updateImage($request->all(), $id);
+
+        return response()->json([
+            'message' => 'Bild hochgeladen',
+            'success' => true,
+        ], 200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeImage($id)
+    {
+        if ($this->service->removeImage($id)) {
+            return response()->json([
+                'message' => 'Bild entfernt',
+                'success' => true,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong!',
+            'success' => false,
+        ], 500);
     }
 }

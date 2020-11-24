@@ -20,4 +20,22 @@ class Company extends Model
      */
     protected $fillable = ['name', 'zip', 'city', 'street', 'created_at', 'updated_at'];
 
+    /**
+     * @return array
+     */
+    public static function getCompaniesList()
+    {
+        $companiesArray = [];
+        $allCompanies   = self::all();
+
+        foreach ($allCompanies as $company) {
+            $companiesArray[] = [
+                'id'   => $company->id,
+                'name' => $company->name,
+            ];
+        }
+
+        return $companiesArray;
+    }
+
 }

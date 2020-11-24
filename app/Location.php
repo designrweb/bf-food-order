@@ -18,6 +18,9 @@ use Illuminate\Support\Str;
  */
 class Location extends Model
 {
+
+    const IMAGE_FOLDER = 'location';
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -69,6 +72,27 @@ class Location extends Model
     public function getCompany()
     {
         return $this->hasOne(Company::class);
+    }
+
+    /**
+     * @param $value
+     * @return string|null
+     */
+    public function getImageNameAttribute($value)
+    {
+        if (!empty($value)) {
+            return asset(self::IMAGE_FOLDER . DIRECTORY_SEPARATOR . $value);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setImageNameAttribute($value)
+    {
+        $this->attributes['image_name'] = str_replace(asset(self::IMAGE_FOLDER) . DIRECTORY_SEPARATOR, '', $value);
     }
 
 }
