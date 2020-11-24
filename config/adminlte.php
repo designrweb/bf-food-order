@@ -242,6 +242,11 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text' => 'Companies',
+            'url'  => 'admin/companies',
+            'icon' => 'fas fa-users',
+        ],
+        [
             'text' => 'Users',
             'url'  => 'admin/users',
             'icon' => 'fas fa-users',
