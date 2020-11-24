@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\LocationGroupResource;
+use App\Location;
 use App\Services\LocationGroupService;
 use App\Http\Requests\LocationGroupFormRequest;
 use Illuminate\Http\Request;
@@ -75,7 +76,11 @@ class LocationGroupController extends Controller
      */
     public function create()
     {
-        return view('location_group._form');
+        $locationsList = Location::getLocationsList();
+
+        return view('location_group._form', [
+            'locationsList' => $locationsList
+        ]);
     }
 
     /**

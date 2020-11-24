@@ -141,4 +141,15 @@ class LocationController extends Controller
 
         return response()->json(['redirect_url' => action('LocationController@index')]);
     }
+
+    /**
+     * Returns a structure for the view page
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
+    }
 }

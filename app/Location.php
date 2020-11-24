@@ -3,16 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @property integer $id
- * @property string $name
- * @property string $street
- * @property int $zip
- * @property string $city
- * @property string $email
- * @property string $slug
- * @property string $image_name
+ * @property string  $name
+ * @property string  $street
+ * @property int     $zip
+ * @property string  $city
+ * @property string  $email
+ * @property string  $slug
+ * @property string  $image_name
  */
 class Location extends Model
 {
@@ -34,5 +35,31 @@ class Location extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * @param $value
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::of($value)->slug('-');
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLocationsList()
+    {
+        $locationsArray = [];
+        $allLocations   = self::all();
+
+        foreach ($allLocations as $location) {
+            $locationsArray[] = [
+                'id'   => $location->id,
+                'name' => $location->name,
+            ];
+        }
+
+        return $locationsArray;
+    }
 
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header" v-if="!isPageBusy">
-            <h3 class="card-title"></h3>
+            <h3 class="card-title">Locations</h3>
             <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
         </div>
         <div class="card-body overflow-auto">
@@ -26,17 +26,17 @@
                         <div v-else>{{ scope.label }}</div>
                     </div>
                 </template>
-                <template v-slot:top-row="scope" :columns="4">
-                    <b-th v-for="field in scope.fields" v-bind:key="field.key">
-                        <div v-if="field.key in filters">
-                            <filter-text @changeFilter="applyFilter"
-                                         :filterName="field.key"
-                                         :filterLabel="field.label"
-                                         :appliedFilterValue="filters[field.key]"
-                            ></filter-text>
-                        </div>
-                    </b-th>
-                </template>
+<!--                <template v-slot:top-row="scope" :columns="4">-->
+<!--                    <b-th v-for="field in scope.fields" v-bind:key="field.key">-->
+<!--                        <div v-if="field.key in filters">-->
+<!--                            <filter-text @changeFilter="applyFilter"-->
+<!--                                         :filterName="field.key"-->
+<!--                                         :filterLabel="field.label"-->
+<!--                                         :appliedFilterValue="filters[field.key]"-->
+<!--                            ></filter-text>-->
+<!--                        </div>-->
+<!--                    </b-th>-->
+<!--                </template>-->
                 <template v-slot:cell()="data">
                     <div v-if="data.field.key ==='actions'" class="d-flex">
                         <view-button v-if="allowActions.view" :mainRoute="main_route"
