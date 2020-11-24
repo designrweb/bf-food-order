@@ -51,9 +51,7 @@ class ConsumerRepository implements RepositoryInterface
             $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
         }
 
-        $model = $this->model->create($data);
-
-        return new ConsumerResource($model);
+        return new ConsumerResource($this->model->create($data));
     }
 
     /**
