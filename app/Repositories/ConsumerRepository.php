@@ -15,10 +15,6 @@ class ConsumerRepository implements RepositoryInterface
     /** @var Consumer */
     protected $model;
 
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
 
     /**
      * ConsumerRepository constructor.
@@ -26,10 +22,9 @@ class ConsumerRepository implements RepositoryInterface
      * @param Consumer     $model
      * @param ImageService $imageService
      */
-    public function __construct(Consumer $model, ImageService $imageService)
+    public function __construct(Consumer $model)
     {
-        $this->model        = $model;
-        $this->imageService = $imageService;
+        $this->model = $model;
     }
 
     /**
