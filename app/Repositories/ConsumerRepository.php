@@ -48,7 +48,7 @@ class ConsumerRepository implements RepositoryInterface
     public function add(array $data)
     {
         if ($data['imageurl']) {
-            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
         }
 
         return new ConsumerResource($this->model->create($data));
@@ -62,7 +62,7 @@ class ConsumerRepository implements RepositoryInterface
     public function update(array $data, $id)
     {
         if (!empty($data['imageurl'])) {
-            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
         }
 
         $model = $this->model->findOrFail($id);
@@ -96,7 +96,7 @@ class ConsumerRepository implements RepositoryInterface
     public function updateImage(array $data, $id)
     {
         if (!empty($data['imageurl'])) {
-            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
 
             $model = $this->model->findOrFail($id);
             $model->update($data);
@@ -113,9 +113,7 @@ class ConsumerRepository implements RepositoryInterface
     {
         $model = $this->model->findOrFail($id);
 
-        if (!Consumer::IS_BASE64) {
-            ImageService::removeImage($model->imageurl, Consumer::IMAGE_FOLDER);
-        }
+        ImageService::removeImage($model->imageurl, Consumer::IMAGE_FOLDER);
 
         $model->update([
             'imageurl' => null

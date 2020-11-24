@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Consumer extends Model
 {
-    const IS_BASE64    = true;
-    const IS_ENCRYPT   = true;
     const IMAGE_FOLDER = 'consumer';
 
     /**
@@ -62,26 +60,10 @@ class Consumer extends Model
      */
     public function getImageurlAttribute($value)
     {
-        if (self::IS_BASE64 && !self::IS_ENCRYPT && !empty($value)) {
-            return $value;
-        } elseif (self::IS_BASE64 && self::IS_ENCRYPT && !empty($value) ) {
+        if (!empty($value)) {
             return ImageService::decrypt($value);
-        } elseif (!self::IS_BASE64 && !empty($value)) {
-            return asset('consumer/' . $value);
         }
 
         return null;
-    }
-
-    /**
-     * @param $value
-     */
-    public function setImageurlAttribute($value)
-    {
-        if (!self::IS_BASE64) {
-            $this->attributes['imageurl'] = str_replace(asset('consumer') . '/', '', $value);
-        } else {
-            $this->attributes['imageurl'] = $value;
-        }
     }
 }

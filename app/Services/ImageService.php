@@ -16,26 +16,6 @@ class ImageService
 
     /**
      * @param $imageData
-     * @param $isBase64
-     * @param $encrypt
-     * @param $folder
-     * @return string|string[]
-     */
-    public static function storeImage($imageData, $isBase64, $encrypt, $folder)
-    {
-        if (!$isBase64) {
-            return self::storeInFile($imageData, $folder);
-        } else {
-            if ($encrypt) {
-                return self::storeEncrypt($imageData);
-            } else {
-                return str_replace(' ', '+', $imageData);
-            }
-        }
-    }
-
-    /**
-     * @param $imageData
      * @param $folder
      * @return false|string
      */
