@@ -9,6 +9,9 @@ The main purpose of the application is to organize food ordering and it consumin
 4) Run `npm install`
 5) Then build assets `npm run dev`
 
+### Environment variables
+`KEY_FILE_ENCRYPT` (long key for encrypt and decrypt images)
+
 ### Seed the user
 `php artisan db:seed` (default password is admin)
 

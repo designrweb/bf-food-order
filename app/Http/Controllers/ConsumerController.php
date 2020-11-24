@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ConsumerResource;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
 use Illuminate\Http\Request;
@@ -97,8 +96,8 @@ class ConsumerController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('consumers.view', compact('resource'));
     }
@@ -121,7 +120,7 @@ class ConsumerController extends Controller
      * Update the specified resource in storage.
      *
      * @param ConsumerFormRequest $request
-     * @param int     $id
+     * @param int                 $id
      * @return array
      */
     public function update(ConsumerFormRequest $request, $id)
@@ -132,13 +131,47 @@ class ConsumerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('ConsumerController@index')]);
+    }
+
+    /**
+     * @param $request
+     * @param $id
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    public function updateImage(Request $request, $id)
+    {
+        $this->service->updateImage($request->all(), $id);
+
+        return response()->json([
+            'message' => 'Bild hochgeladen',
+            'success' => true,
+        ], 200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeImage($id)
+    {
+        if ($this->service->removeImage($id)) {
+            return response()->json([
+                'message' => 'Bild entfernt',
+                'success' => true,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong!',
+            'success' => false,
+        ], 500);
     }
 }

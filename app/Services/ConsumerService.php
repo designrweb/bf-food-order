@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\ConsumerCollection;
@@ -26,7 +27,7 @@ class ConsumerService extends BaseModelService
      */
     public function all(): ConsumerCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,11 +83,30 @@ class ConsumerService extends BaseModelService
         return $this->getFullStructure((new Consumer()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new Consumer()));
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     * @return bool
+     */
+    public function updateImage($data, $id)
+    {
+        return $this->repository->updateImage($data, $id);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function removeImage($id)
+    {
+        return $this->repository->removeImage($id);
     }
 }
