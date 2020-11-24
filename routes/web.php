@@ -163,6 +163,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('consumers/{id}', 'ConsumerController@show')->name('consumers.show');
     Route::put('consumers/{id}', 'ConsumerController@update')->name('consumers.update');
     Route::delete('consumers/{id}', "ConsumerController@destroy")->name('consumers.destroy');
+    Route::post('consumers/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
+    Route::post('consumers/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
 
     /** consumer-subsidizations routes */
     Route::get('consumer-subsidizations/get-all', 'ConsumerSubsidizationController@getAll')->name('consumer-subsidizations.get-all');
@@ -190,6 +192,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('orders/{id}', 'OrderController@show')->name('orders.show');
     Route::put('orders/{id}', 'OrderController@update')->name('orders.update');
     Route::delete('orders/{id}', "OrderController@destroy")->name('orders.destroy');
+
     /** consumer-auto-orders routes */
     Route::get('consumer-auto-orders/get-all', 'ConsumerAutoOrderController@getAll')->name('consumer-auto-orders.get-all');
     Route::get('consumer-auto-orders/get-structure', 'ConsumerAutoOrderController@getIndexStructure')->name('consumer-auto-orders.index-structure');
@@ -202,6 +205,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('consumer-auto-orders/{id}', 'ConsumerAutoOrderController@show')->name('consumer-auto-orders.show');
     Route::put('consumer-auto-orders/{id}', 'ConsumerAutoOrderController@update')->name('consumer-auto-orders.update');
     Route::delete('consumer-auto-orders/{id}', "ConsumerAutoOrderController@destroy")->name('consumer-auto-orders.destroy');
+
     /** payments routes */
     Route::get('payments/get-all', 'PaymentController@getAll')->name('payments.get-all');
     Route::get('payments/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
@@ -214,6 +218,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('payments/{id}', 'PaymentController@show')->name('payments.show');
     Route::put('payments/{id}', 'PaymentController@update')->name('payments.update');
     Route::delete('payments/{id}', "PaymentController@destroy")->name('payments.destroy');
+
     /** consumer-qr-codes routes */
     Route::get('consumer-qr-codes/get-all', 'ConsumerQrCodeController@getAll')->name('consumer-qr-codes.get-all');
     Route::get('consumer-qr-codes/get-structure', 'ConsumerQrCodeController@getIndexStructure')->name('consumer-qr-codes.index-structure');

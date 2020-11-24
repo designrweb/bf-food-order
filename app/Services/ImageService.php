@@ -15,108 +15,102 @@ class ImageService
 {
 
     /**
-     * @param array      $request
-     * @param Model|null $model
-     * @return \Illuminate\Http\JsonResponse
+     * @param $imageData
+     * @param $isBase64
+     * @param $encrypt
+     * @param $folder
+     * @return string|string[]
      */
-    public function storeImage(array $request, Model $model = null)
+    public static function storeImage($imageData, $isBase64, $encrypt, $folder)
     {
-        if (!empty($request['_imageBase64'])) {
-            $message = 'Bild hochgeladen';
-            $success = true;
-
-            $_entityName  = trim(strtolower($request['_entityName']));
-            $_entityModel = !empty($model) ? get_class($model) : '\App\\' . Str::studly(Str::singular($_entityName));
-
-            if (!is_subclass_of($_entityModel, Model::class)) {
-                return response()->json([
-                    'message' => 'Wrong entity model',
-                    'success' => false,
-                ]);
+        if (!$isBase64) {
+            return self::storeInFile($imageData, $folder);
+        } else {
+            if ($encrypt) {
+                return self::storeEncrypt($imageData);
+            } else {
+                return str_replace(' ', '+', $imageData);
             }
-
-            $_entityId       = !empty($model->id) ? $model->id : $request['_entityId'];
-            $_imageFieldName = $request['_imageFieldName'];
-            $_imageBase64    = $request['_imageBase64'];
-            $_imageBase64    = str_replace(' ', '+', $_imageBase64);
-
-            try {
-                if (!$_entityModel::IS_BASE64) {
-                    $extension    = explode('/', mime_content_type($_imageBase64))[1];
-                    $_imageBase64 = str_replace('data:image/png;base64,', '', $_imageBase64);
-                    $fileName     = time() . '.' . $extension;
-
-                    Storage::disk($_entityName)->put($fileName, base64_decode($_imageBase64));
-
-                    $_imageBase64 = $fileName;
-                }
-
-                $model = $_entityModel::find($_entityId);
-
-                if (!empty($model->{$_imageFieldName})) {
-                    $imagePathForDelete = storage_path('app/public/' . $_entityName . '/' . str_replace(asset($_entityName) . '/', '', $model->{$_imageFieldName}));
-                    if (file_exists($imagePathForDelete)) {
-                        @unlink($imagePathForDelete);
-                    }
-                }
-
-                $model->update([
-                    $_imageFieldName => $_imageBase64
-                ]);
-            } catch (\Exception $e) {
-                $message = $e->getMessage();
-                $success = false;
-            }
-
-            return response()->json([
-                'message' => $message,
-                'success' => $success,
-            ]);
         }
     }
 
     /**
-     * @param $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param $imageData
+     * @param $folder
+     * @return false|string
      */
-    public function removeImage($request)
+    public static function storeInFile($imageData, $folder)
     {
-        $message = 'Bild entfernt';
-        $success = true;
-
-        $_entityName  = trim(strtolower($request->_entityName));
-        $_entityModel = !empty($model) ? get_class($model) : '\App\\' . Str::studly(Str::singular($_entityName));
-
-        if (!is_subclass_of($_entityModel, Model::class)) {
-            return response()->json([
-                'message' => 'Wrong entity model',
-                'success' => false,
-            ]);
-        }
-
-        $_entityId       = $request->_entityId;
-        $_imageFieldName = $request->_imageFieldName;
-
         try {
-            $model = $_entityModel::find($_entityId);
+            $extension = explode('/', mime_content_type($imageData))[1];
+            $imageData = str_replace('data:image/png;base64,', '', $imageData);
+            $fileName  = time() . '.' . $extension;
 
-            if (!empty($model->{$_imageFieldName})) {
-                $imagePathForDelete = storage_path('app/public/' . $_entityName . '/' . str_replace(asset($_entityName) . '/', '', $model->{$_imageFieldName}));
-                if (file_exists($imagePathForDelete)) {
-                    @unlink($imagePathForDelete);
-                }
-            }
-
-            $model->{$_imageFieldName} = null;
-            $model->save();
+            Storage::disk($folder)->put($fileName, base64_decode($imageData));
         } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $success = false;
+            return false;
         }
 
-        return response()->json([
-            'message' => $message,
-            'success' => $success,
-        ]);
+        return $fileName;
     }
+
+    /**
+     * @param $imageData
+     * @return string
+     */
+    public static function storeEncrypt($imageData)
+    {
+        $imageData = str_replace(' ', '+', $imageData);
+        $imageData = self::encrypt($imageData);
+
+        return $imageData;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    public static function encrypt($data)
+    {
+        $key            = env('KEY_FILE_ENCRYPT');
+        $encryption_key = base64_decode($key);
+        $iv             = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $encrypted      = openssl_encrypt($data, 'aes-256-cbc', $encryption_key, 0, $iv);
+
+        return base64_encode($encrypted . '::' . $iv);
+    }
+
+    /**
+     * @param $data
+     * @return false|string
+     */
+    public static function decrypt($data)
+    {
+        $key            = env('KEY_FILE_ENCRYPT');
+        $encryption_key = base64_decode($key);
+        [$encrypted_data, $iv] = explode('::', base64_decode($data), 2);
+
+        return openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, 0, $iv);
+    }
+
+    /**
+     * @param $fileName
+     * @param $folder
+     * @return bool
+     */
+    public static function removeImage($fileName, $folder)
+    {
+        try {
+            $imagePathForDelete = storage_path('app/public/' . $folder . '/' . str_replace(asset($folder) . '/', '', $fileName));
+            if (file_exists($imagePathForDelete)) {
+                @unlink($imagePathForDelete);
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }

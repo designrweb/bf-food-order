@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,7 +24,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Consumer extends Model
 {
-    const IS_BASE64 = true;
+    const IS_BASE64    = true;
+    const IS_ENCRYPT   = true;
+    const IMAGE_FOLDER = 'consumer';
 
     /**
      * The "type" of the auto-incrementing ID.
@@ -59,8 +62,10 @@ class Consumer extends Model
      */
     public function getImageurlAttribute($value)
     {
-        if (self::IS_BASE64 && !empty($value)) {
+        if (self::IS_BASE64 && !self::IS_ENCRYPT && !empty($value)) {
             return $value;
+        } elseif (self::IS_BASE64 && self::IS_ENCRYPT && !empty($value) ) {
+            return ImageService::decrypt($value);
         } elseif (!self::IS_BASE64 && !empty($value)) {
             return asset('consumer/' . $value);
         }

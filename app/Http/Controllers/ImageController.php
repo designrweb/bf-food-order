@@ -28,7 +28,17 @@ class ImageController
      */
     public function storeImage(Request $request)
     {
-        return $this->service->storeImage($request->all());
+        if (!$this->service->storeImage($request->all())) {
+            return response()->json([
+                'message' => 'Something went wrong!',
+                'success' => false,
+            ]);
+        };
+
+        return response()->json([
+            'message' => 'Bild hochgeladen',
+            'success' => true,
+        ]);
     }
 
     /**

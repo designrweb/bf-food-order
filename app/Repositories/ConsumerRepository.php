@@ -28,7 +28,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function __construct(Consumer $model, ImageService $imageService)
     {
-        $this->model = $model;
+        $this->model        = $model;
         $this->imageService = $imageService;
     }
 
@@ -52,9 +52,11 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        $model = $this->model->create($data);
+        if ($data['imageurl']) {
+            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+        }
 
-        $this->imageService->storeImage($data, $model);
+        $model = $this->model->create($data);
 
         return new ConsumerResource($model);
     }
@@ -66,10 +68,12 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function update(array $data, $id)
     {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+        }
+
         $model = $this->model->findOrFail($id);
         $model->update($data);
-
-        $this->imageService->storeImage($data, $model);
 
         return new ConsumerResource($model);
     }
@@ -90,5 +94,40 @@ class ConsumerRepository implements RepositoryInterface
     public function get($id)
     {
         return new ConsumerResource($this->model->findOrFail($id));
+    }
+
+    /**
+     * @param array $data
+     * @param       $id
+     */
+    public function updateImage(array $data, $id)
+    {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageService::storeImage($data['imageurl'], Consumer::IS_BASE64, Consumer::IS_ENCRYPT, Consumer::IMAGE_FOLDER);
+
+            $model = $this->model->findOrFail($id);
+            $model->update($data);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function removeImage($id)
+    {
+        $model = $this->model->findOrFail($id);
+
+        if (!Consumer::IS_BASE64) {
+            ImageService::removeImage($model->imageurl, Consumer::IMAGE_FOLDER);
+        }
+
+        $model->update([
+            'imageurl' => null
+        ]);
+
+        return true;
     }
 }

@@ -15,7 +15,7 @@
           <spinner-component></spinner-component>
         </div>
 
-        <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
+        <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
           <b-form-group
               id="input-group-account_id"
               label="Account Id"
@@ -79,11 +79,9 @@
           <image-upload-component
               :imageFieldName="'imageurl'"
               :image="form.imageurl"
+              :route="main_route"
               :entityId="form.id"
-              :entityName="'Consumer'"
-              @changed="(data) => {
-                form = {...form, ...data};
-              }"
+              @changed="handleImage"
           ></image-upload-component>
           <b-form-group
               id="input-group-balance"
@@ -237,13 +235,16 @@ export default {
     }
   },
   methods:    {
+    handleImage(dataImage) {
+      this.form.imageurl = dataImage;
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store('/admin/' + self.main_route, self.id, self.form);
-        window.location.href = '/admin/' + self.main_route + '/' + response['data'].id + '/edit';
+        let response = await store('/admin/' + self.main_route, self.id, self.form);
+        //window.location.href = '/admin/' + self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;

@@ -33,6 +33,7 @@ export default {
   props:   {
     imageFieldName: String,
     image:          String | null,
+    route:          String,
     width:          {
       type:    Number,
       default: 300
@@ -67,8 +68,11 @@ export default {
     },
     async uploadImage() {
       this.isLoading = true;
+      this.emitChange();
 
-      let response = await storeImage(this.dataUpload);
+      let response = await storeImage('/admin/' + this.route + '/' + this.entityId + '/update-image', {
+        [this.imageFieldName]: this.croppaImage.generateDataUrl()
+      });
 
       if (response.data.success === false) {
         this._showToastError(response.data.message);
@@ -82,13 +86,13 @@ export default {
       this.isLoading = true;
 
       if (this.entityId) {
-        let response = await removeImage(this.dataUpload);
+        let response = await removeImage('/admin/' + this.route + '/' + this.entityId + '/remove-image', []);
 
         if (response.data.success === false) {
           this._showToastError(response.data.message);
         } else {
           this.imageBase64 = null;
-          this.emitChange({[this.imageFieldName]: null});
+          this.emitChange();
           this._showToastSuccess(response.data.message);
         }
       }
@@ -111,21 +115,9 @@ export default {
         autoHideDelay: 3000,
       });
     },
-    emitChange(extraData = {}) {
-      this.dataUpload = {
-        '_imageBase64':    this.imageBase64,
-        '_entityId':       this.entityId,
-        '_entityName':     this.entityName,
-        '_imageFieldName': this.imageFieldName,
-      };
-
-      this.dataUpload = {...this.dataUpload, ...extraData}
-
-      this.$emit('changed', this.dataUpload);
+    emitChange() {
+      this.$emit('changed', this.imageBase64);
     }
-  },
-  created() {
-    this.emitChange();
   },
 
 }
