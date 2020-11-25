@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Services\CompanyService;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;
 use Illuminate\Http\Request;
@@ -19,9 +20,15 @@ class LocationController extends Controller
     /** @var LocationService $service */
     protected $service;
 
-    public function __construct(LocationService $service)
+    /**
+     * @var CompanyService
+     */
+    protected $companyService;
+
+    public function __construct(LocationService $service, CompanyService $companyService)
     {
         $this->service = $service;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -59,7 +66,7 @@ class LocationController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
+     * Returns a listing of the resource.W
      *
      * @param Request $request
      * @return array
@@ -74,7 +81,7 @@ class LocationController extends Controller
      */
     public function create()
     {
-        $companiesList = Company::getCompaniesList();
+        $companiesList = $this->companyService->getList();
 
         return view('locations._form', [
             'companiesList' => $companiesList
@@ -116,6 +123,7 @@ class LocationController extends Controller
     {
         /** @var array $resource */
         $resource = $this->service->getOne($id)->toArray(request());
+        $resource['companiesList'] = $this->companyService->getList();
 
         return view('locations._form', compact('resource'));
     }

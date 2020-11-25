@@ -15,6 +15,11 @@ class LocationRepository implements RepositoryInterface
     /** @var Location */
     protected $model;
 
+    /**
+     * LocationRepository constructor.
+     *
+     * @param Location $model
+     */
     public function __construct(Location $model)
     {
         $this->model = $model;
@@ -95,6 +100,24 @@ class LocationRepository implements RepositoryInterface
     public function get($id)
     {
         return new LocationResource($this->model->findOrFail($id));
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $locationsArray = [];
+        $allLocations   = $this->model::all();
+
+        foreach ($allLocations as $location) {
+            $locationsArray[] = [
+                'id'   => $location->id,
+                'name' => $location->name,
+            ];
+        }
+
+        return $locationsArray;
     }
 
     /**

@@ -72,4 +72,22 @@ class CompanyRepository implements RepositoryInterface
     {
         return new CompanyResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $companiesArray = [];
+        $allCompanies   = $this->model::all();
+
+        foreach ($allCompanies as $company) {
+            $companiesArray[] = [
+                'id'   => $company->id,
+                'name' => $company->name,
+            ];
+        }
+
+        return $companiesArray;
+    }
 }

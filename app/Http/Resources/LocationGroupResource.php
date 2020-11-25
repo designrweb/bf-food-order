@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Location;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LocationGroupResource extends JsonResource
@@ -19,7 +18,6 @@ class LocationGroupResource extends JsonResource
             'id'            => $this->id,
             'name'          => $this->name,
             'location_id'   => $this->location_id,
-            'locationsList' => Location::getLocationsList(),
         ];
     }
 }

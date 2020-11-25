@@ -6,6 +6,7 @@ use App\Http\Resources\LocationGroupResource;
 use App\Location;
 use App\Services\LocationGroupService;
 use App\Http\Requests\LocationGroupFormRequest;
+use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,9 +20,15 @@ class LocationGroupController extends Controller
     /** @var LocationGroupService $service */
     protected $service;
 
-    public function __construct(LocationGroupService $service)
+    /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    public function __construct(LocationGroupService $service, LocationService $locationService)
     {
         $this->service = $service;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -76,7 +83,7 @@ class LocationGroupController extends Controller
      */
     public function create()
     {
-        $locationsList = Location::getLocationsList();
+        $locationsList = $this->locationService->getList();
 
         return view('location_group._form', [
             'locationsList' => $locationsList
@@ -118,6 +125,7 @@ class LocationGroupController extends Controller
     {
         /** @var array $resource */
         $resource = $this->service->getOne($id)->toArray(request());
+        $resource['locationsList'] = $this->locationService->getList();
 
         return view('location_group._form', compact('resource'));
     }

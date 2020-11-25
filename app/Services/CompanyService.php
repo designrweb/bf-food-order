@@ -89,4 +89,12 @@ class CompanyService extends BaseModelService
     {
         return $this->getSimpleStructure((new Company()));
     }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->repository->getList();
+    }
 }

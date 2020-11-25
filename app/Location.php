@@ -49,24 +49,6 @@ class Location extends Model
     }
 
     /**
-     * @return array
-     */
-    public static function getLocationsList()
-    {
-        $locationsArray = [];
-        $allLocations   = self::all();
-
-        foreach ($allLocations as $location) {
-            $locationsArray[] = [
-                'id'   => $location->id,
-                'name' => $location->name,
-            ];
-        }
-
-        return $locationsArray;
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function getCompany()

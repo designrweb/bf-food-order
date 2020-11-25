@@ -14,8 +14,16 @@ use App\Location;
 class LocationService extends BaseModelService
 {
 
+    /**
+     * @var LocationRepository
+     */
     protected $repository;
 
+    /**
+     * LocationService constructor.
+     *
+     * @param LocationRepository $repository
+     */
     public function __construct(LocationRepository $repository)
     {
         $this->repository = $repository;
@@ -109,6 +117,14 @@ class LocationService extends BaseModelService
     public function removeImage($id)
     {
         return $this->repository->removeImage($id);
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->repository->getList();
     }
 
     /**
