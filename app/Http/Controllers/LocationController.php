@@ -25,6 +25,12 @@ class LocationController extends Controller
      */
     protected $companyService;
 
+    /**
+     * LocationController constructor.
+     *
+     * @param LocationService $service
+     * @param CompanyService  $companyService
+     */
     public function __construct(LocationService $service, CompanyService $companyService)
     {
         $this->service = $service;
