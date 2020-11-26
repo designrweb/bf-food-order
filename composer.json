@@ -26,10 +26,10 @@
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
     },
-    "repositories":      [
+    "repositories": [
         {
             "type": "path",
-            "url":  "./packages/bigfood/grid"
+            "url": "./packages/bigfood/grid"
         }
     ],
     "config": {

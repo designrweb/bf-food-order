@@ -10,17 +10,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class User
  *
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property string $email_verified_at
- * @property string $password
- * @property string $remember_token
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property string $role
+ * @property integer  $id
+ * @property string   $name
+ * @property string   $email
+ * @property string   $email_verified_at
+ * @property string   $password
+ * @property string   $remember_token
+ * @property string   $created_at
+ * @property string   $updated_at
+ * @property string   $deleted_at
+ * @property string   $role
  * @property UserInfo $userInfo
+ * @property Consumer $consumers
  *
  * @package App
  */
@@ -29,8 +30,9 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    const ROLE_USER  = 'user';
-    const ROLE_ADMIN = 'admin';
+    const ROLE_USER        = 'user';
+    const ROLE_ADMIN       = 'admin';
+    const ROLE_POS_MANAGER = 'pos_manager';
 
     /**
      * The attributes that are mass assignable.
@@ -65,5 +67,13 @@ class User extends Authenticatable
     public function userInfo()
     {
         return $this->hasOne('App\UserInfo');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consumers()
+    {
+        return $this->hasMany(Consumer::class, 'id', 'user_id');
     }
 }

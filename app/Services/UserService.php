@@ -96,10 +96,6 @@ class UserService extends BaseModelService
     {
         $fields = [
             [
-                'key'   => 'id',
-                'label' => 'Id'
-            ],
-            [
                 'key'   => 'name',
                 'label' => 'Name'
             ],
@@ -126,15 +122,7 @@ class UserService extends BaseModelService
             ], [
                 'key'   => 'user_info.street',
                 'label' => 'Street'
-            ],
-            [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
+            ]
         ];
 
         return $fields;
@@ -162,15 +150,7 @@ class UserService extends BaseModelService
             [
                 'key'   => 'user_info.last_name',
                 'label' => 'Last Name'
-            ],
-            [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
+            ]
         ];
     }
 
@@ -181,11 +161,8 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         $filters = [
-            'id'                   => '',
             'name'                 => '',
             'email'                => '',
-            'created_at'           => '',
-            'updated_at'           => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
@@ -203,8 +180,6 @@ class UserService extends BaseModelService
             'id'                   => '',
             'name'                 => '',
             'email'                => '',
-            'created_at'           => '',
-            'updated_at'           => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
