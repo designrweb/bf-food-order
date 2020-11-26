@@ -55,10 +55,10 @@ return [
             'visibility' => 'public',
         ],
 
-        'consumer' => [
+        'location' => [
             'driver'     => 'local',
-            'root'       => storage_path('app/public/consumer'),
-            'url'        => env('APP_URL') . '/storage',
+            'root'       => storage_path('app/public/img/location'),
+            'url'        => env('APP_URL') . '/storage/images',
             'visibility' => 'public',
         ],
 
@@ -87,7 +87,7 @@ return [
 
     'links' => [
         public_path('storage')  => storage_path('app/public'),
-        public_path('consumer') => storage_path('app/public/consumer'),
+        public_path('location') => storage_path('app/public/img/location'),
     ],
 
 ];

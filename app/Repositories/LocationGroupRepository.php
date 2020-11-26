@@ -25,11 +25,16 @@ class LocationGroupRepository implements RepositoryInterface
     public function all()
     {
         return new LocationGroupCollection(app(Pipeline::class)
-            ->send($this->model->newQuery())
+            ->send(
+                $this->model->newQuery()
+                    ->select('location_groups.*')
+                    ->leftJoin('locations', 'location_groups.location_id', '=', 'locations.id')
+            )
             ->through([
                 LocationGroupSearch::class,
             ])
             ->thenReturn()
+            ->with('location')
             ->paginate(request('itemsPerPage') ?? 10));
     }
 

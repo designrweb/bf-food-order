@@ -24,7 +24,12 @@ class LocationGroupCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (LocationGroup $item) {
-                return $item->toArray();
+                return [
+                    'id'                 => $item->id,
+                    'name'               => $item->name,
+                    'location_id'        => $item->location->name,
+                    'number_of_students' => $item->consumers->count()
+                ];
             }),
             'pagination' => $this->pagination
         ];

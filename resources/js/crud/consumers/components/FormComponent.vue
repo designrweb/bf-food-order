@@ -143,51 +143,6 @@
               {{ validation['user_id']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
-          <b-form-group
-              id="input-group-created_at"
-              label="Created At"
-              label-for="input-created_at"
-          >
-            <b-form-input
-                id="input-created_at"
-                v-model="form.created_at"
-                required
-                placeholder="Created At"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['created_at']['state']">
-              {{ validation['created_at']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-updated_at"
-              label="Updated At"
-              label-for="input-updated_at"
-          >
-            <b-form-input
-                id="input-updated_at"
-                v-model="form.updated_at"
-                required
-                placeholder="Updated At"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['updated_at']['state']">
-              {{ validation['updated_at']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-deleted_at"
-              label="Deleted At"
-              label-for="input-deleted_at"
-          >
-            <b-form-input
-                id="input-deleted_at"
-                v-model="form.deleted_at"
-                required
-                placeholder="Deleted At"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['deleted_at']['state']">
-              {{ validation['deleted_at']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>

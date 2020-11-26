@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\LocationGroupCollection;
 use App\Http\Resources\LocationGroupResource;
 use App\Repositories\LocationGroupRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\LocationGroup;
 
@@ -26,7 +28,7 @@ class LocationGroupService extends BaseModelService
      */
     public function all(): LocationGroupCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,11 +84,103 @@ class LocationGroupService extends BaseModelService
         return $this->getFullStructure((new LocationGroup()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new LocationGroup()));
+    }
+
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'name'               => '',
+            'location_id'        => '',
+            'number_of_students' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'id'                 => '',
+            'name'               => '',
+            'location_id'        => '',
+            'number_of_students' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'location_id',
+                'label' => 'Location ID'
+            ],
+            [
+                'key'   => 'number_of_students',
+                'label' => 'Number of students'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => 'Id'
+            ],
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'location_id',
+                'label' => 'Location ID'
+            ],
+            [
+                'key'   => 'number_of_students',
+                'label' => 'Number of students'
+            ],
+        ];
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
+            'view'   => false,
+            'edit'   => false,
+            'delete' => false,
+        ];
     }
 }

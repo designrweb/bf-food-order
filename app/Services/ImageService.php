@@ -81,7 +81,7 @@ class ImageService
     public static function removeImage($fileName, $folder)
     {
         try {
-            $imagePathForDelete = storage_path('app/public/' . $folder . '/' . str_replace(asset($folder) . '/', '', $fileName));
+            $imagePathForDelete = storage_path('app/public/' . $folder . DIRECTORY_SEPARATOR . str_replace(asset($folder) . DIRECTORY_SEPARATOR, '', $fileName));
             if (file_exists($imagePathForDelete)) {
                 @unlink($imagePathForDelete);
             }

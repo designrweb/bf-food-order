@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Consumer extends Model
 {
-    const IMAGE_FOLDER = 'consumer';
-
     /**
      * The "type" of the auto-incrementing ID.
      *

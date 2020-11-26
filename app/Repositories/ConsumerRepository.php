@@ -113,8 +113,6 @@ class ConsumerRepository implements RepositoryInterface
     {
         $model = $this->model->findOrFail($id);
 
-        ImageService::removeImage($model->imageurl, Consumer::IMAGE_FOLDER);
-
         $model->update([
             'imageurl' => null
         ]);
