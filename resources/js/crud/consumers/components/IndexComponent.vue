@@ -73,6 +73,9 @@
             <delete-button v-if="allowActions.delete" :mainRoute="main_route"
                            :id="data.item.id"></delete-button>
           </div>
+          <div v-else-if="data.field.key ==='imageurl'">
+            <b-img rounded center :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
+          </div>
           <div v-else>
             {{ data.value }}
           </div>

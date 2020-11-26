@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationResource;
+use App\Company;
+use App\Services\CompanyService;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class LocationController
@@ -18,9 +20,21 @@ class LocationController extends Controller
     /** @var LocationService $service */
     protected $service;
 
-    public function __construct(LocationService $service)
+    /**
+     * @var CompanyService
+     */
+    protected $companyService;
+
+    /**
+     * LocationController constructor.
+     *
+     * @param LocationService $service
+     * @param CompanyService  $companyService
+     */
+    public function __construct(LocationService $service, CompanyService $companyService)
     {
         $this->service = $service;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -58,7 +72,7 @@ class LocationController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
+     * Returns a listing of the resource.W
      *
      * @param Request $request
      * @return array
@@ -69,13 +83,15 @@ class LocationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('locations._form');
+        $companiesList = $this->companyService->getList();
+
+        return view('locations._form', [
+            'companiesList' => $companiesList
+        ]);
     }
 
     /**
@@ -97,8 +113,8 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('locations.view', compact('resource'));
     }
@@ -113,6 +129,7 @@ class LocationController extends Controller
     {
         /** @var array $resource */
         $resource = $this->service->getOne($id)->toArray(request());
+        $resource['companiesList'] = $this->companyService->getList();
 
         return view('locations._form', compact('resource'));
     }
@@ -121,7 +138,7 @@ class LocationController extends Controller
      * Update the specified resource in storage.
      *
      * @param LocationFormRequest $request
-     * @param int     $id
+     * @param int                 $id
      * @return array
      */
     public function update(LocationFormRequest $request, $id)
@@ -133,12 +150,57 @@ class LocationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('LocationController@index')]);
+    }
+
+    /**
+     * Returns a structure for the view page
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
+    }
+
+    /**
+     * @param $request
+     * @param $id
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    public function updateImage(Request $request, $id)
+    {
+        $this->service->updateImage($request->all(), $id);
+
+        return response()->json([
+            'message' => 'Bild hochgeladen',
+            'success' => true,
+        ], 200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeImage($id)
+    {
+        if ($this->service->removeImage($id)) {
+            return response()->json([
+                'message' => 'Bild entfernt',
+                'success' => true,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong!',
+            'success' => false,
+        ], 500);
     }
 }

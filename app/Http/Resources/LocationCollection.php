@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Helpers\DateFormatter;
 use App\Location;
-use Carbon\Carbon;
 use bigfood\grid\PaginatableCollection;
 
 /**
@@ -24,7 +22,16 @@ class LocationCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (Location $item) {
-                return $item->toArray();
+                return [
+                    'id'             => $item->id,
+                    'name'           => $item->name,
+                    'image_name'     => $item->image_name,
+                    'login_url'      => url($item->slug),
+                    'voucher_limits' => '',
+                    'city'           => $item->city,
+                    'zip'            => $item->zip,
+                    'email'          => $item->email,
+                ];
             }),
             'pagination' => $this->pagination
         ];

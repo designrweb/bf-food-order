@@ -5,9 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property integer $location_id
- * @property string $name
+ * @property integer  $id
+ * @property integer  $location_id
+ * @property string   $name
+ * @property Consumer $consumers
  * @property Location $location
  */
 class LocationGroup extends Model
@@ -37,5 +38,13 @@ class LocationGroup extends Model
     public function location()
     {
         return $this->belongsTo('App\Location');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consumers()
+    {
+        return $this->hasMany(Consumer::class, 'location_group_id', 'id');
     }
 }
