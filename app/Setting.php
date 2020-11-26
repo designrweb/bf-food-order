@@ -25,6 +25,14 @@ class Setting extends Model
     /**
      * @var array
      */
-    protected $fillable = ['setting_name', 'visible_name', 'value', 'created_at', 'updated_at'];
+    protected $fillable = ['setting_name', 'visible_name', 'value', 'created_at', 'updated_at', 'company_id'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'id', 'company_id');
+    }
 
 }

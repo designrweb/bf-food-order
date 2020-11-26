@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @property integer $id
@@ -17,6 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Location extends Model
 {
+
+    const IMAGE_FOLDER = 'location';
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -27,7 +31,7 @@ class Location extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'street', 'zip', 'city', 'email', 'slug', 'image_name'];
+    protected $fillable = ['name', 'street', 'zip', 'city', 'email', 'slug', 'image_name', 'company_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -37,11 +41,40 @@ class Location extends Model
     public $timestamps = false;
 
     /**
+     * @param $value
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::of($value)->slug('-');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function getCompany()
     {
         return $this->hasOne(Company::class);
+    }
+
+    /**
+     * @param $value
+     * @return string|null
+     */
+    public function getImageNameAttribute($value)
+    {
+        if (!empty($value)) {
+            return asset(self::IMAGE_FOLDER . DIRECTORY_SEPARATOR . $value);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setImageNameAttribute($value)
+    {
+        $this->attributes['image_name'] = str_replace(asset(self::IMAGE_FOLDER) . DIRECTORY_SEPARATOR, '', $value);
     }
 
 }

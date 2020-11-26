@@ -85,6 +85,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('locations/{id}', 'LocationController@show')->name('locations.show');
     Route::put('locations/{id}', 'LocationController@update')->name('locations.update');
     Route::delete('locations/{id}', "LocationController@destroy")->name('locations.destroy');
+    Route::post('locations/{id}/update-image', "LocationController@updateImage")->name('locations.update-image');
+    Route::post('locations/{id}/remove-image', "LocationController@removeImage")->name('locations.remove-image');
 
     /** voucher-limits routes */
     Route::get('voucher-limits/get-all', 'VoucherLimitController@getAll')->name('voucher-limits.get-all');
