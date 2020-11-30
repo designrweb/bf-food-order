@@ -50,7 +50,7 @@ class UserRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        $this->authorize('create', User::class);
+       // $this->authorize('create', User::class);
 
         return new UserResource($this->model->create($data));
     }
@@ -65,7 +65,7 @@ class UserRepository implements RepositoryInterface
         /** @var User $model */
         $model = $this->model->findOrFail($id);
 
-        $this->authorize('update', $model);
+        //$this->authorize('update', $model);
 
         $model->update($data);
 
@@ -80,23 +80,9 @@ class UserRepository implements RepositoryInterface
      */
     public function delete($id)
     {
-        $this->authorize('delete', $this->model);
+       // $this->authorize('delete', $this->model);
 
         return $this->model->destroy($id);
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllowActions()
-    {
-        return [
-            'all'    => true,
-            'create' => true,
-            'view'   => Gate::allows('view', $this->model),
-            'edit'   => true,
-            'delete' => true,
-        ];
     }
 
     /**
@@ -107,7 +93,7 @@ class UserRepository implements RepositoryInterface
     {
         $model = $this->model->with('userInfo')->findOrFail($id);
 
-        $this->authorize('view', $model);
+       // $this->authorize('view', $model);
 
         return new UserResource($model);
     }

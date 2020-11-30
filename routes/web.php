@@ -27,13 +27,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/get-structure', 'UserController@getIndexStructure')->name('users.index-structure');
         Route::get('/get-view-structure', 'UserController@getViewStructure')->name('users.view-structure');
         Route::get('/get-one/{id}', 'UserController@getOne')->name('users.get-one');
-        Route::get('/', "UserController@index")->name('users.index');
-        Route::get('/create', 'UserController@create')->name('users.create');
-        Route::post('/', "UserController@store")->name('users.store');
-        Route::get('/{id}/edit', 'UserController@edit')->name('users.edit');
-        Route::get('/{id}', 'UserController@show')->name('users.show');
-        Route::put('/{id}', 'UserController@update')->name('users.update');
-        Route::delete('/{id}', "UserController@destroy")->name('users.destroy');
+        Route::get('/', "UserController@index")->name('users.index')->middleware('checkRole:viewAny,App\User');
+        Route::get('/create', 'UserController@create')->name('users.create')->middleware('checkRole:create,App\User');
+        Route::post('/', "UserController@store")->name('users.store')->middleware('checkRole:create,App\User');
+        Route::get('/{id}/edit', 'UserController@edit')->name('users.edit')->middleware('checkRole:update,App\User,id');
+        Route::get('/{id}', 'UserController@show')->name('users.show')->middleware('checkRole:view,App\User,id');
+        Route::put('/{id}', 'UserController@update')->name('users.update')->middleware('checkRole:update,App\User,id');
+        Route::delete('/{id}', "UserController@destroy")->name('users.destroy')->middleware('checkRole:delete,App\User,id');
     });
 
     /** subsidization-organizations routes */

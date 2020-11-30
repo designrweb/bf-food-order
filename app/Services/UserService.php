@@ -85,16 +85,6 @@ class UserService extends BaseModelService
     }
 
     /**
-     * Returns allowed actions for the front-end part
-     *
-     * @return array
-     */
-    protected function getAllowActions()
-    {
-        return $this->repository->getAllowActions();
-    }
-
-    /**
      * @return array
      */
     public function getViewStructure(): array

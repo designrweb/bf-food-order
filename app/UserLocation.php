@@ -11,5 +11,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserLocation extends Model
 {
-    //
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'user_locations';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['user_id', 'location_id'];
 }
