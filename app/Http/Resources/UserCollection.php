@@ -27,8 +27,8 @@ class UserCollection extends PaginatableCollection
                     'name'         => $item->name,
                     'email'        => $item->email,
                     'accounts'     => $item->consumers->implode('account_id', ', '),
-                    'locations'    => $item->id,
-                    'access_level' => $item->id,
+                    'location'     => !empty($item->location->name) ? $item->location->name : null,
+                    'access_level' => User::ROLES[$item->role],
                 ];
             }),
             'pagination' => $this->pagination

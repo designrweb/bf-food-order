@@ -85,6 +85,16 @@ class UserService extends BaseModelService
     }
 
     /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions()
+    {
+        return $this->repository->getAllowActions();
+    }
+
+    /**
      * @return array
      */
     public function getViewStructure(): array
@@ -92,6 +102,10 @@ class UserService extends BaseModelService
         return $this->getSimpleStructure((new User()));
     }
 
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
     protected function getViewFieldsLabels(Model $model): array
     {
         $fields = [
@@ -144,12 +158,12 @@ class UserService extends BaseModelService
                 'label' => 'Email'
             ],
             [
-                'key'   => 'user_info.first_name',
-                'label' => 'First Name'
+                'key'   => 'location',
+                'label' => 'Location'
             ],
             [
-                'key'   => 'user_info.last_name',
-                'label' => 'Last Name'
+                'key'   => 'access_level',
+                'label' => 'Access level'
             ]
         ];
     }

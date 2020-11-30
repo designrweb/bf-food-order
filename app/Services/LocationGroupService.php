@@ -68,6 +68,14 @@ class LocationGroupService extends BaseModelService
     }
 
     /**
+     * @return mixed
+     */
+    public function getList()
+    {
+        return $this->repository->getList();
+    }
+
+    /**
      * @param $id
      * @return bool
      */
