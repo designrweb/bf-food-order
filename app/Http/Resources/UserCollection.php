@@ -24,7 +24,6 @@ class UserCollection extends PaginatableCollection
             'data'       => $this->collection->transform(function (User $item) {
                 return [
                     'id'           => $item->id,
-                    'name'         => $item->name,
                     'email'        => $item->email,
                     'accounts'     => $item->consumers->implode('account_id', ', '),
                     'location'     => !empty($item->location->name) ? $item->location->name : null,

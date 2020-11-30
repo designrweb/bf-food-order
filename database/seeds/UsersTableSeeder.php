@@ -12,12 +12,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 10)->create()->each(function ($user) {
-            $userName = explode(' ', $user->name, 2);
+        $faker = \Faker\Factory::create();
 
+        factory(App\User::class, 10)->create()->each(function ($user) use ($faker) {
             $user->userInfo()->create([
-                'first_name' => $userName[0],
-                'last_name'  => $userName[1],
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
             ]);
         });
     }

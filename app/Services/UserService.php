@@ -100,10 +100,6 @@ class UserService extends BaseModelService
     {
         $fields = [
             [
-                'key'   => 'name',
-                'label' => 'Name'
-            ],
-            [
                 'key'   => 'email',
                 'label' => 'Email'
             ],
@@ -144,10 +140,6 @@ class UserService extends BaseModelService
                 'label' => 'Id'
             ],
             [
-                'key'   => 'name',
-                'label' => 'Name'
-            ],
-            [
                 'key'   => 'email',
                 'label' => 'Email'
             ],
@@ -169,7 +161,6 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         $filters = [
-            'name'                 => '',
             'email'                => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
@@ -186,7 +177,6 @@ class UserService extends BaseModelService
     {
         $sortFields = [
             'id'                   => '',
-            'name'                 => '',
             'email'                => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Gate;
 
 class checkRole
@@ -28,16 +29,10 @@ class checkRole
         $entityId = $request->route('id');
 
         if (!class_exists($model)) {
-            abort(403);
+            throw new ModelNotFoundException($model . ' model not found.');
         }
 
         $model = $model::find($entityId);
-
-        $policy = 'App\Policies\\' . class_basename($model) . 'Policy';
-
-        if (!class_exists($policy)) {
-            abort(403);
-        }
 
         if (!Gate::allows($action, $model)) {
             abort(403);

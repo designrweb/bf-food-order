@@ -22,7 +22,6 @@ $factory->define(User::class, function (Faker $faker) {
     $userRoles = [User::ROLE_ADMIN, User::ROLE_POS_MANAGER, User::ROLE_USER];
 
     return [
-        'name'              => $faker->name,
         'email'             => $faker->unique()->safeEmail,
         'password'          => Hash::make('admin'),
         'email_verified_at' => now(),
