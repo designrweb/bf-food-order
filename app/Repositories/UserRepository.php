@@ -50,8 +50,6 @@ class UserRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-       // $this->authorize('create', User::class);
-
         return new UserResource($this->model->create($data));
     }
 
@@ -64,8 +62,6 @@ class UserRepository implements RepositoryInterface
     {
         /** @var User $model */
         $model = $this->model->findOrFail($id);
-
-        //$this->authorize('update', $model);
 
         $model->update($data);
 
@@ -80,8 +76,6 @@ class UserRepository implements RepositoryInterface
      */
     public function delete($id)
     {
-       // $this->authorize('delete', $this->model);
-
         return $this->model->destroy($id);
     }
 
@@ -92,8 +86,6 @@ class UserRepository implements RepositoryInterface
     public function get($id)
     {
         $model = $this->model->with('userInfo')->findOrFail($id);
-
-       // $this->authorize('view', $model);
 
         return new UserResource($model);
     }

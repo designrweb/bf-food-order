@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use App\Http\Requests\UserFormRequest;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -35,8 +34,6 @@ class UserController extends Controller
      */
     public function index()
     {
-      //  $this->authorize('viewAny', User::class);
-
         return view('users.index');
     }
 
@@ -93,8 +90,6 @@ class UserController extends Controller
      */
     public function create()
     {
-      //  $this->authorize('create', User::class);
-
         return view('users._form');
     }
 

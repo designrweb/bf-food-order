@@ -132,6 +132,10 @@ class UserService extends BaseModelService
         return $fields;
     }
 
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
     public function getIndexFieldsLabels(Model $model): array
     {
         return [
