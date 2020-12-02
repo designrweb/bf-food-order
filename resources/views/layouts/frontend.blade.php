@@ -6,17 +6,46 @@
 
     <title>Laravel</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
     <!-- Styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    @yield('css')
+    <link href="{{ asset('css_frontend/app_frontend.css') }}" rel="stylesheet">
 </head>
 <body>
-<div class="content position-relative h-100">
-    @yield('content')
+<div class="wrapper">
+    <div class="w-100 text-center links">
+        <div class="brand-link auth mx-auto px-0 py-2">
+            <a href="/">
+                <img src="/image/Coolinary_Logo_rgb.png" alt="MyFoodOrder>" class="mt-0">
+            </a>
+        </div>
+        @guest
+            <a class="auth-link brand-color-second" href="{{ route('login') }}">Login</a>
+        @else
+
+            <a id="navbarDropdown" class="auth-link brand-color-second nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ Auth::user()->userInfo->full_name ?? Auth::user()->email }}
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="brand-color-second dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+
+        @endguest
+    </div>
+    <div class="content-wrapper" style="background-image: url('/image/ella-olsson-4dQiaWKiL-Y-unsplash-min.jpg'); background-size: cover;">
+        @yield('content')
+    </div>
+    @include('footer')
 </div>
 </body>
-@yield('js')
 </html>

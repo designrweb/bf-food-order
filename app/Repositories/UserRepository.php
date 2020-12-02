@@ -60,7 +60,12 @@ class UserRepository implements RepositoryInterface
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        $model->userInfo->update($data['user_info']);
+        if (empty($model->userInfo)) {
+            $model->userInfo()->create($data['user_info']);
+        } else {
+            $model->userInfo->update($data['user_info']);
+        }
+
 
         return new UserResource($model);
     }

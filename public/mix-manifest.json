@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/css_frontend/app_frontend.css": "/css_frontend/app_frontend.css",
     "/js/crud/companies.js": "/js/crud/companies.js",
     "/js/crud/consumer_auto_orders.js": "/js/crud/consumer_auto_orders.js",
     "/js/crud/consumer_qr_codes.js": "/js/crud/consumer_qr_codes.js",
@@ -19,5 +20,6 @@
     "/js/crud/users.js": "/js/crud/users.js",
     "/js/crud/vacation.js": "/js/crud/vacation.js",
     "/js/crud/vacation_location_group.js": "/js/crud/vacation_location_group.js",
-    "/js/crud/voucher_limits.js": "/js/crud/voucher_limits.js"
+    "/js/crud/voucher_limits.js": "/js/crud/voucher_limits.js",
+    "/js_frontend/app.js": "/js_frontend/app.js"
 }

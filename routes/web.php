@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -275,6 +276,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 });
 
-Auth::routes();
-// TODO: remove home controller parts
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes(['verify' => true]);
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/home', 'HomeController@index')->name('profile.index');
+    Route::post('/profile/update', 'HomeController@update')->name('profile.update');
+});
+
