@@ -149,6 +149,10 @@
 
                             </div>
                         </div>
+                    @else
+                        <div id="grid-index-page">
+                            <grid-index :main_route="'/admin/consumers'"></grid-index>
+                        </div>
                     @endif
                     <div class="form-group row mb-0 mt-2">
                         <div class="col-md-12 offset-md-12">
@@ -162,3 +166,7 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script src="{{('/js/crud/consumers.js')}}"></script>
+@stop

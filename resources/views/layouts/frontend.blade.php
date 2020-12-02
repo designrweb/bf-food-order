@@ -48,4 +48,5 @@
     @include('footer')
 </div>
 </body>
+@yield('js')
 </html>
