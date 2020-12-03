@@ -39,9 +39,9 @@ class Consumer extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function locationGroup()
+    public function locationgroup()
     {
-        return $this->belongsTo('App\LocationGroup');
+        return $this->belongsTo('App\LocationGroup', 'location_group_id', 'id');
     }
 
     /**
