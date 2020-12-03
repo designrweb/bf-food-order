@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @package App
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use SoftDeletes;
@@ -81,7 +81,7 @@ class User extends Authenticatable
      */
     public function consumers()
     {
-        return $this->hasMany(Consumer::class, 'id', 'user_id');
+        return $this->hasMany(Consumer::class, 'user_id', 'id');
     }
 
     /**

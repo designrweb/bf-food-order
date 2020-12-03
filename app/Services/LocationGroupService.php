@@ -87,6 +87,14 @@ class LocationGroupService extends BaseModelService
     /**
      * @return array
      */
+    public function getList(): array
+    {
+        return $this->repository->getList();
+    }
+
+    /**
+     * @return array
+     */
     public function getIndexStructure(): array
     {
         return $this->getFullStructure((new LocationGroup()));
