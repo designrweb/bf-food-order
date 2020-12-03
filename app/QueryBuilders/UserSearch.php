@@ -38,7 +38,6 @@ class UserSearch extends BaseSearch
 
         // sort
         $this->applySort('users.id', request('sort.id'));
-        $this->applySort('users.name', request('sort.name'));
         $this->applySort('users.email', request('sort.email'));
         $this->applySort('users.created_at', request('sort.created_at'));
         $this->applySort('users.updated_at', request('sort.updated_at'));

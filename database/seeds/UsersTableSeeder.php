@@ -12,12 +12,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(App\User::class, 1)->make()->toArray();
+        $faker = \Faker\Factory::create();
 
-        foreach ($users as $user) {
-            $userModel           = new App\User($user);
-            $userModel->password = Hash::make('admin');
-            $userModel->save();
-        }
+        factory(App\User::class, 10)->create()->each(function ($user) use ($faker) {
+            $user->userInfo()->create([
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+            ]);
+        });
     }
 }

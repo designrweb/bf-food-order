@@ -7,12 +7,16 @@ use App\Http\Resources\UserResource;
 use App\User;
 use App\QueryBuilders\UserSearch;
 use App\UserInfo;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class UserRepository implements RepositoryInterface
 {
+    use AuthorizesRequests;
+
     /** @var User */
     protected $model;
 
@@ -54,9 +58,15 @@ class UserRepository implements RepositoryInterface
     {
         /** @var User $model */
         $model = $this->model->findOrFail($id);
+
         $model->update($data);
 
-        $model->userInfo->update($data['user_info']);
+        if (empty($model->userInfo)) {
+            $model->userInfo()->create($data['user_info']);
+        } else {
+            $model->userInfo->update($data['user_info']);
+        }
+
 
         return new UserResource($model);
     }
@@ -76,6 +86,8 @@ class UserRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new UserResource($this->model->with('userInfo')->findOrFail($id));
+        $model = $this->model->with('userInfo')->findOrFail($id);
+
+        return new UserResource($model);
     }
 }

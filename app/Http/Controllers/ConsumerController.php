@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Consumer;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
+use App\Services\LocationGroupService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -17,9 +19,16 @@ class ConsumerController extends Controller
     /** @var ConsumerService $service */
     protected $service;
 
-    public function __construct(ConsumerService $service)
+    /**
+     * @var LocationGroupService
+     */
+    protected $locationGroupService;
+
+    public function __construct(ConsumerService $service, LocationGroupService $locationGroupService)
     {
         $this->service = $service;
+        $this->service = $service;
+        $this->locationGroupService = $locationGroupService;
     }
 
     /**
@@ -29,6 +38,8 @@ class ConsumerController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Consumer::class);
+
         return view('consumers.index');
     }
 
@@ -77,13 +88,15 @@ class ConsumerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('consumers._form');
+        $locationGroupList = $this->locationGroupService->getList();
+
+        return view('consumers._form', [
+            'locationGroupList' => $locationGroupList
+        ]);
     }
 
     /**
@@ -121,6 +134,7 @@ class ConsumerController extends Controller
     {
         /** @var array $resource */
         $resource = $this->service->getOne($id)->toArray(request());
+        $resource['locationGroupList'] = $this->locationGroupService->getList();
 
         return view('consumers._form', compact('resource'));
     }

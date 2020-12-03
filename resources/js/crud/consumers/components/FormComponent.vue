@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title"></h3>
+            <h3 class="card-title">{{ form.id ? 'Update Consumer: ' + form.name : 'Create Consumer' }}</h3>
           </div>
         </div>
       </div>
@@ -16,136 +16,138 @@
         </div>
 
         <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-4">
+              <image-upload-component
+                  :imageFieldName="'imageurl'"
+                  :image="form.imageurl"
+                  :route="main_route"
+                  :entityId="form.id"
+                  @changed="handleImage"
+              ></image-upload-component>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-8">
+              <b-form-group
+                  id="input-group-account_id"
+                  label="Account Id"
+                  label-for="input-account_id"
+              >
+                <b-form-input
+                    id="input-account_id"
+                    v-model="form.account_id"
+                    required
+                    placeholder="Account Id"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['account_id']['state']">
+                  {{ validation['account_id']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+              <b-form-group
+                  id="input-group-firstname"
+                  label="Firstname"
+                  label-for="input-firstname"
+              >
+                <b-form-input
+                    id="input-firstname"
+                    v-model="form.firstname"
+                    required
+                    placeholder="Firstname"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['firstname']['state']">
+                  {{ validation['firstname']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+              <b-form-group
+                  id="input-group-lastname"
+                  label="Lastname"
+                  label-for="input-lastname"
+              >
+                <b-form-input
+                    id="input-lastname"
+                    v-model="form.lastname"
+                    required
+                    placeholder="Lastname"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['lastname']['state']">
+                  {{ validation['lastname']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+              <b-form-group
+                  id="input-group-birthday"
+                  label="Birthday"
+                  label-for="input-birthday"
+              >
+                <b-form-input
+                    id="input-birthday"
+                    v-model="form.birthday"
+                    required
+                    placeholder="Birthday"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['birthday']['state']">
+                  {{ validation['birthday']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-group-balance"
+                  label="Balance"
+                  label-for="input-balance"
+              >
+                <b-form-input
+                    id="input-balance"
+                    v-model="form.balance"
+                    required
+                    placeholder="Balance"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['balance']['state']">
+                  {{ validation['balance']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+              <b-form-group
+                  id="input-group-balance_limit"
+                  label="Balance Limit"
+                  label-for="input-balance_limit"
+              >
+                <b-form-input
+                    id="input-balance_limit"
+                    v-model="form.balance_limit"
+                    required
+                    placeholder="Balance Limit"
+                ></b-form-input>
+                <b-form-invalid-feedback :state="validation['balance_limit']['state']">
+                  {{ validation['balance_limit']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </div>
+          </div>
+
           <b-form-group
-              id="input-group-account_id"
-              label="Account Id"
-              label-for="input-account_id"
+              id="input-group-location_id"
+              label="Location Group"
+              label-for="input-location_id"
           >
-            <b-form-input
-                id="input-account_id"
-                v-model="form.account_id"
-                required
-                placeholder="Account Id"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['account_id']['state']">
-              {{ validation['account_id']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-firstname"
-              label="Firstname"
-              label-for="input-firstname"
-          >
-            <b-form-input
-                id="input-firstname"
-                v-model="form.firstname"
-                required
-                placeholder="Firstname"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['firstname']['state']">
-              {{ validation['firstname']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-lastname"
-              label="Lastname"
-              label-for="input-lastname"
-          >
-            <b-form-input
-                id="input-lastname"
-                v-model="form.lastname"
-                required
-                placeholder="Lastname"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['lastname']['state']">
-              {{ validation['lastname']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-birthday"
-              label="Birthday"
-              label-for="input-birthday"
-          >
-            <b-form-input
-                id="input-birthday"
-                v-model="form.birthday"
-                required
-                placeholder="Birthday"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['birthday']['state']">
-              {{ validation['birthday']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <image-upload-component
-              :imageFieldName="'imageurl'"
-              :image="form.imageurl"
-              :route="main_route"
-              :entityId="form.id"
-              @changed="handleImage"
-          ></image-upload-component>
-          <b-form-group
-              id="input-group-balance"
-              label="Balance"
-              label-for="input-balance"
-          >
-            <b-form-input
-                id="input-balance"
-                v-model="form.balance"
-                required
-                placeholder="Balance"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['balance']['state']">
-              {{ validation['balance']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-balance_limit"
-              label="Balance Limit"
-              label-for="input-balance_limit"
-          >
-            <b-form-input
-                id="input-balance_limit"
-                v-model="form.balance_limit"
-                required
-                placeholder="Balance Limit"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['balance_limit']['state']">
-              {{ validation['balance_limit']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-location_group_id"
-              label="Location Group Id"
-              label-for="input-location_group_id"
-          >
-            <b-form-input
-                id="input-location_group_id"
+            <b-form-select
                 v-model="form.location_group_id"
-                required
-                placeholder="Location Group Id"
-            ></b-form-input>
+                :options="location_group_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
             <b-form-invalid-feedback :state="validation['location_group_id']['state']">
               {{ validation['location_group_id']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-user_id"
-              label="User Id"
-              label-for="input-user_id"
-          >
-            <b-form-input
-                id="input-user_id"
-                v-model="form.user_id"
-                required
-                placeholder="User Id"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['user_id']['state']">
-              {{ validation['user_id']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
+      </div>
+      <div class="card-header" v-if="!isPageBusy">
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <h3 class="card-subtitle"></h3>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -164,8 +166,9 @@ export default {
     'image-upload-component': ImageUploadComponent,
   },
   props:      {
-    main_route: String,
-    id:         String | Number,
+    main_route:          String,
+    location_group_list: Array,
+    id:                  String | Number,
   },
   data() {
     return {

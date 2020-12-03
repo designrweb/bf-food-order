@@ -10,7 +10,7 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+//admin part
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/users.js', 'public/js/crud')
     .js('resources/js/crud/vacation.js', 'public/js/crud')
@@ -32,3 +32,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/subsidization_rules.js', 'public/js/crud')
     .js('resources/js/crud/companies.js', 'public/js/crud')
     .sass('resources/sass/app.scss', 'public/css');
+
+//user part
+mix.js('resources/js/app.js', 'public/js_frontend')
+    .sass('resources/sass/app_frontend.scss', 'public/css_frontend');

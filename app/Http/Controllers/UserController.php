@@ -17,6 +17,11 @@ class UserController extends Controller
     /** @var UserService $service */
     protected $service;
 
+    /**
+     * UserController constructor.
+     *
+     * @param UserService $service
+     */
     public function __construct(UserService $service)
     {
         $this->service = $service;

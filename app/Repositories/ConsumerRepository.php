@@ -48,7 +48,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        if ($data['imageurl']) {
+        if (!empty($data['imageurl'])) {
             $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
         }
 

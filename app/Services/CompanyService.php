@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use App\Repositories\CompanyRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Company;
 
@@ -26,7 +28,7 @@ class CompanyService extends BaseModelService
      */
     public function all(): CompanyCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,7 +84,7 @@ class CompanyService extends BaseModelService
         return $this->getFullStructure((new Company()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
@@ -96,5 +98,107 @@ class CompanyService extends BaseModelService
     public function getList()
     {
         return $this->repository->getList();
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        $fields = [
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'email',
+                'label' => 'Email'
+            ],
+            [
+                'key'   => 'zip',
+                'label' => 'Zip'
+            ],
+            [
+                'key'   => 'street',
+                'label' => 'Street'
+            ],
+            [
+                'key'   => 'city',
+                'label' => 'City'
+            ],
+
+        ];
+
+        return $fields;
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => 'Id'
+            ],
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'email',
+                'label' => 'Email'
+            ],
+            [
+                'key'   => 'zip',
+                'label' => 'Zip'
+            ],
+            [
+                'key'   => 'street',
+                'label' => 'Street'
+            ],
+            [
+                'key'   => 'city',
+                'label' => 'City'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFilters(Model $model): array
+    {
+        $filters = [
+            'name'   => '',
+            'email'  => '',
+            'zip'    => '',
+            'street' => '',
+            'city'   => '',
+        ];
+
+        return $filters;
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        $sortFields = [
+            'id'     => '',
+            'name'   => '',
+            'email'  => '',
+            'zip'    => '',
+            'street' => '',
+            'city'   => '',
+        ];
+
+        return $sortFields;
     }
 }

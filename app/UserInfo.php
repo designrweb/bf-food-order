@@ -5,17 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $id
+ * @property int     $id
  * @property integer $user_id
- * @property string $first_name
- * @property string $last_name
- * @property string $salutation
- * @property string $zip
- * @property string $city
- * @property string $street
- * @property mixed $created_at
- * @property mixed $updated_at
- * @property User $user
+ * @property string  $first_name
+ * @property string  $last_name
+ * @property string  $salutation
+ * @property string  $zip
+ * @property string  $city
+ * @property string  $street
+ * @property mixed   $created_at
+ * @property mixed   $updated_at
+ * @property User    $user
  */
 class UserInfo extends Model
 {
@@ -37,5 +37,13 @@ class UserInfo extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

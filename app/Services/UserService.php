@@ -92,17 +92,13 @@ class UserService extends BaseModelService
         return $this->getSimpleStructure((new User()));
     }
 
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
     protected function getViewFieldsLabels(Model $model): array
     {
         $fields = [
-            [
-                'key'   => 'id',
-                'label' => 'Id'
-            ],
-            [
-                'key'   => 'name',
-                'label' => 'Name'
-            ],
             [
                 'key'   => 'email',
                 'label' => 'Email'
@@ -126,20 +122,16 @@ class UserService extends BaseModelService
             ], [
                 'key'   => 'user_info.street',
                 'label' => 'Street'
-            ],
-            [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
+            ]
         ];
 
         return $fields;
     }
 
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
     public function getIndexFieldsLabels(Model $model): array
     {
         return [
@@ -148,29 +140,17 @@ class UserService extends BaseModelService
                 'label' => 'Id'
             ],
             [
-                'key'   => 'name',
-                'label' => 'Name'
-            ],
-            [
                 'key'   => 'email',
                 'label' => 'Email'
             ],
             [
-                'key'   => 'user_info.first_name',
-                'label' => 'First Name'
+                'key'   => 'location',
+                'label' => 'Location'
             ],
             [
-                'key'   => 'user_info.last_name',
-                'label' => 'Last Name'
-            ],
-            [
-                'key'   => 'created_at',
-                'label' => 'Created At'
-            ],
-            [
-                'key'   => 'updated_at',
-                'label' => 'Updated At'
-            ],
+                'key'   => 'access_level',
+                'label' => 'Access level'
+            ]
         ];
     }
 
@@ -181,11 +161,7 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         $filters = [
-            'id'                   => '',
-            'name'                 => '',
             'email'                => '',
-            'created_at'           => '',
-            'updated_at'           => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
@@ -201,10 +177,7 @@ class UserService extends BaseModelService
     {
         $sortFields = [
             'id'                   => '',
-            'name'                 => '',
             'email'                => '',
-            'created_at'           => '',
-            'updated_at'           => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
