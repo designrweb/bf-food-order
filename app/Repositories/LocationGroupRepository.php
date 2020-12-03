@@ -77,4 +77,22 @@ class LocationGroupRepository implements RepositoryInterface
     {
         return new LocationGroupResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $locationGroupArray = [];
+        $allLocationGroup   = $this->model::all();
+
+        foreach ($allLocationGroup as $location) {
+            $locationGroupArray[] = [
+                'id'   => $location->id,
+                'name' => $location->name,
+            ];
+        }
+
+        return $locationGroupArray;
+    }
 }

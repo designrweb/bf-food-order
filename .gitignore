@@ -1,7 +1,8 @@
 /.idea
 /node_modules
 /public/hot
-/public/js/*
+/public/js
+/public/css
 /public/storage
 /public/consumer
 /storage/*.key

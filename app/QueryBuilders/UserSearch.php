@@ -21,7 +21,6 @@ class UserSearch extends BaseSearch
 
         // filters
         $this->applyFilter('users.id', request('filters.id'));
-        $this->applyFilter('users.name', request('filters.name'));
         $this->applyFilter('users.email', request('filters.email'));
         $this->applyFilter('users.created_at', request('filters.created_at'));
         $this->applyFilter('users.updated_at', request('filters.updated_at'));
@@ -36,7 +35,6 @@ class UserSearch extends BaseSearch
 
         // sort
         $this->applySort('users.id', request('sort.id'));
-        $this->applySort('users.name', request('sort.name'));
         $this->applySort('users.email', request('sort.email'));
         $this->applySort('users.created_at', request('sort.created_at'));
         $this->applySort('users.updated_at', request('sort.updated_at'));
