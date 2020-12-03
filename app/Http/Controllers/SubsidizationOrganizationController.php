@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SubsidizationOrganizationResource;
+use App\Services\CompanyService;
 use App\Services\SubsidizationOrganizationService;
 use App\Http\Requests\SubsidizationOrganizationFormRequest;
 use Illuminate\Http\Request;
@@ -18,9 +19,15 @@ class SubsidizationOrganizationController extends Controller
     /** @var SubsidizationOrganizationService $service */
     protected $service;
 
-    public function __construct(SubsidizationOrganizationService $service)
+    /**
+     * @var CompanyService
+     */
+    protected $companyService;
+
+    public function __construct(SubsidizationOrganizationService $service, CompanyService $companyService)
     {
-        $this->service = $service;
+        $this->service        = $service;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -69,13 +76,24 @@ class SubsidizationOrganizationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('subsidization_organizations._form');
+        $companiesList = $this->companyService->getList();
+
+        return view('subsidization_organizations._form', [
+            'companiesList' => $companiesList
+        ]);
     }
 
     /**
@@ -97,22 +115,21 @@ class SubsidizationOrganizationController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('subsidization_organizations.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                  = $this->service->getOne($id)->toArray(request());
+        $resource['companiesList'] = $this->companyService->getList();
 
         return view('subsidization_organizations._form', compact('resource'));
     }
@@ -121,7 +138,7 @@ class SubsidizationOrganizationController extends Controller
      * Update the specified resource in storage.
      *
      * @param SubsidizationOrganizationFormRequest $request
-     * @param int     $id
+     * @param int                                  $id
      * @return array
      */
     public function update(SubsidizationOrganizationFormRequest $request, $id)

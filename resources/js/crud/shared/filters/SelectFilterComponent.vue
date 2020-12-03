@@ -3,11 +3,17 @@
         <b-form-select
             v-model="value"
             :options="options"
+            value-field="id"
+            text-field="name"
             @change="changeHandler"
             @input="inputHandler"
             :placeholder="filterLabel"
             :ref="'filter.'+filterName"
-        ></b-form-select>
+        >
+          <template #first>
+            <b-form-select-option :value="null">-- Please select an option --</b-form-select-option>
+          </template>
+        </b-form-select>
     </div>
 </template>
 
@@ -18,7 +24,7 @@
             filterName:         String,
             filterLabel:        String,
             appliedFilterValue: String,
-            options:            Array
+            options:            Object
         },
         data() {
             return {

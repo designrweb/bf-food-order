@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title'         => 'AdminLTE 3',
+    'title'         => 'FoodOrder',
     'title_prefix'  => '',
     'title_postfix' => '',
 
@@ -126,8 +126,8 @@ return [
     'classes_content_wrapper'  => '',
     'classes_content_header'   => '',
     'classes_content'          => '',
-    'classes_sidebar'          => 'sidebar-light-primary elevation-4',
-    'classes_sidebar_nav'      => '',
+    'classes_sidebar'          => 'sidebar-light-success elevation-1',
+    'classes_sidebar_nav'      => 'nav-child-indent',
     'classes_topnav'           => 'navbar-white navbar-light',
     'classes_topnav_nav'       => 'navbar-expand',
     'classes_topnav_container' => 'container',
@@ -146,8 +146,8 @@ return [
 
     'sidebar_mini'                            => true,
     'sidebar_collapse'                        => false,
-    'sidebar_collapse_auto_size'              => false,
-    'sidebar_collapse_remember'               => false,
+    'sidebar_collapse_auto_size'              => true,
+    'sidebar_collapse_remember'               => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme'                 => 'os-theme-light',
     'sidebar_scrollbar_auto_hide'             => 'l',
@@ -232,75 +232,77 @@ return [
 
     'menu' => [
         [
-            'text' => 'Locations',
-            'url'  => 'admin/locations',
-            'icon' => 'nav-icon fa fa-map-marked',
+            'text'  => 'Locations',
+            'route' => 'locations.index',
+            'icon'  => 'nav-icon fa fa-map-marked',
         ],
         [
-            'text' => 'Groups',
-            'url'  => 'admin/location-groups',
-            'icon' => 'nav-icon fa fa-object-ungroup',
+            'text'  => 'Groups',
+            'route' => 'location-groups.index',
+            'icon'  => 'nav-icon fa fa-object-ungroup',
         ],
         [
-            'text' => 'Consumers',
-            'url'  => 'admin/consumers',
-            'icon' => 'nav-icon fa fa-users',
+            'text'  => 'Consumers',
+            'route' => 'consumers.index',
+            'icon'  => 'nav-icon fa fa-users',
         ],
         [
-            'text' => 'Payments',
-            'url'  => 'admin/payments',
-            'icon' => 'nav-icon fa fa-euro-sign',
+            'text'  => 'Payments',
+            'route' => 'payments.index',
+            'icon'  => 'nav-icon fa fa-euro-sign',
         ],
         [
             'text'    => 'Subsidization',
             'icon'    => 'nav-icon fa fa-hand-holding-heart',
             'submenu' => [
                 [
-                    'text' => 'Organizations',
-                    'url'  => 'admin/subsidization-organizations',
-                    'icon' => 'nav-icon fa fa-landmark',
+                    'text'   => 'Organizations',
+                    'route'  => 'subsidization-organizations.index',
+                    'icon'   => 'nav-icon fa fa-landmark',
+                    'active' => ['*subsidization-organizations*']
                 ],
                 [
-                    'text' => 'Rules',
-                    'url'  => 'admin/subsidization-rules',
-                    'icon' => 'nav-icon fa fa-percent',
+                    'text'  => 'Rules',
+                    'route' => 'subsidization-rules.index',
+                    'icon'  => 'nav-icon fa fa-percent',
+                    'active' => ['*subsidization-rules*']
                 ],
             ],
         ],
         [
-            'text' => 'Menu Categories',
-            'url'  => 'admin/menu-categories',
-            'icon' => 'nav-icon fas fa-book-open',
+            'text'  => 'Menu Categories',
+            'route' => 'menu-categories.index',
+            'icon'  => 'nav-icon fas fa-book-open',
         ],
         [
-            'text' => 'Menu Items',
-            'url'  => 'admin/menu-items',
-            'icon' => 'nav-icon fa fa-utensils',
+            'text'  => 'Menu Items',
+            'route' => 'menu-items.index',
+            'icon'  => 'nav-icon fa fa-utensils',
         ],
         [
-            'text' => 'Food Orders',
-            'url'  => 'admin/orders',
-            'icon' => 'nav-icon fa fa-list-ol',
+            'text'  => 'Food Orders',
+            'route' => 'orders.index',
+            'icon'  => 'nav-icon fa fa-list-ol',
         ],
         [
-            'text' => 'Voucher Limits',
-            'url'  => 'admin/voucher-limits',
-            'icon' => 'nav-icon fas fa-calendar-week',
+            'text'  => 'Voucher Limits',
+            'route' => 'voucher-limits.index',
+            'icon'  => 'nav-icon fas fa-calendar-week',
         ],
         [
-            'text' => 'Vacations',
-            'url'  => 'admin/vacations',
-            'icon' => 'nav-icon fa fa-calendar',
+            'text'  => 'Vacations',
+            'route' => 'vacations.index',
+            'icon'  => 'nav-icon fa fa-calendar',
         ],
         [
-            'text' => 'Settings',
-            'url'  => 'admin/settings',
-            'icon' => 'nav-icon fa fa-cogs',
+            'text'  => 'Settings',
+            'route' => 'settings.index',
+            'icon'  => 'nav-icon fa fa-cogs',
         ],
         [
-            'text' => 'Users',
-            'url'  => 'admin/users',
-            'icon' => 'nav-icon fa fa-user-friends',
+            'text'  => 'Users',
+            'route' => 'users.index',
+            'icon'  => 'nav-icon fa fa-user-friends',
         ],
 
 //        [
@@ -321,9 +323,9 @@ return [
 //        ],
 
         [
-            'text' => 'Auto Orders',
-            'url'  => 'admin/consumer-auto-orders',
-            'icon' => 'far fa-fw fa-file',
+            'text'  => 'Auto Orders',
+            'route' => 'consumer-auto-orders.index',
+            'icon'  => 'far fa-fw fa-file',
         ],
         [
             'text'  => 'Consumer QR Codes',

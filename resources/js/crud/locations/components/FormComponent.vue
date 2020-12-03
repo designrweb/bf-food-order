@@ -105,7 +105,7 @@
 
               <b-form-group
                   id="input-group-company_id"
-                  label="Company ID"
+                  label="Company"
                   label-for="input-company_id"
               >
                 <b-form-select

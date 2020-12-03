@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Repositories\ConsumerRepository;
+use App\Repositories\LocationRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -119,12 +120,48 @@ class ConsumerService extends BaseModelService
     {
         $fields = [
             [
-                'key'   => 'name',
-                'label' => 'Name'
+                'key'   => 'account_id',
+                'label' => 'Account'
             ],
             [
-                'key'   => 'email',
+                'key'   => 'user.email',
                 'label' => 'Email'
+            ],
+            [
+                'key'   => 'location_group.location.name',
+                'label' => 'Location'
+            ],
+            [
+                'key'   => 'birthday',
+                'label' => 'Birthday'
+            ],
+            [
+                'key'   => 'imageurl',
+                'label' => 'Image'
+            ],
+            [
+                'key'   => 'location_group.name',
+                'label' => 'Group'
+            ],
+            [
+                'key'   => 'user.user_info.first_name',
+                'label' => 'Parent'
+            ],
+            [
+                'key'   => 'balance',
+                'label' => 'Balance'
+            ],
+            [
+                'key'   => 'balance_limit',
+                'label' => 'Balance limit'
+            ],
+            [
+                'key'   => 'firstname',
+                'label' => 'Child Firstname'
+            ],
+            [
+                'key'   => 'subsidization_rule',
+                'label' => 'Subsidization Rule'
             ],
         ];
 
@@ -180,6 +217,24 @@ class ConsumerService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
+            'account_id'                   => '',
+            'user.email'                   => '',
+            'location_group.location.name' => '',
+            'location_group.name'          => '',
+            'user.user_info.first_name'    => '',
+            'firstname'                    => '',
+            'subsidization_rule'           => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'id'                           => '',
             'account_id'                   => '',
             'user.email'                   => '',
             'location_group.location.name' => '',

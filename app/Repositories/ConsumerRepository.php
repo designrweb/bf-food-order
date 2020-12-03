@@ -87,7 +87,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new ConsumerResource($this->model->findOrFail($id));
+        return new ConsumerResource($this->model->with(['user.userInfo', 'locationGroup.location'])->findOrFail($id));
     }
 
     /**
