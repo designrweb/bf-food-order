@@ -5,12 +5,12 @@
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">
                     <div class="col-12 col-sm-8">
-                        <h3 class="card-title"></h3>
+                        <h3 class="card-title">{{pageData['user_info.first_name']['value']}} {{pageData['user_info.last_name']['value']}}</h3>
                     </div>
                     <div class="col-12 col-sm-4 action-buttons">
-                        <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
+                        <edit-button :is-icon="false" v-if="allowActions.edit && allowActions.all" :id="id"
                                      :mainRoute="main_route"></edit-button>
-                        <delete-button v-if="allowActions.edit && allowActions.all" :id="id"
+                        <delete-button :is-icon="false" v-if="allowActions.edit && allowActions.all" :id="id"
                                        :mainRoute="main_route"></delete-button>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <tbody>
                     <tr v-for="data in pageData" v-bind:key="data.key">
                         <th>{{data.label}}</th>
-                        <td> {{data.value}}</td>
+                        <td>{{data.value ? data.value : ''}}</td>
                     </tr>
                     </tbody>
                 </table>

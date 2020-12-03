@@ -8,9 +8,9 @@
 @section('content')
     <div id="grid-form-page">
         @if(!empty($resource))
-            <grid-form :main_route="'consumers'" :id="{{$resource['id']}}"></grid-form>
+            <grid-form :main_route="'consumers'" :id="{{$resource['id']}}" :location_group_list="{{json_encode($resource['locationGroupList'])}}"></grid-form>
         @else
-            <grid-form :main_route="'consumers'"></grid-form>
+            <grid-form :main_route="'consumers'" :location_group_list="{{json_encode($locationGroupList)}}"></grid-form>
         @endif
     </div>
 @endsection

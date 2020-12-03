@@ -69,6 +69,17 @@ class CompanyController extends Controller
     }
 
     /**
+     * Returns a structure for the view page
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response
@@ -97,8 +108,8 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('companies.view', compact('resource'));
     }
@@ -121,7 +132,7 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param CompanyFormRequest $request
-     * @param int     $id
+     * @param int                $id
      * @return array
      */
     public function update(CompanyFormRequest $request, $id)
