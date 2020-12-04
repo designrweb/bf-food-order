@@ -26,13 +26,20 @@ class ConsumerSearch extends BaseSearch
             ->join('user_info', 'user_info.user_id', '=', 'users.id');
 
         if (auth()->user()->role === User::ROLE_USER) {
-            $this->applyFilter('user_id', auth()->user()->id);
+            $this->applyFilter('consumers.user_id', auth()->user()->id);
         }
 
         // filters
-        $this->applyFilter('consumers.id', request('filters.id'));
-        $this->applyFilter('consumers.account_id', request('filters.account_id'));
-        $this->applyFilter('consumers.firstname', request('filters.firstname'));
+        if (request('filters.id')) {
+            $this->applyFilter('consumers.id', request('filters.id'));
+        }
+
+        if (request('filters.account_id')) {
+            $this->applyFilter('consumers.account_id', request('filters.account_id'));
+        }
+
+        $this->builder->whereRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) like '%" . request('filters.full_name') . "%' ");
+
         $this->builder->when(request('filters.user.email'), function (Builder $q) {
             $q->where('users.email', 'like', '%' . request('filters.user.email') . '%');
         });
@@ -49,7 +56,10 @@ class ConsumerSearch extends BaseSearch
         // sort
         $this->applySort('consumers.id', request('sort.id'));
         $this->applySort('consumers.account_id', request('sort.account_id'));
-        $this->applySort('consumers.firstname', request('sort.firstname'));
+
+        $this->builder->when(request('sort.full_name'), function (Builder $q) {
+            return $q->orderByRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) " . request('sort.full_name'));
+        });
         $this->builder->when(request('sort.user.email'), function (Builder $q) {
             return $q->orderBy('users.email', request('sort.user.email'));
         });

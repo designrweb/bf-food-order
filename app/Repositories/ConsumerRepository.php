@@ -107,7 +107,7 @@ class ConsumerRepository implements RepositoryInterface
             ]);
         }
 
-        return $model;
+        return $model->load('qrcode');
     }
 
     /**

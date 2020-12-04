@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <back-button-component :route="'/admin/' + main_route"></back-button-component>
+    <back-button-component :route="main_route"></back-button-component>
     <div class="card">
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
@@ -198,8 +198,8 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store('/admin/' + self.main_route, self.id, self.form);
-        window.location.href = '/admin/' + self.main_route + '/' + response['data'].id + '/edit';
+        let response         = await store(self.main_route, self.id, self.form);
+        window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;
@@ -218,7 +218,7 @@ export default {
     async _loadData() {
       if (this.id == null) return;
 
-      let response  = await getItem('/admin/' + this.main_route, this.id);
+      let response  = await getItem(this.main_route, this.id);
       this.itemData = response['data'];
 
       for (const [key, fieldData] of Object.entries(this.itemData)) {

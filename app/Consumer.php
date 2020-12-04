@@ -32,6 +32,11 @@ class Consumer extends Model
     protected $keyType = 'integer';
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['full_name'];
+
+    /**
      * @var array
      */
     protected $fillable = ['location_group_id', 'user_id', 'account_id', 'firstname', 'lastname', 'birthday', 'imageurl', 'balance', 'balance_limit', 'created_at', 'updated_at', 'deleted_at'];
@@ -71,5 +76,13 @@ class Consumer extends Model
     public function qrcode()
     {
         return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }

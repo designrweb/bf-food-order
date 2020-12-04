@@ -139,6 +139,10 @@ class ConsumerService extends BaseModelService
     {
         $fields = [
             [
+                'key'   => 'qrcode.qr_code_hash',
+                'label' => 'QR Code'
+            ],
+            [
                 'key'   => 'account_id',
                 'label' => 'Account'
             ],
@@ -175,8 +179,8 @@ class ConsumerService extends BaseModelService
                 'label' => 'Balance limit'
             ],
             [
-                'key'   => 'firstname',
-                'label' => 'Child Firstname'
+                'key'   => 'full_name',
+                'label' => 'Child'
             ],
             [
                 'key'   => 'subsidization_rule',
@@ -219,8 +223,8 @@ class ConsumerService extends BaseModelService
                 'label' => 'Parent'
             ],
             [
-                'key'   => 'firstname',
-                'label' => 'Child Firstname'
+                'key'   => 'full_name',
+                'label' => 'Child'
             ],
             [
                 'key'   => 'subsidization_rule',
@@ -241,7 +245,7 @@ class ConsumerService extends BaseModelService
             'location_group.location.name' => '',
             'location_group.name'          => '',
             'user.user_info.first_name'    => '',
-            'firstname'                    => '',
+            'full_name'                    => '',
             'subsidization_rule'           => '',
         ];
     }
@@ -259,7 +263,7 @@ class ConsumerService extends BaseModelService
             'location_group.location.name' => '',
             'location_group.name'          => '',
             'user.user_info.first_name'    => '',
-            'firstname'                    => '',
+            'full_name'                    => '',
             'subsidization_rule'           => '',
         ];
     }

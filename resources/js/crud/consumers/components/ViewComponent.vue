@@ -27,6 +27,13 @@
             <td v-if="data.label === 'Image'">
               <b-img rounded left :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
             </td>
+            <td v-else-if="data.label === 'QR Code'">
+              <qr-code-component
+                  :initial="data.value"
+                  :route="main_route"
+                  :entityId="id"
+              ></qr-code-component>
+            </td>
             <td v-else> {{ data.value }}</td>
           </tr>
           </tbody>
@@ -41,6 +48,7 @@ import {EditButton, DeleteButton}  from "../../shared/grid-buttons";
 import {getViewStructure, getItem} from "../../api/crudRequests";
 import SpinnerComponent            from "../../shared/SpinnerComponent";
 import BackButtonComponent         from "../../shared/BackButtonComponent";
+import QrcodeComponent             from "../../shared/QrcodeComponent";
 
 export default {
   components: {
@@ -48,6 +56,7 @@ export default {
     'delete-button':         DeleteButton,
     'spinner-component':     SpinnerComponent,
     'back-button-component': BackButtonComponent,
+    'qr-code-component':     QrcodeComponent
   },
   props:      {
     main_route: String,
@@ -94,15 +103,20 @@ export default {
           'value': ''
         };
         let fieldValue;
+        console.log(value.key.split('.'));
         value.key.split('.').forEach(function (item, index) {
           if (typeof fieldValue == "undefined") {
             fieldValue = self.itemData[item];
           } else {
-            fieldValue = fieldValue[item];
+            console.log(fieldValue);
+            console.log(item);
+            fieldValue = fieldValue != null ? fieldValue[item] : '' ;
           }
         });
         self.pageData[value.key]['value'] = fieldValue;
       }
+
+      console.log(self.pageData);
       this.isPageBusy = false;
     }
   },

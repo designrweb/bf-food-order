@@ -18,12 +18,6 @@
         <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-4">
-              <qr-code-component
-                  v-if="form.qrcode"
-                  :initial="form.qrcode.qr_code_hash"
-                  :route="main_route"
-                  :entityId="form.id"
-              ></qr-code-component>
               <image-upload-component
                   :imageFieldName="'imageurl'"
                   :image="form.imageurl"
@@ -180,14 +174,12 @@ import {getItem, store}     from "../../api/crudRequests";
 import SpinnerComponent     from "../../shared/SpinnerComponent";
 import BackButtonComponent  from "../../shared/BackButtonComponent";
 import ImageUploadComponent from "../../shared/ImageUploadComponent";
-import QrcodeComponent      from "../../shared/QrcodeComponent";
 
 export default {
   components: {
     'spinner-component':      SpinnerComponent,
     'back-button-component':  BackButtonComponent,
     'image-upload-component': ImageUploadComponent,
-    'qr-code-component':      QrcodeComponent,
   },
   props:      {
     main_route:          String,
