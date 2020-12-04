@@ -322,17 +322,17 @@ return [
 //            'icon' => 'far fa-fw fa-file',
 //        ],
 
-        [
-            'text'  => 'Auto Orders',
-            'route' => 'consumer-auto-orders.index',
-            'icon'  => 'far fa-fw fa-file',
-        ],
-        [
-            'text'  => 'Consumer QR Codes',
-            'route' => 'consumer-qr-codes.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-ConsumerQrCode',
-        ],
+//        [
+//            'text'  => 'Auto Orders',
+//            'route' => 'consumer-auto-orders.index',
+//            'icon'  => 'far fa-fw fa-file',
+//        ],
+//        [
+//            'text'  => 'Consumer QR Codes',
+//            'route' => 'consumer-qr-codes.index',
+//            'icon'  => 'far fa-fw fa-file',
+//            'can'   => 'menu-ConsumerQrCode',
+//        ],
     ],
 
     /*
