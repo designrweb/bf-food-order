@@ -2,7 +2,7 @@
 
 @section('title', 'Laravel App')
 
-@section('adminlte_css_pre')
+@section('adminlte_css')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 @stop
 
