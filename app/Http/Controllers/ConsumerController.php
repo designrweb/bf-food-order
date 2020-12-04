@@ -152,6 +152,25 @@ class ConsumerController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function generateCode($id)
+    {
+        return $this->service->generateCode($id);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function downloadCode($id)
+    {
+        return $this->service->downloadCode($id);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param $id

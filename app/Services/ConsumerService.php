@@ -70,6 +70,25 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function generateCode($id)
+    {
+        return $this->repository->generateCode($id);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function downloadCode($id)
+    {
+        return $this->repository->downloadCode($id);
+    }
+
+    /**
+     * @param $id
      * @return bool
      */
     public function remove($id): bool

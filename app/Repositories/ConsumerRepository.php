@@ -7,8 +7,14 @@ use App\Http\Resources\ConsumerResource;
 use App\Consumer;
 use App\QueryBuilders\ConsumerSearch;
 use App\Services\ImageService;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
+
+//use Illuminate\Support\Facades\Response;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class ConsumerRepository implements RepositoryInterface
 {
@@ -82,12 +88,57 @@ class ConsumerRepository implements RepositoryInterface
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function generateCode($id)
+    {
+        $model    = $this->model->findOrFail($id);
+        $codeHash = bin2hex(random_bytes(32));
+
+        if (empty($model->qrcode)) {
+            $model->qrcode()->create([
+                'qr_code_hash' => $codeHash
+            ]);
+        } else {
+            $model->qrcode->update([
+                'qr_code_hash' => $codeHash
+            ]);
+        }
+
+        return $model;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function downloadCode($id)
+    {
+        $model = $this->model->findOrFail($id);
+
+        $options = new QROptions([
+            'outputType' => QRCode::OUTPUT_IMAGE_JPG,
+            'eccLevel'   => QRCode::ECC_H,
+            'scale'      => 10
+        ]);
+
+        $q               = new QRCode($options);
+        $image           = $q->render($model->qrcode->qr_code_hash);
+        $baseDecodeImage = base64_decode(explode(',', $image)[1]);
+
+        return (new Response($baseDecodeImage, 200, ['mimeType' => 'image/jpg']));
+    }
+
+
+    /**
      * @param       $id
      * @return ConsumerResource
      */
     public function get($id)
     {
-        return new ConsumerResource($this->model->with(['user.userInfo', 'locationGroup.location'])->findOrFail($id));
+        return new ConsumerResource($this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode'])->findOrFail($id));
     }
 
     /**

@@ -189,6 +189,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy');
         Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
         Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
+        Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
+        Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
     });
 
     /** consumer-subsidizations routes */

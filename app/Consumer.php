@@ -64,4 +64,12 @@ class Consumer extends Model
 
         return null;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function qrcode()
+    {
+        return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
+    }
 }
