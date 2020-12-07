@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemFormRequest extends FormRequest
 {
-     /**
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -14,6 +14,11 @@ class MenuItemFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'              => 'required|string',
+            'location_id'       => 'required|numeric',
+            'menu_category_id'  => 'required|numeric',
+            'availability_date' => 'required',
+            'description'       => 'string',
         ];
     }
 }

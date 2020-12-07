@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\MenuItemCollection;
 use App\Http\Resources\MenuItemResource;
 use App\Repositories\MenuItemRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\MenuItem;
 
@@ -26,7 +28,7 @@ class MenuItemService extends BaseModelService
      */
     public function all(): MenuItemCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,11 +84,114 @@ class MenuItemService extends BaseModelService
         return $this->getFullStructure((new MenuItem()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new MenuItem()));
+    }
+
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'description',
+                'label' => 'Description'
+            ],
+            [
+                'key'   => 'menu_category.presaleprice',
+                'label' => 'Presale Price'
+            ],
+            [
+                'key'   => 'menu_category.price',
+                'label' => 'Price'
+            ],
+            [
+                'key'   => 'menu_category.name',
+                'label' => 'Menu Category'
+            ],
+            [
+                'key'   => 'availability_date_human',
+                'label' => 'Availability Date'
+            ],
+            [
+                'key'   => 'location.name',
+                'label' => 'Location'
+            ]
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => '#'
+            ],
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'menu_category.presaleprice',
+                'label' => 'Presale Price'
+            ],
+            [
+                'key'   => 'menu_category.price',
+                'label' => 'Price'
+            ],
+            [
+                'key'   => 'menu_categories_name',
+                'label' => 'Menu Category'
+            ],
+            [
+                'key'   => 'availability_date_human',
+                'label' => 'Availability Date'
+            ]
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'name'                       => '',
+            'menu_category.presaleprice' => '',
+            'menu_category.price'        => '',
+            'menu_categories_name'       => '',
+            'availability_date_human'    => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'name'                       => '',
+            'menu_category.presaleprice' => '',
+            'menu_category.price'        => '',
+            'menu_categories_name'       => '',
+            'availability_date_human'    => '',
+        ];
     }
 }

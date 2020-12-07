@@ -69,6 +69,15 @@ class MenuCategoryController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response
