@@ -34,6 +34,24 @@ class MenuCategoryRepository implements RepositoryInterface
     }
 
     /**
+     * @return array
+     */
+    public function getList()
+    {
+        $menuCategoriesArray = [];
+        $allMenuCategories   = $this->model::all();
+
+        foreach ($allMenuCategories as $menuCategory) {
+            $menuCategoriesArray[] = [
+                'id'   => $menuCategory->id,
+                'name' => $menuCategory->name,
+            ];
+        }
+
+        return $menuCategoriesArray;
+    }
+
+    /**
      * @param array $data
      * @return MenuCategoryResource
      */

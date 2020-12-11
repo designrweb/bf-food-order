@@ -30,6 +30,7 @@ class MenuItemRepository implements RepositoryInterface
                 MenuItemSearch::class,
             ])
             ->thenReturn()
+            ->with(['menuCategory'])
             ->paginate(request('itemsPerPage') ?? 10));
     }
 
@@ -70,6 +71,6 @@ class MenuItemRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new MenuItemResource($this->model->findOrFail($id));
+        return new MenuItemResource($this->model->with('menuCategory', 'location')->findOrFail($id));
     }
 }

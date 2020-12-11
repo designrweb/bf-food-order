@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\MenuItemResource;
+use App\Services\LocationService;
 use App\Services\MenuItemService;
+use App\Services\MenuCategoryService;
 use App\Http\Requests\MenuItemFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -69,13 +70,28 @@ class MenuItemController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Request $request
+     * @return array
      */
-    public function create()
+    public function getViewStructure(Request $request)
     {
-        return view('menu_items._form');
+        return $this->service->getViewStructure();
+    }
+
+    /**
+     * @param MenuCategoryService $menuCategoryService
+     * @param LocationService     $locationService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(MenuCategoryService $menuCategoryService, LocationService $locationService)
+    {
+        $locationsList      = $locationService->getList();
+        $menuCategoriesList = $menuCategoryService->getList();
+
+        return view('menu_items._form', [
+            'locationsList'      => $locationsList,
+            'menuCategoriesList' => $menuCategoriesList,
+        ]);
     }
 
     /**
@@ -97,22 +113,24 @@ class MenuItemController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('menu_items.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param MenuCategoryService $menuCategoryService
+     * @param LocationService     $locationService
+     * @param                     $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(MenuCategoryService $menuCategoryService, LocationService $locationService, $id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                       = $this->service->getOne($id)->toArray(request());
+        $resource['locationsList']      = $locationService->getList();
+        $resource['menuCategoriesList'] = $menuCategoryService->getList();
 
         return view('menu_items._form', compact('resource'));
     }
@@ -121,7 +139,7 @@ class MenuItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param MenuItemFormRequest $request
-     * @param int     $id
+     * @param int                 $id
      * @return array
      */
     public function update(MenuItemFormRequest $request, $id)

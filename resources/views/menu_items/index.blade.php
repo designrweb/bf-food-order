@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="grid-index-page">
-        <grid-index :main_route="'menu-items'"></grid-index>
+        <grid-index :main_route="'/admin/menu-items'"></grid-index>
     </div>
 @endsection
 
