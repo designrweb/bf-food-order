@@ -35,7 +35,6 @@ export default {
     async generateCode() {
       if (window.confirm('Old QR code will be not working anymore. Please print a new one after confirmation.')) {
         let response = await generateCode(this.route + '/' + this.entityId + '/generate-code', []);
-        console.log(response);
         this.value   = response.data.qrcode.qr_code_hash;
       }
     },

@@ -48,7 +48,6 @@
                                 <label for="salutation" class="cols-sm-2 control-label">{{ __('Salutation') }}</label>
 
                                 <div class="cols-sm-10">
-                                    {{--                                    <input id="salutation" type="text" class="form-control @error('salutation') is-invalid @enderror" name="user_info[salutation]" value="{{ auth()->user()->userInfo->salutation ?? old('salutation') }}" required autocomplete="off" autofocus>--}}
                                     <select class="form-control" id="salutation" name="user_info[salutation]">
                                         <option value="Herr">Herr</option>
                                         <option value="Frau">Frau</option>

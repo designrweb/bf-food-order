@@ -217,8 +217,8 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response = await store(self.main_route, self.id, self.form);
-        // window.location.href = self.main_route + '/' + response['data'].id + '/edit';
+        let response         = await store(self.main_route, self.id, self.form);
+        window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;

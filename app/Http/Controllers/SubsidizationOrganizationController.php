@@ -19,15 +19,9 @@ class SubsidizationOrganizationController extends Controller
     /** @var SubsidizationOrganizationService $service */
     protected $service;
 
-    /**
-     * @var CompanyService
-     */
-    protected $companyService;
-
-    public function __construct(SubsidizationOrganizationService $service, CompanyService $companyService)
+    public function __construct(SubsidizationOrganizationService $service)
     {
-        $this->service        = $service;
-        $this->companyService = $companyService;
+        $this->service = $service;
     }
 
     /**
@@ -85,11 +79,12 @@ class SubsidizationOrganizationController extends Controller
     }
 
     /**
+     * @param CompanyService $companyService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(CompanyService $companyService)
     {
-        $companiesList = $this->companyService->getList();
+        $companiesList = $companyService->getList();
 
         return view('subsidization_organizations._form', [
             'companiesList' => $companiesList
@@ -122,14 +117,15 @@ class SubsidizationOrganizationController extends Controller
     }
 
     /**
-     * @param $id
+     * @param CompanyService $companyService
+     * @param                $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(CompanyService $companyService, $id)
     {
         /** @var array $resource */
         $resource                  = $this->service->getOne($id)->toArray(request());
-        $resource['companiesList'] = $this->companyService->getList();
+        $resource['companiesList'] = $companyService->getList();
 
         return view('subsidization_organizations._form', compact('resource'));
     }

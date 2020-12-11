@@ -103,20 +103,17 @@ export default {
           'value': ''
         };
         let fieldValue;
-        console.log(value.key.split('.'));
+
         value.key.split('.').forEach(function (item, index) {
           if (typeof fieldValue == "undefined") {
             fieldValue = self.itemData[item];
           } else {
-            console.log(fieldValue);
-            console.log(item);
-            fieldValue = fieldValue != null ? fieldValue[item] : '' ;
+            fieldValue = fieldValue != null ? fieldValue[item] : '';
           }
         });
         self.pageData[value.key]['value'] = fieldValue;
       }
 
-      console.log(self.pageData);
       this.isPageBusy = false;
     }
   },
