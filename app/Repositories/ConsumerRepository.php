@@ -7,6 +7,7 @@ use App\Http\Resources\ConsumerResource;
 use App\Consumer;
 use App\QueryBuilders\ConsumerSearch;
 use App\Services\ImageService;
+use App\Services\QRService;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Illuminate\Pipeline\Pipeline;
@@ -118,14 +119,7 @@ class ConsumerRepository implements RepositoryInterface
     {
         $model = $this->model->findOrFail($id);
 
-        $options = new QROptions([
-            'outputType' => QRCode::OUTPUT_IMAGE_JPG,
-            'eccLevel'   => QRCode::ECC_H,
-            'scale'      => 10
-        ]);
-
-        $q               = new QRCode($options);
-        $image           = $q->render($model->qrcode->qr_code_hash);
+        $image           = QRService::codeToImage($model->qrcode->qr_code_hash);
         $baseDecodeImage = base64_decode(explode(',', $image)[1]);
 
         return (new Response($baseDecodeImage, 200, ['mimeType' => 'image/jpg']));
