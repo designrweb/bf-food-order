@@ -26,8 +26,8 @@ class ConsumerController extends Controller
 
     public function __construct(ConsumerService $service, LocationGroupService $locationGroupService)
     {
-        $this->service = $service;
-        $this->service = $service;
+        $this->service              = $service;
+        $this->service              = $service;
         $this->locationGroupService = $locationGroupService;
     }
 
@@ -133,7 +133,7 @@ class ConsumerController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                      = $this->service->getOne($id)->toArray(request());
         $resource['locationGroupList'] = $this->locationGroupService->getList();
 
         return view('consumers._form', compact('resource'));
@@ -167,7 +167,7 @@ class ConsumerController extends Controller
      */
     public function downloadCode($id)
     {
-        return $this->service->downloadCode($id);
+        return (new Response($this->service->downloadCode($id), 200, ['mimeType' => 'image/jpg']));
     }
 
     /**

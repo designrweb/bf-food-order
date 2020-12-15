@@ -8,14 +8,8 @@ use App\Consumer;
 use App\QueryBuilders\ConsumerSearch;
 use App\Services\ImageService;
 use App\Services\QRService;
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
-
-//use Illuminate\Support\Facades\Response;
-
-use Symfony\Component\HttpFoundation\Response;
 
 class ConsumerRepository implements RepositoryInterface
 {
@@ -117,14 +111,8 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function downloadCode($id)
     {
-        $model = $this->model->findOrFail($id);
-
-        $image           = QRService::codeToImage($model->qrcode->qr_code_hash);
-        $baseDecodeImage = base64_decode(explode(',', $image)[1]);
-
-        return (new Response($baseDecodeImage, 200, ['mimeType' => 'image/jpg']));
+        return QRService::codeToImage($this->getModel($id));
     }
-
 
     /**
      * @param       $id
@@ -132,7 +120,16 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new ConsumerResource($this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode'])->findOrFail($id));
+        return new ConsumerResource($this->getModel($id));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    public function getModel($id)
+    {
+        return $this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode'])->findOrFail($id);
     }
 
     /**
