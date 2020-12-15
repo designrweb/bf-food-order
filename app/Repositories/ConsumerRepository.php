@@ -111,7 +111,9 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function downloadCode($id)
     {
-        return QRService::codeToImage($this->getModel($id));
+        $model = $this->getModel($id);
+
+        return QRService::codeToImage($model->qrcode->qr_code_hash);
     }
 
     /**
