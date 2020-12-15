@@ -66,6 +66,8 @@ class VacationRepository implements RepositoryInterface
             if (!empty($data['with_deleting_orders'])) {
                 OrderService::cancelOrders($data['start_date'], $data['end_date'], $data['location_group_id']);
             }
+
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
         }
@@ -101,6 +103,8 @@ class VacationRepository implements RepositoryInterface
             if (!empty($data['with_deleting_orders'])) {
                 OrderService::cancelOrders($data['start_date'], $data['end_date'], $data['location_group_id']);
             }
+
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
         }

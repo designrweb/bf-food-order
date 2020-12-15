@@ -84,7 +84,7 @@ class OrderRepository implements RepositoryInterface
         $orders = Order::whereHas('consumer', function ($query) use ($locationGroup) {
             $query->whereIn('consumers.location_group_id', $locationGroup);
         })
-            ->whereRaw('DATE_FORMAT(day, "%Y-%m") BETWEEN "' . $startDate . '" AND "' . $endDate . '" ')
+            ->whereRaw('DATE_FORMAT(day, "%Y-%m-%d") BETWEEN "' . $startDate . '" AND "' . $endDate . '" ')
             ->where('type', Order::TYPE_PRE_ORDER)
             ->whereNull('deleted_at')
             ->get();

@@ -140,7 +140,6 @@ export default {
   props:      {
     main_route:     String,
     locations_list: Array,
-    //location_group_list: Array,
     id:             String | Number,
   },
   data() {
@@ -196,7 +195,7 @@ export default {
             };
           }
 
-          if (this.validation['orders_exists']) {
+          if (this.validation['orders_exists'].state === false) {
             self.$refs['orders-exists'].show();
           }
         }

@@ -43,7 +43,7 @@ class VacationFormRequest extends FormRequest
         $orders = $this->checkPreOrders();
 
         $validator->after(function (Validator $validator) use ($orders) {
-            if (empty($orders)) {
+            if (!empty($orders) && $orders->isNotEmpty()) {
                 $validator->errors()->add('orders_exists', $orders);
             }
         });
