@@ -27,10 +27,11 @@ class Vacation extends Model
      */
     protected $fillable = ['name', 'start_date', 'end_date', 'created_at', 'updated_at'];
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function locationGroups()
     {
-        // return $this->hasManyThrough(LocationGroup::class, VacationLocationGroup::class, 'vacation_id', 'id', 'id', 'location_group_id');
         return $this->hasMany(VacationLocationGroup::class, 'vacation_id', 'id');
     }
 
