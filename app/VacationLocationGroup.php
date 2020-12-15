@@ -5,24 +5,24 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property integer $vacation_id
- * @property integer $location_group_id
+ * @property integer       $id
+ * @property integer       $vacation_id
+ * @property integer       $location_group_id
  * @property LocationGroup $locationGroup
- * @property Vacation $vacation
+ * @property Vacation      $vacation
  */
 class VacationLocationGroup extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'vacation_location_group';
 
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -34,7 +34,7 @@ class VacationLocationGroup extends Model
 
     /**
      * Indicates if the model should be timestamped.
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;

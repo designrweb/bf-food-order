@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\VacationCollection;
 use App\Http\Resources\VacationResource;
 use App\Repositories\VacationRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Vacation;
 
@@ -26,7 +28,7 @@ class VacationService extends BaseModelService
      */
     public function all(): VacationCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,11 +84,106 @@ class VacationService extends BaseModelService
         return $this->getFullStructure((new Vacation()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new Vacation()));
     }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'start_date',
+                'label' => 'Date From'
+            ],
+            [
+                'key'   => 'end_date',
+                'label' => 'Date To'
+            ],
+            [
+                'key'   => 'location_name',
+                'label' => 'Location'
+            ],
+            [
+                'key'   => 'location_group_name',
+                'label' => 'Group'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => '#'
+            ],
+            [
+                'key'   => 'name',
+                'label' => 'Name'
+            ],
+            [
+                'key'   => 'start_date',
+                'label' => 'Date From'
+            ],
+            [
+                'key'   => 'end_date',
+                'label' => 'Date To'
+            ],
+            [
+                'key'   => 'location_name',
+                'label' => 'Location'
+            ],
+            [
+                'key'   => 'location_group_name',
+                'label' => 'Group'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'name'                => '',
+            'start_date'          => '',
+            'end_date'            => '',
+            'location_name'       => '',
+            'location_group_name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'name'                => '',
+            'start_date'          => '',
+            'end_date'            => '',
+            'location_name'       => '',
+            'location_group_name' => '',
+        ];
+    }
+
 }

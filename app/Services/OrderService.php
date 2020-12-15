@@ -89,4 +89,26 @@ class OrderService extends BaseModelService
     {
         return $this->getSimpleStructure((new Order()));
     }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $locationGroup
+     * @return mixed
+     */
+    public static function getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup)
+    {
+        return OrderRepository::getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
+    }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $locationGroup
+     * @return bool
+     */
+    public static function cancelOrders($startDate, $endDate, $locationGroup)
+    {
+        return OrderRepository::cancelOrders($startDate, $endDate, $locationGroup);
+    }
 }

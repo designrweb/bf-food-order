@@ -31,3 +31,7 @@ export const store = (mainRoute, id, data) => typeof id === "undefined" ? api
     .request(mainRoute + '/' + id)
     .withBody(data)
     .put();
+
+export const getLocationGroupsByLocationId = (url) => api
+    .request(url)
+    .get();

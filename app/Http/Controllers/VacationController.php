@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\VacationResource;
+use App\Services\LocationService;
 use App\Services\VacationService;
 use App\Http\Requests\VacationFormRequest;
 use Illuminate\Http\Request;
@@ -69,13 +69,25 @@ class VacationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Request $request
+     * @return array
      */
-    public function create()
+    public function getViewStructure(Request $request)
     {
-        return view('vacation._form');
+        return $this->service->getViewStructure();
+    }
+
+    /**
+     * @param LocationService $locationService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(LocationService $locationService)
+    {
+        $locationsList = $locationService->getList();
+
+        return view('vacation._form', [
+            'locationsList' => $locationsList,
+        ]);
     }
 
     /**
@@ -97,22 +109,22 @@ class VacationController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('vacation.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param LocationService      $locationService
+     * @param                      $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(LocationService $locationService, $id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                  = $this->service->getOne($id)->toArray(request());
+        $resource['locationsList'] = $locationService->getList();
 
         return view('vacation._form', compact('resource'));
     }
@@ -121,7 +133,7 @@ class VacationController extends Controller
      * Update the specified resource in storage.
      *
      * @param VacationFormRequest $request
-     * @param int     $id
+     * @param int                 $id
      * @return array
      */
     public function update(VacationFormRequest $request, $id)
