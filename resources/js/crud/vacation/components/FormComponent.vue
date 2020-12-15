@@ -6,6 +6,9 @@
 
       <b-modal ref="orders-exists" id="bv-modal-example" hide-footer title="Warning">
         <p>But there are pre-orders in created vacation date. Would you like to cancel all orders during this period? Money will be refunded automatically.</p>
+        <ul>
+          <li v-for="order in validation['orders_exists']['message']">OrderID: {{order.id}}</li>
+        </ul>
         <b-button @click="$refs['orders-exists'].hide()">Close</b-button>
         <b-button variant="danger" @click="proceedWithDeleteOrder($event)">Delete</b-button>
       </b-modal>
