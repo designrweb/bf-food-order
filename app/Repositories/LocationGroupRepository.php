@@ -79,12 +79,19 @@ class LocationGroupRepository implements RepositoryInterface
     }
 
     /**
+     * @param null $locationId
      * @return array
      */
-    public function getList()
+    public function getList($locationId = null)
     {
         $locationGroupArray = [];
-        $allLocationGroup   = $this->model::all();
+        $allLocationGroup   = $this->model->newQuery();
+
+        if (!empty($locationId)) {
+            $allLocationGroup = $allLocationGroup->where('location_id', $locationId);
+        }
+
+        $allLocationGroup = $allLocationGroup->get();
 
         foreach ($allLocationGroup as $location) {
             $locationGroupArray[] = [

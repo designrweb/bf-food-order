@@ -24,7 +24,16 @@ class VacationCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (Vacation $item) {
-                return $item->toArray();
+                return [
+                    'id'                  => $item->id,
+                    'name'                => $item->name,
+                    'start_date'          => date('l, d.m.Y', strtotime($item->start_date)),
+                    'end_date'            => date('l, d.m.Y', strtotime($item->end_date)),
+                    'location_name'       => $item->locationGroups->first()->locationGroup->location->name,
+                    'location_id'         => $item->locationGroups->first()->locationGroup->location->id,
+                    'location_group_id'   => $item->locationGroups->pluck('locationGroup.id')->toArray(),
+                    'location_group_name' => $item->locationGroups->implode('locationGroup.name', ', '),
+                ];
             }),
             'pagination' => $this->pagination
         ];

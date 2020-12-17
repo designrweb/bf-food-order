@@ -72,4 +72,40 @@ class OrderRepository implements RepositoryInterface
     {
         return new OrderResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $locationGroup
+     * @return mixed
+     */
+    public static function getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup)
+    {
+        $orders = Order::whereHas('consumer', function ($query) use ($locationGroup) {
+            $query->whereIn('consumers.location_group_id', $locationGroup);
+        })
+            ->whereRaw('DATE_FORMAT(day, "%Y-%m-%d") BETWEEN "' . $startDate . '" AND "' . $endDate . '" ')
+            ->where('type', Order::TYPE_PRE_ORDER)
+            ->whereNull('deleted_at')
+            ->get();
+
+        return $orders;
+    }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $locationGroup
+     * @return bool
+     */
+    public static function cancelOrders($startDate, $endDate, $locationGroup)
+    {
+        $orders = self::getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
+
+        foreach ($orders as $order) {
+            $order->delete();
+        }
+
+        return true;
+    }
 }
