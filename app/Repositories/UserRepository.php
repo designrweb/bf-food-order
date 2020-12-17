@@ -31,11 +31,7 @@ class UserRepository implements RepositoryInterface
     public function all()
     {
         return new UserCollection(app(Pipeline::class)
-            ->send(
-                $this->model->newQuery()
-                    ->select('users.*')
-                    ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
-            )
+            ->send($this->model->newQuery())
             ->through([
                 UserSearch::class,
             ])

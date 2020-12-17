@@ -70,7 +70,7 @@ export default {
       this.isLoading = true;
       this.emitChange();
 
-      let response = await storeImage('/admin/' + this.route + '/' + this.entityId + '/update-image', {
+      let response = await storeImage(this.route + '/' + this.entityId + '/update-image', {
         [this.imageFieldName]: this.croppaImage.generateDataUrl()
       });
 
@@ -86,7 +86,7 @@ export default {
       this.isLoading = true;
 
       if (this.entityId) {
-        let response = await removeImage('/admin/' + this.route + '/' + this.entityId + '/remove-image', []);
+        let response = await removeImage(this.route + '/' + this.entityId + '/remove-image', []);
 
         if (response.data.success === false) {
           this._showToastError(response.data.message);

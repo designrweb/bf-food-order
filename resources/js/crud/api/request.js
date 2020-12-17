@@ -33,6 +33,11 @@ export class Request {
         return this;
     }
 
+    withResponseType(type) {
+        this.options.responseType = type;
+        return this;
+    }
+
     withParams(params) {
         this.params = Request._sanitizeData(params);
         return this;

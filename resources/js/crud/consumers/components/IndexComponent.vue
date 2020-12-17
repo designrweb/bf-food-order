@@ -32,38 +32,12 @@
         <template v-slot:top-row="scope" :columns="4">
           <b-th v-for="field in scope.fields" v-bind:key="field.key">
             <div v-if="field.key in filters">
-              <filter-select
-                  v-if="field.key === 'status'"
-                  @changeFilter="applyFilter"
-                  :filterName="field.key"
-                  :options="{}"
-                  :filterLabel="field.label"
-                  :appliedFilterValue="filters[field.key]"
-              ></filter-select>
-
-              <filter-date-picker
-                  v-else-if="field.key === 'created_at'"
-                  @inputFilter="applyFilter"
-                  :filterName="field.key"
-                  :filterLabel="field.label"
-                  :appliedFilterValue="{startDate: null,endDate: null}"
-              ></filter-date-picker>
-
-              <filter-date-range-picker
-                  v-else-if="field.key === 'updated_at'"
-                  @inputFilter="applyFilter"
-                  :filterName="field.key"
-                  :filterLabel="field.label"
-                  :appliedFilterValue="{startDate: null,endDate: null}"
-              ></filter-date-range-picker>
-
-              <filter-number
-                  v-else
+              <filter-text
                   @changeFilter="applyFilter"
                   :filterName="field.key"
                   :filterLabel="field.label"
                   :appliedFilterValue="filters[field.key]"
-              ></filter-number>
+              ></filter-text>
             </div>
           </b-th>
         </template>

@@ -39,7 +39,7 @@
                            :id="data.item.id"></delete-button>
           </div>
           <div v-else-if="data.field.key ==='image_name'">
-            <b-img rounded center :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
+            <b-img rounded :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
           </div>
           <div v-else>
             {{ data.value }}

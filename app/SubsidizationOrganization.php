@@ -27,14 +27,14 @@ class SubsidizationOrganization extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'zip', 'city', 'street', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['name', 'zip', 'city', 'company_id', 'street', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getCompany()
+    public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
     }
 
 }

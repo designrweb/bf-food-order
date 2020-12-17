@@ -10903,3 +10903,41 @@ a.text-dark:focus {
   }
 }
 
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-success .nav-sidebar > .nav-item > .nav-link.active {
+  color: #FFFFFF !important;
+  background-color: #cae08f !important;
+}
+
+.btn-success {
+  color: #FFFFFF !important;
+  background-color: #96c11f !important;
+  border-color: #96c11f !important;
+  opacity: 0.8 !important;
+}
+
+.btn-success:hover {
+  opacity: 1 !important;
+}
+
+.sortable {
+  color: #96c11f !important;
+  opacity: 0.8 !important;
+  cursor: pointer;
+}
+
+.sortable:hover {
+  opacity: 1 !important;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #96c11f !important;
+  border-color: #96c11f !important;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+  color: #96c11f !important;
+}
+

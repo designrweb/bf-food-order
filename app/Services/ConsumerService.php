@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Repositories\ConsumerRepository;
+use App\Repositories\LocationRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Consumer;
 
@@ -68,6 +70,25 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function generateCode($id)
+    {
+        return $this->repository->generateCode($id);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function downloadCode($id)
+    {
+        return $this->repository->downloadCode($id);
+    }
+
+    /**
+     * @param $id
      * @return bool
      */
     public function remove($id): bool
@@ -108,5 +129,142 @@ class ConsumerService extends BaseModelService
     public function removeImage($id)
     {
         return $this->repository->removeImage($id);
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        $fields = [
+            [
+                'key'   => 'qrcode.qr_code_hash',
+                'label' => 'QR Code'
+            ],
+            [
+                'key'   => 'account_id',
+                'label' => 'Account'
+            ],
+            [
+                'key'   => 'user.email',
+                'label' => 'Email'
+            ],
+            [
+                'key'   => 'location_group.location.name',
+                'label' => 'Location'
+            ],
+            [
+                'key'   => 'birthday',
+                'label' => 'Birthday'
+            ],
+            [
+                'key'   => 'imageurl',
+                'label' => 'Image'
+            ],
+            [
+                'key'   => 'location_group.name',
+                'label' => 'Group'
+            ],
+            [
+                'key'   => 'user.user_info.first_name',
+                'label' => 'Parent'
+            ],
+            [
+                'key'   => 'balance',
+                'label' => 'Balance'
+            ],
+            [
+                'key'   => 'balance_limit',
+                'label' => 'Balance limit'
+            ],
+            [
+                'key'   => 'full_name',
+                'label' => 'Child'
+            ],
+            [
+                'key'   => 'subsidization_rule',
+                'label' => 'Subsidization Rule'
+            ],
+        ];
+
+        return $fields;
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => 'Id'
+            ],
+            [
+                'key'   => 'account_id',
+                'label' => 'Account'
+            ],
+            [
+                'key'   => 'user.email',
+                'label' => 'Email'
+            ],
+            [
+                'key'   => 'location_group.location.name',
+                'label' => 'Location'
+            ],
+            [
+                'key'   => 'location_group.name',
+                'label' => 'Group'
+            ],
+            [
+                'key'   => 'user.user_info.first_name',
+                'label' => 'Parent'
+            ],
+            [
+                'key'   => 'full_name',
+                'label' => 'Child'
+            ],
+            [
+                'key'   => 'subsidization_rule',
+                'label' => 'Subsidization Rule'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'account_id'                   => '',
+            'user.email'                   => '',
+            'location_group.location.name' => '',
+            'location_group.name'          => '',
+            'user.user_info.first_name'    => '',
+            'full_name'                    => '',
+            'subsidization_rule'           => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'id'                           => '',
+            'account_id'                   => '',
+            'user.email'                   => '',
+            'location_group.location.name' => '',
+            'location_group.name'          => '',
+            'user.user_info.first_name'    => '',
+            'full_name'                    => '',
+            'subsidization_rule'           => '',
+        ];
     }
 }

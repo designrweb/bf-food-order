@@ -1,6 +1,6 @@
 <template>
   <div>
-    <back-button-component :route="'/admin/' + main_route"></back-button-component>
+    <back-button-component :route="main_route"></back-button-component>
     <div class="card">
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
@@ -9,9 +9,9 @@
           </div>
           <div class="col-12 col-sm-4 action-buttons">
             <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
-                         :mainRoute="'/admin/' + main_route"></edit-button>
+                         :mainRoute="main_route"></edit-button>
             <delete-button v-if="allowActions.edit && allowActions.all" :id="id"
-                           :mainRoute="'/admin/' + main_route"></delete-button>
+                           :mainRoute="main_route"></delete-button>
           </div>
         </div>
 
@@ -72,14 +72,14 @@ export default {
   methods:    {
     async _loadStructure() {
       this.isPageBusy   = true;
-      let data          = await getViewStructure('/admin/' + this.main_route);
+      let data          = await getViewStructure(this.main_route);
       this.fields       = data['data']['fields'];
       this.allowActions = data['data']['allowActions'];
       this.isPageBusy   = false;
     },
     async _loadData() {
       this.isPageBusy = true;
-      let response    = await getItem('/admin/' + this.main_route, this.id);
+      let response    = await getItem(this.main_route, this.id);
       this.itemData   = response['data'];
       this.isPageBusy = false;
     },

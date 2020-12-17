@@ -8,9 +8,9 @@
 @section('content')
     <div id="grid-form-page">
         @if(!empty($resource))
-            <grid-form :main_route="'subsidization-organizations'" :id="{{$resource['id']}}"></grid-form>
+            <grid-form :main_route="'/admin/subsidization-organizations'" :id="{{$resource['id']}}" :companies_list="{{json_encode($resource['companiesList'])}}"></grid-form>
         @else
-            <grid-form :main_route="'subsidization-organizations'"></grid-form>
+            <grid-form :main_route="'/admin/subsidization-organizations'" :companies_list="{{json_encode($companiesList)}}"></grid-form>
         @endif
     </div>
 @endsection

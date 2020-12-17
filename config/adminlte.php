@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title'         => 'AdminLTE 3',
+    'title'         => 'FoodOrder',
     'title_prefix'  => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo'              => '<b>Admin</b>LTE',
-    'logo_img'          => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo'              => '',
+    'logo_img'          => '/image/Coolinary_Logo_rgb.png',
     'logo_img_class'    => 'brand-image img-circle elevation-3',
-    'logo_img_xl'       => null,
+    'logo_img_xl'       => '/image/Coolinary_Logo_rgb.png',
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt'      => 'AdminLTE',
+    'logo_img_alt'      => 'FoodOrder',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,8 +126,8 @@ return [
     'classes_content_wrapper'  => '',
     'classes_content_header'   => '',
     'classes_content'          => '',
-    'classes_sidebar'          => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav'      => '',
+    'classes_sidebar'          => 'sidebar-light-success elevation-1',
+    'classes_sidebar_nav'      => 'nav-child-indent',
     'classes_topnav'           => 'navbar-white navbar-light',
     'classes_topnav_nav'       => 'navbar-expand',
     'classes_topnav_container' => 'container',
@@ -146,8 +146,8 @@ return [
 
     'sidebar_mini'                            => true,
     'sidebar_collapse'                        => false,
-    'sidebar_collapse_auto_size'              => false,
-    'sidebar_collapse_remember'               => false,
+    'sidebar_collapse_auto_size'              => true,
+    'sidebar_collapse_remember'               => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme'                 => 'os-theme-light',
     'sidebar_scrollbar_auto_hide'             => 'l',
@@ -232,197 +232,106 @@ return [
 
     'menu' => [
         [
-            'text'   => 'search',
-            'search' => true,
-            'topnav' => true,
-        ],
-        [
-            'text'  => 'Companies',
-            'route' => 'companies.index',
-            'icon'  => 'fas fa-users',
-            'can'   => 'menu-Company',
-        ],
-        [
-            'text'  => 'Users',
-            'route' => 'users.index',
-            'icon'  => 'fas fa-users',
-            'can'   => 'menu-User',
-        ],
-        [
-            'text'  => 'Subsidization organizations',
-            'route' => 'subsidization-organizations.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-SubsidizationOrganization',
-        ],
-        [
-            'text'  => 'Menu categories',
-            'route' => 'menu-categories.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-MenuCategory',
-        ],
-        [
-            'text'  => 'Vacations',
-            'route' => 'vacations.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Vacation',
-        ],
-        [
             'text'  => 'Locations',
             'route' => 'locations.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Location',
+            'icon'  => 'nav-icon fa fa-map-marked',
         ],
         [
-            'text'  => 'Voucher Limits',
-            'route' => 'voucher-limits.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-VoucherLimit',
-        ],
-        [
-            'text'  => 'Menu Items',
-            'route' => 'menu-items.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-MenuItem',
-        ],
-        [
-            'text'  => 'Location Groups',
+            'text'  => 'Groups',
             'route' => 'location-groups.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-LocationGroup',
-        ],
-        [
-            'text'  => 'Vacation Location Group',
-            'route' => 'vacation-location-group.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-VacationLocationGroup',
-        ],
-        [
-            'text'  => 'Subsidized Menu Categories',
-            'route' => 'subsidized-menu-categories.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-SubsidizedMenuCategories',
+            'icon'  => 'nav-icon fa fa-object-ungroup',
         ],
         [
             'text'  => 'Consumers',
             'route' => 'consumers.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Consumer',
-        ],
-        [
-            'text'  => 'Consumer Subsidizations',
-            'route' => 'consumer-subsidizations.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-ConsumerSubsidization',
-        ],
-        [
-            'text'  => 'Orders',
-            'route' => 'orders.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Order',
-        ],
-        [
-            'text'  => 'Consumer Auto Orders',
-            'route' => 'consumer-auto-orders.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-ConsumerAutoOrder',
+            'icon'  => 'nav-icon fa fa-users',
         ],
         [
             'text'  => 'Payments',
             'route' => 'payments.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Payment',
+            'icon'  => 'nav-icon fa fa-euro-sign',
         ],
         [
-            'text'  => 'Consumer QR Codes',
-            'route' => 'consumer-qr-codes.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-ConsumerQrCode',
+            'text'    => 'Subsidization',
+            'icon'    => 'nav-icon fa fa-hand-holding-heart',
+            'submenu' => [
+                [
+                    'text'   => 'Organizations',
+                    'route'  => 'subsidization-organizations.index',
+                    'icon'   => 'nav-icon fa fa-landmark',
+                    'active' => ['*subsidization-organizations*']
+                ],
+                [
+                    'text'  => 'Rules',
+                    'route' => 'subsidization-rules.index',
+                    'icon'  => 'nav-icon fa fa-percent',
+                    'active' => ['*subsidization-rules*']
+                ],
+            ],
+        ],
+        [
+            'text'  => 'Menu Categories',
+            'route' => 'menu-categories.index',
+            'icon'  => 'nav-icon fas fa-book-open',
+        ],
+        [
+            'text'  => 'Menu Items',
+            'route' => 'menu-items.index',
+            'icon'  => 'nav-icon fa fa-utensils',
+        ],
+        [
+            'text'  => 'Food Orders',
+            'route' => 'orders.index',
+            'icon'  => 'nav-icon fa fa-list-ol',
+        ],
+        [
+            'text'  => 'Voucher Limits',
+            'route' => 'voucher-limits.index',
+            'icon'  => 'nav-icon fas fa-calendar-week',
+        ],
+        [
+            'text'  => 'Vacations',
+            'route' => 'vacations.index',
+            'icon'  => 'nav-icon fa fa-calendar',
         ],
         [
             'text'  => 'Settings',
             'route' => 'settings.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-Setting',
+            'icon'  => 'nav-icon fa fa-cogs',
         ],
         [
-            'text'  => 'Subsidization Rules',
-            'route' => 'subsidization-rules.index',
-            'icon'  => 'far fa-fw fa-file',
-            'can'   => 'menu-SubsidizationRule',
+            'text'  => 'Users',
+            'route' => 'users.index',
+            'icon'  => 'nav-icon fa fa-user-friends',
         ],
+
+//        [
+//            'text' => 'Vacation Location Group',
+//            'url'  => 'admin/vacation-location-group',
+//            'icon' => 'far fa-fw fa-file',
+//        ],
+//        [
+//            'text' => 'Subsidized Menu Categories',
+//            'url'  => 'admin/subsidized-menu-categories',
+//            'icon' => 'far fa-fw fa-file',
+//        ],
 //
-//
 //        [
-//            'text'        => 'pages',
-//            'url'         => 'admin/pages',
-//            'icon'        => 'far fa-fw fa-file',
-//            'label'       => 4,
-//            'label_color' => 'success',
+//            'text' => 'Consumer Subsidizations',
+//            'url'  => 'admin/consumer-subsidizations',
+//            'icon' => 'far fa-fw fa-file',
 //        ],
-//        ['header' => 'account_settings'],
+
 //        [
-//            'text' => 'profile',
-//            'url'  => 'admin/settings',
-//            'icon' => 'fas fa-fw fa-user',
+//            'text'  => 'Auto Orders',
+//            'route' => 'consumer-auto-orders.index',
+//            'icon'  => 'far fa-fw fa-file',
 //        ],
 //        [
-//            'text' => 'change_password',
-//            'url'  => 'admin/settings',
-//            'icon' => 'fas fa-fw fa-lock',
-//        ],
-//        [
-//            'text'    => 'multilevel',
-//            'icon'    => 'fas fa-fw fa-share',
-//            'submenu' => [
-//                [
-//                    'text' => 'level_one',
-//                    'url'  => '#',
-//                ],
-//                [
-//                    'text'    => 'level_one',
-//                    'url'     => '#',
-//                    'submenu' => [
-//                        [
-//                            'text' => 'level_two',
-//                            'url'  => '#',
-//                        ],
-//                        [
-//                            'text'    => 'level_two',
-//                            'url'     => '#',
-//                            'submenu' => [
-//                                [
-//                                    'text' => 'level_three',
-//                                    'url'  => '#',
-//                                ],
-//                                [
-//                                    'text' => 'level_three',
-//                                    'url'  => '#',
-//                                ],
-//                            ],
-//                        ],
-//                    ],
-//                ],
-//                [
-//                    'text' => 'level_one',
-//                    'url'  => '#',
-//                ],
-//            ],
-//        ],
-//        ['header' => 'labels'],
-//        [
-//            'text'       => 'important',
-//            'icon_color' => 'red',
-//            'url'        => '#',
-//        ],
-//        [
-//            'text'       => 'warning',
-//            'icon_color' => 'yellow',
-//            'url'        => '#',
-//        ],
-//        [
-//            'text'       => 'information',
-//            'icon_color' => 'cyan',
-//            'url'        => '#',
+//            'text'  => 'Consumer QR Codes',
+//            'route' => 'consumer-qr-codes.index',
+//            'icon'  => 'far fa-fw fa-file',
+//            'can'   => 'menu-ConsumerQrCode',
 //        ],
     ],
 

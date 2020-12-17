@@ -25,11 +25,13 @@ class ConsumerFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_id'        => 'required|numeric',
+            'account_id'        => 'required|string|unique:consumers,account_id,' . $this->id,
             'firstname'         => 'required|string',
             'lastname'          => 'required|string',
             'birthday'          => 'required|string',
             'location_group_id' => 'required|numeric',
+            'imageurl'          => 'nullable|string',
+            'balance_limit'     => 'required|numeric',
         ];
     }
 
