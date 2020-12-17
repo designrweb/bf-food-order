@@ -30,6 +30,7 @@ class SubsidizationOrganizationRepository implements RepositoryInterface
                 SubsidizationOrganizationSearch::class,
             ])
             ->thenReturn()
+            ->with('company')
             ->paginate(request('itemsPerPage') ?? 10));
     }
 
@@ -70,6 +71,6 @@ class SubsidizationOrganizationRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new SubsidizationOrganizationResource($this->model->findOrFail($id));
+        return new SubsidizationOrganizationResource($this->model->with('company')->findOrFail($id));
     }
 }

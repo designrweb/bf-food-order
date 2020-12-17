@@ -19,6 +19,9 @@ class UserSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
+        $this->builder->select('users.*')
+            ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id');
+
         // filters
         $this->applyFilter('users.id', request('filters.id'));
         $this->applyFilter('users.email', request('filters.email'));

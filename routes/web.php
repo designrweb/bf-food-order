@@ -142,6 +142,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/{id}', 'LocationGroupController@show')->name('location-groups.show');
         Route::put('/{id}', 'LocationGroupController@update')->name('location-groups.update');
         Route::delete('/{id}', "LocationGroupController@destroy")->name('location-groups.destroy');
+        Route::get('/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
     });
 
     /** vacation-location-group routes */
@@ -189,6 +190,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy');
         Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
         Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
+        Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
+        Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
     });
 
     /** consumer-subsidizations routes */

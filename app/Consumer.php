@@ -32,6 +32,11 @@ class Consumer extends Model
     protected $keyType = 'integer';
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['full_name'];
+
+    /**
      * @var array
      */
     protected $fillable = ['location_group_id', 'user_id', 'account_id', 'firstname', 'lastname', 'birthday', 'imageurl', 'balance', 'balance_limit', 'created_at', 'updated_at', 'deleted_at'];
@@ -39,9 +44,9 @@ class Consumer extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function locationGroup()
+    public function locationgroup()
     {
-        return $this->belongsTo('App\LocationGroup');
+        return $this->belongsTo('App\LocationGroup', 'location_group_id', 'id');
     }
 
     /**
@@ -63,5 +68,21 @@ class Consumer extends Model
         }
 
         return null;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function qrcode()
+    {
+        return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }

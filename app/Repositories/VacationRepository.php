@@ -4,10 +4,15 @@ namespace App\Repositories;
 
 use App\Http\Resources\VacationCollection;
 use App\Http\Resources\VacationResource;
+use App\LocationGroup;
+use App\QueryBuilders\LocationGroupSearch;
+use App\Services\OrderService;
 use App\Vacation;
 use App\QueryBuilders\VacationSearch;
+use App\VacationLocationGroup;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class VacationRepository implements RepositoryInterface
 {
@@ -30,6 +35,7 @@ class VacationRepository implements RepositoryInterface
                 VacationSearch::class,
             ])
             ->thenReturn()
+            ->with(['locationGroups.locationGroup.location'])
             ->paginate(request('itemsPerPage') ?? 10));
     }
 
@@ -39,7 +45,34 @@ class VacationRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        return new VacationResource($this->model->create($data));
+        $model = $this->model->create($data);
+
+        DB::beginTransaction();
+
+        try {
+            $model->update($data);
+
+            $locationGroups = [];
+
+            foreach ($data['location_group_id'] as $locationGroupId) {
+                $LocationGroupModel                    = new VacationLocationGroup();
+                $LocationGroupModel->location_group_id = $locationGroupId;
+                $locationGroups[]                      = $LocationGroupModel;
+            }
+
+            $model->locationGroups()->delete();
+            $model->locationGroups()->saveMany($locationGroups);
+
+            if (!empty($data['with_deleting_orders'])) {
+                OrderService::cancelOrders($data['start_date'], $data['end_date'], $data['location_group_id']);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
+
+        return new VacationResource($model);
     }
 
     /**
@@ -50,7 +83,31 @@ class VacationRepository implements RepositoryInterface
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
-        $model->update($data);
+
+        DB::beginTransaction();
+
+        try {
+            $model->update($data);
+
+            $locationGroups = [];
+
+            foreach ($data['location_group_id'] as $locationGroupId) {
+                $LocationGroupModel                    = new VacationLocationGroup();
+                $LocationGroupModel->location_group_id = $locationGroupId;
+                $locationGroups[]                      = $LocationGroupModel;
+            }
+
+            $model->locationGroups()->delete();
+            $model->locationGroups()->saveMany($locationGroups);
+
+            if (!empty($data['with_deleting_orders'])) {
+                OrderService::cancelOrders($data['start_date'], $data['end_date'], $data['location_group_id']);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
 
         return new VacationResource($model);
     }
@@ -70,6 +127,6 @@ class VacationRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new VacationResource($this->model->findOrFail($id));
+        return new VacationResource($this->model->with(['locationGroups.locationGroup.location'])->findOrFail($id));
     }
 }

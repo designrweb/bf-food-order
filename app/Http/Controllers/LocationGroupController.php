@@ -160,4 +160,13 @@ class LocationGroupController extends Controller
 
         return response()->json(['redirect_url' => action('LocationGroupController@index')]);
     }
+
+    /**
+     * @param $locationId
+     * @return mixed
+     */
+    public function getList($locationId = null)
+    {
+        return $this->service->getList($locationId);
+    }
 }

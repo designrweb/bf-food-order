@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Consumer: ' + form.name : 'Create Consumer' }}</h3>
+            <h3 class="card-title">{{ form.id ? 'Update Consumer: ' + form.firstname : 'Create Consumer' }}</h3>
           </div>
         </div>
       </div>
@@ -77,12 +77,14 @@
                   label="Birthday"
                   label-for="input-birthday"
               >
-                <b-form-input
+
+                <b-form-datepicker
                     id="input-birthday"
                     v-model="form.birthday"
-                    required
-                    placeholder="Birthday"
-                ></b-form-input>
+                    reset-button
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    locale="de"
+                ></b-form-datepicker>
                 <b-form-invalid-feedback :state="validation['birthday']['state']">
                   {{ validation['birthday']['message'] }}
                 </b-form-invalid-feedback>
@@ -103,6 +105,38 @@
                   {{ validation['balance']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
+
+              <b-form-group
+                  id="input-group-location_id"
+                  label="Location Group"
+                  label-for="input-location_id"
+              >
+                <b-form-select
+                    v-model="form.location_group_id"
+                    :options="location_group_list"
+                    class="mb-3"
+                    value-field="id"
+                    text-field="name"
+                    disabled-field="notEnabled"
+                ></b-form-select>
+                <b-form-invalid-feedback :state="validation['location_group_id']['state']">
+                  {{ validation['location_group_id']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-12 col-sm-8">
+                  <h3 class="card-title">Payment information</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
               <b-form-group
                   id="input-group-balance_limit"
                   label="Balance Limit"
@@ -120,24 +154,6 @@
               </b-form-group>
             </div>
           </div>
-
-          <b-form-group
-              id="input-group-location_id"
-              label="Location Group"
-              label-for="input-location_id"
-          >
-            <b-form-select
-                v-model="form.location_group_id"
-                :options="location_group_list"
-                class="mb-3"
-                value-field="id"
-                text-field="name"
-                disabled-field="notEnabled"
-            ></b-form-select>
-            <b-form-invalid-feedback :state="validation['location_group_id']['state']">
-              {{ validation['location_group_id']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
@@ -201,7 +217,7 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response = await store(self.main_route, self.id, self.form);
+        let response         = await store(self.main_route, self.id, self.form);
         window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
