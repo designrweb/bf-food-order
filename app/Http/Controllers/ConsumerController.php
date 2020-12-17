@@ -27,7 +27,6 @@ class ConsumerController extends Controller
     public function __construct(ConsumerService $service, LocationGroupService $locationGroupService)
     {
         $this->service              = $service;
-        $this->service              = $service;
         $this->locationGroupService = $locationGroupService;
     }
 
