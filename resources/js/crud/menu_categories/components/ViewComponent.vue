@@ -5,7 +5,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{pageData.name.value}}</h3>
+            <h3 class="card-title" v-if="Object.keys(pageData).length > 1">{{pageData.name.value}}</h3>
           </div>
           <div class="col-12 col-sm-4 action-buttons">
             <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
