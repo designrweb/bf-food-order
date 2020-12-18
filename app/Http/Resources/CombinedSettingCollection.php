@@ -25,7 +25,7 @@ class CombinedSettingCollection extends ResourceCollection
         return [
             'data' => $this->collection->transform(function (Setting $item) {
                 if ($item->setting_name == 'logo' && !empty($item->value)) {
-                    return ImageService::decrypt($item->value);
+                    return asset(Setting::IMAGE_FOLDER . DIRECTORY_SEPARATOR . $item->value);
                 }
 
                 return $item->value;

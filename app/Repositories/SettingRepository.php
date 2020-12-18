@@ -118,21 +118,7 @@ class SettingRepository implements RepositoryInterface
             'setting_name' => 'logo',
             'visible_name' => 'Logo',
         ], [
-            'value' => !empty($logo) ? ImageService::storeEncrypt($logo) : '',
-        ]);
-
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function removeImage()
-    {
-        $settings = auth()->user()->userCompany->company->settings();
-
-        $settings->where('setting_name', 'logo')->update([
-            'value' => '',
+            'value' => !empty($logo) ? ImageService::storeInFile($logo, $this->model::IMAGE_FOLDER) : '',
         ]);
 
         return true;

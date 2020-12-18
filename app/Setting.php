@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Setting extends Model
 {
+
+    const DEFAULT_THEME_COLOR         = '#96c11f';
+    const DEFAULT_SIDEBAR_THEME_COLOR = '#96c11f';
+    const IMAGE_FOLDER                = 'setting';
+
     /**
      * The "type" of the auto-incrementing ID.
      *

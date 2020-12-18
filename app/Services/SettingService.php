@@ -78,23 +78,6 @@ class SettingService extends BaseModelService
     }
 
     /**
-     * @param $data
-     * @return bool
-     */
-    public function updateImage($data)
-    {
-        return $this->repository->updateLogo($data['logo']);
-    }
-
-    /**
-     * @return bool
-     */
-    public function removeImage()
-    {
-        return $this->repository->removeImage();
-    }
-
-    /**
      * Updates and returns the settings model
      *
      * @param $data

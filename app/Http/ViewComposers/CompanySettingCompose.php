@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Services\ImageService;
+use App\Setting;
 use Illuminate\View\View;
 
 /**
@@ -31,9 +32,9 @@ class CompanySettingCompose
                 return $setting->value;
             })->toArray();
 
-        $themeColor        = !empty($settings['theme_color']) ? $settings['theme_color'] : '#96c11f';
-        $sidebarThemeColor = !empty($settings['sidebar_theme_color']) ? $settings['sidebar_theme_color'] : '#96c11f';
-        $companyLogo       = !empty($settings['logo']) ? ImageService::decrypt($settings['logo']) : asset(config('adminlte.logo_img_xl'));
+        $themeColor        = !empty($settings['theme_color']) ? $settings['theme_color'] : Setting::DEFAULT_THEME_COLOR;
+        $sidebarThemeColor = !empty($settings['sidebar_theme_color']) ? $settings['sidebar_theme_color'] : Setting::DEFAULT_SIDEBAR_THEME_COLOR;
+        $companyLogo       = !empty($settings['logo']) ? asset(Setting::IMAGE_FOLDER . DIRECTORY_SEPARATOR . $settings['logo']) : asset(config('adminlte.logo_img_xl'));
 
         $view->with('themeColor', $themeColor);
         $view->with('sidebarThemeColor', $sidebarThemeColor);

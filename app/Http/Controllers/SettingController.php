@@ -125,40 +125,6 @@ class SettingController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param         $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateImage(Request $request)
-    {
-        $this->service->updateImage($request->all());
-
-        return response()->json([
-            'message' => 'Bild hochgeladen',
-            'success' => true,
-        ], 200);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function removeImage(Request $request)
-    {
-        if ($this->service->removeImage()) {
-            return response()->json([
-                'message' => 'Bild entfernt',
-                'success' => true,
-            ], 200);
-        }
-
-        return response()->json([
-            'message' => 'Something went wrong!',
-            'success' => false,
-        ], 500);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param int $id
