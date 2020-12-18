@@ -28,11 +28,11 @@ class Setting extends Model
     protected $fillable = ['setting_name', 'visible_name', 'value', 'created_at', 'updated_at', 'company_id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function company()
     {
-        return $this->hasOne(Company::class, 'id', 'company_id');
+        return $this->belongsTo(Company::class, 'id', 'company_id');
     }
 
 }

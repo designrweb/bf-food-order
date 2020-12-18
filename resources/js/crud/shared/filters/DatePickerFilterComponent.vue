@@ -1,6 +1,14 @@
 <template>
   <b-input-group class="mb-3">
-    <date-range-picker v-model="value" :ref="'filter.'+filterName" @toggle="togglePicker" :single-date-picker="true" :ranges="false" :locale-data="{format: 'yyyy/mm/dd'}" @update="inputHandler">
+    <date-range-picker
+        v-model="value"
+        :ref="'filter.'+filterName"
+        @toggle="togglePicker"
+        :single-date-picker="true"
+        :auto-apply="true"
+        :ranges="false"
+        :locale-data="{format: 'yyyy.mm.dd'}"
+        @update="inputHandler">
     </date-range-picker>
   </b-input-group>
 </template>
@@ -20,34 +28,34 @@ export default {
   components: {DateRangePicker},
   data() {
     return {
-      value:     {},
+      value: {},
     }
   },
-  filters: {
+  filters:    {
     date(val) {
       return val ? val.toLocaleString() : ''
     }
   },
   methods:    {
     togglePicker(show) {
-      if (show === true) {
-        setTimeout(function () {
-          let input                    = $('.date-range-picker');
-          let initialTop               = input.offset().top;
-          let pickerElement            = $('div.daterangepicker');
-          let initialDocumentScrollTop = $(document).scrollTop();
-          let initialDiffTop           = (initialTop - initialDocumentScrollTop);
-          pickerElement.css('top', initialDiffTop + 40);
-
-          let offset = pickerElement.offset().top;
-
-          document.onscroll = function (e) {
-            let documentScroll = $(document).scrollTop();
-            let diff           = (offset - documentScroll);
-            pickerElement.css('top', diff);
-          };
-        }, 1)
-      }
+      // if (show === true) {
+      //   setTimeout(function () {
+      //     let input                    = $('.date-range-picker');
+      //     let initialTop               = input.offset().top;
+      //     let pickerElement            = $('div.daterangepicker');
+      //     let initialDocumentScrollTop = $(document).scrollTop();
+      //     let initialDiffTop           = (initialTop - initialDocumentScrollTop);
+      //     pickerElement.css('top', initialDiffTop + 40);
+      //
+      //     let offset = pickerElement.offset().top;
+      //
+      //     document.onscroll = function (e) {
+      //       let documentScroll = $(document).scrollTop();
+      //       let diff           = (offset - documentScroll);
+      //       pickerElement.css('top', diff);
+      //     };
+      //   }, 1)
+      // }
     },
     dateFormat(classes, date) {
       return classes
@@ -68,10 +76,10 @@ export default {
 </script>
 
 <style scoped>
->>> div.daterangepicker {
-  position: fixed !important;
-  left: 76% !important;
-}
+/*>>> div.daterangepicker {*/
+/*  position: fixed !important;*/
+/*  left: 76% !important;*/
+/*}*/
 
 >>> div.daterangepicker.show-ranges {
   min-width: 742px;

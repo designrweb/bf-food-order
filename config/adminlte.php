@@ -296,7 +296,7 @@ return [
         ],
         [
             'text'  => 'Settings',
-            'route' => 'settings.index',
+            'route' => 'settings.combined_index',
             'icon'  => 'nav-icon fa fa-cogs',
         ],
         [

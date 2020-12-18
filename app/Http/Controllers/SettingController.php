@@ -34,6 +34,14 @@ class SettingController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function combinedIndex()
+    {
+        return view('settings.combined_index');
+    }
+
+    /**
      * Returns a listing of the resource.
      *
      * @param Request $request
@@ -42,6 +50,15 @@ class SettingController extends Controller
     public function getAll(Request $request)
     {
         return $this->service->all()->toArray($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getAllCombined(Request $request)
+    {
+        return $this->service->allCombined()->toArray($request);
     }
 
 
@@ -96,6 +113,49 @@ class SettingController extends Controller
     public function store(SettingFormRequest $request)
     {
         return $this->service->create($request->all())->toArray($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function combinedUpdate(Request $request)
+    {
+        return $this->service->combinedUpdate($request->all());
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateImage(Request $request)
+    {
+        $this->service->updateImage($request->all());
+
+        return response()->json([
+            'message' => 'Bild hochgeladen',
+            'success' => true,
+        ], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeImage(Request $request)
+    {
+        if ($this->service->removeImage()) {
+            return response()->json([
+                'message' => 'Bild entfernt',
+                'success' => true,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong!',
+            'success' => false,
+        ], 500);
     }
 
     /**

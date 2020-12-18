@@ -271,6 +271,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     /** settings routes */
     Route::prefix('settings')->middleware(['auth'])->group(function () {
+        Route::get('/combined', "SettingController@combinedIndex")->name('settings.combined_index');
+        Route::post('/combined', "SettingController@combinedUpdate")->name('settings.combined_update');
+        Route::post('/combined/remove-image', "SettingController@combinedUpdate")->name('settings.combined_remove_image');
+        Route::get('/combined/get-all', 'SettingController@getAllCombined')->name('settings.get-all-combined');
         Route::get('/get-all', 'SettingController@getAll')->name('settings.get-all');
         Route::get('/get-structure', 'SettingController@getIndexStructure')->name('settings.index-structure');
         Route::get('/get-view-structure', 'SettingController@getViewStructure')->name('settings.view-structure');

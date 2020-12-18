@@ -1,5 +1,16 @@
 @inject('layoutHelper', \JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper)
 
+@php
+    use App\Services\ImageService;
+
+    $settings = auth()->user()->userCompany->company->settings->keyBy('setting_name')
+        ->transform(function ($setting) {
+             return $setting->value;
+        })->toArray();
+
+    $logo = !empty($settings['logo']) ? ImageService::decrypt($settings['logo']) : null;
+@endphp
+
 @php( $dashboard_url = View::getSection('dashboard_url') ?? config('adminlte.dashboard_url', 'home') )
 
 @if (config('adminlte.use_route_url', false))
@@ -21,7 +32,7 @@
          class="{{ config('adminlte.logo_img_class', 'brand-image-xl') }} logo-xs">
 
     {{-- Large brand logo --}}
-    <img src="{{ asset(config('adminlte.logo_img_xl')) }}"
+    <img src="{{ $companyLogo }}"
          alt="{{ config('adminlte.logo_img_alt', 'AdminLTE') }}"
          class="{{ config('adminlte.logo_img_xl_class', 'brand-image-xs') }} logo-xl">
 

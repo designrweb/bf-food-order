@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CombinedSettingCollection;
 use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
 use App\Repositories\SettingRepository;
@@ -32,6 +33,14 @@ class SettingService extends BaseModelService
     }
 
     /**
+     * @return CombinedSettingCollection
+     */
+    public function allCombined(): CombinedSettingCollection
+    {
+        return $this->repository->allCombined();
+    }
+
+    /**
      * Returns single product transformed to resource
      *
      * @param $id
@@ -52,6 +61,37 @@ class SettingService extends BaseModelService
     public function create($data): SettingResource
     {
         return $this->repository->add($data);
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function combinedUpdate($data)
+    {
+        $this->repository->updateLogo($data['logo'] ?? null);
+        $this->repository->updateThemeColor($data['theme_color'] ?? null);
+        $this->repository->updateSidebarColor($data['sidebar_theme_color'] ?? null);
+        $this->repository->updateEmail($data['email']) ?? null;
+
+        return true;
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function updateImage($data)
+    {
+        return $this->repository->updateLogo($data['logo']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeImage()
+    {
+        return $this->repository->removeImage();
     }
 
     /**

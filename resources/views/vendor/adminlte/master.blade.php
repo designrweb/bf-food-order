@@ -12,6 +12,9 @@
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
 
+    {{-- load custom company color setting --}}
+    @include('adminlte::color_settings')
+
     {{-- Title --}}
     <title>
         @yield('title_prefix', config('adminlte.title_prefix', ''))
@@ -41,7 +44,7 @@
         @if(app()->version() >= 7)
             @livewireStyles
         @else
-            <livewire:styles />
+            <livewire:styles/>
         @endif
     @endif
 
@@ -50,9 +53,9 @@
 
     {{-- Favicon --}}
     @if(config('adminlte.use_ico_only'))
-        <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}" />
+        <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}"/>
     @elseif(config('adminlte.use_full_favicon'))
-        <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}" />
+        <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}"/>
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
         <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
         <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicons/apple-icon-72x72.png') }}">
@@ -65,44 +68,43 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon-16x16.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicons/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicons/favicon-96x96.png') }}">
-        <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('favicons/android-icon-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicons/android-icon-192x192.png') }}">
         <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
-
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
 
-    {{-- Body Content --}}
-    @yield('body')
+{{-- Body Content --}}
+@yield('body')
 
-    {{-- Base Scripts --}}
-    @if(!config('adminlte.enabled_laravel_mix'))
-        <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+{{-- Base Scripts --}}
+@if(!config('adminlte.enabled_laravel_mix'))
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 
-        {{-- Configured Scripts --}}
-        @include('adminlte::plugins', ['type' => 'js'])
+    {{-- Configured Scripts --}}
+    @include('adminlte::plugins', ['type' => 'js'])
 
-        <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+@else
+    <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
+@endif
+
+{{-- Livewire Script --}}
+@if(config('adminlte.livewire'))
+    @if(app()->version() >= 7)
+        @livewireScripts
     @else
-        <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
+        <livewire:scripts/>
     @endif
+@endif
 
-    {{-- Livewire Script --}}
-    @if(config('adminlte.livewire'))
-        @if(app()->version() >= 7)
-            @livewireScripts
-        @else
-            <livewire:scripts />
-        @endif
-    @endif
-
-    {{-- Custom Scripts --}}
-    @yield('adminlte_js')
+{{-- Custom Scripts --}}
+@yield('adminlte_js')
 
 </body>
 

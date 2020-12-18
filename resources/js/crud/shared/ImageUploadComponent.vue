@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-center align-items-center flex-column">
       <croppa
           v-model="croppaImage"
-          :prevent-white-space="true"
+          :prevent-white-space="false"
           :show-loading="true"
           :width="width"
           :height="height"
@@ -85,6 +85,8 @@ export default {
     async removeImage() {
       this.isLoading = true;
 
+      this.emitChange();
+
       if (this.entityId) {
         let response = await removeImage(this.route + '/' + this.entityId + '/remove-image', []);
 
@@ -116,6 +118,8 @@ export default {
       });
     },
     emitChange() {
+      this.imageBase64 = this.croppaImage.generateDataUrl();
+
       this.$emit('changed', this.imageBase64);
     }
   },

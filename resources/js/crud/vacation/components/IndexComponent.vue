@@ -32,10 +32,27 @@
         <template v-slot:top-row="scope" :columns="4">
           <b-th v-for="field in scope.fields" v-bind:key="field.key">
             <div v-if="field.key in filters">
-              <filter-text @changeFilter="applyFilter"
-                           :filterName="field.key"
-                           :filterLabel="field.label"
-                           :appliedFilterValue="filters[field.key]"
+              <filter-date-picker
+                  v-if="field.key === 'start_date'"
+                  @inputFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="{startDate: null,endDate: null}"
+              ></filter-date-picker>
+
+              <filter-date-picker
+                  v-else-if="field.key === 'end_date'"
+                  @inputFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="{startDate: null,endDate: null}"
+              ></filter-date-picker>
+
+              <filter-text
+                  v-else @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
               ></filter-text>
             </div>
           </b-th>
@@ -82,11 +99,13 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import FilterDatePickerInput                                from "../../shared/filters/DatePickerFilterComponent";
 
 export default {
   components: {
     'filter-text':               FilterTextInput,
     'create-button':             CreateButton,
+    'filter-date-picker':        FilterDatePickerInput,
     'view-button':               ViewButton,
     'edit-button':               EditButton,
     'delete-button':             DeleteButton,

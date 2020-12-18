@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\CombinedSettingCollection;
 use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
+use App\Services\ImageService;
 use App\Setting;
 use App\QueryBuilders\SettingSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -34,12 +36,106 @@ class SettingRepository implements RepositoryInterface
     }
 
     /**
+     * @return CombinedSettingCollection
+     */
+    public function allCombined()
+    {
+        return new CombinedSettingCollection(auth()->user()->userCompany->company->settings->keyBy('setting_name'));
+    }
+
+    /**
      * @param array $data
      * @return SettingResource
      */
     public function add(array $data)
     {
         return new SettingResource($this->model->create($data));
+    }
+
+    /**
+     * @param $themeColor
+     * @return bool
+     */
+    public function updateThemeColor($themeColor = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'theme_color',
+            'visible_name' => 'Theme Color',
+        ], [
+            'value' => $themeColor
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param $sidebarThemeColor
+     * @return bool
+     */
+    public function updateSidebarColor($sidebarThemeColor = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'sidebar_theme_color',
+            'visible_name' => 'Sidebar Theme Color',
+        ], [
+            'value' => $sidebarThemeColor
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function updateEmail($email = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'email',
+            'visible_name' => 'Email',
+        ], [
+            'value' => $email,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param null $logo
+     * @return bool
+     */
+    public function updateLogo($logo = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'logo',
+            'visible_name' => 'Logo',
+        ], [
+            'value' => !empty($logo) ? ImageService::storeEncrypt($logo) : '',
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeImage()
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->where('setting_name', 'logo')->update([
+            'value' => '',
+        ]);
+
+        return true;
     }
 
     /**
