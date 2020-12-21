@@ -243,8 +243,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('payments')->middleware(['auth'])->group(function () {
         Route::get('/get-all', 'PaymentController@getAll')->name('payments.get-all');
         Route::get('/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
+        Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('payments.meal-orders-structure');
         Route::get('/get-view-structure', 'PaymentController@getViewStructure')->name('payments.view-structure');
         Route::get('/get-one/{id}', 'PaymentController@getOne')->name('payments.get-one');
+        Route::get('/meal-orders', 'PaymentController@mealOrders')->name('payments.meal-orders');
         Route::get('/', "PaymentController@index")->name('payments.index');
         Route::get('/create', 'PaymentController@create')->name('payments.create');
         Route::post('/', "PaymentController@store")->name('payments.store');
@@ -252,6 +254,15 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/{id}', 'PaymentController@show')->name('payments.show');
         Route::put('/{id}', 'PaymentController@update')->name('payments.update');
         Route::delete('/{id}', "PaymentController@destroy")->name('payments.destroy');
+    });
+
+    /** payment dumps routes */
+    Route::prefix('payment-dumps')->middleware(['auth'])->group(function () {
+        Route::get('/', "PaymentDumpController@index")->name('payment-dumps.index');
+        Route::get('/get-structure', 'PaymentDumpController@getIndexStructure')->name('payment-dumps.index-structure');
+        Route::get('/get-all', 'PaymentDumpController@getAll')->name('payment-dumps.get-all');
+        Route::get('/process/{id}', 'PaymentDumpController@process')->name('payment-dumps.process');
+        Route::post('/upload', 'PaymentDumpController@upload')->name('payment-dumps.upload');
     });
 
     /** consumer-qr-codes routes */
