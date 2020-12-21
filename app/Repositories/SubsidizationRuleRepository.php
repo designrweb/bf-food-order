@@ -30,6 +30,7 @@ class SubsidizationRuleRepository implements RepositoryInterface
                 SubsidizationRuleSearch::class,
             ])
             ->thenReturn()
+            ->with('subsidizationOrganization')
             ->paginate(request('itemsPerPage') ?? 10));
     }
 
@@ -70,6 +71,6 @@ class SubsidizationRuleRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new SubsidizationRuleResource($this->model->findOrFail($id));
+        return new SubsidizationRuleResource($this->model->with('subsidizationOrganization')->findOrFail($id));
     }
 }

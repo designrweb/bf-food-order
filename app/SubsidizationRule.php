@@ -5,24 +5,24 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property integer $subsidization_organization_id
- * @property integer $created_by
- * @property string $rule_name
- * @property string $start_date
- * @property string $end_date
- * @property string $created_at
- * @property string $updated_at
- * @property SubsidizationOrganization $subsidizationOrganization
- * @property User $user
- * @property ConsumerSubsidization[] $consumerSubsidizations
- * @property SubsidizedMenuCategory[] $subsidizedMenuCategories
+ * @property integer                    $id
+ * @property integer                    $subsidization_organization_id
+ * @property integer                    $created_by
+ * @property string                     $rule_name
+ * @property string                     $start_date
+ * @property string                     $end_date
+ * @property string                     $created_at
+ * @property string                     $updated_at
+ * @property SubsidizationOrganization  $subsidizationOrganization
+ * @property User                       $user
+ * @property ConsumerSubsidization[]    $consumerSubsidizations
+ * @property subsidizedMenuCategories[] $subsidizedMenuCategories
  */
 class SubsidizationRule extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';

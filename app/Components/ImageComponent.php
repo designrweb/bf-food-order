@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 /**
  * Class ImageService
  *
  * @package App\Services
  */
-class ImageService
+class ImageComponent
 {
 
     /**

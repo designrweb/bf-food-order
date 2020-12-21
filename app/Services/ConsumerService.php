@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Components\ImageComponent;
 use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Repositories\ConsumerRepository;
@@ -52,6 +53,10 @@ class ConsumerService extends BaseModelService
      */
     public function create($data): ConsumerResource
     {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
         return $this->repository->add($data);
     }
 
@@ -65,6 +70,10 @@ class ConsumerService extends BaseModelService
      */
     public function update($data, $id): ConsumerResource
     {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
         return $this->repository->update($data, $id);
     }
 
@@ -119,6 +128,10 @@ class ConsumerService extends BaseModelService
      */
     public function updateImage($data, $id)
     {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
         return $this->repository->updateImage($data, $id);
     }
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SubsidizationRuleResource;
+use App\Services\SubsidizationOrganizationService;
 use App\Services\SubsidizationRuleService;
 use App\Http\Requests\SubsidizationRuleFormRequest;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -69,13 +71,25 @@ class SubsidizationRuleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Request $request
+     * @return array
      */
-    public function create()
+    public function getViewStructure(Request $request)
     {
-        return view('subsidization_rules._form');
+        return $this->service->getViewStructure();
+    }
+
+    /**
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(SubsidizationOrganizationService $subsidizationOrganizationService)
+    {
+        $subsidizationOrganizations = $subsidizationOrganizationService->getList();
+
+        return view('subsidization_rules._form', [
+            'subsidizationOrganizations' => $subsidizationOrganizations
+        ]);
     }
 
     /**
@@ -97,8 +111,8 @@ class SubsidizationRuleController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('subsidization_rules.view', compact('resource'));
     }
@@ -109,10 +123,11 @@ class SubsidizationRuleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, $id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                               = $this->service->getOne($id)->toArray(request());
+        $resource['subsidizationOrganizations'] = $subsidizationOrganizationService->getList();
 
         return view('subsidization_rules._form', compact('resource'));
     }
@@ -121,7 +136,7 @@ class SubsidizationRuleController extends Controller
      * Update the specified resource in storage.
      *
      * @param SubsidizationRuleFormRequest $request
-     * @param int     $id
+     * @param int                          $id
      * @return array
      */
     public function update(SubsidizationRuleFormRequest $request, $id)
