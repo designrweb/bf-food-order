@@ -27,8 +27,8 @@ class AddForeignKeysToSubsidizedMenuCategoriesTable extends Migration
     public function down()
     {
         Schema::table('subsidized_menu_categories', function (Blueprint $table) {
-            $table->dropForeign('subsidized_menu_categories_menu_category_id_foreign');
-            $table->dropForeign('subsidized_menu_categories_subsidization_rules_id_foreign');
+            $table->dropForeign(['menu_category_id']);
+            $table->dropForeign(['subsidization_rules_id']);
         });
     }
 }
