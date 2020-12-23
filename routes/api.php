@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('v1')->group(function() {
+    /** POS terminal routes */
+    Route::prefix('pos')->group(function() {
+        Route::get('menuitem', 'MenuitemController@index');
+    });
+});
