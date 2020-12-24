@@ -127,7 +127,7 @@
                         €
                       </td>
                       <td>
-                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{menu_category.resulted_price}}</span><span> €</span>
+                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price }}</span><span> €</span>
                       </td>
                     </tr>
                     </tbody>

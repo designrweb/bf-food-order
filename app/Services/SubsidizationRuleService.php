@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\SubsidizationRuleCollection;
 use App\Http\Resources\SubsidizationRuleResource;
 use App\Repositories\SubsidizationRuleRepository;
+use App\SubsidizedMenuCategories;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -54,7 +55,25 @@ class SubsidizationRuleService extends BaseModelService
      */
     public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        $model = $this->repository->update($data, $id);
+
+        if (!empty($model->subsidizedMenuCategories)) {
+            $model->subsidizedMenuCategories()->delete();
+        }
+
+        $subsidizedMenuCategories = [];
+
+        foreach ($data['subsidization_menu_categories_list'] as $menuCategoryId => $menuData) {
+            $subsidizedMenuCategoriesModel                   = new SubsidizedMenuCategories();
+            $subsidizedMenuCategoriesModel->menu_category_id = $menuCategoryId;
+            $subsidizedMenuCategoriesModel->percent          = $menuData['percent_full'];
+            $subsidizedMenuCategories[]                      = $subsidizedMenuCategoriesModel;
+        }
+
+        $model->subsidizedMenuCategories()->saveMany($subsidizedMenuCategories);
+
+        return $model;
+
     }
 
     /**

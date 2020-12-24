@@ -87,11 +87,11 @@ class SubsidizedMenuCategoriesRepository implements RepositoryInterface
         $SubsidizationMenuCategoriesArray = [];
 
         if (!empty($id)) {
-            $model = $this->model::where('subsidization_rules_id', $id)->get();
+            $menuCategoriesPercent = $this->model::where('subsidization_rules_id', $id)->pluck('percent', 'menu_category_id')->toArray();
         }
 
         foreach ($menuCategories as $menu) {
-            $percent = !empty($model) ? $model->where('menu_category_id', $menu->id)->first()->percent : 0;
+            $percent = !empty($menuCategoriesPercent[$menu->id]) ? $menuCategoriesPercent[$menu->id] : 0;
 
             $SubsidizationMenuCategoriesArray[$menu->id] = [
                 'id'                  => $menu->id,
