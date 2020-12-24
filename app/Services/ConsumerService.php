@@ -2,44 +2,44 @@
 
 namespace App\Services;
 
-use App\Http\Resources\ConsumerCollection;
-use App\Http\Resources\ConsumerResource;
+use App\Components\ImageComponent;
 use App\Repositories\ConsumerRepository;
-use App\Repositories\LocationRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Consumer;
 
 
 class ConsumerService extends BaseModelService
 {
 
+    /**
+     * @var ConsumerRepository
+     */
     protected $repository;
 
+    /**
+     * ConsumerService constructor.
+     *
+     * @param ConsumerRepository $repository
+     */
     public function __construct(ConsumerRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * Returns all consumers transformed to resource
-     *
-     * @return ConsumerCollection
+     * @return mixed
      */
-    public function all(): ConsumerCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return ConsumerResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): ConsumerResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -62,27 +62,63 @@ class ConsumerService extends BaseModelService
     }
 
     /**
-     * Creates and returns the consumers model
-     *
-     * @param $data
-     * @return ConsumerResource
+     * @param $request
+     * @return mixed
      */
-    public function create($data): ConsumerResource
+    public function create($request)
     {
-        return $this->repository->add($data);
+        $data = $request->all();
+
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
+        $model = $this->repository->add($data);
+
+        if (empty($model->subsidization)) {
+            if ($request->hasFile('subsidization.subsidization_document')) {
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
+            }
+            $model->subsidization()->create($data['subsidization']);
+        }
+
+        return $model;
     }
 
     /**
-     * Updates and returns the consumers model
-     *
-     * @param $data
+     * @param $request
      * @param $id
-     * @return ConsumerResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): ConsumerResource
+    public function update($request, $id)
     {
-        return $this->repository->update($data, $id);
+        $data = $request->all();
+
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
+        $model = $this->repository->update($data, $id);
+
+        if (empty($model->subsidization)) {
+            if ($request->hasFile('subsidization.subsidization_document')) {
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
+            }
+            $model->subsidization()->create($data['subsidization']);
+        } else {
+            if ($request->hasFile('subsidization.subsidization_document')) {
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
+            }
+            $model->subsidization->update($data['subsidization']);
+        }
+
+        return $model;
     }
 
     /**
@@ -136,6 +172,10 @@ class ConsumerService extends BaseModelService
      */
     public function updateImage($data, $id)
     {
+        if (!empty($data['imageurl'])) {
+            $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
+        }
+
         return $this->repository->updateImage($data, $id);
     }
 
@@ -217,7 +257,7 @@ class ConsumerService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
             ],
             [
                 'key'   => 'account_id',
@@ -274,7 +314,6 @@ class ConsumerService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'id'                           => '',
             'account_id'                   => '',
             'user.email'                   => '',
             'location_group.location.name' => '',

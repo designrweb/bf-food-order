@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubsidizationRuleCollection;
 use App\Http\Resources\SubsidizationRuleResource;
+use App\Services\MenuCategoryService;
+use App\Services\SubsidizationOrganizationService;
 use App\Services\SubsidizationRuleService;
 use App\Http\Requests\SubsidizationRuleFormRequest;
+use App\Services\SubsidizedMenuCategoriesService;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class SubsidizationRuleController
@@ -18,15 +22,18 @@ class SubsidizationRuleController extends Controller
     /** @var SubsidizationRuleService $service */
     protected $service;
 
+    /**
+     * SubsidizationRuleController constructor.
+     *
+     * @param SubsidizationRuleService $service
+     */
     public function __construct(SubsidizationRuleService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -34,14 +41,12 @@ class SubsidizationRuleController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new SubsidizationRuleCollection($this->service->all()))->toArray($request);
     }
 
 
@@ -54,7 +59,7 @@ class SubsidizationRuleController extends Controller
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new SubsidizationRuleResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -69,76 +74,96 @@ class SubsidizationRuleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Request $request
+     * @return array
      */
-    public function create()
+    public function getViewStructure(Request $request)
     {
-        return view('subsidization_rules._form');
+        return $this->service->getViewStructure();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
+     * @param SubsidizedMenuCategoriesService  $subsidizedMenuCategoriesService
+     * @param MenuCategoryService              $menuCategoryService
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, MenuCategoryService $menuCategoryService)
+    {
+        $subsidizationOrganizations  = $subsidizationOrganizationService->getList();
+        $subsidizationMenuCategories = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories($menuCategoryService);
+
+        return view('subsidization_rules._form', [
+            'subsidizationOrganizations'  => $subsidizationOrganizations,
+            'subsidizationMenuCategories' => $subsidizationMenuCategories,
+        ]);
+    }
+
+    /**
      * @param SubsidizationRuleFormRequest $request
      * @return array
      */
     public function store(SubsidizationRuleFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new SubsidizationRuleResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = (new SubsidizationRuleResource($this->service->getOne($id)))->toArray(request());
 
         return view('subsidization_rules.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
+     * @param SubsidizedMenuCategoriesService  $subsidizedMenuCategoriesService
+     * @param MenuCategoryService              $menuCategoryService
+     * @param                                  $id
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, MenuCategoryService $menuCategoryService, $id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                                = (new SubsidizationRuleResource($this->service->getOne($id)))->toArray(request());
+        $resource['subsidizationOrganizations']  = $subsidizationOrganizationService->getList();
+        $resource['subsidizationMenuCategories'] = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories($menuCategoryService, $id);
 
         return view('subsidization_rules._form', compact('resource'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param SubsidizationRuleFormRequest $request
-     * @param int     $id
+     * @param                              $id
      * @return array
      */
     public function update(SubsidizationRuleFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new  SubsidizationRuleResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('SubsidizationRuleController@index')]);
+    }
+
+    /**
+     * @param $locationId
+     * @return mixed
+     */
+    public function getList($locationId = null)
+    {
+        return $this->service->getList($locationId);
     }
 }

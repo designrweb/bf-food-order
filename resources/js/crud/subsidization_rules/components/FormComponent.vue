@@ -1,233 +1,272 @@
 <template>
-    <div>
+  <div>
 
-        <back-button-component :route="main_route"></back-button-component>
-        <div class="card">
-            <div class="card-header" v-if="!isPageBusy">
-                <div class="row">
-                    <div class="col-12 col-sm-8">
-                        <h3 class="card-title"></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="text-center" v-if="isPageBusy">
-                    <spinner-component></spinner-component>
-                </div>
-
-                <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
-                    <b-form-group
-    id="input-group-id"
-    label="Id"
-    label-for="input-id"
->
-    <b-form-input
-        id="input-id"
-        v-model="form.id"
-        required
-        placeholder="Id"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['id']['state']">
-        {{validation['id']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-rule_name"
-    label="Rule Name"
-    label-for="input-rule_name"
->
-    <b-form-input
-        id="input-rule_name"
-        v-model="form.rule_name"
-        required
-        placeholder="Rule Name"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['rule_name']['state']">
-        {{validation['rule_name']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-subsidization_organization_id"
-    label="Subsidization Organization Id"
-    label-for="input-subsidization_organization_id"
->
-    <b-form-input
-        id="input-subsidization_organization_id"
-        v-model="form.subsidization_organization_id"
-        required
-        placeholder="Subsidization Organization Id"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['subsidization_organization_id']['state']">
-        {{validation['subsidization_organization_id']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-start_date"
-    label="Start Date"
-    label-for="input-start_date"
->
-    <b-form-input
-        id="input-start_date"
-        v-model="form.start_date"
-        required
-        placeholder="Start Date"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['start_date']['state']">
-        {{validation['start_date']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-end_date"
-    label="End Date"
-    label-for="input-end_date"
->
-    <b-form-input
-        id="input-end_date"
-        v-model="form.end_date"
-        required
-        placeholder="End Date"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['end_date']['state']">
-        {{validation['end_date']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-created_by"
-    label="Created By"
-    label-for="input-created_by"
->
-    <b-form-input
-        id="input-created_by"
-        v-model="form.created_by"
-        required
-        placeholder="Created By"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['created_by']['state']">
-        {{validation['created_by']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-created_at"
-    label="Created At"
-    label-for="input-created_at"
->
-    <b-form-input
-        id="input-created_at"
-        v-model="form.created_at"
-        required
-        placeholder="Created At"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['created_at']['state']">
-        {{validation['created_at']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-updated_at"
-    label="Updated At"
-    label-for="input-updated_at"
->
-    <b-form-input
-        id="input-updated_at"
-        v-model="form.updated_at"
-        required
-        placeholder="Updated At"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['updated_at']['state']">
-        {{validation['updated_at']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-
-                    <b-button type="submit" variant="primary">Submit</b-button>
-                </b-form>
-            </div>
+    <back-button-component :route="main_route"></back-button-component>
+    <div class="card">
+      <div class="card-header" v-if="!isPageBusy">
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <h3 class="card-title">{{ form.id ? 'Update Rule: ' + form.rule_name : 'Create Rule' }}</h3>
+          </div>
         </div>
+      </div>
+      <div class="card-body">
+        <div class="text-center" v-if="isPageBusy">
+          <spinner-component></spinner-component>
+        </div>
+
+        <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
+          <b-form-group
+              id="input-group-rule_name"
+              label="Rule Name"
+              label-for="input-rule_name"
+          >
+            <b-form-input
+                id="input-rule_name"
+                v-model="form.rule_name"
+                required
+                placeholder="Rule Name"
+            ></b-form-input>
+            <b-form-invalid-feedback :state="validation['rule_name']['state']">
+              {{ validation['rule_name']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+          <b-form-group
+              id="input-group-subsidization_organization_id"
+              label="Subsidization Organization Id"
+              label-for="input-subsidization_organization_id"
+          >
+            <b-form-select
+                v-model="form.subsidization_organization_id"
+                :options="subsidization_organizations_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
+            <b-form-invalid-feedback :state="validation['subsidization_organization_id']['state']">
+              {{ validation['subsidization_organization_id']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+          <b-form-group
+              id="input-group-start_date"
+              label="Start Date"
+              label-for="input-start_date"
+          >
+            <b-form-datepicker
+                id="input-start_date"
+                v-model="form.start_date"
+                reset-button
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="de"
+            ></b-form-datepicker>
+            <b-form-invalid-feedback :state="validation['start_date']['state']">
+              {{ validation['start_date']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+          <b-form-group
+              id="input-group-end_date"
+              label="End Date"
+              label-for="input-end_date"
+          >
+            <b-form-datepicker
+                id="input-end_date"
+                v-model="form.end_date"
+                reset-button
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="de"
+            ></b-form-datepicker>
+            <b-form-invalid-feedback :state="validation['end_date']['state']">
+              {{ validation['end_date']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mt-5">
+                <div class="card-header">
+                  <h4>Menu categories</h4>
+                </div>
+                <div class="card-body ">
+                  <table class="w-100">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Pre-order price</th>
+                      <th>%</th>
+                      <th>Subsidization price</th>
+                      <th>Resultet price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list" :key="menu_category.id">
+                      <td class="text-left">{{ menu_category.name }}</td>
+                      <td><span class="js-presaleprice"></span>{{ menu_category.presaleprice }} €</td>
+                      <td>
+                        <b-form-input
+                            type="number"
+                            :ref="`percent_full_`+ menu_category.id"
+                            v-model="menu_category.percent_full"
+                            :name="`menu_category[${menu_category.id}]`"
+                            min="0"
+                            max="100"
+                            style="width: 40%;"
+                            @change="handleSubsidizationPercentage($event, menu_category.id)"
+                        ></b-form-input>
+                      </td>
+                      <td>
+                        <b-form-input
+                            v-model="menu_category.subsidization_price"
+                            :ref="`subsidization_price_`+ menu_category.id"
+                            type="text"
+                            min="0"
+                            step="0.1"
+                            style="width: 40%;display: inline-block;"
+                            @change="handleSubsidizationPrice($event, menu_category.id)"
+                        ></b-form-input>
+                        €
+                      </td>
+                      <td>
+                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price }}</span><span> €</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <b-button type="submit" variant="primary">Submit</b-button>
+        </b-form>
+      </div>
+      <div class="card-header" v-if="!isPageBusy">
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <h3 class="card-subtitle"></h3>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-    import {getItem, store} from "../../api/crudRequests";
-    import SpinnerComponent               from "../../shared/SpinnerComponent";
-    import BackButtonComponent            from "../../shared/BackButtonComponent";
+import {getItem, store}    from "../../api/crudRequests";
+import SpinnerComponent    from "../../shared/SpinnerComponent";
+import BackButtonComponent from "../../shared/BackButtonComponent";
 
-    export default {
-        components: {
-            'spinner-component':     SpinnerComponent,
-            'back-button-component': BackButtonComponent,
-        },
-        props:      {
-            main_route: String,
-            id:         String | Number,
-        },
-        data() {
-            return {
-                isPageBusy:   false,
-                itemData:     [],
-                form:         {},
-                validation:   {
-            'id':{'state': true,'message': ''},'rule_name':{'state': true,'message': ''},'subsidization_organization_id':{'state': true,'message': ''},'start_date':{'state': true,'message': ''},'end_date':{'state': true,'message': ''},'created_by':{'state': true,'message': ''},'created_at':{'state': true,'message': ''},'updated_at':{'state': true,'message': ''},
-                },
-            }
-        },
-        methods:    {
-            async onSubmit(evt) {
-                evt.preventDefault();
-                const self = this;
-                self.isPageBusy = true;
-                try {
-                    let response = await store(self.main_route, self.id, self.form);
-                    window.location.href = self.main_route + '/' + response['data'].id;
-                } catch (error) {
-                    if (error.response && error.response.data && error.response.data.errors) {
-                        let errors = error.response.data.errors;
-                        for(const [key, fieldData] of Object.entries(errors)) {
-                            this.validation[key] = {
-                                'state':false,
-                                'message':fieldData[0]
-                            };
-                        }
-                    }
-                    self.isPageBusy = false;
-                }
-            },
-            onReset() {
-            },
-            async _loadData() {
-                if (this.id == null) return;
-
-                let response  = await getItem(this.main_route, this.id);
-                this.itemData = response['data'];
-
-                for (const [key, fieldData] of Object.entries(this.itemData)) {
-                    this.form[key] = fieldData;
-                }
-            },
-        },
-        async mounted() {
-            this.isPageBusy = true;
-            await this._loadData();
-            this.isPageBusy = false;
-        },
-        watch: {
-            form: {
-                deep: true,
-                handler(val) {
-                    for(const [key, fieldData] of Object.entries(this.validation)) {
-                        if(fieldData['state'] == false){
-                            this.validation[key]['state'] = true;
-                        }
-                    }
-                }
-            }
-        }
+export default {
+  components: {
+    'spinner-component':     SpinnerComponent,
+    'back-button-component': BackButtonComponent,
+  },
+  props:      {
+    main_route:                         String,
+    subsidization_organizations_list:   Array,
+    subsidization_menu_categories_list: Object,
+    id:                                 String | Number,
+  },
+  data() {
+    return {
+      isPageBusy: false,
+      itemData:   [],
+      form:       {
+        subsidization_menu_categories_list: {}
+      },
+      validation: {
+        'id':                            {'state': true, 'message': ''},
+        'rule_name':                     {'state': true, 'message': ''},
+        'subsidization_organization_id': {'state': true, 'message': ''},
+        'start_date':                    {'state': true, 'message': ''},
+        'end_date':                      {'state': true, 'message': ''},
+        'created_by':                    {'state': true, 'message': ''},
+        'created_at':                    {'state': true, 'message': ''},
+        'updated_at':                    {'state': true, 'message': ''},
+      },
     }
+  },
+  methods:    {
+    handleSubsidizationPercentage(val, id) {
+      let refName       = 'subsidization_price_' + id;
+      let resultRefName = 'result_subsidization_price_' + id;
+      let presaleprice  = this.form.subsidization_menu_categories_list[id].presaleprice;
+      let value         = (presaleprice * (val / 100)).toFixed(2);
+
+      this.$refs[refName][0].value           = value;
+      this.$refs[resultRefName][0].innerText = (presaleprice - value).toFixed(2);
+    },
+    handleSubsidizationPrice(val, id) {
+      let refName       = 'percent_full_' + id;
+      let resultRefName = 'result_subsidization_price_' + id;
+      let presaleprice  = this.form.subsidization_menu_categories_list[id].presaleprice;
+
+      if (this.$refs[refName][0].value < 100) {
+        let value                              = parseInt((val / presaleprice) * 100);
+        this.$refs[refName][0].value           = value;
+        this.$refs[resultRefName][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2);
+      }
+    },
+    async onSubmit(evt) {
+      evt.preventDefault();
+      const self      = this;
+      self.isPageBusy = true;
+      try {
+        let response         = await store(self.main_route, self.id, self.form);
+        window.location.href = self.main_route + '/' + response['data'].id;
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.errors) {
+          let errors = error.response.data.errors;
+          for (const [key, fieldData] of Object.entries(errors)) {
+            this.validation[key] = {
+              'state':   false,
+              'message': fieldData[0]
+            };
+          }
+        }
+        self.isPageBusy = false;
+      }
+    },
+    onReset() {
+    },
+    async _loadData() {
+      this.form.subsidization_menu_categories_list = this.subsidization_menu_categories_list
+      if (this.id == null) return;
+
+      let response  = await getItem(this.main_route, this.id);
+      this.itemData = response['data'];
+
+      for (const [key, fieldData] of Object.entries(this.itemData)) {
+        this.form[key] = fieldData;
+      }
+    },
+  },
+  async mounted() {
+    this.isPageBusy = true;
+    await this._loadData();
+    this.isPageBusy = false;
+  },
+  watch:      {
+    form: {
+      deep: true,
+      handler(val) {
+        for (const [key, fieldData] of Object.entries(this.validation)) {
+          if (fieldData['state'] == false) {
+            this.validation[key]['state'] = true;
+          }
+        }
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">
-    @import './node_modules/bootstrap/scss/bootstrap.scss';
-    @import './node_modules/bootstrap-vue/src/index.scss';
+@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap-vue/src/index.scss';
 
-    .card-title {
-        font-size: 1.75rem;
-    }
+.card-title {
+  font-size: 1.75rem;
+}
 
 </style>

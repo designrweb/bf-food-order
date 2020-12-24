@@ -6,7 +6,6 @@ use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Location;
 use App\QueryBuilders\LocationSearch;
-use App\Services\ImageService;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 
@@ -45,10 +44,6 @@ class LocationRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        if ($data['image_name']) {
-            $data['image_name'] = ImageService::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
-        }
-
         return new LocationResource($this->model->create($data));
     }
 
@@ -59,29 +54,10 @@ class LocationRepository implements RepositoryInterface
      */
     public function update(array $data, $id)
     {
-        if (!empty($data['image_name'])) {
-            $data['image_name'] = ImageService::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
-        }
-
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
         return new LocationResource($model);
-    }
-
-    /**
-     * @param array $data
-     * @param       $id
-     */
-    public function updateImage(array $data, $id)
-    {
-        $model = $this->model->findOrFail($id);
-
-        $model->update([
-            'image_name' => ImageService::storeInFile($data['image_name'], Location::IMAGE_FOLDER)
-        ]);
-
-        return true;
     }
 
     /**
@@ -122,18 +98,10 @@ class LocationRepository implements RepositoryInterface
 
     /**
      * @param $id
-     * @return bool
+     * @return mixed
      */
-    public function removeImage($id)
+    public function getModel($id)
     {
-        $model = $this->model->findOrFail($id);
-
-        ImageService::removeImage($model->imageurl, Location::IMAGE_FOLDER);
-
-        $model->update([
-            'image_name' => null
-        ]);
-
-        return true;
+        return $this->model->findOrFail($id);
     }
 }

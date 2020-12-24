@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\SubsidizedMenuCategoriesCollection;
@@ -26,7 +27,7 @@ class SubsidizedMenuCategoriesService extends BaseModelService
      */
     public function all(): SubsidizedMenuCategoriesCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -82,11 +83,21 @@ class SubsidizedMenuCategoriesService extends BaseModelService
         return $this->getFullStructure((new SubsidizedMenuCategories()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new SubsidizedMenuCategories()));
+    }
+
+    /**
+     * @param MenuCategoryService $menuCategoryService
+     * @param                     $id
+     * @return mixed
+     */
+    public function getSubsidizationMenuCategories(MenuCategoryService $menuCategoryService, $id = null)
+    {
+        return $this->repository->getSubsidizationMenuCategories($menuCategoryService, $id);
     }
 }

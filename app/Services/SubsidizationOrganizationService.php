@@ -79,6 +79,14 @@ class SubsidizationOrganizationService extends BaseModelService
     /**
      * @return array
      */
+    public function getList(): array
+    {
+        return $this->repository->getList();
+    }
+
+    /**
+     * @return array
+     */
     public function getIndexStructure(): array
     {
         return $this->getFullStructure((new SubsidizationOrganization()));
@@ -131,7 +139,7 @@ class SubsidizationOrganizationService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
             ],
             [
                 'key'   => 'name',
@@ -178,7 +186,6 @@ class SubsidizationOrganizationService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'id'           => '',
             'name'         => '',
             'zip'          => '',
             'city'         => '',

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Components\ImageComponent;
 use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Repositories\LocationRepository;
@@ -9,6 +10,7 @@ use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Location;
+use Illuminate\Support\Facades\DB;
 
 
 class LocationService extends BaseModelService
@@ -59,6 +61,10 @@ class LocationService extends BaseModelService
      */
     public function create($data): LocationResource
     {
+        if ($data['image_name']) {
+            $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
+        }
+
         return $this->repository->add($data);
     }
 
@@ -72,6 +78,10 @@ class LocationService extends BaseModelService
      */
     public function update($data, $id): LocationResource
     {
+        if (!empty($data['image_name'])) {
+            $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
+        }
+
         return $this->repository->update($data, $id);
     }
 
@@ -103,11 +113,13 @@ class LocationService extends BaseModelService
     /**
      * @param $data
      * @param $id
-     * @return bool
+     * @return LocationResource
      */
     public function updateImage($data, $id)
     {
-        return $this->repository->updateImage($data, $id);
+        $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
+
+        return $this->repository->update($data, $id);
     }
 
     /**
@@ -116,7 +128,23 @@ class LocationService extends BaseModelService
      */
     public function removeImage($id)
     {
-        return $this->repository->removeImage($id);
+        $model              = $this->repository->getModel($id);
+        $data['image_name'] = null;
+
+        try {
+            DB::beginTransaction();
+
+            $this->repository->update($data, $id);
+            ImageComponent::removeImage($model->imageurl, Location::IMAGE_FOLDER);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -142,13 +170,10 @@ class LocationService extends BaseModelService
      */
     protected function getSortFields(Model $model): array
     {
-        $sortFields = [
-            'id'         => '',
+        return [
             'name'       => '',
             'image_name' => '',
         ];
-
-        return $sortFields;
     }
 
     /**
@@ -157,7 +182,7 @@ class LocationService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        $fields = [
+        return [
             [
                 'key'   => 'image_name',
                 'label' => 'Image Name'
@@ -187,8 +212,6 @@ class LocationService extends BaseModelService
                 'label' => 'Email'
             ],
         ];
-
-        return $fields;
     }
 
     /**
@@ -200,7 +223,7 @@ class LocationService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
             ],
             [
                 'key'   => 'image_name',
