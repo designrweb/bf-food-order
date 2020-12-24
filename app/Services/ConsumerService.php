@@ -45,6 +45,23 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * @param $accountId
+     * @return mixed
+     */
+    public function getOneByAccountId($accountId)
+    {
+        return $this->repository->getByAccountId($accountId);
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->repository->getList();
+    }
+
+    /**
      * @param $request
      * @return mixed
      */
@@ -71,7 +88,7 @@ class ConsumerService extends BaseModelService
     }
 
     /**
-     * @param $data
+     * @param $request
      * @param $id
      * @return mixed
      */

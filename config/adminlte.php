@@ -252,9 +252,34 @@ return [
             'icon'  => 'nav-icon fa fa-users',
         ],
         [
-            'text'  => 'Payments',
-            'route' => 'payments.index',
-            'icon'  => 'nav-icon fa fa-euro-sign',
+            'text'    => 'Payments',
+            'icon'    => 'fas fa-fw fa-euro-sign',
+            'submenu' => [
+                [
+                    'text' => 'Bank Transactions',
+                    'route' => 'payments.index',
+                    'icon'  => 'far fa-fw fa-exchange-alt',
+                    'can'   => 'menu-Payment',
+                ],
+                [
+                    'text' => 'Meal Orders',
+                    'route' => 'payments.meal-orders',
+                    'icon'  => 'far fa-fw fa-hamburger',
+                    'can'   => 'menu-Payment',
+                ],
+                [
+                    'text' => 'Add Payment',
+                    'route' => 'payments.create',
+                    'icon'  => 'far fa-fw fa-handshake',
+                    'can'   => 'menu-Payment',
+                ],
+                [
+                    'text' => 'Payment Dumps',
+                    'route' => 'payment-dumps.index',
+                    'icon'  => 'far fa-fw fa-piggy-bank',
+                    'can'   => 'menu-Payment',
+                ],
+            ],
         ],
         [
             'text'    => 'Subsidization',
@@ -301,7 +326,7 @@ return [
         ],
         [
             'text'  => 'Settings',
-            'route' => 'settings.index',
+            'route' => 'settings.combined_index',
             'icon'  => 'nav-icon fa fa-cogs',
         ],
 

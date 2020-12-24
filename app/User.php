@@ -10,19 +10,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class User
  *
- * @property integer  $id
- * @property string   $name
- * @property string   $email
- * @property string   $email_verified_at
- * @property string   $password
- * @property string   $remember_token
- * @property string   $created_at
- * @property string   $updated_at
- * @property string   $deleted_at
- * @property string   $role
- * @property UserInfo $userInfo
- * @property Consumer $consumers
- * @property Location $location
+ * @property integer     $id
+ * @property string      $name
+ * @property string      $email
+ * @property string      $email_verified_at
+ * @property string      $password
+ * @property string      $remember_token
+ * @property string      $created_at
+ * @property string      $updated_at
+ * @property string      $deleted_at
+ * @property string      $role
+ * @property UserInfo    $userInfo
+ * @property Consumer    $consumers
+ * @property Location    $location
+ * @property UserCompany $userCompany
  *
  * @package App
  */
@@ -94,5 +95,13 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $this->hasOneThrough(Location::class, UserLocation::class, 'user_id', 'id', 'id', 'location_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function userCompany()
+    {
+        return $this->hasOne(UserCompany::class, 'user_id', 'id');
     }
 }

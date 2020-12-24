@@ -3,7 +3,6 @@
     <date-range-picker
         class="date-range-picker"
         v-model="value"
-        @toggle="togglePicker"
         :ranges="false"
         :auto-apply="true"
         :ref="'filter.'+filterName"
@@ -37,26 +36,6 @@ export default {
     }
   },
   methods:    {
-    togglePicker(show) {
-      if (show === true) {
-        setTimeout(function () {
-          let input                    = $('.date-range-picker');
-          let initialTop               = input.offset().top;
-          let pickerElement            = $('div.daterangepicker');
-          let initialDocumentScrollTop = $(document).scrollTop();
-          let initialDiffTop           = (initialTop - initialDocumentScrollTop);
-          pickerElement.css('top', initialDiffTop + 40);
-
-          let offset = pickerElement.offset().top;
-
-          document.onscroll = function (e) {
-            let documentScroll = $(document).scrollTop();
-            let diff           = (offset - documentScroll);
-            pickerElement.css('top', diff);
-          };
-        }, 1)
-      }
-    },
     dateFormat(classes, date) {
       return classes
     },

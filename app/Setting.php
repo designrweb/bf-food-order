@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Setting extends Model
 {
+
+    const DEFAULT_THEME_COLOR         = '#96c11f';
+    const DEFAULT_SIDEBAR_THEME_COLOR = '#96c11f';
+    const IMAGE_FOLDER                = 'setting';
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -28,11 +33,11 @@ class Setting extends Model
     protected $fillable = ['setting_name', 'visible_name', 'value', 'created_at', 'updated_at', 'company_id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function company()
     {
-        return $this->hasOne(Company::class, 'id', 'company_id');
+        return $this->belongsTo(Company::class, 'id', 'company_id');
     }
 
 }
