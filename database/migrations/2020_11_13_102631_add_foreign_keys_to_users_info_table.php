@@ -26,7 +26,7 @@ class AddForeignKeysToUsersInfoTable extends Migration
     public function down()
     {
         Schema::table('user_info', function (Blueprint $table) {
-            $table->dropForeign('user_info_users_id_fk');
+            $table->dropForeign(['user_id']);
         });
     }
 }

@@ -27,8 +27,8 @@ class AddForeignKeysToConsumersTable extends Migration
     public function down()
     {
         Schema::table('consumers', function (Blueprint $table) {
-            $table->dropForeign('consumer_location_group_id_foreign');
-            $table->dropForeign('consumer_user_id_foreign');
+            $table->dropForeign(['location_group_id']);
+            $table->dropForeign(['user_id']);
         });
     }
 }
