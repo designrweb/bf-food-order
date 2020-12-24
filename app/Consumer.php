@@ -85,4 +85,12 @@ class Consumer extends Model
     {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function subsidization()
+    {
+        return $this->hasOne(ConsumerSubsidization::class, 'consumer_id', 'id');
+    }
 }

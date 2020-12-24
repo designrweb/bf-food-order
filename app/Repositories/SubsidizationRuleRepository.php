@@ -20,40 +20,40 @@ class SubsidizationRuleRepository implements RepositoryInterface
     }
 
     /**
-     * @return SubsidizationRuleCollection
+     * @return mixed
      */
     public function all()
     {
-        return new SubsidizationRuleCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 SubsidizationRuleSearch::class,
             ])
             ->thenReturn()
             ->with('subsidizationOrganization')
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return SubsidizationRuleResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new SubsidizationRuleResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return SubsidizationRuleResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new SubsidizationRuleResource($model);
+        return $model;
     }
 
     /**
@@ -66,11 +66,36 @@ class SubsidizationRuleRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return SubsidizationRuleResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        return new SubsidizationRuleResource($this->model->with('subsidizationOrganization')->findOrFail($id));
+        return $this->model->with(['subsidizationOrganization', 'subsidizedMenuCategories.menuCategory'])->findOrFail($id);
+    }
+
+    /**
+     * @param null $organizationId
+     * @return array
+     */
+    public function getList($organizationId = null)
+    {
+        $subsidizationRulesArray = [];
+        $allSubsidizationRules   = $this->model->newQuery();
+
+        if (!empty($organizationId)) {
+            $allSubsidizationRules = $allSubsidizationRules->where('subsidization_organization_id', $organizationId);
+        }
+
+        $allSubsidizationRules = $allSubsidizationRules->get();
+
+        foreach ($allSubsidizationRules as $rules) {
+            $subsidizationRulesArray[] = [
+                'id'   => $rules->id,
+                'name' => $rules->rule_name,
+            ];
+        }
+
+        return $subsidizationRulesArray;
     }
 }

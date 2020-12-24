@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Consumer;
+use App\Http\Resources\ConsumerCollection;
+use App\Http\Resources\ConsumerResource;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
+use App\Services\ConsumerSubsidizationService;
 use App\Services\LocationGroupService;
+use App\Services\SubsidizationOrganizationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -24,6 +28,12 @@ class ConsumerController extends Controller
      */
     protected $locationGroupService;
 
+    /**
+     * ConsumerController constructor.
+     *
+     * @param ConsumerService      $service
+     * @param LocationGroupService $locationGroupService
+     */
     public function __construct(ConsumerService $service, LocationGroupService $locationGroupService)
     {
         $this->service              = $service;
@@ -31,9 +41,8 @@ class ConsumerController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -43,27 +52,23 @@ class ConsumerController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new ConsumerCollection($this->service->all()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new ConsumerResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -87,67 +92,64 @@ class ConsumerController extends Controller
     }
 
     /**
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(SubsidizationOrganizationService $subsidizationOrganizationService)
     {
-        $locationGroupList = $this->locationGroupService->getList();
+        $locationGroupList             = $this->locationGroupService->getList();
+        $subsidizationOrganizationList = $subsidizationOrganizationService->getList();
 
         return view('consumers._form', [
-            'locationGroupList' => $locationGroupList
+            'locationGroupList'             => $locationGroupList,
+            'subsidizationOrganizationList' => $subsidizationOrganizationList,
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param ConsumerFormRequest $request
      * @return array
      */
     public function store(ConsumerFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new ConsumerResource($this->service->create($request)))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
 
         return view('consumers.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
+     * @param                                  $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, $id)
     {
         /** @var array $resource */
-        $resource                      = $this->service->getOne($id)->toArray(request());
-        $resource['locationGroupList'] = $this->locationGroupService->getList();
+        $resource                                  = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $resource['locationGroupList']             = $this->locationGroupService->getList();
+        $resource['subsidizationOrganizationList'] = $subsidizationOrganizationService->getList();
 
         return view('consumers._form', compact('resource'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param ConsumerFormRequest $request
-     * @param int                 $id
+     * @param                     $id
      * @return array
      */
     public function update(ConsumerFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new ConsumerResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**

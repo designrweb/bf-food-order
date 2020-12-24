@@ -297,6 +297,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/{id}', 'SubsidizationRuleController@show')->name('subsidization-rules.show');
         Route::put('/{id}', 'SubsidizationRuleController@update')->name('subsidization-rules.update');
         Route::delete('/{id}', "SubsidizationRuleController@destroy")->name('subsidization-rules.destroy');
+        Route::get('/get-list-by-organization/{organizationId?}', "SubsidizationRuleController@getList")->name('subsidization-rules.get-list-by-organization');
     });
 
     /** companies routes */

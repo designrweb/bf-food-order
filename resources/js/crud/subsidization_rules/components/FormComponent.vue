@@ -81,6 +81,62 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mt-5">
+                <div class="card-header">
+                  <h4>Menu categories</h4>
+                </div>
+                <div class="card-body ">
+                  <table class="w-100">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Pre-order price</th>
+                      <th>%</th>
+                      <th>Subsidization price</th>
+                      <th>Resultet price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list" :key="menu_category.id">
+                      <td class="text-left">{{ menu_category.name }}</td>
+                      <td><span class="js-presaleprice"></span>{{ menu_category.presaleprice }} €</td>
+                      <td>
+                        <b-form-input
+                            type="number"
+                            :ref="`percent_full_`+ menu_category.id"
+                            v-model="menu_category.percent_full"
+                            :name="`menu_category[${menu_category.id}]`"
+                            min="0"
+                            max="100"
+                            style="width: 40%;"
+                            @change="handleSubsidizationPercentage($event, menu_category.id)"
+                        ></b-form-input>
+                      </td>
+                      <td>
+                        <b-form-input
+                            v-model="menu_category.subsidization_price"
+                            :ref="`subsidization_price_`+ menu_category.id"
+                            type="text"
+                            min="0"
+                            step="0.1"
+                            style="width: 40%;display: inline-block;"
+                            @change="handleSubsidizationPrice($event, menu_category.id)"
+                        ></b-form-input>
+                        €
+                      </td>
+                      <td>
+                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{menu_category.resulted_price}}</span><span> €</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
       </div>
@@ -106,15 +162,18 @@ export default {
     'back-button-component': BackButtonComponent,
   },
   props:      {
-    main_route:                       String,
-    subsidization_organizations_list: Array,
-    id:                               String | Number,
+    main_route:                         String,
+    subsidization_organizations_list:   Array,
+    subsidization_menu_categories_list: Object,
+    id:                                 String | Number,
   },
   data() {
     return {
       isPageBusy: false,
       itemData:   [],
-      form:       {},
+      form:       {
+        subsidization_menu_categories_list: {}
+      },
       validation: {
         'id':                            {'state': true, 'message': ''},
         'rule_name':                     {'state': true, 'message': ''},
@@ -128,6 +187,26 @@ export default {
     }
   },
   methods:    {
+    handleSubsidizationPercentage(val, id) {
+      let refName       = 'subsidization_price_' + id;
+      let resultRefName = 'result_subsidization_price_' + id;
+      let presaleprice  = this.form.subsidization_menu_categories_list[id].presaleprice;
+      let value         = (presaleprice * (val / 100)).toFixed(2);
+
+      this.$refs[refName][0].value           = value;
+      this.$refs[resultRefName][0].innerText = (presaleprice - value).toFixed(2);
+    },
+    handleSubsidizationPrice(val, id) {
+      let refName       = 'percent_full_' + id;
+      let resultRefName = 'result_subsidization_price_' + id;
+      let presaleprice  = this.form.subsidization_menu_categories_list[id].presaleprice;
+
+      if (this.$refs[refName][0].value < 100) {
+        let value                              = parseInt((val / presaleprice) * 100);
+        this.$refs[refName][0].value           = value;
+        this.$refs[resultRefName][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2);
+      }
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
@@ -151,6 +230,7 @@ export default {
     onReset() {
     },
     async _loadData() {
+      this.form.subsidization_menu_categories_list = this.subsidization_menu_categories_list
       if (this.id == null) return;
 
       let response  = await getItem(this.main_route, this.id);

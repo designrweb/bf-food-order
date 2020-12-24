@@ -22,47 +22,37 @@ class SubsidizationRuleService extends BaseModelService
     }
 
     /**
-     * Returns all subsidization_rules transformed to resource
-     *
-     * @return SubsidizationRuleCollection
+     * @return mixed
      */
-    public function all(): SubsidizationRuleCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return SubsidizationRuleResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): SubsidizationRuleResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the subsidization_rules model
-     *
      * @param $data
-     * @return SubsidizationRuleResource
+     * @return mixed
      */
-    public function create($data): SubsidizationRuleResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the subsidization_rules model
-     *
      * @param $data
      * @param $id
-     * @return SubsidizationRuleResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): SubsidizationRuleResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
@@ -90,6 +80,15 @@ class SubsidizationRuleService extends BaseModelService
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new SubsidizationRule()));
+    }
+
+    /**
+     * @param $organizationId
+     * @return array
+     */
+    public function getList($organizationId)
+    {
+        return $this->repository->getList($organizationId);
     }
 
     /**

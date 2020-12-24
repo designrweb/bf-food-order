@@ -61,6 +61,6 @@ class SubsidizationRule extends Model
      */
     public function subsidizedMenuCategories()
     {
-        return $this->hasMany('App\SubsidizedMenuCategory');
+        return $this->hasMany(SubsidizedMenuCategories::class, 'subsidization_rules_id', 'id');
     }
 }

@@ -35,7 +35,6 @@
                 <b-form-input
                     id="input-account_id"
                     v-model="form.account_id"
-                    required
                     placeholder="Account Id"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['account_id']['state']">
@@ -50,7 +49,6 @@
                 <b-form-input
                     id="input-firstname"
                     v-model="form.firstname"
-                    required
                     placeholder="Firstname"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['firstname']['state']">
@@ -65,7 +63,6 @@
                 <b-form-input
                     id="input-lastname"
                     v-model="form.lastname"
-                    required
                     placeholder="Lastname"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['lastname']['state']">
@@ -98,7 +95,6 @@
                 <b-form-input
                     id="input-balance"
                     v-model="form.balance"
-                    required
                     placeholder="Balance"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance']['state']">
@@ -145,11 +141,99 @@
                 <b-form-input
                     id="input-balance_limit"
                     v-model="form.balance_limit"
-                    required
                     placeholder="Balance Limit"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance_limit']['state']">
                   {{ validation['balance_limit']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-location_id"
+                  label="Organization name"
+                  label-for="input-location_id"
+              >
+                <b-form-select
+                    v-model="form.subsidization.subsidization_rule.subsidization_organization.id"
+                    :options="subsidization_organization_list"
+                    @change="getSubsidizationRulesBySubsidizationOrganizationId($event)"
+                    class="mb-3"
+                    value-field="id"
+                    text-field="name"
+                    disabled-field="notEnabled"
+                ></b-form-select>
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_rule.subsidization_organization.id']['state']">
+                  {{ validation['subsidization.subsidization_rule.subsidization_organization.id']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-subsidization_rule_id"
+                  label="Subsidization Rule"
+                  label-for="input-subsidization_rule_id"
+              >
+                <b-form-select
+                    v-model="form.subsidization.subsidization_rules_id"
+                    :options="subsidization_rule_list"
+                    class="mb-3"
+                    value-field="id"
+                    text-field="name"
+                    disabled-field="notEnabled"
+                ></b-form-select>
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_rules_id']['state']">
+                  {{ validation['subsidization.subsidization_rules_id']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-group-subsidization_start_date"
+                  label="Subsidization Start Date"
+                  label-for="input-subsidization_start_date"
+              >
+                <b-form-datepicker
+                    id="input-subsidization_start_date"
+                    v-model="form.subsidization.subsidization_start"
+                    reset-button
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    locale="de"
+                ></b-form-datepicker>
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_start']['state']">
+                  {{ validation['subsidization.subsidization_start']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-group-subsidization_end_date"
+                  label="Subsidization End Date"
+                  label-for="input-subsidization_end_date"
+              >
+                <b-form-datepicker
+                    id="input-subsidization_end_date"
+                    v-model="form.subsidization.subsidization_end"
+                    reset-button
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    locale="de"
+                ></b-form-datepicker>
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_end']['state']">
+                  {{ validation['subsidization.subsidization_end']['message'] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+
+              <b-form-group
+                  id="input-group-subsidization_document"
+                  label="Subsidization Document"
+                  label-for="input-subsidization_document"
+              >
+                <b-form-file
+                    accept=".pdf"
+                    ref="subsidization_document"
+                    v-model="form.subsidization.subsidization_document"
+                    placeholder="Choose a file or drop it here..."
+                    @change="onImageChange"
+                    drop-placeholder="Drop file here..."
+                ></b-form-file>
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_document']['state']">
+                  {{ validation['subsidization.subsidization_document']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
             </div>
@@ -170,10 +254,10 @@
 </template>
 
 <script>
-import {getItem, store}     from "../../api/crudRequests";
-import SpinnerComponent     from "../../shared/SpinnerComponent";
-import BackButtonComponent  from "../../shared/BackButtonComponent";
-import ImageUploadComponent from "../../shared/ImageUploadComponent";
+import {getItem, getSubsidizationRulesBySubsidizationOrganizationId, store} from "../../api/crudRequests";
+import SpinnerComponent                                                     from "../../shared/SpinnerComponent";
+import BackButtonComponent                                                  from "../../shared/BackButtonComponent";
+import ImageUploadComponent                                                 from "../../shared/ImageUploadComponent";
 
 export default {
   components: {
@@ -182,33 +266,69 @@ export default {
     'image-upload-component': ImageUploadComponent,
   },
   props:      {
-    main_route:          String,
-    location_group_list: Array,
-    id:                  String | Number,
+    main_route:                      String,
+    location_group_list:             Array,
+    subsidization_organization_list: Array,
+    id:                              String | Number,
   },
   data() {
     return {
-      isPageBusy: false,
-      itemData:   [],
-      form:       {},
-      validation: {
-        'id':                {'state': true, 'message': ''},
-        'account_id':        {'state': true, 'message': ''},
-        'firstname':         {'state': true, 'message': ''},
-        'lastname':          {'state': true, 'message': ''},
-        'birthday':          {'state': true, 'message': ''},
-        'imageurl':          {'state': true, 'message': ''},
-        'balance':           {'state': true, 'message': ''},
-        'balance_limit':     {'state': true, 'message': ''},
-        'location_group_id': {'state': true, 'message': ''},
-        'user_id':           {'state': true, 'message': ''},
-        'created_at':        {'state': true, 'message': ''},
-        'updated_at':        {'state': true, 'message': ''},
-        'deleted_at':        {'state': true, 'message': ''},
+      isPageBusy:              false,
+      itemData:                [],
+      subsidization_rule_list: [],
+      form:                    {
+        subsidization: {
+          subsidization_rule: {
+            subsidization_organization: {}
+          }
+        }
+      },
+      validation:              {
+        'id':                                                             {'state': true, 'message': ''},
+        'account_id':                                                     {'state': true, 'message': ''},
+        'firstname':                                                      {'state': true, 'message': ''},
+        'lastname':                                                       {'state': true, 'message': ''},
+        'birthday':                                                       {'state': true, 'message': ''},
+        'imageurl':                                                       {'state': true, 'message': ''},
+        'balance':                                                        {'state': true, 'message': ''},
+        'balance_limit':                                                  {'state': true, 'message': ''},
+        'location_group_id':                                              {'state': true, 'message': ''},
+        'user_id':                                                        {'state': true, 'message': ''},
+        'created_at':                                                     {'state': true, 'message': ''},
+        'updated_at':                                                     {'state': true, 'message': ''},
+        'deleted_at':                                                     {'state': true, 'message': ''},
+        'subsidization.subsidization_rules_id':                           {'state': true, 'message': ''},
+        'subsidization.subsidization_rule.subsidization_organization.id': {'state': true, 'message': ''},
+        'subsidization.subsidization_start':                              {'state': true, 'message': ''},
+        'subsidization.subsidization_end':                                {'state': true, 'message': ''},
+        'subsidization.subsidization_document':                           {'state': true, 'message': ''},
       },
     }
   },
   methods:    {
+    onImageChange(e) {
+      this.form.subsidization.subsidization_document = this.$refs.subsidization_document.files[0];
+    },
+    createImage(file) {
+      let reader    = new FileReader();
+      let vm        = this;
+      reader.onload = (e) => {
+        vm.form.subsidization.subsidization_document = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    async getSubsidizationRulesBySubsidizationOrganizationId() {
+      if (this.form.subsidization.subsidization_rule.subsidization_organization.id == null) return;
+
+      try {
+        let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_rule.subsidization_organization.id);
+        this.subsidization_rule_list = response['data'];
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.errors) {
+          let errors = error.response.data.errors;
+        }
+      }
+    },
     handleImage(dataImage) {
       this.form.imageurl = dataImage;
     },
@@ -248,6 +368,7 @@ export default {
   async mounted() {
     this.isPageBusy = true;
     await this._loadData();
+    await this.getSubsidizationRulesBySubsidizationOrganizationId();
     this.isPageBusy = false;
   },
   watch:      {

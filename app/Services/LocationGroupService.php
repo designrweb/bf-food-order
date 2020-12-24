@@ -122,7 +122,6 @@ class LocationGroupService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'id'                 => '',
             'name'               => '',
             'location_id'        => '',
             'number_of_students' => '',
@@ -160,7 +159,7 @@ class LocationGroupService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
             ],
             [
                 'key'   => 'name',

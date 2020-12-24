@@ -170,13 +170,10 @@ class LocationService extends BaseModelService
      */
     protected function getSortFields(Model $model): array
     {
-        $sortFields = [
-            'id'         => '',
+        return [
             'name'       => '',
             'image_name' => '',
         ];
-
-        return $sortFields;
     }
 
     /**
@@ -185,7 +182,7 @@ class LocationService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        $fields = [
+        return [
             [
                 'key'   => 'image_name',
                 'label' => 'Image Name'
@@ -215,8 +212,6 @@ class LocationService extends BaseModelService
                 'label' => 'Email'
             ],
         ];
-
-        return $fields;
     }
 
     /**
@@ -228,7 +223,7 @@ class LocationService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
             ],
             [
                 'key'   => 'image_name',
