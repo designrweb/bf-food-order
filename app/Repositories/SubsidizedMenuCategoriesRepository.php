@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Http\Resources\SubsidizedMenuCategoriesCollection;
 use App\Http\Resources\SubsidizedMenuCategoriesResource;
+use App\MenuCategory;
+use App\Services\MenuCategoryService;
 use App\SubsidizedMenuCategories;
 use App\QueryBuilders\SubsidizedMenuCategoriesSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -71,5 +73,38 @@ class SubsidizedMenuCategoriesRepository implements RepositoryInterface
     public function get($id)
     {
         return new SubsidizedMenuCategoriesResource($this->model->findOrFail($id));
+    }
+
+
+    /**
+     * @param MenuCategoryService $menuCategoryService
+     * @param null                $id
+     * @return MenuCategory[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getSubsidizationMenuCategories(MenuCategoryService $menuCategoryService, $id = null)
+    {
+        $menuCategories                   = $menuCategoryService->getModelList();
+        $SubsidizationMenuCategoriesArray = [];
+
+        if (!empty($id)) {
+            $menuCategoriesPercent = $this->model::where('subsidization_rules_id', $id)->pluck('percent', 'menu_category_id')->toArray();
+        }
+
+        foreach ($menuCategories as $menu) {
+            $percent = !empty($menuCategoriesPercent[$menu->id]) ? $menuCategoriesPercent[$menu->id] : 0;
+
+            $SubsidizationMenuCategoriesArray[$menu->id] = [
+                'id'                  => $menu->id,
+                'name'                => $menu->name,
+                'presaleprice'        => $menu->presaleprice,
+                'price'               => $menu->price,
+                'subsidization_price' => round($menu->presaleprice * ($percent / 100), 2),
+                'percent'             => $percent / 100,
+                'percent_full'        => $percent,
+                'resulted_price'      => round($menu->price - round($menu->presaleprice * ($percent / 100), 2), 2),
+            ];
+        }
+
+        return $SubsidizationMenuCategoriesArray;
     }
 }

@@ -85,7 +85,7 @@ export class Request {
     }
 
     _buildParams() {
-        return queryBuilder.stringify(this.params, { arrayFormat: "bracket" });
+        return queryBuilder.stringify(this.params, {arrayFormat: "bracket"});
     }
 
     static _sanitizeData(data) {

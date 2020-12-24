@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\ConsumerCollection;
-use App\Http\Resources\ConsumerResource;
 use App\Consumer;
 use App\QueryBuilders\ConsumerSearch;
-use App\Services\ImageService;
 use App\Services\QRService;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
@@ -20,8 +17,7 @@ class ConsumerRepository implements RepositoryInterface
     /**
      * ConsumerRepository constructor.
      *
-     * @param Consumer     $model
-     * @param ImageService $imageService
+     * @param Consumer $model
      */
     public function __construct(Consumer $model)
     {
@@ -29,48 +25,40 @@ class ConsumerRepository implements RepositoryInterface
     }
 
     /**
-     * @return ConsumerCollection
+     * @return mixed
      */
     public function all()
     {
-        return new ConsumerCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 ConsumerSearch::class,
             ])
             ->thenReturn()
             ->with(['user.userInfo', 'locationGroup.location'])
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return ConsumerResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        if (!empty($data['imageurl'])) {
-            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
-        }
-
-        return new ConsumerResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return ConsumerResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
-        if (!empty($data['imageurl'])) {
-            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
-        }
-
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new ConsumerResource($model);
+        return $model;
     }
 
     /**
@@ -117,12 +105,12 @@ class ConsumerRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return ConsumerResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        return new ConsumerResource($this->getModel($id));
+        return $this->getModel($id);
     }
 
     /**
@@ -131,7 +119,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function getModel($id)
     {
-        return $this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode'])->findOrFail($id);
+        return $this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode', 'subsidization.subsidizationRule.subsidizationOrganization'])->findOrFail($id);
     }
 
     /**
@@ -167,14 +155,9 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function updateImage(array $data, $id)
     {
-        if (!empty($data['imageurl'])) {
-            $data['imageurl'] = ImageService::storeEncrypt($data['imageurl']);
+        $model = $this->model->findOrFail($id);
 
-            $model = $this->model->findOrFail($id);
-            $model->update($data);
-        }
-
-        return true;
+        return $model->update($data);
     }
 
     /**

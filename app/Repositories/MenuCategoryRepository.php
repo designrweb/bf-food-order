@@ -52,6 +52,15 @@ class MenuCategoryRepository implements RepositoryInterface
     }
 
     /**
+     * @return MenuCategory[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getModelList()
+    {
+        return $this->model::all();
+    }
+
+
+    /**
      * @param array $data
      * @return MenuCategoryResource
      */

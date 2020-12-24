@@ -89,6 +89,14 @@ class MenuCategoryService extends BaseModelService
     }
 
     /**
+     * @return MenuCategory[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getModelList()
+    {
+        return $this->repository->getModelList();
+    }
+
+    /**
      * @return array
      */
     public function getIndexStructure(): array

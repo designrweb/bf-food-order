@@ -26,12 +26,22 @@ export const getItem = (mainRoute, id) => api
 
 export const store = (mainRoute, id, data) => typeof id === "undefined" ? api
     .request(mainRoute)
-    .withBody(data)
+    .withBody(data, true)
+    .withHeaders({
+        "Content-type": "multipart/form-data"
+    })
     .post() : api
     .request(mainRoute + '/' + id)
-    .withBody(data)
+    .withBody(data, true)
+    .withHeaders({
+        "Content-type": "multipart/form-data"
+    })
     .put();
 
 export const getLocationGroupsByLocationId = (url) => api
+    .request(url)
+    .get();
+
+export const getSubsidizationRulesBySubsidizationOrganizationId = (url) => api
     .request(url)
     .get();

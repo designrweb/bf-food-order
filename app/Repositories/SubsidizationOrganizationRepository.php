@@ -73,4 +73,22 @@ class SubsidizationOrganizationRepository implements RepositoryInterface
     {
         return new SubsidizationOrganizationResource($this->model->with('company')->findOrFail($id));
     }
+
+    /**
+     * @return array
+     */
+    public function getList(): array
+    {
+        $subsidizationOrganizationsArray = [];
+        $allSubsidizationOrganizations   = $this->model::all();
+
+        foreach ($allSubsidizationOrganizations as $subsidizationOrganization) {
+            $subsidizationOrganizationsArray[] = [
+                'id'   => $subsidizationOrganization->id,
+                'name' => $subsidizationOrganization->name,
+            ];
+        }
+
+        return $subsidizationOrganizationsArray;
+    }
 }

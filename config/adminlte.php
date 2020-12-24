@@ -242,6 +242,11 @@ return [
             'icon'  => 'nav-icon fa fa-object-ungroup',
         ],
         [
+            'text'  => 'Administrators',
+            'route' => 'users.index',
+            'icon'  => 'nav-icon fa fa-user-friends',
+        ],
+        [
             'text'  => 'Consumers',
             'route' => 'consumers.index',
             'icon'  => 'nav-icon fa fa-users',
@@ -287,9 +292,9 @@ return [
                     'active' => ['*subsidization-organizations*']
                 ],
                 [
-                    'text'  => 'Rules',
-                    'route' => 'subsidization-rules.index',
-                    'icon'  => 'nav-icon fa fa-percent',
+                    'text'   => 'Rules',
+                    'route'  => 'subsidization-rules.index',
+                    'icon'   => 'nav-icon fa fa-percent',
                     'active' => ['*subsidization-rules*']
                 ],
             ],
@@ -323,11 +328,6 @@ return [
             'text'  => 'Settings',
             'route' => 'settings.combined_index',
             'icon'  => 'nav-icon fa fa-cogs',
-        ],
-        [
-            'text'  => 'Users',
-            'route' => 'users.index',
-            'icon'  => 'nav-icon fa fa-user-friends',
         ],
 
 //        [

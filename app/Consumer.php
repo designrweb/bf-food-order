@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Services\ImageService;
+use App\Components\ImageComponent;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -64,7 +64,7 @@ class Consumer extends Model
     public function getImageurlAttribute($value)
     {
         if (!empty($value)) {
-            return ImageService::decrypt($value);
+            return ImageComponent::decrypt($value);
         }
 
         return null;
@@ -84,5 +84,13 @@ class Consumer extends Model
     public function getFullNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function subsidization()
+    {
+        return $this->hasOne(ConsumerSubsidization::class, 'consumer_id', 'id');
     }
 }

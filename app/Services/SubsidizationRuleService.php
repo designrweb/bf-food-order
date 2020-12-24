@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\SubsidizationRuleCollection;
 use App\Http\Resources\SubsidizationRuleResource;
 use App\Repositories\SubsidizationRuleRepository;
+use App\SubsidizedMenuCategories;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\SubsidizationRule;
 
@@ -20,49 +23,57 @@ class SubsidizationRuleService extends BaseModelService
     }
 
     /**
-     * Returns all subsidization_rules transformed to resource
-     *
-     * @return SubsidizationRuleCollection
+     * @return mixed
      */
-    public function all(): SubsidizationRuleCollection
+    public function all()
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return SubsidizationRuleResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): SubsidizationRuleResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the subsidization_rules model
-     *
      * @param $data
-     * @return SubsidizationRuleResource
+     * @return mixed
      */
-    public function create($data): SubsidizationRuleResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the subsidization_rules model
-     *
      * @param $data
      * @param $id
-     * @return SubsidizationRuleResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): SubsidizationRuleResource
+    public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        $model = $this->repository->update($data, $id);
+
+        if (!empty($model->subsidizedMenuCategories)) {
+            $model->subsidizedMenuCategories()->delete();
+        }
+
+        $subsidizedMenuCategories = [];
+
+        foreach ($data['subsidization_menu_categories_list'] as $menuCategoryId => $menuData) {
+            $subsidizedMenuCategoriesModel                   = new SubsidizedMenuCategories();
+            $subsidizedMenuCategoriesModel->menu_category_id = $menuCategoryId;
+            $subsidizedMenuCategoriesModel->percent          = $menuData['percent_full'];
+            $subsidizedMenuCategories[]                      = $subsidizedMenuCategoriesModel;
+        }
+
+        $model->subsidizedMenuCategories()->saveMany($subsidizedMenuCategories);
+
+        return $model;
+
     }
 
     /**
@@ -82,11 +93,104 @@ class SubsidizationRuleService extends BaseModelService
         return $this->getFullStructure((new SubsidizationRule()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new SubsidizationRule()));
+    }
+
+    /**
+     * @param $organizationId
+     * @return array
+     */
+    public function getList($organizationId)
+    {
+        return $this->repository->getList($organizationId);
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    protected function getViewFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'rule_name',
+                'label' => 'Rule Name'
+            ],
+            [
+                'key'   => 'subsidization_organization.name',
+                'label' => 'Subsidization Organization'
+            ],
+            [
+                'key'   => 'start_date',
+                'label' => 'Start Date'
+            ],
+            [
+                'key'   => 'end_date',
+                'label' => 'End Date'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'id',
+                'label' => '#'
+            ],
+            [
+                'key'   => 'rule_name',
+                'label' => 'Rule Name'
+            ],
+            [
+                'key'   => 'subsidization_organization.name',
+                'label' => 'Subsidization Organization'
+            ],
+            [
+                'key'   => 'start_date',
+                'label' => 'Start Date'
+            ],
+            [
+                'key'   => 'end_date',
+                'label' => 'End Date'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'rule_name'                       => '',
+            'subsidization_organization.name' => '',
+            'start_date'                      => '',
+            'end_date'                        => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'rule_name'                       => '',
+            'subsidization_organization.name' => '',
+            'start_date'                      => '',
+            'end_date'                        => '',
+        ];
     }
 }
