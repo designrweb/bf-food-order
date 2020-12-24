@@ -12,7 +12,6 @@
     "/js/crud/menu_categories.js": "/js/crud/menu_categories.js",
     "/js/crud/menu_items.js": "/js/crud/menu_items.js",
     "/js/crud/orders.js": "/js/crud/orders.js",
-    "/js/crud/payment-dumps.js": "/js/crud/payment-dumps.js",
     "/js/crud/payments.js": "/js/crud/payments.js",
     "/js/crud/settings.js": "/js/crud/settings.js",
     "/js/crud/subsidization_organizations.js": "/js/crud/subsidization_organizations.js",
