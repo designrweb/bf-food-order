@@ -16,40 +16,45 @@ class SettingRepository implements RepositoryInterface
     /** @var Setting */
     protected $model;
 
+    /**
+     * SettingRepository constructor.
+     *
+     * @param Setting $model
+     */
     public function __construct(Setting $model)
     {
         $this->model = $model;
     }
 
     /**
-     * @return SettingCollection
+     * @return mixed
      */
     public function all()
     {
-        return new SettingCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 SettingSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
-     * @return CombinedSettingCollection
+     * @return mixed
      */
     public function allCombined()
     {
-        return new CombinedSettingCollection(auth()->user()->userCompany->company->settings->keyBy('setting_name'));
+        return auth()->user()->userCompany->company->settings->keyBy('setting_name');
     }
 
     /**
      * @param array $data
-     * @return SettingResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new SettingResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
@@ -127,14 +132,14 @@ class SettingRepository implements RepositoryInterface
     /**
      * @param array $data
      * @param       $id
-     * @return SettingResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new SettingResource($model);
+        return $model;
     }
 
     /**
@@ -147,11 +152,11 @@ class SettingRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return SettingResource
+     * @param $id
+     * @return mixed
      */
     public function get($id)
     {
-        return new SettingResource($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 }

@@ -17,48 +17,46 @@ class SettingService extends BaseModelService
 
     protected $repository;
 
+    /**
+     * SettingService constructor.
+     *
+     * @param SettingRepository $repository
+     */
     public function __construct(SettingRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * Returns all settings transformed to resource
-     *
-     * @return SettingCollection
+     * @return mixed
      */
-    public function all(): SettingCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * @return CombinedSettingCollection
+     * @return mixed
      */
-    public function allCombined(): CombinedSettingCollection
+    public function allCombined()
     {
         return $this->repository->allCombined();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return SettingResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): SettingResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the settings model
-     *
      * @param $data
-     * @return SettingResource
+     * @return mixed
      */
-    public function create($data): SettingResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
@@ -78,14 +76,11 @@ class SettingService extends BaseModelService
     }
 
     /**
-     * Updates and returns the settings model
-     *
      * @param $data
      * @param $id
-     * @return SettingResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): SettingResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CombinedSettingCollection;
+use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
 use App\Services\SettingService;
 use App\Http\Requests\SettingFormRequest;
@@ -42,36 +44,32 @@ class SettingController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new SettingCollection($this->service->all()))->toArray($request);
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return array
      */
     public function getAllCombined(Request $request)
     {
-        return $this->service->allCombined()->toArray($request);
+        return (new CombinedSettingCollection($this->service->allCombined()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new SettingResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -105,14 +103,12 @@ class SettingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param SettingFormRequest $request
      * @return array
      */
     public function store(SettingFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new SettingResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
@@ -132,8 +128,8 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('settings.view', compact('resource'));
     }
@@ -153,22 +149,18 @@ class SettingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param SettingFormRequest $request
-     * @param int     $id
+     * @param                    $id
      * @return array
      */
     public function update(SettingFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new SettingResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
