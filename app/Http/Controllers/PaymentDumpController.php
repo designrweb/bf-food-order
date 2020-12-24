@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentDumpFileRequest;
-use App\Services\ImageService;
+use App\Http\Resources\PaymentDumpCollection;
+use App\Http\Resources\PaymentDumpResource;
 use App\Services\PaymentDumpService;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class PaymentDumpController extends Controller
 
     /**
      * PaymentDumpController constructor.
+     *
      * @param PaymentDumpService $service
      */
     public function __construct(PaymentDumpService $service)
@@ -39,37 +41,24 @@ class PaymentDumpController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
+     * Returns a listing of the resource transformed to resource
      *
-     * @param Request $request
-     * @return array
+     * @return PaymentDumpCollection
      */
-    public function getIndexStructure(Request $request)
+    public function getAll(): PaymentDumpCollection
     {
-        return $this->service->getIndexStructure();
+        return new PaymentDumpCollection($this->service->all());
     }
 
     /**
-     * Returns a listing of the resource.
+     * Returns the resource transformed to resource
      *
-     * @param Request $request
-     * @return array
+     * @param  $id
+     * @return PaymentDumpResource
      */
-    public function getAll(Request $request): array
+    public function getOne($id)
     {
-        return $this->service->all()->toArray($request);
-    }
-
-    /**
-     * Returns a listing of the resource.
-     *
-     * @param Request $request
-     * @param         $id
-     * @return array
-     */
-    public function getOne(Request $request, $id)
-    {
-        return $this->service->getOne($id)->toArray($request);
+        return new PaymentDumpResource($this->service->getOne($id));
     }
 
     /**
@@ -81,10 +70,10 @@ class PaymentDumpController extends Controller
      */
     public function upload(PaymentDumpFileRequest $request)
     {
-        $file     = $request->file('file');
-        $upload =  $this->service->uploadFile($file);
+        $file   = $request->file('file');
+        $upload = $this->service->uploadFile($file);
 
-        if($upload['status'] === 'success') {
+        if ($upload['status'] === 'success') {
             $data = [
                 'file_name' => $upload['fileName'],
             ];
@@ -112,5 +101,16 @@ class PaymentDumpController extends Controller
         $this->service->markAsProcessed($id);
 
         return redirect()->route('payment-dumps.index');
+    }
+
+    /**
+     * Returns a listing of the resource.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getIndexStructure(Request $request)
+    {
+        return $this->service->getIndexStructure();
     }
 }

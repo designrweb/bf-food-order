@@ -58,23 +58,22 @@ class PaymentDumpService extends BaseModelService
     }
 
     /**
-     * Returns all payment dumps transformed to resource
+     * Returns all payment dumps
      *
-     * @return PaymentDumpCollection
+     * @return mixed
      */
-    public function all(): PaymentDumpCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single payment dump transformed to resource
+     * Returns single payment dump
      *
      * @param $id
-     * @return PaymentDumpResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): PaymentDumpResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -83,9 +82,9 @@ class PaymentDumpService extends BaseModelService
      * Creates and returns the payment dumps model
      *
      * @param $data
-     * @return PaymentDumpResource
+     * @return mixed
      */
-    public function create($data): PaymentDumpResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
@@ -95,10 +94,9 @@ class PaymentDumpService extends BaseModelService
      *
      * @param $data
      * @param $id
-     * @return PaymentDumpResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): PaymentDumpResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }

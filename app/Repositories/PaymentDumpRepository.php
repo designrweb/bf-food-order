@@ -20,48 +20,48 @@ class PaymentDumpRepository implements RepositoryInterface
     }
 
     /**
-     * @return PaymentDumpCollection
+     * @return mixed
      */
     public function all()
     {
-        return new PaymentDumpCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 PaymentDumpSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
-     * @param  $id
-     * @return PaymentDumpResource
+     * @param $id
+     * @return mixed
      */
-    public function get($id): PaymentDumpResource
+    public function get($id)
     {
-        return new PaymentDumpResource($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 
     /**
      * @param array $data
-     * @return PaymentDumpResource
+     * @return mixed
      */
-    public function add(array $data): PaymentDumpResource
+    public function add(array $data)
     {
-        return new PaymentDumpResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return PaymentDumpResource
+     * @return mixed
      */
-    public function update(array $data, $id): PaymentDumpResource
+    public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new PaymentDumpResource($model);
+        return $model;
     }
 
     /**
