@@ -149,7 +149,7 @@ class ConsumerController extends Controller
      */
     public function update(ConsumerFormRequest $request, $id)
     {
-        return (new ConsumerResource($this->service->update($request->all(), $id)))->toArray($request);
+        return (new ConsumerResource($this->service->update($request, $id)))->toArray($request);
     }
 
     /**

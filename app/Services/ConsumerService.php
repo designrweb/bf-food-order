@@ -60,7 +60,9 @@ class ConsumerService extends BaseModelService
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
-                $data['subsidization']['subsidization_document'] = $request->file('subsidization.subsidization_document')->store('subsidization_documents', ['disk' => 'public']);
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
             }
             $model->subsidization()->create($data['subsidization']);
         }
@@ -73,8 +75,10 @@ class ConsumerService extends BaseModelService
      * @param $id
      * @return mixed
      */
-    public function update($data, $id)
+    public function update($request, $id)
     {
+        $data = $request->all();
+
         if (!empty($data['imageurl'])) {
             $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
         }
@@ -82,8 +86,18 @@ class ConsumerService extends BaseModelService
         $model = $this->repository->update($data, $id);
 
         if (empty($model->subsidization)) {
+            if ($request->hasFile('subsidization.subsidization_document')) {
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
+            }
             $model->subsidization()->create($data['subsidization']);
         } else {
+            if ($request->hasFile('subsidization.subsidization_document')) {
+                $fileName = time() . '.pdf';
+                $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
+                $data['subsidization']['subsidization_document'] = $fileName;
+            }
             $model->subsidization->update($data['subsidization']);
         }
 

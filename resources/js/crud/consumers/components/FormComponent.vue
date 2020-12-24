@@ -226,10 +226,9 @@
               >
                 <b-form-file
                     accept=".pdf"
-                    ref="subsidization_document"
                     v-model="form.subsidization.subsidization_document"
                     placeholder="Choose a file or drop it here..."
-                    @change="onImageChange"
+                    @change="change"
                     drop-placeholder="Drop file here..."
                 ></b-form-file>
                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_document']['state']">
@@ -258,6 +257,7 @@ import {getItem, getSubsidizationRulesBySubsidizationOrganizationId, store} from
 import SpinnerComponent                                                     from "../../shared/SpinnerComponent";
 import BackButtonComponent                                                  from "../../shared/BackButtonComponent";
 import ImageUploadComponent                                                 from "../../shared/ImageUploadComponent";
+import _                                                                    from 'lodash'
 
 export default {
   components: {
@@ -274,11 +274,13 @@ export default {
   data() {
     return {
       isPageBusy:              false,
+      selectedFile:            null,
       itemData:                [],
       subsidization_rule_list: [],
       form:                    {
         subsidization: {
-          subsidization_rule: {
+          subsidization_document: null,
+          subsidization_rule:     {
             subsidization_organization: {}
           }
         }
@@ -306,8 +308,8 @@ export default {
     }
   },
   methods:    {
-    onImageChange(e) {
-      this.form.subsidization.subsidization_document = this.$refs.subsidization_document.files[0];
+    change(e) {
+      this.selectedFile = e.target.files[0];
     },
     createImage(file) {
       let reader    = new FileReader();
@@ -337,7 +339,18 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store(self.main_route, self.id, self.form);
+        const formData = new FormData();
+
+        _.each(this.form, (value, key) => {
+          formData.append(key, value)
+        })
+
+        formData.append('subsidization[subsidization_document]', this.selectedFile, this.selectedFile.name);
+        formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
+        formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
+        formData.append('subsidization[subsidization_rules_id]', self.form.subsidization.subsidization_rules_id);
+
+        let response = await store(self.main_route, self.id, formData);
         window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {

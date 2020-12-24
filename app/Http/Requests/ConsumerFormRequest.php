@@ -32,7 +32,7 @@ class ConsumerFormRequest extends FormRequest
             'location_group_id'                    => 'required|numeric',
             'imageurl'                             => 'nullable|string',
             'balance_limit'                        => 'required|numeric',
-            'subsidization.subsidization_document' => '',
+            'subsidization.subsidization_document' => 'nullable|file',
             'subsidization.subsidization_rules_id' => 'nullable|numeric',
             'subsidization.subsidization_start'    => 'nullable|date',
             'subsidization.subsidization_end'      => 'nullable|date|after_or_equal:subsidization.subsidization_start',
