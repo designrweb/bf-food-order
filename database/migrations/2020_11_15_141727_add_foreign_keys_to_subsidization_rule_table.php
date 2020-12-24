@@ -14,9 +14,10 @@ class AddForeignKeysToSubsidizationRuleTable extends Migration
     public function up()
     {
         Schema::table('subsidization_rules', function (Blueprint $table) {
-            $table->foreign('subsidization_organization_id', 'subsidization_rules_subsidization_organizations_id_fk')
+            $table->foreign('subsidization_organization_id')
                 ->references('id')->on('subsidization_organizations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign('created_by', 'subsidization_rules_users_id_fk')->references('id')->on('users')->onUpdate
+
+            $table->foreign('created_by')->references('id')->on('users')->onUpdate
             ('NO ACTION')->onDelete('NO ACTION');
         });
     }
@@ -29,8 +30,8 @@ class AddForeignKeysToSubsidizationRuleTable extends Migration
     public function down()
     {
         Schema::table('subsidization_rules', function (Blueprint $table) {
-            $table->dropForeign('subsidization_rules_subsidization_organizations_id_fk');
-            $table->dropForeign('subsidization_rule_users_id_fk');
+            $table->dropForeign(['subsidization_organization_id']);
+            $table->dropForeign(['created_by']);
         });
     }
 }

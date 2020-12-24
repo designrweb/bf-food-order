@@ -20,3 +20,8 @@ Check [docs](https://github.com/andriyburda/crud-generator/blob/master/readme.md
 
 ## AdminLTE
 Check [docs](https://github.com/jeroennoten/Laravel-AdminLTE/blob/master/README.md) for more details
+
+## Testing
+1) Create new test DB for testing purposes.
+2) Write the credentials for connecting to the test database in the `.env` file. Example is in `.env.example` file.
+3) To run tests write in console: `php artisan test`
