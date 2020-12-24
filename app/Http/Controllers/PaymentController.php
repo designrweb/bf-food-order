@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
+use App\Services\ConsumerService;
 use App\Services\PaymentService;
 use App\Http\Requests\PaymentFormRequest;
 use Illuminate\Http\Request;
@@ -17,10 +18,15 @@ class PaymentController extends Controller
 {
     /** @var PaymentService $service */
     protected $service;
+    /**
+     * @var ConsumerService
+     */
+    private $consumerService;
 
-    public function __construct(PaymentService $service)
+    public function __construct(PaymentService $service, ConsumerService $consumerService)
     {
         $this->service = $service;
+        $this->consumerService = $consumerService;
     }
 
     /**
@@ -68,14 +74,21 @@ class PaymentController extends Controller
         return $this->service->getIndexStructure();
     }
 
+    public function getMealOrdersStructure(Request $request)
+    {
+        return $this->service->getMealOrdersStructure();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
     {
-        return view('payments._form');
+        $consumersList = $this->consumerService->getList();
+
+        return view('payments._form', compact('consumersList'));
     }
 
     /**
@@ -140,5 +153,15 @@ class PaymentController extends Controller
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('PaymentController@index')]);
+    }
+
+    /**
+     * Lists all payments by Meal Orders.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function mealOrders()
+    {
+        return view('payments.meal-orders');
     }
 }

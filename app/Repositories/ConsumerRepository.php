@@ -135,6 +135,33 @@ class ConsumerRepository implements RepositoryInterface
     }
 
     /**
+     * @param $accountId
+     * @return mixed
+     */
+    public function getByAccountId($accountId)
+    {
+        return $this->model::where('account_id', $accountId)->first();
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $consumersArray = [];
+        $allConsumers   = $this->model::all();
+
+        foreach ($allConsumers as $consumer) {
+            $consumersArray[] = [
+                'id'   => $consumer->id,
+                'name' => sprintf('%s-%s %s', $consumer->account_id, $consumer->lastname, $consumer->firstname)
+            ];
+        }
+
+        return $consumersArray;
+    }
+
+    /**
      * @param array $data
      * @param       $id
      */
