@@ -15,6 +15,8 @@
           v-if="!isPageBusy"
           id="index-list"
           :items="items"
+          striped
+          hover
           :fields="fields"
           :busy="isTableBusy"
           responsive="sm">
@@ -207,5 +209,9 @@ export default {
 
 .sortable:hover {
   color: #3caedc;
+}
+
+tbody tr:nth-child(1){
+  background-color: #FFFFFF !important;
 }
 </style>

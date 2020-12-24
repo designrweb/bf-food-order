@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div id="grid-index-page">
-        <grid-index :main_route="'/admin/settings'"></grid-index>
+    <div id="grid-combined-form-page">
+        <grid-combined-form :main_route="'/admin/settings'"></grid-combined-form>
     </div>
 @endsection
 

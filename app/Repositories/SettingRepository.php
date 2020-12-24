@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\CombinedSettingCollection;
 use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
+use App\Services\ImageService;
 use App\Setting;
 use App\QueryBuilders\SettingSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -14,45 +16,130 @@ class SettingRepository implements RepositoryInterface
     /** @var Setting */
     protected $model;
 
+    /**
+     * SettingRepository constructor.
+     *
+     * @param Setting $model
+     */
     public function __construct(Setting $model)
     {
         $this->model = $model;
     }
 
     /**
-     * @return SettingCollection
+     * @return mixed
      */
     public function all()
     {
-        return new SettingCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 SettingSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function allCombined()
+    {
+        return auth()->user()->userCompany->company->settings->keyBy('setting_name');
     }
 
     /**
      * @param array $data
-     * @return SettingResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new SettingResource($this->model->create($data));
+        return $this->model->create($data);
+    }
+
+    /**
+     * @param $themeColor
+     * @return bool
+     */
+    public function updateThemeColor($themeColor = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'theme_color',
+            'visible_name' => 'Theme Color',
+        ], [
+            'value' => $themeColor
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param $sidebarThemeColor
+     * @return bool
+     */
+    public function updateSidebarColor($sidebarThemeColor = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'sidebar_theme_color',
+            'visible_name' => 'Sidebar Theme Color',
+        ], [
+            'value' => $sidebarThemeColor
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function updateEmail($email = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'email',
+            'visible_name' => 'Email',
+        ], [
+            'value' => $email,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param null $logo
+     * @return bool
+     */
+    public function updateLogo($logo = null)
+    {
+        $settings = auth()->user()->userCompany->company->settings();
+
+        $settings->updateOrCreate([
+            'setting_name' => 'logo',
+            'visible_name' => 'Logo',
+        ], [
+            'value' => !empty($logo) ? ImageService::storeInFile($logo, $this->model::IMAGE_FOLDER) : '',
+        ]);
+
+        return true;
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return SettingResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new SettingResource($model);
+        return $model;
     }
 
     /**
@@ -65,11 +152,11 @@ class SettingRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return SettingResource
+     * @param $id
+     * @return mixed
      */
     public function get($id)
     {
-        return new SettingResource($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 }
