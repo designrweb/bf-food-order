@@ -27,7 +27,7 @@ class CompanySettingCompose
      */
     public function compose(View $view)
     {
-        $settings = auth()->check() ? auth()->user()->userCompany->company->settings->keyBy('setting_name')
+        $settings = !empty(auth()->user()->userCompany) ? auth()->user()->userCompany->company->settings->keyBy('setting_name')
             ->transform(function ($setting) {
                 return $setting->value;
             })->toArray() : [];
