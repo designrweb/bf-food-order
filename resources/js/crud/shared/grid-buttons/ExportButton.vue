@@ -26,32 +26,34 @@ export default {
     formats:    {
       type:     Array,
       required: false,
-      default:  [
-        {
-          type:  'Html',
-          icon:  'fas fa-file-code',
-          name:  'HTML',
-          allow: true,
-        },
-        {
-          name:  'CSV',
-          icon:  'fas fa-file-csv',
-          type:  'Csv',
-          allow: true,
-        },
-        {
-          name:  'Excel',
-          icon:  'fas fa-file-excel',
-          type:  'Xlsx',
-          allow: true,
-        },
-        {
-          name:  'PDF',
-          icon:  'fas fa-file-pdf',
-          type:  'Mpdf',
-          allow: true,
-        },
-      ]
+      default:  function () {
+        return [
+          {
+            type:  'Html',
+            icon:  'fas fa-file-code',
+            name:  'HTML',
+            allow: true,
+          },
+          {
+            name:  'CSV',
+            icon:  'fas fa-file-csv',
+            type:  'Csv',
+            allow: true,
+          },
+          {
+            name:  'Excel',
+            icon:  'fas fa-file-excel',
+            type:  'Xlsx',
+            allow: true,
+          },
+          {
+            name:  'PDF',
+            icon:  'fas fa-file-pdf',
+            type:  'Mpdf',
+            allow: true,
+          },
+        ]
+      }
     }
   },
   data() {

@@ -29,22 +29,14 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function all()
     {
-        return $this->mainPipeline()
-            ->paginate(request('itemsPerPage') ?? 10);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function mainPipeline()
-    {
         return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 ConsumerSearch::class,
             ])
             ->thenReturn()
-            ->with(['user.userInfo', 'locationGroup.location']);
+            ->with(['user.userInfo', 'locationGroup.location'])
+            ->paginate(request('itemsPerPage') ?? 1);
     }
 
     /**

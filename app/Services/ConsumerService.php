@@ -15,7 +15,7 @@ class ConsumerService extends BaseModelService
     /**
      * @var ConsumerRepository
      */
-    protected $repository;
+    public $repository;
 
     /**
      * ConsumerService constructor.

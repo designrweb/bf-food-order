@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Services\ExportService;
 use App\Services\UserService;
 use App\Http\Requests\UserFormRequest;
@@ -48,20 +49,18 @@ class UserController extends Controller
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new UserCollection($this->service->all()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new UserResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -97,26 +96,22 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param UserFormRequest $request
      * @return array
      */
     public function store(UserFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new UserResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new UserResource($this->service->getOne($id)))->toArray(request());
 
         return view('users.view', compact('resource'));
     }
@@ -130,21 +125,19 @@ class UserController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new UserResource($this->service->getOne($id)))->toArray(request());
 
         return view('users._form', compact('resource'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param UserFormRequest $request
-     * @param int             $id
+     * @param                 $id
      * @return array
      */
     public function update(UserFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new UserResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
