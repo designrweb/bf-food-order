@@ -37328,7 +37328,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/mykhaylo/develop/big-food/foodorder-laravel/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/horror/www/foodorder_laravel/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

@@ -26,33 +26,33 @@ class UserRepository implements RepositoryInterface
     }
 
     /**
-     * @return UserCollection
+     * @return mixed
      */
     public function all()
     {
-        return new UserCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 UserSearch::class,
             ])
             ->thenReturn()
             ->with('userInfo')
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return UserResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new UserResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return UserResource
+     * @return User
      */
     public function update(array $data, $id)
     {
@@ -67,8 +67,7 @@ class UserRepository implements RepositoryInterface
             $model->userInfo->update($data['user_info']);
         }
 
-
-        return new UserResource($model);
+        return $model;
     }
 
     /**
@@ -82,12 +81,10 @@ class UserRepository implements RepositoryInterface
 
     /**
      * @param $id
-     * @return UserResource
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        $model = $this->model->with('userInfo')->findOrFail($id);
-
-        return new UserResource($model);
+        return $this->model->with('userInfo')->findOrFail($id);
     }
 }

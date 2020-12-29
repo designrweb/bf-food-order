@@ -14,7 +14,7 @@ use App\User;
 class UserService extends BaseModelService
 {
 
-    protected $repository;
+    public $repository;
 
     public function __construct(UserRepository $repository)
     {
@@ -22,47 +22,37 @@ class UserService extends BaseModelService
     }
 
     /**
-     * Returns all users transformed to resource
-     *
-     * @return UserCollection
+     * @return mixed
      */
-    public function all(): UserCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return UserResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): UserResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the users model
-     *
      * @param $data
-     * @return UserResource
+     * @return mixed
      */
-    public function create($data): UserResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the users model
-     *
      * @param $data
      * @param $id
-     * @return UserResource
-     * @throws ModelNotFoundException
+     * @return User
      */
-    public function update($data, $id): UserResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
@@ -98,7 +88,7 @@ class UserService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        $fields = [
+        return [
             [
                 'key'   => 'email',
                 'label' => 'Email'
@@ -124,8 +114,6 @@ class UserService extends BaseModelService
                 'label' => 'Street'
             ]
         ];
-
-        return $fields;
     }
 
     /**
@@ -160,13 +148,11 @@ class UserService extends BaseModelService
      */
     protected function getFilters(Model $model): array
     {
-        $filters = [
+        return [
             'email'                => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
-
-        return $filters;
     }
 
     /**
@@ -175,13 +161,11 @@ class UserService extends BaseModelService
      */
     protected function getSortFields(Model $model): array
     {
-        $sortFields = [
+        return [
             'id'                   => '',
             'email'                => '',
             'user_info.first_name' => '',
             'user_info.last_name'  => '',
         ];
-
-        return $sortFields;
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
-use App\Services\ConsumerSubsidizationService;
+use App\Services\ExportService;
 use App\Services\LocationGroupService;
 use App\Services\SubsidizationOrganizationService;
 use Illuminate\Http\Request;
@@ -216,5 +216,15 @@ class ConsumerController extends Controller
             'message' => 'Something went wrong!',
             'success' => false,
         ], 500);
+    }
+
+    /**
+     * @param ExportService $exportService
+     * @param Request       $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request, ExportService $exportService)
+    {
+        return $exportService->export($request, $this->service, ConsumerCollection::class, Consumer::class);
     }
 }

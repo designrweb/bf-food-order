@@ -1,12 +1,17 @@
 <template>
   <div class="card">
     <div class="card-header" v-if="!isPageBusy">
-      <h3 class="card-title"></h3>
+      <h3 class="card-title">Administrators</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body overflow-auto">
-      <div class="text-left">
-        <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+      <div class="d-inline">
+        <div class="text-left">
+          <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+        </div>
+        <div class="float-right">
+          <export-button :main_route="main_route" :filters="filters" :sort="sort"></export-button>
+        </div>
       </div>
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
@@ -77,11 +82,11 @@
 </template>
 
 <script>
-import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
-import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
-import {getStructure, getItems}                             from "../../api/crudRequests";
-import SpinnerComponent                                     from "../../shared/SpinnerComponent";
-import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import FilterTextInput                                                    from "../../shared/filters/TextFilterComponent";
+import {CreateButton, ViewButton, EditButton, DeleteButton, ExportButton} from "../../shared/grid-buttons";
+import {getStructure, getItems}                                           from "../../api/crudRequests";
+import SpinnerComponent                                                   from "../../shared/SpinnerComponent";
+import PaginationInfoComponent                                            from "../../shared/PaginationInfoComponent";
 
 export default {
   components: {
@@ -92,6 +97,7 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'export-button':             ExportButton,
   },
   props:      {
     main_route: String
