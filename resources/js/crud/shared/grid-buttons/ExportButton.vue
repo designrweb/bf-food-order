@@ -5,17 +5,8 @@
         <b-dropdown-header id="dropdown-header-label">
           Export Page Data
         </b-dropdown-header>
-        <b-dropdown-item-button aria-describedby="dropdown-header-label" @click="handleExport('Html')">
-          <i class="fas fa-file-code"></i> HTML
-        </b-dropdown-item-button>
-        <b-dropdown-item-button aria-describedby="dropdown-header-label" @click="handleExport('Csv')">
-          <i class="fas fa-file-csv"></i> CSV
-        </b-dropdown-item-button>
-        <b-dropdown-item-button aria-describedby="dropdown-header-label" @click="handleExport('Xlsx')">
-          <i class="fas fa-file-excel"></i> Excel
-        </b-dropdown-item-button>
-        <b-dropdown-item-button aria-describedby="dropdown-header-label" @click="handleExport('Mpdf')">
-          <i class="fas fa-file-pdf"></i> PDF
+        <b-dropdown-item-button v-for="(item, index) in formats" v-if="item.allow" :key="index" aria-describedby="dropdown-header-label" @click="handleExport(item.type)">
+          <i :class="item.icon"></i> {{ item.name }}
         </b-dropdown-item-button>
       </b-dropdown>
     </b-overlay>
@@ -31,25 +22,37 @@ export default {
   props:   {
     filters:    {},
     sort:       {},
-    allowTypes: [
-      {
-        name: 'HTML',
-        allow: true,
-      },
-      {
-        name: 'CSV',
-        allow: true,
-      },
-      {
-        name: 'Excel',
-        allow: true,
-      },
-      {
-        name: 'PDF',
-        allow: true,
-      },
-    ],
-    main_route: String
+    main_route: String,
+    formats:    {
+      type:     Array,
+      required: false,
+      default:  [
+        {
+          type:  'Html',
+          icon:  'fas fa-file-code',
+          name:  'HTML',
+          allow: true,
+        },
+        {
+          name:  'CSV',
+          icon:  'fas fa-file-csv',
+          type:  'Csv',
+          allow: true,
+        },
+        {
+          name:  'Excel',
+          icon:  'fas fa-file-excel',
+          type:  'Xlsx',
+          allow: true,
+        },
+        {
+          name:  'PDF',
+          icon:  'fas fa-file-pdf',
+          type:  'Mpdf',
+          allow: true,
+        },
+      ]
+    }
   },
   data() {
     return {
