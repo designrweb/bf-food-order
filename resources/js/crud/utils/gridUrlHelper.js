@@ -9,6 +9,7 @@ export class UrlBuilder {
         this.filters      = null;
         this.sort         = null;
         this.page         = null;
+        this.exportType   = null;
         this.itemsPerPage = null;
     }
 
@@ -27,6 +28,11 @@ export class UrlBuilder {
         return this;
     }
 
+    setExportType(exportType) {
+        this.exportType = exportType;
+        return this;
+    }
+
     setFilters(filters) {
         this.filters = filters;
         return this;
@@ -36,6 +42,12 @@ export class UrlBuilder {
         if (!this.page) return '';
 
         return 'page=' + this.page;
+    }
+
+    _prepareExportTypeUrl() {
+        if (!this.exportType) return '';
+
+        return 'exportType=' + this.exportType;
     }
 
     _prepareItemsPerPageUrl() {
@@ -54,9 +66,9 @@ export class UrlBuilder {
             if (this.filters[key].length == 0) continue;
             if (iteration > 1) filterQuery += '&';
 
-            if (this.filters[key] instanceof Object  ) {
+            if (this.filters[key] instanceof Object) {
                 filterValue = JSON.stringify(this.filters[key]);
-            } else{
+            } else {
                 filterValue = this.filters[key];
             }
 
@@ -94,31 +106,34 @@ export class UrlBuilder {
      * @returns {string}
      * @private
      */
-    _prepareKey(keyString){
+    _prepareKey(keyString) {
         const keys = keyString.split('.');
         let result = '';
 
-        for(const index in keys) {
-            result += '['+keys[index]+']';
+        for (const index in keys) {
+            result += '[' + keys[index] + ']';
         }
         return result;
     }
 
     getUrl() {
-        let url = '';
+        let url = [];
 
         let pageUrl = this._preparePageUrl();
-        if (pageUrl.length > 0) url += '?' + pageUrl;
+        if (pageUrl.length > 0) url.push(pageUrl);
+
+        let exportTypeUrl = this._prepareExportTypeUrl();
+        if (exportTypeUrl.length > 0) url.push(exportTypeUrl);
 
         let filterUrl = this._prepareFiltersUrl();
-        if (filterUrl.length > 0) url += '&' + filterUrl;
+        if (filterUrl.length > 0) url.push(filterUrl);
 
         let itemsPerPageUrl = this._prepareItemsPerPageUrl();
-        if (itemsPerPageUrl.length > 0) url += '&' + itemsPerPageUrl;
+        if (itemsPerPageUrl.length > 0) url.push(itemsPerPageUrl);
 
         let sortUrl = this._prepareSortUrl();
-        if (sortUrl.length > 0) url += '&' + sortUrl;
+        if (sortUrl.length > 0) url.push(sortUrl);
 
-        return url;
+        return (url.length > 0 ? '?' : '') + url.join('&');
     }
 }

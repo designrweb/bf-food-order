@@ -27,10 +27,10 @@ class CompanySettingCompose
      */
     public function compose(View $view)
     {
-        $settings = auth()->user()->userCompany->company->settings->keyBy('setting_name')
+        $settings = auth()->check() ? auth()->user()->userCompany->company->settings->keyBy('setting_name')
             ->transform(function ($setting) {
                 return $setting->value;
-            })->toArray();
+            })->toArray() : [];
 
         $themeColor        = !empty($settings['theme_color']) ? $settings['theme_color'] : Setting::DEFAULT_THEME_COLOR;
         $sidebarThemeColor = !empty($settings['sidebar_theme_color']) ? $settings['sidebar_theme_color'] : Setting::DEFAULT_SIDEBAR_THEME_COLOR;

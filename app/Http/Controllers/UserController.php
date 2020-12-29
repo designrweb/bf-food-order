@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
+use App\Services\ExportService;
 use App\Services\UserService;
 use App\Http\Requests\UserFormRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -155,5 +158,15 @@ class UserController extends Controller
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('UserController@index')]);
+    }
+
+    /**
+     * @param Request       $request
+     * @param ExportService $exportService
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request, ExportService $exportService)
+    {
+        return $exportService->export($request, $this->service, UserCollection::class, User::class);
     }
 }

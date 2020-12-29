@@ -30,14 +30,22 @@ class UserRepository implements RepositoryInterface
      */
     public function all()
     {
-        return new UserCollection(app(Pipeline::class)
+        return new UserCollection($this->mainPipeline()
+            ->paginate(request('itemsPerPage') ?? 10));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function mainPipeline()
+    {
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 UserSearch::class,
             ])
             ->thenReturn()
-            ->with('userInfo')
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->with('userInfo');
     }
 
     /**

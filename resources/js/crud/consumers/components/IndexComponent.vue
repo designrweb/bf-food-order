@@ -5,8 +5,13 @@
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body overflow-auto">
-      <div class="text-left">
-        <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+      <div class="d-inline">
+        <div class="float-left">
+          <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+        </div>
+        <div class="float-right">
+          <export-button :main_route="main_route" :filters="filters" :sort="sort"></export-button>
+        </div>
       </div>
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
@@ -81,15 +86,15 @@
 </template>
 
 <script>
-import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
-import FilterSelectInput                                    from "../../shared/filters/SelectFilterComponent";
-import FilterDatePickerInput                                from "../../shared/filters/DatePickerFilterComponent";
-import FilterNumberInput                                    from "../../shared/filters/NumberFilterComponent";
-import FilterDateRangePickerInput                           from "../../shared/filters/DateRangePickerFilterComponent";
-import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
-import {getStructure, getItems}                             from "../../api/crudRequests";
-import SpinnerComponent                                     from "../../shared/SpinnerComponent";
-import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import FilterTextInput                                                    from "../../shared/filters/TextFilterComponent";
+import FilterSelectInput                                                  from "../../shared/filters/SelectFilterComponent";
+import FilterDatePickerInput                                              from "../../shared/filters/DatePickerFilterComponent";
+import FilterNumberInput                                                  from "../../shared/filters/NumberFilterComponent";
+import FilterDateRangePickerInput                                         from "../../shared/filters/DateRangePickerFilterComponent";
+import {CreateButton, ViewButton, EditButton, DeleteButton, ExportButton} from "../../shared/grid-buttons";
+import {getStructure, getItems}                                           from "../../api/crudRequests";
+import SpinnerComponent                                                   from "../../shared/SpinnerComponent";
+import PaginationInfoComponent                                            from "../../shared/PaginationInfoComponent";
 
 export default {
   components: {
@@ -104,6 +109,7 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'export-button':             ExportButton,
   },
   props:      {
     main_route: String

@@ -35,6 +35,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/{id}', 'UserController@show')->name('users.show')->middleware('checkRole:view,App\User,id');
         Route::put('/{id}', 'UserController@update')->name('users.update')->middleware('checkRole:update,App\User,id');
         Route::delete('/{id}', "UserController@destroy")->name('users.destroy')->middleware('checkRole:delete,App\User,id');
+        Route::get('/export/run', "UserController@export")->name('users.export');
     });
 
     /** subsidization-organizations routes */
@@ -192,6 +193,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
         Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
         Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
+        Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
     });
 
     /** consumer-subsidizations routes */
