@@ -36,7 +36,7 @@ class ConsumerRepository implements RepositoryInterface
             ])
             ->thenReturn()
             ->with(['user.userInfo', 'locationGroup.location'])
-            ->paginate(request('itemsPerPage') ?? 1);
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
