@@ -106,14 +106,10 @@ class CompanyService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        $fields = [
+        return [
             [
                 'key'   => 'name',
                 'label' => 'Name'
-            ],
-            [
-                'key'   => 'email',
-                'label' => 'Email'
             ],
             [
                 'key'   => 'zip',
@@ -129,8 +125,6 @@ class CompanyService extends BaseModelService
             ],
 
         ];
-
-        return $fields;
     }
 
     /**
@@ -147,10 +141,6 @@ class CompanyService extends BaseModelService
             [
                 'key'   => 'name',
                 'label' => 'Name'
-            ],
-            [
-                'key'   => 'email',
-                'label' => 'Email'
             ],
             [
                 'key'   => 'zip',
