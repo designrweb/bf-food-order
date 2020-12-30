@@ -154,7 +154,7 @@
                   label-for="input-location_id"
               >
                 <b-form-select
-                    v-model="form.subsidization.subsidization_rule.subsidization_organization.id"
+                    v-model="form.subsidization.subsidization_organization_id"
                     :options="subsidization_organization_list"
                     @change="getSubsidizationRulesBySubsidizationOrganizationId($event)"
                     class="mb-3"
@@ -162,8 +162,8 @@
                     text-field="name"
                     disabled-field="notEnabled"
                 ></b-form-select>
-                <b-form-invalid-feedback :state="validation['subsidization.subsidization_rule.subsidization_organization.id']['state']">
-                  {{ validation['subsidization.subsidization_rule.subsidization_organization.id']['message'] }}
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_organization_id']['state']">
+                  {{ validation['subsidization.subsidization_organization_id']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
 
@@ -227,7 +227,7 @@
                 <b-form-file
                     accept=".pdf"
                     v-model="form.subsidization.subsidization_document"
-                    placeholder="Choose a file or drop it here..."
+                    :placeholder="(form.subsidization.subsidization_document ? form.subsidization.subsidization_document : 'Choose a file or drop it here...')"
                     @change="change"
                     drop-placeholder="Drop file here..."
                 ></b-form-file>
@@ -253,11 +253,11 @@
 </template>
 
 <script>
-import {getItem, getSubsidizationRulesBySubsidizationOrganizationId, store} from "../../api/crudRequests";
-import SpinnerComponent                                                     from "../../shared/SpinnerComponent";
-import BackButtonComponent                                                  from "../../shared/BackButtonComponent";
-import ImageUploadComponent                                                 from "../../shared/ImageUploadComponent";
-import _                                                                    from 'lodash'
+import {getItem, getSubsidizationRulesBySubsidizationOrganizationId, storeFormData} from "../../api/crudRequests";
+import SpinnerComponent                                                             from "../../shared/SpinnerComponent";
+import BackButtonComponent                                                          from "../../shared/BackButtonComponent";
+import ImageUploadComponent                                                         from "../../shared/ImageUploadComponent";
+import _                                                                            from 'lodash'
 
 export default {
   components: {
@@ -279,31 +279,28 @@ export default {
       subsidization_rule_list: [],
       form:                    {
         subsidization: {
-          subsidization_document: null,
-          subsidization_rule:     {
-            subsidization_organization: {}
-          }
+          subsidization_document: null
         }
       },
       validation:              {
-        'id':                                                             {'state': true, 'message': ''},
-        'account_id':                                                     {'state': true, 'message': ''},
-        'firstname':                                                      {'state': true, 'message': ''},
-        'lastname':                                                       {'state': true, 'message': ''},
-        'birthday':                                                       {'state': true, 'message': ''},
-        'imageurl':                                                       {'state': true, 'message': ''},
-        'balance':                                                        {'state': true, 'message': ''},
-        'balance_limit':                                                  {'state': true, 'message': ''},
-        'location_group_id':                                              {'state': true, 'message': ''},
-        'user_id':                                                        {'state': true, 'message': ''},
-        'created_at':                                                     {'state': true, 'message': ''},
-        'updated_at':                                                     {'state': true, 'message': ''},
-        'deleted_at':                                                     {'state': true, 'message': ''},
-        'subsidization.subsidization_rules_id':                           {'state': true, 'message': ''},
-        'subsidization.subsidization_rule.subsidization_organization.id': {'state': true, 'message': ''},
-        'subsidization.subsidization_start':                              {'state': true, 'message': ''},
-        'subsidization.subsidization_end':                                {'state': true, 'message': ''},
-        'subsidization.subsidization_document':                           {'state': true, 'message': ''},
+        'id':                                          {'state': true, 'message': ''},
+        'account_id':                                  {'state': true, 'message': ''},
+        'firstname':                                   {'state': true, 'message': ''},
+        'lastname':                                    {'state': true, 'message': ''},
+        'birthday':                                    {'state': true, 'message': ''},
+        'imageurl':                                    {'state': true, 'message': ''},
+        'balance':                                     {'state': true, 'message': ''},
+        'balance_limit':                               {'state': true, 'message': ''},
+        'location_group_id':                           {'state': true, 'message': ''},
+        'user_id':                                     {'state': true, 'message': ''},
+        'created_at':                                  {'state': true, 'message': ''},
+        'updated_at':                                  {'state': true, 'message': ''},
+        'deleted_at':                                  {'state': true, 'message': ''},
+        'subsidization.subsidization_rules_id':        {'state': true, 'message': ''},
+        'subsidization.subsidization_organization_id': {'state': true, 'message': ''},
+        'subsidization.subsidization_start':           {'state': true, 'message': ''},
+        'subsidization.subsidization_end':             {'state': true, 'message': ''},
+        'subsidization.subsidization_document':        {'state': true, 'message': ''},
       },
     }
   },
@@ -320,10 +317,10 @@ export default {
       reader.readAsDataURL(file);
     },
     async getSubsidizationRulesBySubsidizationOrganizationId() {
-      if (this.form.subsidization.subsidization_rule.subsidization_organization.id == null) return;
+      if (this.form.subsidization.subsidization_organization_id === null) return;
 
       try {
-        let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_rule.subsidization_organization.id);
+        let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_organization_id);
         this.subsidization_rule_list = response['data'];
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
@@ -340,21 +337,42 @@ export default {
       self.isPageBusy = true;
       try {
         const formData = new FormData();
+        let headers    = {};
 
         _.each(this.form, (value, key) => {
           formData.append(key, value)
         })
 
-        formData.append('subsidization[subsidization_document]', this.selectedFile, this.selectedFile.name);
-        formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
-        formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
-        formData.append('subsidization[subsidization_rules_id]', self.form.subsidization.subsidization_rules_id);
+        if (self.selectedFile) {
+          headers = {
+            "Content-type": "multipart/form-data"
+          };
+          formData.append('subsidization[subsidization_document]', self.selectedFile, self.selectedFile.name);
+        }
 
-        let headers = {
-          "Content-type": "multipart/form-data"
-        };
+        if (typeof self.form.subsidization.subsidization_start !== "undefined") {
+          formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
+        } else {
+          formData.append('subsidization[subsidization_start]', '');
+        }
 
-        let response = await store(self.main_route, self.id, formData, headers);
+        if (typeof self.form.subsidization.subsidization_end !== "undefined") {
+          formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
+        } else {
+          formData.append('subsidization[subsidization_end]', '');
+        }
+
+        if (typeof self.form.subsidization.subsidization_rules_id !== "undefined") {
+          formData.append('subsidization[subsidization_rules_id]', self.form.subsidization.subsidization_rules_id);
+        } else {
+          formData.append('subsidization[subsidization_rules_id]', '');
+        }
+
+        if (self.id) {
+          formData.append('_method', 'PUT');
+        }
+
+        let response         = await storeFormData(self.main_route, self.id, formData, headers);
         window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
