@@ -24,7 +24,15 @@ export const getItem = (mainRoute, id) => api
     .request(mainRoute + '/get-one/' + id)
     .get();
 
-export const store = (mainRoute, id, data, headers = {}) => typeof id === "undefined" ? api
+export const store = (mainRoute, id, data) => typeof id === "undefined" ? api
+    .request(mainRoute)
+    .withBody(data)
+    .post() : api
+    .request(mainRoute + '/' + id)
+    .withBody(data)
+    .put();
+
+export const storeFormData = (mainRoute, id, data, headers = {}) => typeof id === "undefined" ? api
     .request(mainRoute)
     .withBody(data, true)
     .withHeaders(headers)
@@ -32,7 +40,7 @@ export const store = (mainRoute, id, data, headers = {}) => typeof id === "undef
     .request(mainRoute + '/' + id)
     .withBody(data, true)
     .withHeaders(headers)
-    .put();
+    .post();
 
 export const getLocationGroupsByLocationId = (url) => api
     .request(url)

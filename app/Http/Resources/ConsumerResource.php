@@ -14,6 +14,9 @@ class ConsumerResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data                                                   = parent::toArray($request);
+        $data['subsidization']['subsidization_organization_id'] = !empty($this->subsidization) ? $this->subsidization->subsidizationRule->subsidizationOrganization->id : null;
+
+        return $data;
     }
 }

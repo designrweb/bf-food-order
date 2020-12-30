@@ -81,7 +81,9 @@ class ConsumerService extends BaseModelService
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            $model->subsidization()->create($data['subsidization']);
+            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+                $model->subsidization()->create($data['subsidization']);
+            }
         }
 
         return $model;
@@ -108,14 +110,18 @@ class ConsumerService extends BaseModelService
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            $model->subsidization()->create($data['subsidization']);
+            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+                $model->subsidization()->create($data['subsidization']);
+            }
         } else {
             if ($request->hasFile('subsidization.subsidization_document')) {
                 $fileName = time() . '.pdf';
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            $model->subsidization->update($data['subsidization']);
+            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+                $model->subsidization->update($data['subsidization']);
+            }
         }
 
         return $model;
@@ -194,7 +200,7 @@ class ConsumerService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        $fields = [
+        return [
             [
                 'key'   => 'qrcode.qr_code_hash',
                 'label' => 'QR Code'
@@ -244,8 +250,6 @@ class ConsumerService extends BaseModelService
                 'label' => 'Subsidization Rule'
             ],
         ];
-
-        return $fields;
     }
 
     /**
