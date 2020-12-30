@@ -350,7 +350,11 @@ export default {
         formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
         formData.append('subsidization[subsidization_rules_id]', self.form.subsidization.subsidization_rules_id);
 
-        let response = await store(self.main_route, self.id, formData);
+        let headers = {
+          "Content-type": "multipart/form-data"
+        };
+
+        let response = await store(self.main_route, self.id, formData, headers);
         window.location.href = self.main_route + '/' + response['data'].id + '/edit';
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {

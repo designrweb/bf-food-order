@@ -61,7 +61,7 @@ class LocationService extends BaseModelService
      */
     public function create($data): LocationResource
     {
-        if ($data['image_name']) {
+        if (!empty($data['image_name'])) {
             $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
         }
 

@@ -9,9 +9,9 @@
 @section('content')
     <div id="grid-form-page">
         @if(!empty($resource))
-            <grid-form :main_route="'companies'" :id="{{$resource['id']}}"></grid-form>
+            <grid-form :main_route="'/admin/companies'" :id="{{$resource['id']}}"></grid-form>
         @else
-            <grid-form :main_route="'companies'"></grid-form>
+            <grid-form :main_route="'/admin/companies'"></grid-form>
         @endif
     </div>
 @endsection

@@ -24,18 +24,14 @@ export const getItem = (mainRoute, id) => api
     .request(mainRoute + '/get-one/' + id)
     .get();
 
-export const store = (mainRoute, id, data) => typeof id === "undefined" ? api
+export const store = (mainRoute, id, data, headers = {}) => typeof id === "undefined" ? api
     .request(mainRoute)
     .withBody(data, true)
-    .withHeaders({
-        "Content-type": "multipart/form-data"
-    })
+    .withHeaders(headers)
     .post() : api
     .request(mainRoute + '/' + id)
     .withBody(data, true)
-    .withHeaders({
-        "Content-type": "multipart/form-data"
-    })
+    .withHeaders(headers)
     .put();
 
 export const getLocationGroupsByLocationId = (url) => api
