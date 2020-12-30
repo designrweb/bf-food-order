@@ -1,6 +1,6 @@
 window.Vue = require('vue');
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
-import IndexComponent                    from '../components/IndexComponent';
+import IndexComponent                    from '../components/Form';
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
