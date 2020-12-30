@@ -2,10 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\CombinedSettingCollection;
-use App\Http\Resources\SettingCollection;
-use App\Http\Resources\SettingResource;
-use App\Services\ImageService;
+use App\Components\ImageComponent;
 use App\Setting;
 use App\QueryBuilders\SettingSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -123,7 +120,7 @@ class SettingRepository implements RepositoryInterface
             'setting_name' => 'logo',
             'visible_name' => 'Logo',
         ], [
-            'value' => !empty($logo) ? ImageService::storeInFile($logo, $this->model::IMAGE_FOLDER) : '',
+            'value' => !empty($logo) ? ImageComponent::storeInFile($logo, $this->model::IMAGE_FOLDER) : '',
         ]);
 
         return true;

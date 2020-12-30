@@ -56,6 +56,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     /** menu-categories routes */
     Route::prefix('menu-categories')->middleware(['auth'])->group(function () {
         Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
+        //Route::get('/get-item-list', "MenuCategoryController@getList")->name('menu-categories.get-list');
         Route::get('/get-structure', 'MenuCategoryController@getIndexStructure')->name('menu-categories.index-structure');
         Route::get('/get-view-structure', 'MenuCategoryController@getViewStructure')->name('menu-categories.view-structure');
         Route::get('/get-one/{id}', 'MenuCategoryController@getOne')->name('menu-categories.get-one');
