@@ -5,6 +5,7 @@
     </div>
     <div class="card">
       <div class="card-header">
+        <h3 class="card-title">Voucher Limits</h3>
         <b-row class="menu-underlined-block pt-12">
           <b-col cols="12" class="text-right">
             <b-btn size="sm"
@@ -44,8 +45,7 @@
               </tr>
               </thead>
               <tbody>
-              <pre>{{menuCategories}}</pre>
-              <tr v-for="menuCategory in menuCategories">
+              <tr v-for="menuCategory in menu_categories">
                 <menu-categories-component
                     :menu-category="menuCategory"
                 ></menu-categories-component>
@@ -80,12 +80,7 @@
 </template>
 
 <script>
-import {
-  getVoucherItems,
-  getMenuCategories,
-  getItemList,
-  storeFoodOrderItems,
-} from "../../api/voucherLimits";
+import {storeItemList} from "../../api/voucherLimits";
 
 import moment from 'moment';
 
@@ -101,16 +96,12 @@ export default {
     'menu-categories-component': MenuCategoriesItemsComponent,
   },
   computed:   {},
+  props:      {
+    menu_categories: {},
+    weeklylist:      Object | Array
+  },
   data:       () => ({
-    isLoading:      true,
-    weeklyList:     {
-      0: {10: 15},
-      1: {},
-      2: {},
-      3: {},
-      4: {},
-    },
-    menuCategories: [],
+    isLoading: true,
   }),
   methods:    {
     /**
@@ -119,7 +110,7 @@ export default {
      * @param dayIndex
      * @returns {*}
      */
-    getDayTitle:         function (dayIndex) {
+    getDayTitle: function (dayIndex) {
       let _date = this.getFirstDay();
       _date.setDate(_date.getDate() + dayIndex);
       return moment(_date).format('dd');
@@ -128,26 +119,26 @@ export default {
      * Store all voucher-limit items
      * @returns void
      */
-    store:               async function () {
+    store:        async function () {
       this.isLoading = true;
       try {
-        await storeFoodOrderItems({'items': this.weeklyList});
+        await storeItemList('/admin/voucher-limits', this.weeklylist);
       } catch (e) {
         this._showToastError(e.toString());
       }
       this.isLoading = false;
     },
-    getDateValue:        function (menuCategory, dayNumber) {
-      if (!(dayNumber in this.weeklyList)) return 0;
+    getDateValue: function (menuCategory, dayNumber) {
+      if (!(dayNumber in this.weeklylist)) return 0;
 
-      if (!(menuCategory.id in this.weeklyList[dayNumber])) return 0;
+      if (!(menuCategory.id in this.weeklylist[dayNumber])) return 0;
 
-      return parseInt(this.weeklyList[dayNumber][menuCategory.id]);
+      return parseInt(this.weeklylist[dayNumber][menuCategory.id]);
     },
     /**
      * Returns the first day of current week
      */
-    getFirstDay:         function () {
+    getFirstDay: function () {
       let _today = new Date();
       _today.setHours(0, 0, 0, 0);
       _today   = new Date(_today);
@@ -163,31 +154,15 @@ export default {
      * @param menuId
      * @return void
      */
-    updateOrderItem:     async function (updatedItem, selectedDayIndex, menuId) {
+    updateOrderItem: async function (updatedItem, selectedDayIndex, menuId) {
       this.isLoading = true;
 
-      if (!(selectedDayIndex in this.weeklyList)) {
-        this.weeklyList[selectedDayIndex] = {};
+      if (!(selectedDayIndex in this.weeklylist)) {
+        this.weeklylist[selectedDayIndex] = {};
       }
 
-      this.weeklyList[selectedDayIndex][menuId] = updatedItem;
+      this.weeklylist[selectedDayIndex][menuId] = updatedItem;
       this.isLoading                            = false;
-    },
-    _loadMenuItems:      async function () {
-      try {
-        let response    = await getItemList('/admin/voucher-limits');
-        this.weeklyList = response['data']['items'];
-      } catch (e) {
-        this._showToastError(e.toString());
-      }
-    },
-    _loadMenuCategories: async function () {
-      try {
-        let response        = await getItemList('/admin/menu-categories');
-        this.menuCategories = response['data'];
-      } catch (e) {
-        this._showToastError(e.toString());
-      }
     },
     _showToastError(message = '', title = 'Error') {
       this.$bvToast.toast(message, {
@@ -203,8 +178,6 @@ export default {
   },
   async mounted() {
     this.isLoading = true;
-    await this._loadMenuCategories();
-    await this._loadMenuItems();
     this.isLoading = false;
   },
 }

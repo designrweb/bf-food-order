@@ -2,7 +2,11 @@
 
 @section('content')
     <div id="grid-index-page">
-        <grid-index :main_route="'voucher-limits'"></grid-index>
+        <grid-index
+                :main_route="'voucher-limits'"
+                :menu_categories="{{json_encode($menuCategories)}}"
+                :weeklylist="{{json_encode($voucherLimits)}}"
+        ></grid-index>
     </div>
 @endsection
 

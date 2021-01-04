@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VoucherLimitCollection;
 use App\Http\Resources\VoucherLimitResource;
+use App\Services\MenuCategoryService;
 use App\Services\VoucherLimitService;
 use App\Http\Requests\VoucherLimitFormRequest;
 use Illuminate\Http\Request;
@@ -24,37 +26,39 @@ class VoucherLimitController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @param MenuCategoryService $menuCategoryService
+     * @param VoucherLimitService $voucherLimitService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(MenuCategoryService $menuCategoryService, VoucherLimitService $voucherLimitService)
     {
-        return view('voucher_limits.index');
+        $menuCategories = $menuCategoryService->getList();
+        $voucherLimits  = $voucherLimitService->getList();
+
+        return view('voucher_limits.index', [
+            'menuCategories' => $menuCategories,
+            'voucherLimits'  => $voucherLimits,
+        ]);
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new VoucherLimitCollection($this->service->all()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new VoucherLimitResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -69,9 +73,7 @@ class VoucherLimitController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -79,35 +81,29 @@ class VoucherLimitController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param VoucherLimitFormRequest $request
      * @return array
      */
     public function store(VoucherLimitFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new VoucherLimitResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('voucher_limits.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -118,22 +114,18 @@ class VoucherLimitController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param VoucherLimitFormRequest $request
-     * @param int     $id
+     * @param                         $id
      * @return array
      */
     public function update(VoucherLimitFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new VoucherLimitResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
