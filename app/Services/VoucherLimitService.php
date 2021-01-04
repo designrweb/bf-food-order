@@ -1,11 +1,9 @@
 <?php
+
 namespace App\Services;
 
-use App\Http\Resources\VoucherLimitCollection;
-use App\Http\Resources\VoucherLimitResource;
 use App\Repositories\VoucherLimitRepository;
 use bigfood\grid\BaseModelService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\VoucherLimit;
 
 
@@ -14,55 +12,58 @@ class VoucherLimitService extends BaseModelService
 
     protected $repository;
 
+    /**
+     * VoucherLimitService constructor.
+     *
+     * @param VoucherLimitRepository $repository
+     */
     public function __construct(VoucherLimitRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * Returns all voucher_limits transformed to resource
-     *
-     * @return VoucherLimitCollection
+     * @return mixed
      */
-    public function all(): VoucherLimitCollection
+    public function all()
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return VoucherLimitResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): VoucherLimitResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the voucher_limits model
-     *
      * @param $data
-     * @return VoucherLimitResource
+     * @return VoucherLimit
      */
-    public function create($data): VoucherLimitResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the voucher_limits model
-     *
      * @param $data
      * @param $id
-     * @return VoucherLimitResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): VoucherLimitResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
+    }
+
+    /**
+     * @return array
+     */
+    public function getList(): array
+    {
+        return $this->repository->getList();
     }
 
     /**
@@ -82,7 +83,7 @@ class VoucherLimitService extends BaseModelService
         return $this->getFullStructure((new VoucherLimit()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array

@@ -150,4 +150,12 @@ class MenuCategoryController extends Controller
 
         return response()->json(['redirect_url' => action('MenuCategoryController@index')]);
     }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->service->getList();
+    }
 }
