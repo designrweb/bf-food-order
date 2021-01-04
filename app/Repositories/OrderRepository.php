@@ -108,4 +108,24 @@ class OrderRepository implements RepositoryInterface
 
         return true;
     }
+
+    public function getOrdersWithSubsidizationByDateForConsumer(Order $order)
+    {
+        $ordersWithSubsidization = Order::hasSubsidization()
+            ->where('consumer_id', $order->consumer_id)
+            ->where('day', $order->day)
+            ->where('id', '<>', $order->id)
+            ->get();
+        return $ordersWithSubsidization;
+    }
+
+    public function countOrdersWithSubsidizationByDateForConsumer(Order $order)
+    {
+        $ordersWithSubsidization = Order::hasSubsidization()
+            ->where('consumer_id', $order->consumer_id)
+            ->where('day', $order->day)
+            ->where('id', '<>', $order->id)
+            ->count();
+        return $ordersWithSubsidization;
+    }
 }

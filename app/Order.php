@@ -57,6 +57,11 @@ class Order extends Model
      */
     protected $fillable = ['menuitem_id', 'consumer_id', 'subsidization_organization_id', 'type', 'day', 'pickedup', 'pickedup_at', 'quantity', 'is_subsidized', 'created_at', 'updated_at', 'deleted_at'];
 
+    public function scopeHasSubsidization($query)
+    {
+        return $query->where(['is_subsidized' => Order::IS_SUBSIDIZED]);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -87,5 +92,21 @@ class Order extends Model
     public function getDateAttribute()
     {
         return date('l, d.m.Y', strtotime($this->day));
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPosOrder(): bool
+    {
+        return $this->type === self::TYPE_POS_ORDER;
     }
 }

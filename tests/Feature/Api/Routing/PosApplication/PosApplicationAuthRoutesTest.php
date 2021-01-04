@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Routing\PosApplication;
+namespace Tests\Feature\Api\Api\Routing\PosApplication;
 
 use Tests\TestCase;
 

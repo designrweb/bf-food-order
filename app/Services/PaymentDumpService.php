@@ -184,7 +184,7 @@ class PaymentDumpService extends BaseModelService
 
             $payment_record = [
                 'amount'        => $payment['amount'],
-                'type'          => $this->paymentService::TYPE_BANK_TRANSACTION,
+                'type'          => Payment::TYPE_BANK_TRANSACTION,
                 'comment'       => $payment['comment'],
                 'consumer_id'   => $consumer ? $consumer->consumer_id : null,
                 'transacted_at' => $payment['transacted_at'],

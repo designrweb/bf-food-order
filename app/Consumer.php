@@ -93,4 +93,46 @@ class Consumer extends Model
     {
         return $this->hasOne(ConsumerSubsidization::class, 'consumer_id', 'id');
     }
+
+    /**
+     * @param $date
+     * @return bool
+     */
+    public function isSubsidized($date): bool
+    {
+        if (!empty($this->subsidization_rule_id)) {
+            if (empty($this->subsidization->subsidizationRule->start_date) && empty($this->subsidizationRule->end_date) && empty($this->subsidization_start) && empty($this->subsidization_end)) {
+                return true;
+            }
+
+            if (!empty($this->subsidizationRule->start_date) && !empty($this->subsidizationRule->end_date) && !empty($this->subsidization_start) && !empty($this->subsidization_end)) {
+                return $this->isBetween($date, $this->subsidizationRule->start_date, $this->subsidizationRule->end_date) && $this->isBetween($date, $this->subsidization_start, $this->subsidization_end);
+            }
+
+            if (empty($this->subsidizationRule->start_date) && empty($this->subsidizationRule->end_date) && !empty($this->subsidization_start) && !empty($this->subsidization_end)) {
+                return $this->isBetween($date, $this->subsidization_start, $this->subsidization_end);
+            }
+
+            if (!empty($this->subsidizationRule->start_date) && !empty($this->subsidizationRule->end_date) && empty($this->subsidization_start) && empty($this->subsidization_end)) {
+                return $this->isBetween($date, $this->subsidizationRule->start_date, $this->subsidizationRule->end_date);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $date
+     * @param $rangeStart
+     * @param $rangeFinish
+     * @return bool
+     */
+    protected function isBetween($date, $rangeStart, $rangeFinish): bool
+    {
+        if ($date > date('Y-m-d', strtotime($rangeFinish)) || $date < date('Y-m-d', strtotime($rangeStart))) {
+            return false;
+        }
+
+        return true;
+    }
 }
