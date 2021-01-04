@@ -156,7 +156,6 @@ class MenuCategoryController extends Controller
      */
     public function getList()
     {
-        dd(111);
         return $this->service->getList();
     }
 }
