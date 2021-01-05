@@ -80,16 +80,13 @@ class MenuItemController extends Controller
 
     /**
      * @param MenuCategoryService $menuCategoryService
-     * @param LocationService     $locationService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(MenuCategoryService $menuCategoryService, LocationService $locationService)
+    public function create(MenuCategoryService $menuCategoryService)
     {
-        $locationsList      = $locationService->getList();
         $menuCategoriesList = $menuCategoryService->getList();
 
         return view('menu_items._form', [
-            'locationsList'      => $locationsList,
             'menuCategoriesList' => $menuCategoriesList,
         ]);
     }
@@ -106,10 +103,8 @@ class MenuItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
@@ -125,11 +120,10 @@ class MenuItemController extends Controller
      * @param                     $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(MenuCategoryService $menuCategoryService, LocationService $locationService, $id)
+    public function edit(MenuCategoryService $menuCategoryService, $id)
     {
         /** @var array $resource */
         $resource                       = $this->service->getOne($id)->toArray(request());
-        $resource['locationsList']      = $locationService->getList();
         $resource['menuCategoriesList'] = $menuCategoryService->getList();
 
         return view('menu_items._form', compact('resource'));

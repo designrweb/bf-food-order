@@ -46,6 +46,7 @@
               {{ validation['category_order']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group
               id="input-group-price"
               label="Price"
@@ -62,6 +63,7 @@
               {{ validation['price']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group
               id="input-group-presaleprice"
               label="Presaleprice"
@@ -76,6 +78,24 @@
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['presaleprice']['state']">
               {{ validation['presaleprice']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <b-form-group
+              id="input-group-location_id"
+              label="Location"
+              label-for="input-location_id"
+          >
+            <b-form-select
+                v-model="form.location_id"
+                :options="locations_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
+            <b-form-invalid-feedback :state="validation['location_id']['state']">
+              {{ validation['location_id']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
@@ -104,8 +124,9 @@ export default {
     'back-button-component': BackButtonComponent,
   },
   props:      {
-    main_route: String,
-    id:         String | Number,
+    main_route:     String,
+    locations_list: Array,
+    id:             String | Number,
   },
   data() {
     return {
@@ -118,12 +139,13 @@ export default {
         'category_order': {'state': true, 'message': ''},
         'price':          {'state': true, 'message': ''},
         'presaleprice':   {'state': true, 'message': ''},
+        'location_id':    {'state': true, 'message': ''},
         'created_at':     {'state': true, 'message': ''},
         'updated_at':     {'state': true, 'message': ''},
       },
     }
   },
-  methods:    {
+  methods: {
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
@@ -162,7 +184,7 @@ export default {
     await this._loadData();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {

@@ -15,7 +15,6 @@ class MenuItemFormRequest extends FormRequest
     {
         return [
             'name'              => 'required|string',
-            'location_id'       => 'required|numeric',
             'menu_category_id'  => 'required|numeric',
             'availability_date' => 'required',
             'description'       => 'string',

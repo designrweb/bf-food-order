@@ -11,13 +11,11 @@
             <grid-form
                     :main_route="'/admin/menu-items'"
                     :id="{{$resource['id']}}"
-                    :locations_list="{{json_encode($resource['locationsList'])}}"
                     :menu_categories_list="{{json_encode($resource['menuCategoriesList'])}}"
             ></grid-form>
         @else
             <grid-form
                     :main_route="'/admin/menu-items'"
-                    :locations_list="{{json_encode($locationsList)}}"
                     :menu_categories_list="{{json_encode($menuCategoriesList)}}"
             ></grid-form>
         @endif

@@ -15,6 +15,7 @@ class MenuCategoryFormRequest extends FormRequest
     {
         return [
             'name'           => 'required|string',
+            'location_id'    => 'required|numeric',
             'price'          => 'numeric',
             'presaleprice'   => 'numeric',
             'category_order' => 'integer',
