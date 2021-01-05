@@ -331,6 +331,22 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::delete('/{id}', "CompanyController@destroy")->name('companies.destroy');
     });
 
+
+    /** delivery-planning routes */
+    Route::prefix('delivery-planning')->middleware(['auth'])->group(function () {
+        Route::get('/get-all', 'DeliveryPlanningController@getAll')->name('delivery-planning.get-all');
+        Route::get('/get-structure', 'DeliveryPlanningController@getIndexStructure')->name('delivery-planning.index-structure');
+        Route::get('/get-view-structure', 'DeliveryPlanningController@getViewStructure')->name('delivery-planning.view-structure');
+        Route::get('/get-one/{id}', 'DeliveryPlanningController@getOne')->name('delivery-planning.get-one');
+        Route::get('/', "DeliveryPlanningController@index")->name('delivery-planning.index');
+        Route::get('/create', 'DeliveryPlanningController@create')->name('delivery-planning.create');
+        Route::post('/', "DeliveryPlanningController@store")->name('delivery-planning.store');
+        Route::get('/{id}/edit', 'DeliveryPlanningController@edit')->name('delivery-planning.edit');
+        Route::get('/{id}', 'DeliveryPlanningController@show')->name('delivery-planning.show');
+        Route::put('/{id}', 'DeliveryPlanningController@update')->name('delivery-planning.update');
+        Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
+    });
+
 });
 
 Auth::routes(['verify' => true]);

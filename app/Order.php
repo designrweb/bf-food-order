@@ -48,6 +48,11 @@ class Order extends Model
     protected $keyType = 'integer';
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['date'];
+
+    /**
      * @var array
      */
     protected $fillable = ['menuitem_id', 'consumer_id', 'subsidization_organization_id', 'type', 'day', 'pickedup', 'pickedup_at', 'quantity', 'is_subsidized', 'created_at', 'updated_at', 'deleted_at'];
@@ -74,5 +79,13 @@ class Order extends Model
     public function subsidizationOrganization()
     {
         return $this->belongsTo('App\SubsidizationOrganization');
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getDateAttribute()
+    {
+        return date('l, d.m.Y', strtotime($this->day));
     }
 }

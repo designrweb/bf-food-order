@@ -320,6 +320,11 @@ return [
             'icon'  => 'nav-icon fas fa-calendar-week',
         ],
         [
+            'text'  => 'Delivery Planning',
+            'route' => 'delivery-planning.index',
+            'icon'  => 'nav-icon fa fa-calendar-alt',
+        ],
+        [
             'text'  => 'Vacations',
             'route' => 'vacations.index',
             'icon'  => 'nav-icon fa fa-calendar',

@@ -1,6 +1,6 @@
 .sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-success .nav-sidebar > .nav-item > .nav-link.active {
   color: #FFFFFF !important;
-  background-color:  var(--main-sidebar-theme-color) !important;
+  background-color: var(--main-sidebar-theme-color) !important;
 }
 
 .btn-success {
@@ -10,7 +10,7 @@
   opacity: 0.8 !important;
 }
 
-.btn-success:hover, .sortable:hover  {
+.btn-success:hover, .sortable:hover {
   opacity: 1 !important;
 }
 
@@ -30,3 +30,23 @@
 .nav-pills .nav-link:not(.active):hover {
   color: var(--main-theme-color) !important;
 }
+
+.table-striped tbody tr:nth-of-type(2n+3) {
+  background-color: rgba(var(--main-sidebar-theme-color-rgba), 0.05) !important;
+}
+
+.table-striped tbody tr:not(:first-child):hover {
+  color: #212529 !important;
+  background-color: rgba(var(--main-sidebar-theme-color-rgba), 0.075) !important;
+}
+
+//.table-striped thead th {
+//  vertical-align: bottom !important;
+//  border-bottom: 0px solid #dee2e6 !important;
+//}
+//
+//.table-striped .b-table-top-row th {
+//  padding: 0.75rem !important;
+//  vertical-align: top !important;
+//  border-top: 0px solid #dee2e6 !important;
+//}
