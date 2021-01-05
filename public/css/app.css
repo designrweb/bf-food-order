@@ -10938,3 +10938,12 @@ a.text-dark:focus {
   color: var(--main-theme-color) !important;
 }
 
+.table-striped tbody tr:nth-of-type(2n+3) {
+  background-color: rgba(var(--main-sidebar-theme-color-rgba), 0.05) !important;
+}
+
+.table-striped tbody tr:not(:first-child):hover {
+  color: #212529 !important;
+  background-color: rgba(var(--main-sidebar-theme-color-rgba), 0.075) !important;
+}
+
