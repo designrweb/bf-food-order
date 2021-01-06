@@ -20,6 +20,7 @@ class MenuCategoryResource extends JsonResource
             'category_order' => $this->category_order,
             'price'          => $this->price,
             'presaleprice'   => $this->presaleprice,
+            'location_id'    => $this->location_id,
             'created_at'     => date('M d, Y, H:i:s A', strtotime($this->created_at)),
             'updated_at'     => date('M d, Y, H:i:s A', strtotime($this->updated_at)),
         ];
