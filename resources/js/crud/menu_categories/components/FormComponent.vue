@@ -177,6 +177,8 @@ export default {
       for (const [key, fieldData] of Object.entries(this.itemData)) {
         this.form[key] = fieldData;
       }
+
+      console.log(this.form);
     },
   },
   async mounted() {
