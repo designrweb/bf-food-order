@@ -5,13 +5,15 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property string  $name
- * @property mixed   $category_order
- * @property float   $price
- * @property float   $presaleprice
- * @property int     $created_at
- * @property int     $updated_at
+ * @property integer  $id
+ * @property string   $name
+ * @property mixed    $category_order
+ * @property int      $location_id
+ * @property float    $price
+ * @property float    $presaleprice
+ * @property int      $created_at
+ * @property int      $updated_at
+ * @property Location $location
  */
 class MenuCategory extends Model
 {
@@ -25,6 +27,14 @@ class MenuCategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'location_id', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 
 }

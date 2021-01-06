@@ -69,24 +69,6 @@
           </b-form-group>
 
           <b-form-group
-              id="input-group-location_id"
-              label="Location"
-              label-for="input-location_id"
-          >
-            <b-form-select
-                v-model="form.location_id"
-                :options="locations_list"
-                class="mb-3"
-                value-field="id"
-                text-field="name"
-                disabled-field="notEnabled"
-            ></b-form-select>
-            <b-form-invalid-feedback :state="validation['location_id']['state']">
-              {{ validation['location_id']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-
-          <b-form-group
               id="input-group-menu_category_id"
               label="Menu Category"
               label-for="input-menu_category_id"
@@ -124,7 +106,6 @@ export default {
   },
   props:      {
     main_route:           String,
-    locations_list:       Array,
     menu_categories_list: Array,
     id:                   String | Number,
   },
@@ -137,7 +118,6 @@ export default {
         'id':                {'state': true, 'message': ''},
         'name':              {'state': true, 'message': ''},
         'availability_date': {'state': true, 'message': ''},
-        'location_id':       {'state': true, 'message': ''},
         'description':       {'state': true, 'message': ''},
         'menu_category_id':  {'state': true, 'message': ''},
         'imageurl':          {'state': true, 'message': ''},
@@ -146,7 +126,7 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
@@ -185,7 +165,7 @@ export default {
     await this._loadData();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {
