@@ -4,7 +4,7 @@
 /public/js
 /public/css/*
 /public/css_frontend/*
-public/mix-manifest.json
+/public/mix-manifest.json
 /public/storage
 /public/consumer
 /storage/*.key
