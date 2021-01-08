@@ -54,9 +54,9 @@
           >
             <b-form-input
                 id="input-price"
-                v-model="form.price"
-                type="number"
-                step="0.01"
+                v-model="form.price_locale"
+                type="text"
+                @keypress="isNumber($event)"
                 placeholder="Price"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['price']['state']">
@@ -71,9 +71,9 @@
           >
             <b-form-input
                 id="input-presaleprice"
-                v-model="form.presaleprice"
-                type="number"
-                step="0.01"
+                v-model="form.presaleprice_locale"
+                type="text"
+                @keypress="isNumber($event)"
                 placeholder="Presaleprice"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['presaleprice']['state']">
@@ -146,6 +146,15 @@ export default {
     }
   },
   methods: {
+    isNumber: function (evt) {
+      evt          = (evt) ? evt : window.event;
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 44) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;

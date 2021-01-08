@@ -25,6 +25,11 @@ class MenuCategory extends Model
     protected $keyType = 'integer';
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['price_locale', 'presaleprice_locale'];
+
+    /**
      * @var array
      */
     protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'location_id', 'created_at', 'updated_at'];
@@ -35,6 +40,22 @@ class MenuCategory extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * @return float|string|string[]
+     */
+    public function getPriceLocaleAttribute()
+    {
+        return str_replace('.', ',', $this->price);
+    }
+
+    /**
+     * @return float|string|string[]
+     */
+    public function getPresalepriceLocaleAttribute()
+    {
+        return str_replace('.', ',', $this->presaleprice);
     }
 
 }

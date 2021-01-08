@@ -19,7 +19,9 @@ class ConsumerSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
-        $this->builder->select(['consumers.*', 'location_groups.name as location_groups_name', 'locations.name as location_name', 'users.email', 'user_info.first_name'])
+        $this->builder->select(['consumers.*', 'location_groups.name as location_groups_name', 'locations.name as location_name', 'users.email', 'user_info.first_name', 'subsidization_rules.rule_name as subsidization_rules_rule_name'])
+            ->leftJoin('consumer_subsidizations', 'consumers.id', '=', 'consumer_subsidizations.consumer_id')
+            ->leftJoin('subsidization_rules', 'consumer_subsidizations.subsidization_rules_id', '=', 'subsidization_rules.id')
             ->leftJoin('location_groups', 'location_groups.id', '=', 'consumers.location_group_id')
             ->join('locations', 'locations.id', '=', 'location_groups.location_id')
             ->leftJoin('users', 'users.id', '=', 'consumers.user_id')
@@ -52,6 +54,9 @@ class ConsumerSearch extends BaseSearch
         $this->builder->whereHas('user.userInfo', function (Builder $q) {
             $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
         });
+        $this->builder->whereHas('subsidization.subsidizationRule', function (Builder $q) {
+            $q->where('subsidization_rules.rule_name', 'like', '%' . request('filters.subsidization.subsidization_rule.rule_name') . '%');
+        });
 
         // sort
         $this->applySort('consumers.id', request('sort.id'));
@@ -71,6 +76,9 @@ class ConsumerSearch extends BaseSearch
         });
         $this->builder->when(request('sort.user.user_info.first_name'), function (Builder $q) {
             return $q->orderBy('first_name', request('sort.user.user_info.first_name'));
+        });
+        $this->builder->when(request('sort.subsidization.subsidization_rule.rule_name'), function (Builder $q) {
+            return $q->orderBy('subsidization_rules.rule_name', request('sort.subsidization.subsidization_rule.rule_name'));
         });
 
         return $this->builder;

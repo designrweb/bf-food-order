@@ -71,6 +71,6 @@ class MenuItemRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new MenuItemResource($this->model->with('menuCategory', 'location')->findOrFail($id));
+        return new MenuItemResource($this->model->with('menuCategory')->findOrFail($id));
     }
 }

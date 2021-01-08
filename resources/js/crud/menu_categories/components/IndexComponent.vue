@@ -37,6 +37,14 @@
                   :appliedFilterValue="filters[field.key]"
               ></filter-number>
 
+              <filter-float
+                  v-else-if="field.key === 'presaleprice_locale' || field.key === 'price_locale'"
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
+              ></filter-float>
+
               <filter-text v-else @changeFilter="applyFilter"
                            :filterName="field.key"
                            :filterLabel="field.label"
@@ -84,6 +92,7 @@
 <script>
 import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
 import FilterNumberInput                                    from "../../shared/filters/NumberFilterComponent";
+import FilterFloatInput                                     from "../../shared/filters/FloatFilterComponent";
 import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
@@ -92,6 +101,7 @@ export default {
   components: {
     'filter-text':       FilterTextInput,
     'filter-number':     FilterNumberInput,
+    'filter-float':      FilterFloatInput,
     'create-button':     CreateButton,
     'view-button':       ViewButton,
     'edit-button':       EditButton,
@@ -128,7 +138,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -189,7 +199,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }

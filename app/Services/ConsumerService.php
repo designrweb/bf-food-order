@@ -246,7 +246,7 @@ class ConsumerService extends BaseModelService
                 'label' => 'Child'
             ],
             [
-                'key'   => 'subsidization_rule',
+                'key'   => 'subsidization.subsidization_rule.rule_name',
                 'label' => 'Subsidization Rule'
             ],
         ];
@@ -288,7 +288,7 @@ class ConsumerService extends BaseModelService
                 'label' => 'Child'
             ],
             [
-                'key'   => 'subsidization_rule',
+                'key'   => 'subsidization.subsidization_rule.rule_name',
                 'label' => 'Subsidization Rule'
             ],
         ];
@@ -301,13 +301,13 @@ class ConsumerService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'account_id'                   => '',
-            'user.email'                   => '',
-            'location_group.location.name' => '',
-            'location_group.name'          => '',
-            'user.user_info.first_name'    => '',
-            'full_name'                    => '',
-            'subsidization_rule'           => '',
+            'account_id'                                 => '',
+            'user.email'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.first_name'                  => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
         ];
     }
 
@@ -318,13 +318,13 @@ class ConsumerService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'account_id'                   => '',
-            'user.email'                   => '',
-            'location_group.location.name' => '',
-            'location_group.name'          => '',
-            'user.user_info.first_name'    => '',
-            'full_name'                    => '',
-            'subsidization_rule'           => '',
+            'account_id'                                 => '',
+            'user.email'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.first_name'                  => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
         ];
     }
 }

@@ -128,11 +128,11 @@ class MenuCategoryService extends BaseModelService
                 'label' => 'Category Order'
             ],
             [
-                'key'   => 'presaleprice',
+                'key'   => 'presaleprice_locale',
                 'label' => 'Presale Price'
             ],
             [
-                'key'   => 'price',
+                'key'   => 'price_locale',
                 'label' => 'Price'
             ],
             [
@@ -162,11 +162,11 @@ class MenuCategoryService extends BaseModelService
                 'label' => 'Category Order'
             ],
             [
-                'key'   => 'presaleprice',
+                'key'   => 'presaleprice_locale',
                 'label' => 'Presale Price'
             ],
             [
-                'key'   => 'price',
+                'key'   => 'price_locale',
                 'label' => 'Price'
             ]
         ];
@@ -179,10 +179,10 @@ class MenuCategoryService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'name'           => '',
-            'category_order' => '',
-            'presaleprice'   => '',
-            'price'          => '',
+            'name'                => '',
+            'category_order'      => '',
+            'presaleprice_locale' => '',
+            'price_locale'        => '',
         ];
     }
 
@@ -193,10 +193,10 @@ class MenuCategoryService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'name'           => '',
-            'category_order' => '',
-            'presaleprice'   => '',
-            'price'          => '',
+            'name'                => '',
+            'category_order'      => '',
+            'presaleprice_locale' => '',
+            'price_locale'        => '',
         ];
     }
 }
