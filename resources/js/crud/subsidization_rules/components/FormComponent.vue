@@ -123,7 +123,7 @@
                               v-model="menu_category.subsidization_price"
                               :ref="`subsidization_price_`+ menu_category.id"
                               type="text"
-                              lang="de-DE"
+                              @keypress="isNumber($event)"
                               min="0"
                               step="0.1"
                               @change="handleSubsidizationPrice($event, menu_category.id)"
@@ -132,7 +132,7 @@
                       </td>
 
                       <td>
-                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price }}</span><span> €</span>
+                        <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price.toString().replace(".", ",") }}</span><span> €</span>
                       </td>
                     </tr>
                     </tbody>
@@ -192,14 +192,23 @@ export default {
     }
   },
   methods: {
+    isNumber: function (evt) {
+      evt          = (evt) ? evt : window.event;
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 44) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     handleSubsidizationPercentage(val, id) {
       let subsidizationPrice       = 'subsidization_price_' + id;
       let resultSubsidizationPrice = 'result_subsidization_price_' + id;
       let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
       let value                    = (presaleprice * (val / 100)).toFixed(2);
 
-      this.$refs[subsidizationPrice][0].value           = value;
-      this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2);
+      this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
+      this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");
     },
     handleSubsidizationPrice(val, id) {
       let percentFull              = 'percent_full_' + id;
@@ -208,8 +217,8 @@ export default {
 
       if (this.$refs[percentFull][0].value < 100) {
         let value                                         = parseInt((val / presaleprice) * 100);
-        this.$refs[percentFull][0].value                  = value;
-        this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2);
+        this.$refs[percentFull][0].value                  = value.replace(".", ",");
+        this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2).replace(".", ",");
       }
     },
     async onSubmit(evt) {

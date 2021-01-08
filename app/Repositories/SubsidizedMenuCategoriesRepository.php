@@ -93,14 +93,14 @@ class SubsidizedMenuCategoriesRepository implements RepositoryInterface
         foreach ($menuCategories as $menu) {
             $percent            = !empty($menuCategoriesPercent[$menu->id]) ? $menuCategoriesPercent[$menu->id] : 0;
             $subsidizationPrice = round($menu->presaleprice * ($percent / 100), 2);
-            $resultedPrice      = round($menu->price - round($menu->presaleprice * ($percent / 100), 2), 2);
+            $resultedPrice      = round($menu->presaleprice - round($menu->presaleprice * ($percent / 100), 2), 2);
 
             $SubsidizationMenuCategoriesArray[$menu->id] = [
                 'id'                  => $menu->id,
                 'name'                => $menu->name,
                 'presaleprice'        => $menu->presaleprice,
                 'price'               => $menu->price,
-                'subsidization_price' => $subsidizationPrice,
+                'subsidization_price' => str_replace('.', ',', $subsidizationPrice),
                 'percent'             => $percent / 100,
                 'percent_full'        => $percent,
                 'resulted_price'      => $resultedPrice,
