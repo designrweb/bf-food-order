@@ -29,7 +29,15 @@
         <template v-slot:top-row="scope" :columns="4">
           <b-th v-for="field in scope.fields" v-bind:key="field.key">
             <div v-if="field.key in filters">
-              <filter-text @changeFilter="applyFilter"
+              <filter-float
+                  v-if="field.key === 'menu_category.presaleprice_locale' || field.key === 'menu_category.price_locale'"
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
+              ></filter-float>
+
+              <filter-text v-else @changeFilter="applyFilter"
                            :filterName="field.key"
                            :filterLabel="field.label"
                            :appliedFilterValue="filters[field.key]"
@@ -79,12 +87,14 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import FilterDatePickerInput                                from "../../shared/filters/DatePickerFilterComponent";
+import FilterFloatInput                                     from "../../shared/filters/FloatFilterComponent";
 
 export default {
   components: {
     'filter-text':        FilterTextInput,
     'create-button':      CreateButton,
     'filter-date-picker': FilterDatePickerInput,
+    'filter-float':       FilterFloatInput,
     'view-button':        ViewButton,
     'edit-button':        EditButton,
     'delete-button':      DeleteButton,
@@ -120,7 +130,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -181,7 +191,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }

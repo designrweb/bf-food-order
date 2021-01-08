@@ -109,11 +109,11 @@ class MenuItemService extends BaseModelService
                 'label' => 'Description'
             ],
             [
-                'key'   => 'menu_category.presaleprice',
+                'key'   => 'menu_category.presaleprice_locale',
                 'label' => 'Presale Price'
             ],
             [
-                'key'   => 'menu_category.price',
+                'key'   => 'menu_category.price_locale',
                 'label' => 'Price'
             ],
             [
@@ -147,11 +147,11 @@ class MenuItemService extends BaseModelService
                 'label' => 'Name'
             ],
             [
-                'key'   => 'menu_category.presaleprice',
+                'key'   => 'menu_category.presaleprice_locale',
                 'label' => 'Presale Price'
             ],
             [
-                'key'   => 'menu_category.price',
+                'key'   => 'menu_category.price_locale',
                 'label' => 'Price'
             ],
             [
@@ -172,11 +172,11 @@ class MenuItemService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'name'                       => '',
-            'menu_category.presaleprice' => '',
-            'menu_category.price'        => '',
-            'menu_categories_name'       => '',
-            'availability_date_human'    => '',
+            'name'                              => '',
+            'menu_category.presaleprice_locale' => '',
+            'menu_category.price_locale'        => '',
+            'menu_categories_name'              => '',
+            'availability_date_human'           => '',
         ];
     }
 
@@ -187,11 +187,11 @@ class MenuItemService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'name'                       => '',
-            'menu_category.presaleprice' => '',
-            'menu_category.price'        => '',
-            'menu_categories_name'       => '',
-            'availability_date_human'    => '',
+            'name'                              => '',
+            'menu_category.presaleprice_locale' => '',
+            'menu_category.price_locale'        => '',
+            'menu_categories_name'              => '',
+            'availability_date_human'           => '',
         ];
     }
 }

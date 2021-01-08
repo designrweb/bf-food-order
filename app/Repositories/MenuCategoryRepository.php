@@ -66,6 +66,9 @@ class MenuCategoryRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
+        $data['presaleprice'] = $data['presaleprice_locale'];
+        $data['price']        = $data['price_locale'];
+
         return new MenuCategoryResource($this->model->create($data));
     }
 
@@ -76,6 +79,9 @@ class MenuCategoryRepository implements RepositoryInterface
      */
     public function update(array $data, $id)
     {
+        $data['presaleprice'] = $data['presaleprice_locale'];
+        $data['price']        = $data['price_locale'];
+
         $model = $this->model->findOrFail($id);
         $model->update($data);
 

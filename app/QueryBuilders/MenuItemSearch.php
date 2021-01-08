@@ -31,12 +31,12 @@ class MenuItemSearch extends BaseSearch
             $this->applyFilter('menu_items.availability_date', date('Y-m-d', strtotime(request('filters.availability_date_human'))));
         }
 
-        $this->builder->when(request('filters.menu_category.presaleprice'), function (Builder $q) {
-            $q->where('menu_categories.presaleprice', 'like', '%' . request('filters.menu_category.presaleprice') . '%');
+        $this->builder->when(request('filters.menu_category.presaleprice_locale'), function (Builder $q) {
+            $q->where('menu_categories.presaleprice', 'like', '%' . str_replace(',', '.', request('filters.menu_category.presaleprice_locale')) . '%');
         });
 
-        $this->builder->when(request('filters.menu_category.price'), function (Builder $q) {
-            $q->where('menu_categories.price', 'like', '%' . request('filters.menu_category.price') . '%');
+        $this->builder->when(request('filters.menu_category.price_locale'), function (Builder $q) {
+            $q->where('menu_categories.price', 'like', '%' . str_replace(',', '.', request('filters.menu_category.price_locale')) . '%');
         });
 
         $this->builder->when(request('filters.menu_categories_name'), function (Builder $q) {
@@ -47,12 +47,12 @@ class MenuItemSearch extends BaseSearch
         $this->applySort('menu_items.name', request('sort.name'));
         $this->applySort('menu_items.availability_date', request('sort.availability_date_human'));
 
-        $this->builder->when(request('sort.menu_category.presaleprice'), function (Builder $q) {
-            return $q->orderBy('menu_categories.presaleprice', request('sort.menu_category.presaleprice'));
+        $this->builder->when(request('sort.menu_category.presaleprice_locale'), function (Builder $q) {
+            return $q->orderBy('menu_categories.presaleprice', request('sort.menu_category.presaleprice_locale'));
         });
 
-        $this->builder->when(request('sort.menu_category.price'), function (Builder $q) {
-            return $q->orderBy('menu_categories.price', request('sort.menu_category.price'));
+        $this->builder->when(request('sort.menu_category.price_locale'), function (Builder $q) {
+            return $q->orderBy('menu_categories.price', request('sort.menu_category.price_locale'));
         });
 
         $this->builder->when(request('sort.menu_categories_name'), function (Builder $q) {
