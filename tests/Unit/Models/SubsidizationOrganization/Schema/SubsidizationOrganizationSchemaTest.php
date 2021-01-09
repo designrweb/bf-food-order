@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\SubsidizationOrganization\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class SubsidizationOrganizationSchemaTest extends TestCase
 {
     /** @test */

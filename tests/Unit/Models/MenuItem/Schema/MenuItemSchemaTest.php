@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\MenuItem\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class MenuItemSchemaTest extends TestCase
 {
     /** @test */

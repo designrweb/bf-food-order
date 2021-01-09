@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\Payment\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class PaymentSchemaTest extends TestCase
 {
     /** @test */

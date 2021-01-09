@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\Location\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class LocationSchemaTest extends TestCase
 {
     /** @test */

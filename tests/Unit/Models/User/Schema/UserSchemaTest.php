@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\User\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class UserSchemaTest extends TestCase
 {
     /** @test */

@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\Order\Schema;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
+/**
+ * @group schema
+ */
 class OrderSchemaTest extends TestCase
 {
     /** @test */
