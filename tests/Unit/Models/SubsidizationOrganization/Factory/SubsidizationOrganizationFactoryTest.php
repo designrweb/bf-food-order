@@ -5,12 +5,15 @@ namespace Tests\Unit\Models\SubsidizationOrganization\Factory;
 use App\SubsidizationOrganization;
 use Tests\TestCase;
 
+/**
+ * @group factory
+ */
 class SubsidizationOrganizationFactoryTest extends TestCase
 {
     /** @test */
     public function subsidization_organization_factory_persists_one_entity_to_database()
     {
-        $subsidization_organization = factory(SubsidizationOrganization::class)->create([
+        $subsidization_organization = create(SubsidizationOrganization::class, [
             'name' => 'New Subsidization Organization',
         ]);
 
@@ -24,7 +27,7 @@ class SubsidizationOrganizationFactoryTest extends TestCase
     /** @test */
     public function subsidization_organization_factory_persists_many_entities_to_database()
     {
-        factory(SubsidizationOrganization::class, 10)->create();
+        create(SubsidizationOrganization::class, [], 10);
 
         $this->assertDatabaseCount('subsidization_organizations', 10);
     }

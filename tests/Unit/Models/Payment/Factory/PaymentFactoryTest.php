@@ -5,12 +5,15 @@ namespace Tests\Unit\Models\Payment\Factory;
 use App\Payment;
 use Tests\TestCase;
 
+/**
+ * @group factory
+ */
 class PaymentFactoryTest extends TestCase
 {
     /** @test */
     public function payment_factory_persists_one_entity_to_database()
     {
-        $payment = factory(Payment::class)->create([
+        $payment = create(Payment::class, [
             'comment' => 'Payment comment',
         ]);
 
@@ -24,7 +27,7 @@ class PaymentFactoryTest extends TestCase
     /** @test */
     public function payment_factory_persists_many_entities_to_database()
     {
-        factory(Payment::class, 10)->create();
+        create(Payment::class, [], 10);
 
         $this->assertDatabaseCount('payments', 10);
     }

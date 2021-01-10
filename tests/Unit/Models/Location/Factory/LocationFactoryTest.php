@@ -5,12 +5,15 @@ namespace Tests\Unit\Models\Location\Factory;
 use App\Location;
 use Tests\TestCase;
 
+/**
+ * @group factory
+ */
 class LocationFactoryTest extends TestCase
 {
     /** @test */
     public function location_factory_persists_one_entity_to_database()
     {
-        $location = factory(Location::class)->create([
+        $location = create(Location::class, [
             'name' => 'New Location',
         ]);
 
@@ -24,7 +27,7 @@ class LocationFactoryTest extends TestCase
     /** @test */
     public function location_factory_persists_many_entities_to_database()
     {
-        factory(Location::class, 10)->create();
+        create(Location::class, [], 10);
 
         $this->assertDatabaseCount('locations', 10);
     }

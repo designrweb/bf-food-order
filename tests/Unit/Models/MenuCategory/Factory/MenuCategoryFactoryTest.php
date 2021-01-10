@@ -5,12 +5,15 @@ namespace Tests\Unit\Models\MenuCategory\Factory;
 use App\MenuCategory;
 use Tests\TestCase;
 
+/**
+ * @group factory
+ */
 class MenuCategoryFactoryTest extends TestCase
 {
     /** @test */
     public function menu_category_factory_persists_one_entity_to_database()
     {
-        $menuCategory = factory(MenuCategory::class)->create([
+        $menuCategory = create(MenuCategory::class, [
             'name' => 'New Menu Category',
         ]);
 
@@ -24,7 +27,7 @@ class MenuCategoryFactoryTest extends TestCase
     /** @test */
     public function menu_category_factory_persists_many_entities_to_database()
     {
-        factory(MenuCategory::class, 10)->create();
+        create(MenuCategory::class, [], 10);
 
         $this->assertDatabaseCount('menu_categories', 10);
     }

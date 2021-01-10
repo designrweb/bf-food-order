@@ -5,12 +5,15 @@ namespace Tests\Unit\Models\Company\Factory;
 use App\Company;
 use Tests\TestCase;
 
+/**
+ * @group factory
+ */
 class CompanyFactoryTest extends TestCase
 {
     /** @test */
     public function company_factory_persists_one_entity_to_database()
     {
-        $company = factory(Company::class)->create([
+        $company = create(Company::class, [
             'name' => 'SallyCompany',
         ]);
 
@@ -24,7 +27,7 @@ class CompanyFactoryTest extends TestCase
     /** @test */
     public function company_factory_persists_many_entities_to_database()
     {
-        $test = factory(Company::class, 10)->make();
+        create(Company::class, [], 10);
 
         $this->assertDatabaseCount('companies', 10);
     }
