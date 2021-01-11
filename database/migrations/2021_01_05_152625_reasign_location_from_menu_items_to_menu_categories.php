@@ -19,11 +19,15 @@ class ReasignLocationFromMenuItemsToMenuCategories extends Migration
         });
 
         Schema::table('menu_categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('location_id')->after('presaleprice')->index('menu_categories_location_id_foreign');
-        });
+            $table->unsignedBigInteger('location_id')
+                ->after('presaleprice')
+                ->index();
 
-        Schema::table('menu_categories', function (Blueprint $table) {
-            $table->foreign('location_id')->references('id')->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 
@@ -35,12 +39,19 @@ class ReasignLocationFromMenuItemsToMenuCategories extends Migration
     public function down()
     {
         Schema::table('menu_categories', function (Blueprint $table) {
-            $table->dropForeign('menu_categories_location_id_foreign');
+            $table->dropForeign(['location_id']);
             $table->dropColumn('location_id');
         });
 
         Schema::table('menu_items', function (Blueprint $table) {
-            $table->unsignedBigInteger('location_id')->index('menuitem_location_id_foreign');
+            $table->unsignedBigInteger('location_id')
+                ->index();
+
+            $table->foreign('location_id', 'menuitem_location_id_foreign')
+                ->references('id')
+                ->on('locations')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 }
