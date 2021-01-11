@@ -16,7 +16,7 @@ $factory->define(MenuItem::class, function (Faker $faker) {
         'location_id'       => factory(Location::class),
         'description'       => $faker->paragraph,
         'menu_category_id'  => factory(MenuCategory::class),
-        'imageurl'          => $faker->image(),
+        'imageurl'          => null,
         'created_at'        => Carbon::now(),
         'updated_at'        => Carbon::now(),
     ];

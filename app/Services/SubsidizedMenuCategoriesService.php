@@ -21,34 +21,32 @@ class SubsidizedMenuCategoriesService extends BaseModelService
     }
 
     /**
-     * Returns all subsidized_menu_categories transformed to resource
+     * Returns all subsidized_menu_categories
      *
-     * @return SubsidizedMenuCategoriesCollection
+     * @return mixed
      */
-    public function all(): SubsidizedMenuCategoriesCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return SubsidizedMenuCategoriesResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): SubsidizedMenuCategoriesResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
+
 
     /**
      * Creates and returns the subsidized_menu_categories model
      *
      * @param $data
-     * @return SubsidizedMenuCategoriesResource
+     * @return mixed
      */
-    public function create($data): SubsidizedMenuCategoriesResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
@@ -58,10 +56,10 @@ class SubsidizedMenuCategoriesService extends BaseModelService
      *
      * @param $data
      * @param $id
-     * @return SubsidizedMenuCategoriesResource
+     * @return mixed
      * @throws ModelNotFoundException
      */
-    public function update($data, $id): SubsidizedMenuCategoriesResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
@@ -99,5 +97,17 @@ class SubsidizedMenuCategoriesService extends BaseModelService
     public function getSubsidizationMenuCategories(MenuCategoryService $menuCategoryService, $id = null)
     {
         return $this->repository->getSubsidizationMenuCategories($menuCategoryService, $id);
+    }
+
+    /**
+     * Get subsidization information for menu category
+     *
+     * @param $menuCategoryId
+     * @param $subsidizationRuleId
+     * @return mixed
+     */
+    public function getMenuCategoryWithSubsidization($menuCategoryId, $subsidizationRuleId)
+    {
+        return $this->repository->getMenuCategoryWithSubsidization($menuCategoryId, $subsidizationRuleId);
     }
 }

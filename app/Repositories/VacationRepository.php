@@ -47,6 +47,7 @@ class VacationRepository implements RepositoryInterface
     {
         $model = $this->model->create($data);
 
+        // todo move logic to service
         DB::beginTransaction();
 
         try {
@@ -84,6 +85,7 @@ class VacationRepository implements RepositoryInterface
     {
         $model = $this->model->findOrFail($id);
 
+        // todo move logic to service
         DB::beginTransaction();
 
         try {

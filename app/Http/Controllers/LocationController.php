@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
 use App\Services\CompanyService;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use App\Http\Requests\OrderFormRequest;
@@ -37,24 +38,23 @@ class OrderController extends Controller
      * Returns a listing of the resource.
      *
      * @param Request $request
-     * @return array
+     * @return OrderCollection
      */
-    public function getAll(Request $request)
+    public function getAll(Request $request): OrderCollection
     {
-        return $this->service->all()->toArray($request);
+        return new OrderCollection($this->service->all());
     }
 
-
     /**
-     * Returns a listing of the resource.
+     * Returns the resource.
      *
      * @param Request $request
      * @param         $id
-     * @return array
+     * @return OrderResource
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return new OrderResource($this->service->getOne($id));
     }
 
     /**
@@ -82,11 +82,11 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param OrderFormRequest $request
-     * @return array
+     * @return OrderResource
      */
-    public function store(OrderFormRequest $request)
+    public function store(OrderFormRequest $request): OrderResource
     {
-        return $this->service->create($request->all())->toArray($request);
+        return new OrderResource($this->service->create($request->all()));
     }
 
     /**
@@ -97,8 +97,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        $resource = new OrderResource($this->service->getOne($id));
 
         return view('orders.view', compact('resource'));
     }
@@ -111,8 +110,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = new OrderResource($this->service->getOne($id));
 
         return view('orders._form', compact('resource'));
     }
@@ -121,12 +119,12 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param OrderFormRequest $request
-     * @param int     $id
-     * @return array
+     * @param int              $id
+     * @return OrderResource
      */
-    public function update(OrderFormRequest $request, $id)
+    public function update(OrderFormRequest $request, $id): OrderResource
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return new OrderResource($this->service->update($request->all(), $id));
     }
 
     /**

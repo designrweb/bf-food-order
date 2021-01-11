@@ -182,7 +182,6 @@ class OrderService extends BaseModelService
 
     public function countOrdersWithSubsidization(Order $order)
     {
-//        $ordersWithSubsidization = $this->repository->getOrdersWithSubsidizationByDateForConsumer($order);
-        $ordersWithSubsidization = $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);
+        return $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);
     }
 }

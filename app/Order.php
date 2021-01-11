@@ -81,6 +81,14 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function menuCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->menuItem->menuCategory();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function subsidizationOrganization()
     {
         return $this->belongsTo('App\SubsidizationOrganization');

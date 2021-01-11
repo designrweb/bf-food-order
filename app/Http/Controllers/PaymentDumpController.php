@@ -41,7 +41,7 @@ class PaymentDumpController extends Controller
     }
 
     /**
-     * Returns a listing of the resource transformed to resource
+     * Returns a listing of the resource
      *
      * @return PaymentDumpCollection
      */
@@ -51,7 +51,7 @@ class PaymentDumpController extends Controller
     }
 
     /**
-     * Returns the resource transformed to resource
+     * Returns the resource
      *
      * @param  $id
      * @return PaymentDumpResource

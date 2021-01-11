@@ -14,7 +14,7 @@ $factory->define(Consumer::class, function (Faker $faker) {
         'firstname'         => $faker->firstName,
         'lastname'          => $faker->lastName,
         'birthday'          => $faker->date(),
-        'imageurl'          => $faker->image(),
+        'imageurl'          => null,
         'balance'           => $faker->numberBetween(200, 2000),
         'balance_limit'     => $faker->numberBetween(10, 50),
         'location_group_id' => factory(LocationGroup::class),

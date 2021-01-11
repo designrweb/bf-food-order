@@ -98,23 +98,48 @@ class Consumer extends Model
      * @param $date
      * @return bool
      */
+    // todo move to service and refactor it
     public function isSubsidized($date): bool
     {
-        if (!empty($this->subsidization_rule_id)) {
-            if (empty($this->subsidization->subsidizationRule->start_date) && empty($this->subsidizationRule->end_date) && empty($this->subsidization_start) && empty($this->subsidization_end)) {
+        $subsidization     = $this->subsidization;
+        $subsidizationRule = optional($subsidization)->subsidizationRule;
+
+        if (!empty($subsidization->subsidization_rules_id)) {
+            if (
+                empty($subsidizationRule->start_date)
+                && empty($subsidizationRule->end_date)
+                && empty($subsidization->subsidization_start)
+                && empty($subsidization->subsidization_end)
+            ) {
                 return true;
             }
 
-            if (!empty($this->subsidizationRule->start_date) && !empty($this->subsidizationRule->end_date) && !empty($this->subsidization_start) && !empty($this->subsidization_end)) {
-                return $this->isBetween($date, $this->subsidizationRule->start_date, $this->subsidizationRule->end_date) && $this->isBetween($date, $this->subsidization_start, $this->subsidization_end);
+            if (
+                !empty($subsidizationRule->start_date)
+                && !empty($subsidizationRule->end_date)
+                && !empty($subsidization->subsidization_start)
+                && !empty($subsidization->subsidization_end)
+            ) {
+                return $this->isBetween($date, $subsidizationRule->start_date, $subsidizationRule->end_date)
+                    && $this->isBetween($date, $subsidization->subsidization_start, $subsidization->subsidization_end);
             }
 
-            if (empty($this->subsidizationRule->start_date) && empty($this->subsidizationRule->end_date) && !empty($this->subsidization_start) && !empty($this->subsidization_end)) {
-                return $this->isBetween($date, $this->subsidization_start, $this->subsidization_end);
+            if (
+                empty($subsidizationRule->start_date)
+                && empty($subsidizationRule->end_date)
+                && !empty($subsidization->subsidization_start)
+                && !empty($subsidization->subsidization_end)
+            ) {
+                return $this->isBetween($date, $subsidization->subsidization_start, $subsidization->subsidization_end);
             }
 
-            if (!empty($this->subsidizationRule->start_date) && !empty($this->subsidizationRule->end_date) && empty($this->subsidization_start) && empty($this->subsidization_end)) {
-                return $this->isBetween($date, $this->subsidizationRule->start_date, $this->subsidizationRule->end_date);
+            if (
+                !empty($subsidizationRule->start_date)
+                && !empty($subsidizationRule->end_date)
+                && empty($subsidization->subsidization_start)
+                && empty($subsidization->subsidization_end)
+            ) {
+                return $this->isBetween($date, $subsidizationRule->start_date, $subsidizationRule->end_date);
             }
         }
 

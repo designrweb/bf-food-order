@@ -15,6 +15,6 @@ $factory->define(Location::class, function (Faker $faker) {
         'city'       => $faker->city,
         'email'      => $faker->unique()->safeEmail,
         'slug'       => $faker->slug(2),
-        'image_name' => $faker->imageUrl(),
+        'image_name' => null,
     ];
 });

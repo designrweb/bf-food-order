@@ -20,7 +20,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'pickedup'                      => $faker->boolean,
         'pickedup_at'                   => $faker->dateTime(),
         'quantity'                      => $faker->numberBetween(1, 3),
-        'is_subsidized'                 => $faker->boolean,
+        'is_subsidized'                 => null,
         'subsidization_organization_id' => factory(SubsidizationOrganization::class),
         'created_at'                    => Carbon::now(),
         'updated_at'                    => Carbon::now(),

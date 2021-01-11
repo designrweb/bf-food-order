@@ -58,4 +58,16 @@ class MenuCategory extends Model
         return str_replace('.', ',', $this->presaleprice);
     }
 
+    /**
+     * @param $consumer
+     * @return bool
+     */
+    // todo move to repository
+    public function isAllowSubsidization($consumer): bool
+    {
+        return (bool)SubsidizedMenuCategories::where('subsidization_rules_id', $consumer->subsidization->subsidization_rules_id)
+            ->where('menu_category_id', $this->id)
+            ->where('percent', '>', 0)
+            ->count();
+    }
 }

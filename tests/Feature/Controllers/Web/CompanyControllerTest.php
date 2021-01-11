@@ -6,6 +6,9 @@ use App\Company;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
+/**
+ * @group controller
+ */
 class CompanyControllerTest extends TestCase
 {
     // todo remove
@@ -24,7 +27,7 @@ class CompanyControllerTest extends TestCase
     /** @test */
     public function show_method_returns_correct_view_for_admin()
     {
-        $company = factory(Company::class)->create();
+        $company = create(Company::class);
 
         $response = $this->get('admin/companies/' . $company->id);
 

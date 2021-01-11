@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
-use App\Http\Resources\PaymentDumpCollection;
-use App\Http\Resources\PaymentDumpResource;
 use App\Payment;
 use App\Repositories\PaymentDumpRepository;
 use bigfood\grid\BaseModelService;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\PaymentDump;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
@@ -285,7 +282,7 @@ class PaymentDumpService extends BaseModelService
      *
      * @return array
      */
-    protected function getAllowActions()
+    protected function getAllowActions(): array
     {
         return [
             'all'    => false,

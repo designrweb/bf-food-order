@@ -2,79 +2,37 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\SubsidizedMenuCategoriesCollection;
-use App\Http\Resources\SubsidizedMenuCategoriesResource;
 use App\MenuCategory;
 use App\Services\MenuCategoryService;
 use App\SubsidizedMenuCategories;
 use App\QueryBuilders\SubsidizedMenuCategoriesSearch;
 use Illuminate\Pipeline\Pipeline;
-use bigfood\grid\RepositoryInterface;
 
-class SubsidizedMenuCategoriesRepository implements RepositoryInterface
+class SubsidizedMenuCategoriesRepository extends Repository
 {
-    /** @var SubsidizedMenuCategories */
-    protected $model;
-
-    public function __construct(SubsidizedMenuCategories $model)
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    function model(): string
     {
-        $this->model = $model;
+        return SubsidizedMenuCategories::class;
     }
 
     /**
-     * @return SubsidizedMenuCategoriesCollection
+     * @return mixed
      */
     public function all()
     {
-        return new SubsidizedMenuCategoriesCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 SubsidizedMenuCategoriesSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
-
-    /**
-     * @param array $data
-     * @return SubsidizedMenuCategoriesResource
-     */
-    public function add(array $data)
-    {
-        return new SubsidizedMenuCategoriesResource($this->model->create($data));
-    }
-
-    /**
-     * @param array $data
-     * @param       $id
-     * @return SubsidizedMenuCategoriesResource
-     */
-    public function update(array $data, $id)
-    {
-        $model = $this->model->findOrFail($id);
-        $model->update($data);
-
-        return new SubsidizedMenuCategoriesResource($model);
-    }
-
-    /**
-     * @param $id
-     * @return int
-     */
-    public function delete($id)
-    {
-        return $this->model->destroy($id);
-    }
-
-    /**
-     * @param       $id
-     * @return SubsidizedMenuCategoriesResource
-     */
-    public function get($id)
-    {
-        return new SubsidizedMenuCategoriesResource($this->model->findOrFail($id));
-    }
-
 
     /**
      * @param MenuCategoryService $menuCategoryService
@@ -108,5 +66,19 @@ class SubsidizedMenuCategoriesRepository implements RepositoryInterface
         }
 
         return $SubsidizationMenuCategoriesArray;
+    }
+
+    /**
+     * @param $menuCategoryId
+     * @param $subsidizationRuleId
+     * @return mixed
+     */
+    // todo refactor this
+    public function getMenuCategoryWithSubsidization($menuCategoryId, $subsidizationRuleId)
+    {
+        return $this->model
+            ->where('menu_category_id', $menuCategoryId)
+            ->where('subsidization_rules_id', $subsidizationRuleId)
+            ->first();
     }
 }

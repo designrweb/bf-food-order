@@ -2,75 +2,34 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\OrderCollection;
-use App\Http\Resources\OrderResource;
 use App\Order;
 use App\QueryBuilders\OrderSearch;
 use Illuminate\Pipeline\Pipeline;
-use bigfood\grid\RepositoryInterface;
 
-class OrderRepository implements RepositoryInterface
+class OrderRepository extends Repository
 {
-    /** @var Order */
-    protected $model;
-
-    public function __construct(Order $model)
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    function model(): string
     {
-        $this->model = $model;
+        return Order::class;
     }
 
     /**
-     * @return OrderCollection
+     * @return mixed
      */
     public function all()
     {
-        return new OrderCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 OrderSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
-    }
-
-    /**
-     * @param array $data
-     * @return OrderResource
-     */
-    public function add(array $data)
-    {
-        return new OrderResource($this->model->create($data));
-    }
-
-    /**
-     * @param array $data
-     * @param       $id
-     * @return OrderResource
-     */
-    public function update(array $data, $id)
-    {
-        $model = $this->model->findOrFail($id);
-        $model->update($data);
-
-        return new OrderResource($model);
-    }
-
-    /**
-     * @param $id
-     * @return int
-     */
-    public function delete($id)
-    {
-        return $this->model->destroy($id);
-    }
-
-    /**
-     * @param       $id
-     * @return OrderResource
-     */
-    public function get($id)
-    {
-        return new OrderResource($this->model->findOrFail($id));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
@@ -109,23 +68,16 @@ class OrderRepository implements RepositoryInterface
         return true;
     }
 
-    public function getOrdersWithSubsidizationByDateForConsumer(Order $order)
-    {
-        $ordersWithSubsidization = Order::hasSubsidization()
-            ->where('consumer_id', $order->consumer_id)
-            ->where('day', $order->day)
-            ->where('id', '<>', $order->id)
-            ->get();
-        return $ordersWithSubsidization;
-    }
-
+    /**
+     * @param Order $order
+     * @return mixed
+     */
     public function countOrdersWithSubsidizationByDateForConsumer(Order $order)
     {
-        $ordersWithSubsidization = Order::hasSubsidization()
+        return Order::hasSubsidization()
             ->where('consumer_id', $order->consumer_id)
             ->where('day', $order->day)
             ->where('id', '<>', $order->id)
             ->count();
-        return $ordersWithSubsidization;
     }
 }
