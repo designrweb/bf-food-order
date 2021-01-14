@@ -10,7 +10,9 @@ use App\Services\SubsidizationRuleService;
 use App\Http\Requests\SubsidizationRuleFormRequest;
 use App\Services\SubsidizedMenuCategoriesService;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * Class SubsidizationRuleController
@@ -33,7 +35,7 @@ class SubsidizationRuleController extends Controller
     }
 
     /**
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -85,13 +87,12 @@ class SubsidizationRuleController extends Controller
     /**
      * @param SubsidizationOrganizationService $subsidizationOrganizationService
      * @param SubsidizedMenuCategoriesService  $subsidizedMenuCategoriesService
-     * @param MenuCategoryService              $menuCategoryService
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
-    public function create(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, MenuCategoryService $menuCategoryService)
+    public function create(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService)
     {
         $subsidizationOrganizations  = $subsidizationOrganizationService->getList();
-        $subsidizationMenuCategories = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories($menuCategoryService);
+        $subsidizationMenuCategories = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories();
 
         return view('subsidization_rules._form', [
             'subsidizationOrganizations'  => $subsidizationOrganizations,
@@ -110,7 +111,7 @@ class SubsidizationRuleController extends Controller
 
     /**
      * @param $id
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show($id)
     {
@@ -123,16 +124,15 @@ class SubsidizationRuleController extends Controller
     /**
      * @param SubsidizationOrganizationService $subsidizationOrganizationService
      * @param SubsidizedMenuCategoriesService  $subsidizedMenuCategoriesService
-     * @param MenuCategoryService              $menuCategoryService
      * @param                                  $id
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
-    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, MenuCategoryService $menuCategoryService, $id)
+    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, $id)
     {
         /** @var array $resource */
         $resource                                = (new SubsidizationRuleResource($this->service->getOne($id)))->toArray(request());
         $resource['subsidizationOrganizations']  = $subsidizationOrganizationService->getList();
-        $resource['subsidizationMenuCategories'] = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories($menuCategoryService, $id);
+        $resource['subsidizationMenuCategories'] = $subsidizedMenuCategoriesService->getSubsidizationMenuCategories($id);
 
         return view('subsidization_rules._form', compact('resource'));
     }
