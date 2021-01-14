@@ -97,9 +97,8 @@ class PaymentController extends Controller
      * @param PaymentFormRequest $request
      * @return PaymentResource
      */
-    public function store(PaymentFormRequest $request): PaymentResource
+    public function store(PaymentFormRequest $request)
     {
-        $data = $request->all();
         return new PaymentResource($this->service->create($request->all()));
     }
 

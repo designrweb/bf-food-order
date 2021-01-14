@@ -104,14 +104,14 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
       self.isPageBusy = true;
       try {
         let response         = await store(self.main_route, self.id, self.form);
-        window.location.href = self.main_route + '/' + response['data'].id;
+        window.location.href = self.main_route;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;
@@ -143,7 +143,7 @@ export default {
     await this._loadData();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {
