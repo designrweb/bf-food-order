@@ -84,7 +84,6 @@ class PaymentService extends BaseModelService
             return false;
         }
 
-
         return $payment;
     }
 
