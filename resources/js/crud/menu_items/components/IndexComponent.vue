@@ -4,7 +4,7 @@
       <h3 class="card-title">Menu Items</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
-    <div class="card-body overflow-auto">
+    <div class="card-body">
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
       </div>
@@ -14,7 +14,15 @@
           :items="items"
           :fields="fields"
           :busy="isTableBusy"
+          show-empty
           responsive="sm">
+        <template #empty="scope">
+          <div class="container mt-5 mb-5">
+            <div class="text-center mt-5 mb-5 text-gray">
+              <h2 class="card-text"> {{ scope.emptyText }} </h2>
+            </div>
+          </div>
+        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"

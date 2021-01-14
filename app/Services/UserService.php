@@ -118,11 +118,11 @@ class UserService extends BaseModelService
                 'label' => 'Last Name'
             ],
             [
-                'key'   => 'user_info.salutation',
+                'key'   => 'salutation_name',
                 'label' => 'Salutation'
             ],
             [
-                'key'   => 'role',
+                'key'   => 'role_name',
                 'label' => 'Access level'
             ],
             [

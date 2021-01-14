@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Laravel App')
+@section('title', 'Foodorder')
 
 @section('adminlte_css')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

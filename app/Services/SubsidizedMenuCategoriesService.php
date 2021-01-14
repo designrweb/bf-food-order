@@ -13,11 +13,20 @@ use App\SubsidizedMenuCategories;
 class SubsidizedMenuCategoriesService extends BaseModelService
 {
 
+    /**
+     * @var SubsidizedMenuCategoriesRepository
+     */
     protected $repository;
 
-    public function __construct(SubsidizedMenuCategoriesRepository $repository)
+    /**
+     * @var SubsidizedMenuCategoriesRepository
+     */
+    protected $menuCategoryService;
+
+    public function __construct(SubsidizedMenuCategoriesRepository $repository, MenuCategoryService $menuCategoryService)
     {
-        $this->repository = $repository;
+        $this->repository          = $repository;
+        $this->menuCategoryService = $menuCategoryService;
     }
 
     /**
@@ -90,13 +99,12 @@ class SubsidizedMenuCategoriesService extends BaseModelService
     }
 
     /**
-     * @param MenuCategoryService $menuCategoryService
-     * @param                     $id
+     * @param null $id
      * @return mixed
      */
-    public function getSubsidizationMenuCategories(MenuCategoryService $menuCategoryService, $id = null)
+    public function getSubsidizationMenuCategories($id = null)
     {
-        return $this->repository->getSubsidizationMenuCategories($menuCategoryService, $id);
+        return $this->repository->getSubsidizationMenuCategories($this->menuCategoryService, $id);
     }
 
     /**
