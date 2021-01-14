@@ -6,8 +6,10 @@ The main purpose of the application is to organize food ordering and it consumin
 2) Checki if you have access to the repo and then run:    
  `git clone https://github.com/andriyburda/crud-generator packages/bigfood/grid`   
 3) Run `composer install`
-4) Run `npm install`
-5) Then build assets `npm run dev`
+4) Run `php artisan key:generate`
+5) Run `php artisan storage:link`
+6) Run `npm install`
+7) Then build assets `npm run dev`
 
 ### Environment variables
 `KEY_FILE_ENCRYPT` (long key for encrypt and decrypt images)

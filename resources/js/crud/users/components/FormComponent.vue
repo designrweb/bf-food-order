@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title"></h3>
+            <h3 class="card-title">{{ form.id ? 'Update User: ' + form.user_info.first_name + ' ' + form.user_info.last_name : 'Create User' }}</h3>
           </div>
         </div>
       </div>
@@ -16,6 +16,38 @@
         </div>
 
         <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
+          <b-form-group
+              id="input-group-first_name"
+              label="First Name"
+              label-for="input-first_name"
+          >
+            <b-form-input
+                id="input-first_name"
+                v-model="form.user_info.first_name"
+                required
+                placeholder="First Name"
+            ></b-form-input>
+            <b-form-invalid-feedback :state="validation['user_info.first_name']['state']">
+              {{ validation['user_info.first_name']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <b-form-group
+              id="input-group-last_name"
+              label="Last Name"
+              label-for="input-last_name"
+          >
+            <b-form-input
+                id="input-last_name"
+                v-model="form.user_info.last_name"
+                required
+                placeholder="Last Name"
+            ></b-form-input>
+            <b-form-invalid-feedback :state="validation['user_info.last_name']['state']">
+              {{ validation['user_info.last_name']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
           <b-form-group
               id="input-group-email"
               label="Email"
@@ -47,50 +79,41 @@
           </b-form-group>
 
           <b-form-group
-              id="input-group-first_name"
-              label="First Name"
-              label-for="input-first_name"
-          >
-            <b-form-input
-                id="input-first_name"
-                v-model="form.user_info.first_name"
-                required
-                placeholder="First Name"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['user_info.first_name']['state']">
-              {{ validation['user_info.first_name']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-              id="input-group-last_name"
-              label="Last Name"
-              label-for="input-last_name"
-          >
-            <b-form-input
-                id="input-last_name"
-                v-model="form.user_info.last_name"
-                required
-                placeholder="Last Name"
-            ></b-form-input>
-            <b-form-invalid-feedback :state="validation['user_info.last_name']['state']">
-              {{ validation['user_info.last_name']['message'] }}
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
               id="input-group-salutation"
               label="Salutation"
               label-for="input-salutation"
           >
-            <b-form-input
-                id="input-salutation"
+            <b-form-select
                 v-model="form.user_info.salutation"
-                required
-                placeholder="Salutation"
-            ></b-form-input>
+                :options="salutations_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
             <b-form-invalid-feedback :state="validation['user_info.salutation']['state']">
               {{ validation['user_info.salutation']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
+
+          <b-form-group
+              id="input-group-role"
+              label="Role"
+              label-for="input-role"
+          >
+            <b-form-select
+                v-model="form.role"
+                :options="roles_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
+            <b-form-invalid-feedback :state="validation['role']['state']">
+              {{ validation['role']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
           <b-form-group
               id="input-group-zip"
               label="Zip"
@@ -155,8 +178,10 @@ export default {
     'back-button-component': BackButtonComponent,
   },
   props:      {
-    main_route: String,
-    id:         String | Number,
+    main_route:       String,
+    salutations_list: Array,
+    roles_list:       Array,
+    id:               String | Number,
   },
   data() {
     return {
@@ -168,6 +193,7 @@ export default {
       validation: {
         'email':                {'state': true, 'message': ''},
         'password':             {'state': true, 'message': ''},
+        'role':                 {'state': true, 'message': ''},
         'user_info.first_name': {'state': true, 'message': ''},
         'user_info.last_name':  {'state': true, 'message': ''},
         'user_info.salutation': {'state': true, 'message': ''},

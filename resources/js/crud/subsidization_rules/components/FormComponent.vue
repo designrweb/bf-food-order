@@ -57,7 +57,9 @@
                 id="input-start_date"
                 v-model="form.start_date"
                 reset-button
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                class="sl-tiny-text-datepicker"
+                start-weekday="1"
+                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                 locale="de"
             ></b-form-datepicker>
             <b-form-invalid-feedback :state="validation['start_date']['state']">
@@ -73,7 +75,9 @@
                 id="input-end_date"
                 v-model="form.end_date"
                 reset-button
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                class="sl-tiny-text-datepicker"
+                start-weekday="1"
+                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                 locale="de"
             ></b-form-datepicker>
             <b-form-invalid-feedback :state="validation['end_date']['state']">

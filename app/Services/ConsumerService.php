@@ -202,10 +202,6 @@ class ConsumerService extends BaseModelService
     {
         return [
             [
-                'key'   => 'qrcode.qr_code_hash',
-                'label' => 'QR Code'
-            ],
-            [
                 'key'   => 'account_id',
                 'label' => 'Account'
             ],

@@ -10947,3 +10947,7 @@ a.text-dark:focus {
   background-color: rgba(var(--main-sidebar-theme-color-rgba), 0.075) !important;
 }
 
+.sl-tiny-text-datepicker > label {
+  font-weight: 200 !important;
+}
+

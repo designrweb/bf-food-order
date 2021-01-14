@@ -59,8 +59,10 @@
                 id="input-availability_date"
                 autocomplete="off"
                 v-model="form.availability_date"
+                class="sl-tiny-text-datepicker"
                 reset-button
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                start-weekday="1"
+                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                 locale="de"
             ></b-form-datepicker>
             <b-form-invalid-feedback :state="validation['availability_date']['state']">

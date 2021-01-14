@@ -141,7 +141,7 @@ class LocationGroupService extends BaseModelService
             ],
             [
                 'key'   => 'location_id',
-                'label' => 'Location ID'
+                'label' => 'Location'
             ],
             [
                 'key'   => 'number_of_students',
@@ -167,7 +167,7 @@ class LocationGroupService extends BaseModelService
             ],
             [
                 'key'   => 'location_id',
-                'label' => 'Location ID'
+                'label' => 'Location'
             ],
             [
                 'key'   => 'number_of_students',

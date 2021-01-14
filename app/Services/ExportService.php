@@ -11,7 +11,14 @@ use Illuminate\Http\Request;
  */
 class ExportService
 {
-    const DEFAULT_TYPE = 'Xlsx';
+    const DEFAULT_TYPE = 'XLSX';
+
+    const TYPES = [
+        'XLSX' => 'xlsx',
+        'HTML' => 'html',
+        'CSV'  => 'csv',
+        'MPDF' => 'pdf',
+    ];
 
     /**
      * @param Request $request
@@ -22,8 +29,8 @@ class ExportService
      */
     public function export(Request $request, $service, $collectionResource, $model)
     {
-        $type      = strtoupper($request->get('exportType', self::DEFAULT_TYPE));
-        $extension = strtolower($type);
+        $type      = $request->get('exportType', self::TYPES[self::DEFAULT_TYPE]);
+        $extension = self::TYPES[$type];
 
         return (new CollectionExport($request, $service, $collectionResource, $model))->download('data.' . $extension, constant('\Maatwebsite\Excel\Excel::' . $type));
     }

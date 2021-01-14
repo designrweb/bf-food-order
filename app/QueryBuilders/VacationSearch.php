@@ -27,9 +27,14 @@ class VacationSearch extends BaseSearch
         // filters
         $this->applyFilter('vacations.id', request('filters.id'));
         $this->applyFilter('vacations.name', request('filters.name'));
-        $this->applyFilter('vacations.start_date', request('filters.start_date'));
-        $this->applyFilter('vacations.end_date', request('filters.end_date'));
 
+        if (request('filters.start_date')) {
+            $this->builder->where('vacations.start_date', '>=', date('Y-m-d', strtotime(request('filters.start_date'))));
+        }
+
+        if (request('filters.end_date')) {
+            $this->builder->where('vacations.end_date', '<=', date('Y-m-d', strtotime(request('filters.end_date'))));
+        }
 
         $this->builder->when(request('filters.location_name'), function (Builder $q) {
             $q->where('locations.name', 'like', '%' . request('filters.location_name') . '%');

@@ -37,10 +37,19 @@
                   :appliedFilterValue="filters[field.key]"
               ></filter-float>
 
-              <filter-text v-else @changeFilter="applyFilter"
-                           :filterName="field.key"
-                           :filterLabel="field.label"
-                           :appliedFilterValue="filters[field.key]"
+              <filter-form-date-picker
+                  v-else-if="field.key === 'availability_date_human'"
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
+              ></filter-form-date-picker>
+
+              <filter-text
+                  v-else @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
               ></filter-text>
             </div>
           </b-th>
@@ -87,18 +96,20 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import FilterDatePickerInput                                from "../../shared/filters/DatePickerFilterComponent";
+import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
 import FilterFloatInput                                     from "../../shared/filters/FloatFilterComponent";
 
 export default {
   components: {
-    'filter-text':        FilterTextInput,
-    'create-button':      CreateButton,
-    'filter-date-picker': FilterDatePickerInput,
-    'filter-float':       FilterFloatInput,
-    'view-button':        ViewButton,
-    'edit-button':        EditButton,
-    'delete-button':      DeleteButton,
-    'spinner-component':  SpinnerComponent,
+    'filter-text':             FilterTextInput,
+    'create-button':           CreateButton,
+    'filter-date-picker':      FilterDatePickerInput,
+    'filter-float':            FilterFloatInput,
+    'view-button':             ViewButton,
+    'edit-button':             EditButton,
+    'delete-button':           DeleteButton,
+    'spinner-component':       SpinnerComponent,
+    'filter-form-date-picker': FormDatePickerFilterComponent,
   },
   props:      {
     main_route: String

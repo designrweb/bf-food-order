@@ -69,6 +69,22 @@ class UserService extends BaseModelService
     /**
      * @return array
      */
+    public function getSalutationsList(): array
+    {
+        return $this->repository->getSalutationsList();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRolesList(): array
+    {
+        return $this->repository->getRolesList();
+    }
+
+    /**
+     * @return array
+     */
     public function getIndexStructure(): array
     {
         return $this->getFullStructure((new User()));
@@ -100,16 +116,24 @@ class UserService extends BaseModelService
             [
                 'key'   => 'user_info.last_name',
                 'label' => 'Last Name'
-            ], [
+            ],
+            [
                 'key'   => 'user_info.salutation',
                 'label' => 'Salutation'
-            ], [
+            ],
+            [
+                'key'   => 'role',
+                'label' => 'Access level'
+            ],
+            [
                 'key'   => 'user_info.zip',
                 'label' => 'Zip'
-            ], [
+            ],
+            [
                 'key'   => 'user_info.city',
                 'label' => 'City'
-            ], [
+            ],
+            [
                 'key'   => 'user_info.street',
                 'label' => 'Street'
             ]
@@ -125,7 +149,11 @@ class UserService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => '#'
+            ],
+            [
+                'key'   => 'accounts',
+                'label' => 'Accounts'
             ],
             [
                 'key'   => 'email',
@@ -136,7 +164,7 @@ class UserService extends BaseModelService
                 'label' => 'Location'
             ],
             [
-                'key'   => 'access_level',
+                'key'   => 'role',
                 'label' => 'Access level'
             ]
         ];
@@ -149,9 +177,10 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'email'                => '',
-            'user_info.first_name' => '',
-            'user_info.last_name'  => '',
+            'accounts' => '',
+            'email'    => '',
+            'location' => '',
+            'role'     => '',
         ];
     }
 
@@ -162,10 +191,10 @@ class UserService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'id'                   => '',
-            'email'                => '',
-            'user_info.first_name' => '',
-            'user_info.last_name'  => '',
+            'accounts' => '',
+            'email'    => '',
+            'location' => '',
+            'role'     => '',
         ];
     }
 }

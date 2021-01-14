@@ -39,6 +39,8 @@
             <b-form-input
                 id="input-category_order"
                 v-model="form.category_order"
+                @keypress="isNumber($event)"
+                autocomplete="off"
                 required
                 placeholder="Category Order"
             ></b-form-input>
@@ -56,7 +58,7 @@
                 id="input-price"
                 v-model="form.price_locale"
                 type="text"
-                @keypress="isNumber($event)"
+                @keypress="isFloat($event)"
                 placeholder="Price"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['price']['state']">
@@ -73,7 +75,7 @@
                 id="input-presaleprice"
                 v-model="form.presaleprice_locale"
                 type="text"
-                @keypress="isNumber($event)"
+                @keypress="isFloat($event)"
                 placeholder="Presaleprice"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['presaleprice']['state']">
@@ -146,10 +148,19 @@ export default {
     }
   },
   methods: {
-    isNumber: function (evt) {
+    isFloat:  function (evt) {
       evt          = (evt) ? evt : window.event;
       let charCode = (evt.which) ? evt.which : evt.keyCode;
       if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 44) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    isNumber: function (evt) {
+      evt          = (evt) ? evt : window.event;
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
         evt.preventDefault();
       } else {
         return true;

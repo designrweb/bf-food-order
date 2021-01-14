@@ -32,10 +32,20 @@
         <template v-slot:top-row="scope" :columns="4">
           <b-th v-for="field in scope.fields" v-bind:key="field.key">
             <div v-if="field.key in filters">
-              <filter-text @changeFilter="applyFilter"
-                           :filterName="field.key"
-                           :filterLabel="field.label"
-                           :appliedFilterValue="filters[field.key]"
+              <filter-number
+                  v-if="field.key == 'zip'"
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
+              ></filter-number>
+
+              <filter-text
+                  v-else
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
               ></filter-text>
             </div>
           </b-th>
@@ -78,6 +88,7 @@
 
 <script>
 import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
+import FilterNumberInput                                    from "../../shared/filters/NumberFilterComponent";
 import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
@@ -86,6 +97,7 @@ import PaginationInfoComponent                              from "../../shared/P
 export default {
   components: {
     'filter-text':               FilterTextInput,
+    'filter-number':             FilterNumberInput,
     'create-button':             CreateButton,
     'view-button':               ViewButton,
     'edit-button':               EditButton,
@@ -125,7 +137,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -188,7 +200,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }
