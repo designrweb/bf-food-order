@@ -86,13 +86,17 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('users._form');
+        $salutationsList = $this->service->getSalutationsList();
+        $rolesList       = $this->service->getRolesList();
+
+        return view('users._form', [
+            'salutationsList' => $salutationsList,
+            'rolesList'       => $rolesList,
+        ]);
     }
 
     /**
@@ -117,15 +121,15 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = (new UserResource($this->service->getOne($id)))->toArray(request());
+        $resource                    = (new UserResource($this->service->getOne($id)))->toArray(request());
+        $resource['salutationsList'] = $this->service->getSalutationsList();
+        $resource['rolesList']       = $this->service->getRolesList();
 
         return view('users._form', compact('resource'));
     }

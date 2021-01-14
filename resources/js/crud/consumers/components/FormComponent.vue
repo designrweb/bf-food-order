@@ -55,6 +55,7 @@
                   {{ validation['firstname']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
+
               <b-form-group
                   id="input-group-lastname"
                   label="Lastname"
@@ -79,7 +80,9 @@
                     id="input-birthday"
                     v-model="form.birthday"
                     reset-button
-                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    class="sl-tiny-text-datepicker"
+                    start-weekday="1"
+                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                     locale="de"
                 ></b-form-datepicker>
                 <b-form-invalid-feedback :state="validation['birthday']['state']">
@@ -122,7 +125,6 @@
 
             </div>
           </div>
-
 
           <div class="card">
             <div class="card-header">
@@ -194,7 +196,9 @@
                     id="input-subsidization_start_date"
                     v-model="form.subsidization.subsidization_start"
                     reset-button
-                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    class="sl-tiny-text-datepicker"
+                    start-weekday="1"
+                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                     locale="de"
                 ></b-form-datepicker>
                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_start']['state']">
@@ -211,7 +215,9 @@
                     id="input-subsidization_end_date"
                     v-model="form.subsidization.subsidization_end"
                     reset-button
-                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    class="sl-tiny-text-datepicker"
+                    start-weekday="1"
+                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
                     locale="de"
                 ></b-form-datepicker>
                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_end']['state']">

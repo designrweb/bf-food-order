@@ -42,6 +42,14 @@ class User extends Authenticatable implements MustVerifyEmail
         self::ROLE_POS_MANAGER => 'Pos Manager',
     ];
 
+    const SALUTATION_MR  = 'mr';
+    const SALUTATION_MRS = 'mrs';
+
+    const SALUTATIONS = [
+        self::SALUTATION_MR  => 'Mr.',
+        self::SALUTATION_MRS => 'Mrs.',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

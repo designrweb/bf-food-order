@@ -19,36 +19,18 @@ class UserSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
-        $this->builder->select('users.*')
+        $this->builder->select(['users.*'])
             ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id');
 
         // filters
         $this->applyFilter('users.id', request('filters.id'));
         $this->applyFilter('users.email', request('filters.email'));
-        $this->applyFilter('users.created_at', request('filters.created_at'));
-        $this->applyFilter('users.updated_at', request('filters.updated_at'));
-
-        $this->builder->when(request('filters.user_info.first_name'), function (Builder $q) {
-            $q->where('user_info.first_name', 'like', '%' . request('filters.user_info.first_name') . '%');
-        });
-
-        $this->builder->when(request('filters.user_info.last_name'), function (Builder $q) {
-            $q->where('user_info.last_name', 'like', '%' . request('filters.user_info.last_name') . '%');
-        });
+        $this->applyFilter('users.role', request('filters.role'));
 
         // sort
         $this->applySort('users.id', request('sort.id'));
         $this->applySort('users.email', request('sort.email'));
-        $this->applySort('users.created_at', request('sort.created_at'));
-        $this->applySort('users.updated_at', request('sort.updated_at'));
-
-        $this->builder->when(request('sort.user_info.first_name'), function (Builder $q) {
-            return $q->orderBy('user_info.first_name', request('sort.user_info.first_name'));
-        });
-
-        $this->builder->when(request('sort.user_info.last_name'), function (Builder $q) {
-            return $q->orderBy('user_info.last_name', request('sort.user_info.last_name'));
-        });
+        $this->applySort('users.role', request('sort.role'));
 
         return $this->builder;
     }

@@ -31,11 +31,11 @@ class SubsidizationRuleSearch extends BaseSearch
         }
 
         if (request('filters.start_date')) {
-            $this->applyFilter('subsidization_rules.start_date', request('filters.start_date'));
+            $this->builder->where('subsidization_rules.start_date', '>=', date('Y-m-d', strtotime(request('filters.start_date'))));
         }
 
         if (request('filters.end_date')) {
-            $this->applyFilter('subsidization_rules.end_date', request('filters.end_date'));
+            $this->builder->where('subsidization_rules.end_date', '<=', date('Y-m-d', strtotime(request('filters.end_date'))));
         }
 
         $this->builder->when(request('filters.subsidization_organization.name'), function (Builder $q) {

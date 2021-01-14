@@ -18,8 +18,8 @@
 import {exportCall} from "../../api/exportRequest";
 
 export default {
-  name:    "ExportButton",
-  props:   {
+  name:  "ExportButton",
+  props: {
     filters:    {},
     sort:       {},
     main_route: String,
@@ -29,27 +29,27 @@ export default {
       default:  function () {
         return [
           {
-            type:  'Html',
-            icon:  'fas fa-file-code',
             name:  'HTML',
+            icon:  'fas fa-file-code',
+            type:  'HTML',
             allow: true,
           },
           {
             name:  'CSV',
             icon:  'fas fa-file-csv',
-            type:  'Csv',
+            type:  'CSV',
             allow: true,
           },
           {
             name:  'Excel',
             icon:  'fas fa-file-excel',
-            type:  'Xlsx',
+            type:  'XLSX',
             allow: true,
           },
           {
             name:  'PDF',
             icon:  'fas fa-file-pdf',
-            type:  'Mpdf',
+            type:  'MPDF',
             allow: true,
           },
         ]
@@ -70,7 +70,8 @@ export default {
       let blob      = new Blob([response.data]);
       let link      = document.createElement('a');
       link.href     = window.URL.createObjectURL(blob);
-      link.download = 'data.' + type.toLowerCase();
+      let extension = type.toLowerCase() === 'mpdf' ? 'pdf' : type.toLowerCase();
+      link.download = 'data.' + extension;
       link.click();
 
       this.isBusy = false;

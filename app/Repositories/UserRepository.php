@@ -87,4 +87,40 @@ class UserRepository implements RepositoryInterface
     {
         return $this->model->with('userInfo')->findOrFail($id);
     }
+
+    /**
+     * @return array
+     */
+    public function getSalutationsList(): array
+    {
+        $salutationsArray = [];
+        $salutations      = $this->model::SALUTATIONS;
+
+        foreach ($salutations as $key => $value) {
+            $salutationsArray[] = [
+                'id'   => $key,
+                'name' => $value,
+            ];
+        }
+
+        return $salutationsArray;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRolesList(): array
+    {
+        $rolesArray = [];
+        $roles      = $this->model::ROLES;
+
+        foreach ($roles as $key => $value) {
+            $rolesArray[] = [
+                'id'   => $key,
+                'name' => $value,
+            ];
+        }
+
+        return $rolesArray;
+    }
 }

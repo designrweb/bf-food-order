@@ -86,8 +86,7 @@ class CollectionExport implements FromArray, WithHeadings, WithEvents
         $formattedData = [];
         request()->merge(['itemsPerPage' => 0]);
 
-        $collectionData = (new $this->collectionResource($this->service->repository
-            ->all()))
+        $collectionData = (new $this->collectionResource($this->service->all()))
             ->toArray($this->request);
 
         foreach ($collectionData['data'] as $item) {
