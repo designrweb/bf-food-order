@@ -28,6 +28,7 @@ class LocationFormRequest extends FormRequest
             'slug'       => 'required|max:64',
             'zip'        => 'nullable|numeric',
             'city'       => 'nullable|string',
+            'street'     => 'nullable|string',
             'email'      => 'nullable|email',
             'image_name' => 'nullable|string',
             'company_id' => 'required|numeric',
