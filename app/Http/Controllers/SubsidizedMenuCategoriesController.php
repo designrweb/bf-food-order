@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubsidizedMenuCategoriesCollection;
 use App\Http\Resources\SubsidizedMenuCategoriesResource;
 use App\Services\SubsidizedMenuCategoriesService;
 use App\Http\Requests\SubsidizedMenuCategoriesFormRequest;
@@ -37,11 +38,11 @@ class SubsidizedMenuCategoriesController extends Controller
      * Returns a listing of the resource.
      *
      * @param Request $request
-     * @return array
+     * @return SubsidizedMenuCategoriesCollection
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return new SubsidizedMenuCategoriesCollection($this->service->all());
     }
 
 
@@ -82,11 +83,11 @@ class SubsidizedMenuCategoriesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SubsidizedMenuCategoriesFormRequest $request
-     * @return array
+     * @return SubsidizedMenuCategoriesResource
      */
     public function store(SubsidizedMenuCategoriesFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return new SubsidizedMenuCategoriesResource($this->service->create($request->all()));
     }
 
     /**
@@ -112,7 +113,7 @@ class SubsidizedMenuCategoriesController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = new SubsidizedMenuCategoriesResource($this->service->getOne($id));
 
         return view('subsidized_menu_categories._form', compact('resource'));
     }
@@ -122,11 +123,11 @@ class SubsidizedMenuCategoriesController extends Controller
      *
      * @param SubsidizedMenuCategoriesFormRequest $request
      * @param int     $id
-     * @return array
+     * @return SubsidizedMenuCategoriesResource
      */
     public function update(SubsidizedMenuCategoriesFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return new SubsidizedMenuCategoriesResource($this->service->update($request->all(), $id));
     }
 
     /**

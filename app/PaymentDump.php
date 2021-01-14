@@ -16,6 +16,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PaymentDump extends Model
 {
+    const STATUS_UPLOADED   = 0;
+    const STATUS_PROCESSED  = 1;
+    const STATUS_DUPLICATED = 2;
+
+    const STATUSES = [
+        self::STATUS_UPLOADED   => 'UPLOADED',
+        self::STATUS_PROCESSED  => 'PROCESSED',
+        self::STATUS_DUPLICATED => 'DUPLICATED',
+    ];
+
     /**
      * @var array
      */

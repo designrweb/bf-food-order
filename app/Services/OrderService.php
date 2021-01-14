@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Repositories\OrderRepository;
 use bigfood\grid\BaseModelService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Order;
 
@@ -26,7 +28,7 @@ class OrderService extends BaseModelService
      */
     public function all(): OrderCollection
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -75,22 +77,6 @@ class OrderService extends BaseModelService
     }
 
     /**
-     * @return array
-     */
-    public function getIndexStructure(): array
-    {
-        return $this->getFullStructure((new Order()));
-    }
-
-     /**
-     * @return array
-     */
-    public function getViewStructure(): array
-    {
-        return $this->getSimpleStructure((new Order()));
-    }
-
-    /**
      * @param $startDate
      * @param $endDate
      * @param $locationGroup
@@ -110,5 +96,92 @@ class OrderService extends BaseModelService
     public static function cancelOrders($startDate, $endDate, $locationGroup)
     {
         return OrderRepository::cancelOrders($startDate, $endDate, $locationGroup);
+    }
+
+    /**
+     * @return array
+     */
+    public function getIndexStructure(): array
+    {
+        return $this->getFullStructure((new Order()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewStructure(): array
+    {
+        return $this->getSimpleStructure((new Order()));
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions(): array
+    {
+        return [
+            'all'    => false,
+            'create' => false,
+            'view'   => false,
+            'edit'   => false,
+            'delete' => false,
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'menuitem_id',
+                'label' => 'Menu'
+            ],
+            [
+                'key'   => 'quantity',
+                'label' => 'Quantity'
+            ],
+            [
+                'key'   => 'day',
+                'label' => 'Day At'
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'menuitem_id' => '',
+            'quantity'    => '',
+            'day'         => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFilters(Model $model): array
+    {
+        $filters = [
+            'menuitem_id' => '',
+            'quantity'    => '',
+            'day'         => '',
+        ];
+
+        return $filters;
+    }
+
+    public function countOrdersWithSubsidization(Order $order)
+    {
+        return $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);
     }
 }

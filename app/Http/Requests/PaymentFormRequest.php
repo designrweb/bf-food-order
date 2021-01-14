@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PaymentFormRequest extends FormRequest
 {
-     /**
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -14,6 +14,9 @@ class PaymentFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'amount'      => 'required',
+            'comment'     => 'required',
+            'consumer_id' => 'required',
         ];
     }
 }

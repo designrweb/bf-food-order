@@ -2,74 +2,33 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\PaymentCollection;
-use App\Http\Resources\PaymentResource;
 use App\Payment;
 use App\QueryBuilders\PaymentSearch;
 use Illuminate\Pipeline\Pipeline;
-use bigfood\grid\RepositoryInterface;
 
-class PaymentRepository implements RepositoryInterface
+class PaymentRepository extends Repository
 {
-    /** @var Payment */
-    protected $model;
-
-    public function __construct(Payment $model)
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    function model(): string
     {
-        $this->model = $model;
+        return Payment::class;
     }
 
     /**
-     * @return PaymentCollection
+     * @return mixed
      */
     public function all()
     {
-        return new PaymentCollection(app(Pipeline::class)
+        return (app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 PaymentSearch::class,
             ])
             ->thenReturn()
             ->paginate(request('itemsPerPage') ?? 10));
-    }
-
-    /**
-     * @param array $data
-     * @return PaymentResource
-     */
-    public function add(array $data)
-    {
-        return new PaymentResource($this->model->create($data));
-    }
-
-    /**
-     * @param array $data
-     * @param       $id
-     * @return PaymentResource
-     */
-    public function update(array $data, $id)
-    {
-        $model = $this->model->findOrFail($id);
-        $model->update($data);
-
-        return new PaymentResource($model);
-    }
-
-    /**
-     * @param $id
-     * @return int
-     */
-    public function delete($id)
-    {
-        return $this->model->destroy($id);
-    }
-
-    /**
-     * @param       $id
-     * @return PaymentResource
-     */
-    public function get($id)
-    {
-        return new PaymentResource($this->model->findOrFail($id));
     }
 }

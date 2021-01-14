@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentCollection;
 use App\Http\Resources\PaymentResource;
 use App\Services\ConsumerService;
 use App\Services\PaymentService;
@@ -25,7 +26,7 @@ class PaymentController extends Controller
 
     public function __construct(PaymentService $service, ConsumerService $consumerService)
     {
-        $this->service = $service;
+        $this->service         = $service;
         $this->consumerService = $consumerService;
     }
 
@@ -43,24 +44,23 @@ class PaymentController extends Controller
      * Returns a listing of the resource.
      *
      * @param Request $request
-     * @return array
+     * @return PaymentCollection
      */
-    public function getAll(Request $request)
+    public function getAll(Request $request): PaymentCollection
     {
-        return $this->service->all()->toArray($request);
+        return new PaymentCollection($this->service->all());
     }
-
 
     /**
      * Returns a listing of the resource.
      *
      * @param Request $request
      * @param         $id
-     * @return array
+     * @return PaymentResource
      */
-    public function getOne(Request $request, $id)
+    public function getOne(Request $request, $id): PaymentResource
     {
-        return $this->service->getOne($id)->toArray($request);
+        return new PaymentResource($this->service->getOne($id));
     }
 
     /**
@@ -95,11 +95,12 @@ class PaymentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param PaymentFormRequest $request
-     * @return array
+     * @return PaymentResource
      */
-    public function store(PaymentFormRequest $request)
+    public function store(PaymentFormRequest $request): PaymentResource
     {
-        return $this->service->create($request->all())->toArray($request);
+        $data = $request->all();
+        return new PaymentResource($this->service->create($request->all()));
     }
 
     /**
@@ -110,8 +111,8 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('payments.view', compact('resource'));
     }
@@ -134,7 +135,7 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param PaymentFormRequest $request
-     * @param int     $id
+     * @param int                $id
      * @return array
      */
     public function update(PaymentFormRequest $request, $id)

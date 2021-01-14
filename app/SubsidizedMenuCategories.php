@@ -19,7 +19,8 @@ class SubsidizedMenuCategories extends Model
     /**
      * @var array
      */
-    protected $fillable = ['subsidization_rule_id', 'menu_category_id', 'percent', 'created_at', 'updated_at'];
+    // todo rewrite to 'subsidization_rule_id' in all app
+    protected $fillable = ['subsidization_rules_id', 'menu_category_id', 'percent', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

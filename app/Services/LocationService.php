@@ -131,6 +131,7 @@ class LocationService extends BaseModelService
         $model              = $this->repository->getModel($id);
         $data['image_name'] = null;
 
+        // todo move logic to service
         try {
             DB::beginTransaction();
 
