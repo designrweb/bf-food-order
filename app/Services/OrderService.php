@@ -22,11 +22,9 @@ class OrderService extends BaseModelService
     }
 
     /**
-     * Returns all orders transformed to resource
-     *
-     * @return OrderCollection
+     * @return mixed
      */
-    public function all(): OrderCollection
+    public function all()
     {
         return $this->repository->all();
     }

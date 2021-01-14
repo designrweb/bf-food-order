@@ -35,12 +35,10 @@ class OrderController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return OrderCollection
      */
-    public function getAll(Request $request): OrderCollection
+    public function getAll(Request $request)
     {
         return new OrderCollection($this->service->all());
     }

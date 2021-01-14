@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/', function () {
         return view('admin');
     });
@@ -330,7 +330,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::put('/{id}', 'CompanyController@update')->name('companies.update');
         Route::delete('/{id}', "CompanyController@destroy")->name('companies.destroy');
     });
-
 
     /** delivery-planning routes */
     Route::prefix('delivery-planning')->middleware(['auth'])->group(function () {
