@@ -12,6 +12,7 @@
                     :main_route="'/admin/users'"
                     :salutations_list="{{json_encode($resource['salutationsList'])}}"
                     :roles_list="{{json_encode($resource['rolesList'])}}"
+                    :locations_list="{{json_encode($resource['locationsList'])}}"
                     :id="{{$resource['id']}}"
             ></grid-form>
         @else
@@ -19,6 +20,7 @@
                     :main_route="'/admin/users'"
                     :salutations_list="{{json_encode($salutationsList)}}"
                     :roles_list="{{json_encode($rolesList)}}"
+                    :locations_list="{{json_encode($locationsList)}}"
             ></grid-form>
         @endif
     </div>

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -31,6 +32,22 @@ class SubsidizationRule extends Model
      * @var array
      */
     protected $fillable = ['subsidization_organization_id', 'created_by', 'rule_name', 'start_date', 'end_date', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->whereHas('subsidizationOrganization', function ($query) {
+                    $query->where('subsidization_organizations.company_id', auth()->user()->company_id);
+                });
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

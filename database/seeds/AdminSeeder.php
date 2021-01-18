@@ -3,7 +3,7 @@
 use App\User;
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,15 @@ class UsersTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        factory(App\User::class, 1)->create()->each(function ($user) use ($faker) {
+        $company = factory(App\Company::class)->create();
+
+        factory(App\Location::class)->create([
+            'company_id' => $company->id,
+        ]);
+
+        factory(App\User::class)->create([
+            'company_id' => $company->id
+        ])->each(function ($user) use ($faker) {
             $user->userInfo()->create([
                 'first_name' => $faker->firstName,
                 'last_name'  => $faker->lastName,

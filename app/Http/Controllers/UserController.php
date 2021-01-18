@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Services\ExportService;
+use App\Services\LocationService;
 use App\Services\UserService;
 use App\Http\Requests\UserFormRequest;
 use App\User;
@@ -22,13 +23,20 @@ class UserController extends Controller
     protected $service;
 
     /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    /**
      * UserController constructor.
      *
-     * @param UserService $service
+     * @param UserService     $service
+     * @param LocationService $locationService
      */
-    public function __construct(UserService $service)
+    public function __construct(UserService $service, LocationService $locationService)
     {
-        $this->service = $service;
+        $this->service         = $service;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -92,10 +100,12 @@ class UserController extends Controller
     {
         $salutationsList = $this->service->getSalutationsList();
         $rolesList       = $this->service->getRolesList();
+        $locationsList   = $this->locationService->getList();
 
         return view('users._form', [
             'salutationsList' => $salutationsList,
             'rolesList'       => $rolesList,
+            'locationsList'   => $locationsList,
         ]);
     }
 
@@ -130,6 +140,7 @@ class UserController extends Controller
         $resource                    = (new UserResource($this->service->getOne($id)))->toArray(request());
         $resource['salutationsList'] = $this->service->getSalutationsList();
         $resource['rolesList']       = $this->service->getRolesList();
+        $resource['locationsList']   = $this->locationService->getList();
 
         return view('users._form', compact('resource'));
     }
@@ -145,10 +156,8 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -26,7 +26,7 @@ class SettingFormRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'company_id' => auth()->user()->userCompany->company_id,
+            'company_id' => auth()->user()->company_id,
         ]);
     }
 }

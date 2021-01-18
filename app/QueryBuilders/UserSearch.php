@@ -5,7 +5,7 @@ namespace App\QueryBuilders;
 use bigfood\grid\BaseSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Closure;
-use Illuminate\Support\Facades\DB;
+use App\User;
 
 class UserSearch extends BaseSearch
 {
@@ -20,7 +20,9 @@ class UserSearch extends BaseSearch
         $this->builder = $next($request);
 
         $this->builder->select(['users.*'])
-            ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id');
+            ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
+            ->whereIn('users.role', [User::ROLE_ADMIN, User::ROLE_POS_MANAGER])
+            ->whereCompany();
 
         // filters
         $this->applyFilter('users.id', request('filters.id'));

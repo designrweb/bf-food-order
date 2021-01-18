@@ -21,6 +21,7 @@ class LocationGroupSearch extends BaseSearch
 
         $this->builder->select(['location_groups.*', DB::raw('COUNT(consumers.id) as number_of_students')])
             ->leftJoin('consumers', 'location_groups.id', '=', 'consumers.location_group_id')
+            ->leftJoin('locations', 'location_groups.location_id', '=', 'locations.id')
             ->groupBy('location_groups.id');
 
         // filters

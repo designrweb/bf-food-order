@@ -29,4 +29,14 @@ class LocationGroupFormRequest extends FormRequest
             'location_id' => 'required|numeric',
         ];
     }
+
+    /**
+     * @return string[]
+     */
+    public function attributes()
+    {
+        return [
+            'location_id' => 'Location',
+        ];
+    }
 }

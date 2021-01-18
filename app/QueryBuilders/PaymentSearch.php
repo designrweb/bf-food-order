@@ -4,8 +4,50 @@ namespace App\QueryBuilders;
 
 use bigfood\grid\BaseSearch;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class PaymentSearch
+ *
+ * @package App\QueryBuilders
+ */
 class PaymentSearch extends BaseSearch
 {
+    /**
+     * @param         $request
+     * @param Closure $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        /** @var Builder $builder */
+        $this->builder = $next($request);
 
+        $this->builder->select(['payments.*', 'users.email as users_email'])
+            ->leftJoin('consumers', 'payments.consumer_id', '=', 'consumers.id')
+            ->leftJoin('users', 'users.id', '=', 'consumers.user_id');
+
+        // filters
+        $this->builder->when(request('filters.consumer.user.email'), function (Builder $q) {
+            $q->where('users.email', 'like', '%' . request('filters.consumer.user.email') . '%');
+        });
+
+        $this->applyFilter('payments.amount', str_replace(',', '.', request('filters.amount_locale')));
+        $this->applyFilter('payments.comment', request('filters.comment'));
+
+        $this->builder->when(request('filters.created_at_human'), function (Builder $q) {
+            $q->where('payments.created_at', date('Y-m-d', strtotime(request('filters.created_at_human'))));
+        });
+
+        // sort
+        $this->applySort('payments.amount', request('sort.amount_locale'));
+        $this->applySort('payments.comment', request('sort.comment'));
+        $this->applySort('payments.created_at', request('sort.created_at_human'));
+
+        $this->builder->when(request('sort.consumer.user.email'), function (Builder $q) {
+            return $q->orderBy('users.email', request('sort.consumer.user.email'));
+        });
+
+        return $this->builder;
+    }
 }

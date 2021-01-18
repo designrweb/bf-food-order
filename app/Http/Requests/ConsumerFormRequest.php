@@ -25,14 +25,14 @@ class ConsumerFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_id'                           => 'required|string|unique:consumers,account_id,' . $this->id,
+            'account_id'                           => 'required|numeric|unique:consumers,account_id,' . $this->id,
             'firstname'                            => 'required|string',
             'lastname'                             => 'required|string',
             'birthday'                             => 'required|string',
             'location_group_id'                    => 'required|numeric',
             'imageurl'                             => 'nullable|string',
             'balance_limit'                        => 'required|numeric',
-            'subsidization.subsidization_document' => 'required_with:subsidization.subsidization_rules_id|nullable|file',
+            'subsidization.subsidization_document' => 'nullable|file',
             'subsidization.subsidization_rules_id' => 'nullable|numeric',
             'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_rules_id|nullable|date',
             'subsidization.subsidization_end'      => 'required_with:subsidization.subsidization_rules_id|nullable|date|after_or_equal:subsidization.subsidization_start',
@@ -47,5 +47,21 @@ class ConsumerFormRequest extends FormRequest
         $this->merge([
             'user_id' => auth()->user()->id,
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function attributes()
+    {
+        return [
+            'location_group_id'                    => 'Location group',
+            'firstname'                            => 'First name',
+            'lastname'                             => 'Last name',
+            'subsidization.subsidization_rules_id' => 'Subsidization Rule',
+            'subsidization.subsidization_document' => 'Subsidization Document',
+            'subsidization.subsidization_start'    => 'Subsidization Start Date',
+            'subsidization.subsidization_end'      => 'Subsidization End Date',
+        ];
     }
 }

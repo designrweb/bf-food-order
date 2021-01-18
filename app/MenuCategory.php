@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,6 +34,22 @@ class MenuCategory extends Model
      * @var array
      */
     protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'location_id', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->whereHas('location', function ($query) {
+                    $query->where('locations.company_id', auth()->user()->company_id);
+                });
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

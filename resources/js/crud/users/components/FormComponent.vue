@@ -107,10 +107,30 @@
                 class="mb-3"
                 value-field="id"
                 text-field="name"
+                @change="changeRole($event)"
                 disabled-field="notEnabled"
             ></b-form-select>
             <b-form-invalid-feedback :state="validation['role']['state']">
               {{ validation['role']['message'] }}
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <b-form-group
+              v-if="showLocationId"
+              id="input-group-location_id"
+              label="Location"
+              label-for="input-location_id"
+          >
+            <b-form-select
+                v-model="form.location_id"
+                :options="locations_list"
+                class="mb-3"
+                value-field="id"
+                text-field="name"
+                disabled-field="notEnabled"
+            ></b-form-select>
+            <b-form-invalid-feedback :state="validation['location_id']['state']">
+              {{ validation['location_id']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
@@ -181,19 +201,22 @@ export default {
     main_route:       String,
     salutations_list: Array,
     roles_list:       Array,
+    locations_list:   Array,
     id:               String | Number,
   },
   data() {
     return {
-      isPageBusy: false,
-      itemData:   [],
-      form:       {
+      isPageBusy:     false,
+      showLocationId: false,
+      itemData:       [],
+      form:           {
         user_info: {}
       },
-      validation: {
+      validation:     {
         'email':                {'state': true, 'message': ''},
         'password':             {'state': true, 'message': ''},
         'role':                 {'state': true, 'message': ''},
+        'location_id':          {'state': true, 'message': ''},
         'user_info.first_name': {'state': true, 'message': ''},
         'user_info.last_name':  {'state': true, 'message': ''},
         'user_info.salutation': {'state': true, 'message': ''},
@@ -204,6 +227,13 @@ export default {
     }
   },
   methods: {
+    changeRole(value) {
+      if (value === 'pos_manager') {
+        this.showLocationId = true;
+      } else {
+        this.showLocationId = false;
+      }
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
@@ -240,6 +270,7 @@ export default {
   async mounted() {
     this.isPageBusy = true;
     await this._loadData();
+    this.changeRole(this.form.role);
     this.isPageBusy = false;
   },
   watch: {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -57,6 +58,26 @@ class Order extends Model
      */
     protected $fillable = ['menuitem_id', 'consumer_id', 'subsidization_organization_id', 'type', 'day', 'pickedup', 'pickedup_at', 'quantity', 'is_subsidized', 'created_at', 'updated_at', 'deleted_at'];
 
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->whereHas('menuItem.menuCategory.location', function ($query) {
+                    $query->where('locations.company_id', auth()->user()->company_id);
+                });
+            }
+        });
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeHasSubsidization($query)
     {
         return $query->where(['is_subsidized' => Order::IS_SUBSIDIZED]);

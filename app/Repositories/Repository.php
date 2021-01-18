@@ -65,8 +65,6 @@ abstract class Repository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        $data['type'] = $this->model::TYPE_MANUAL_TRANSACTION;
-
         return $this->model->create($data);
     }
 

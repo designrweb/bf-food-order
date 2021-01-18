@@ -5,6 +5,7 @@ namespace App\QueryBuilders;
 use bigfood\grid\BaseSearch;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class MenuCategorySearch
@@ -22,6 +23,9 @@ class MenuCategorySearch extends BaseSearch
     {
         /** @var Builder $builder */
         $this->builder = $next($request);
+//
+//        $this->builder->select(['menu_categories.*'])
+//            ->leftJoin('locations', 'menu_categories.location_id', '=', 'locations.id');
 
         // filters
         $this->applyFilter('menu_categories.name', request('filters.name'));

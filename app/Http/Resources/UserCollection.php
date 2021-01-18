@@ -22,13 +22,12 @@ class UserCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (User $item) {
-                return [
-                    'id'       => $item->id,
-                    'email'    => $item->email,
-                    'accounts' => $item->consumers->implode('account_id', ', '),
-                    'location' => !empty($item->location->name) ? $item->location->name : null,
-                    'role'     => User::ROLES[$item->role],
-                ];
+                $data = $item->toArray();
+
+                $data['accounts'] = $item->consumers->implode('account_id', ', ');
+                $data['role']     = User::ROLES[$item->role];
+
+                return $data;
             }),
             'pagination' => $this->pagination
         ];

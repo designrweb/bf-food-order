@@ -42,7 +42,7 @@ class SettingRepository implements RepositoryInterface
      */
     public function allCombined()
     {
-        return auth()->user()->userCompany->company->settings->keyBy('setting_name');
+        return auth()->user()->company->settings->keyBy('setting_name');
     }
 
     /**
@@ -60,7 +60,7 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateThemeColor($themeColor = null)
     {
-        $settings = auth()->user()->userCompany->company->settings();
+        $settings = auth()->user()->company->settings();
 
         $settings->updateOrCreate([
             'setting_name' => 'theme_color',
@@ -78,7 +78,7 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateSidebarColor($sidebarThemeColor = null)
     {
-        $settings = auth()->user()->userCompany->company->settings();
+        $settings = auth()->user()->company->settings();
 
         $settings->updateOrCreate([
             'setting_name' => 'sidebar_theme_color',
@@ -96,7 +96,7 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateEmail($email = null)
     {
-        $settings = auth()->user()->userCompany->company->settings();
+        $settings = auth()->user()->company->settings();
 
         $settings->updateOrCreate([
             'setting_name' => 'email',
@@ -114,7 +114,7 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateLogo($logo = null)
     {
-        $settings = auth()->user()->userCompany->company->settings();
+        $settings = auth()->user()->company->settings();
 
         $settings->updateOrCreate([
             'setting_name' => 'logo',

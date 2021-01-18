@@ -2,19 +2,22 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
- * @property integer $id
- * @property string  $name
- * @property string  $street
- * @property int     $zip
- * @property string  $city
- * @property integer $company_id
- * @property string  $email
- * @property string  $slug
- * @property string  $image_name
+ * @property integer         $id
+ * @property string          $name
+ * @property string          $street
+ * @property int             $zip
+ * @property string          $city
+ * @property integer         $company_id
+ * @property string          $email
+ * @property string          $slug
+ * @property string          $image_name
+ * @property LocationGroup[] $locationGroups
  */
 class Location extends Model
 {
@@ -41,6 +44,20 @@ class Location extends Model
     public $timestamps = false;
 
     /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->where('locations.company_id', auth()->user()->company_id);
+            }
+        });
+    }
+
+    /**
      * @param $value
      */
     public function setSlugAttribute($value)
@@ -51,7 +68,7 @@ class Location extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function getCompany()
+    public function company()
     {
         return $this->hasOne(Company::class);
     }
@@ -75,6 +92,14 @@ class Location extends Model
     public function setImageNameAttribute($value)
     {
         $this->attributes['image_name'] = str_replace(asset(self::IMAGE_FOLDER) . DIRECTORY_SEPARATOR, '', $value);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function locationGroups()
+    {
+        return $this->hasMany(LocationGroup::class, 'location_id', 'id');
     }
 
 }

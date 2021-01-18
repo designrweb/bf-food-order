@@ -41,26 +41,22 @@ class PaymentController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
-     * @return PaymentCollection
+     * @return array
      */
-    public function getAll(Request $request): PaymentCollection
+    public function getAll(Request $request)
     {
-        return new PaymentCollection($this->service->all());
+        return (new PaymentCollection($this->service->all()))->toArray($request);
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
-     * @return PaymentResource
+     * @return array
      */
-    public function getOne(Request $request, $id): PaymentResource
+    public function getOne(Request $request, $id)
     {
-        return new PaymentResource($this->service->getOne($id));
+        return (new PaymentResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -72,6 +68,15 @@ class PaymentController extends Controller
     public function getIndexStructure(Request $request)
     {
         return $this->service->getIndexStructure();
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getViewStructure(Request $request)
+    {
+        return $this->service->getViewStructure();
     }
 
     public function getMealOrdersStructure(Request $request)
@@ -92,40 +97,35 @@ class PaymentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param PaymentFormRequest $request
-     * @return PaymentResource
+     * @return array
      */
     public function store(PaymentFormRequest $request)
     {
-        return new PaymentResource($this->service->create($request->all()));
+        return (new PaymentResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new PaymentResource($this->service->getOne($id)))->toArray(request());
 
         return view('payments.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                  = (new PaymentResource($this->service->getOne($id)))->toArray(request());
+        $resource['consumersList'] = $this->consumerService->getList();
 
         return view('payments._form', compact('resource'));
     }
@@ -139,14 +139,12 @@ class PaymentController extends Controller
      */
     public function update(PaymentFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return $this->service->update($request->all(), $id);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

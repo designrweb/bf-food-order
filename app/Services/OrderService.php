@@ -36,7 +36,7 @@ class OrderService extends BaseModelService
      * @return OrderResource
      * @throws ModelNotFoundException
      */
-    public function getOne($id): OrderResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -47,20 +47,17 @@ class OrderService extends BaseModelService
      * @param $data
      * @return OrderResource
      */
-    public function create($data): OrderResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the orders model
-     *
      * @param $data
      * @param $id
-     * @return OrderResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): OrderResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }

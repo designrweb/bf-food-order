@@ -61,8 +61,8 @@
                 @keypress="isFloat($event)"
                 placeholder="Price"
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation['price']['state']">
-              {{ validation['price']['message'] }}
+            <b-form-invalid-feedback :state="validation['price_locale']['state']">
+              {{ validation['price_locale']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
@@ -78,8 +78,8 @@
                 @keypress="isFloat($event)"
                 placeholder="Presaleprice"
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation['presaleprice']['state']">
-              {{ validation['presaleprice']['message'] }}
+            <b-form-invalid-feedback :state="validation['presaleprice_locale']['state']">
+              {{ validation['presaleprice_locale']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
@@ -136,14 +136,14 @@ export default {
       itemData:   [],
       form:       {},
       validation: {
-        'id':             {'state': true, 'message': ''},
-        'name':           {'state': true, 'message': ''},
-        'category_order': {'state': true, 'message': ''},
-        'price':          {'state': true, 'message': ''},
-        'presaleprice':   {'state': true, 'message': ''},
-        'location_id':    {'state': true, 'message': ''},
-        'created_at':     {'state': true, 'message': ''},
-        'updated_at':     {'state': true, 'message': ''},
+        'id':                  {'state': true, 'message': ''},
+        'name':                {'state': true, 'message': ''},
+        'category_order':      {'state': true, 'message': ''},
+        'price_locale':        {'state': true, 'message': ''},
+        'presaleprice_locale': {'state': true, 'message': ''},
+        'location_id':         {'state': true, 'message': ''},
+        'created_at':          {'state': true, 'message': ''},
+        'updated_at':          {'state': true, 'message': ''},
       },
     }
   },
