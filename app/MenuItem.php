@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,6 +34,22 @@ class MenuItem extends Model
      * @var array
      */
     protected $fillable = ['menu_category_id', 'name', 'availability_date', 'description', 'imageurl', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->whereHas('menuCategory.location', function ($query) {
+                    $query->where('locations.company_id', auth()->user()->company_id);
+                });
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

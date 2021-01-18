@@ -14,11 +14,23 @@ class MenuCategoryFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'           => 'required|string',
-            'location_id'    => 'required|numeric',
-            'price'          => 'numeric',
-            'presaleprice'   => 'numeric',
-            'category_order' => 'integer',
+            'name'                => 'required|string',
+            'location_id'         => 'required|numeric',
+            'price_locale'        => 'required|numeric',
+            'presaleprice_locale' => 'required|numeric',
+            'category_order'      => 'required|integer',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function attributes()
+    {
+        return [
+            'location_id' => 'Location',
+            'price_locale' => 'Price',
+            'presaleprice_locale' => 'Presale price',
         ];
     }
 }

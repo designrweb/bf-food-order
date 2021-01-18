@@ -5,7 +5,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-subtitle">{{ form.id ? 'Update Payment: ' + form.name : 'Add Payment' }}</h3>
+            <h3 class="card-subtitle">{{ form.id ? 'Update Payment: ' + form.id : 'Add Payment' }}</h3>
           </div>
         </div>
       </div>
@@ -34,6 +34,7 @@
               {{ validation['consumer_id']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group
               id="input-group-amount"
               label="Amount"
@@ -41,14 +42,17 @@
           >
             <b-form-input
                 id="input-amount"
-                v-model="form.amount"
+                v-model="form.amount_locale"
+                :disabled="form.id"
                 required
+                @keypress="isFloat($event)"
                 placeholder="Amount"
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation['amount']['state']">
-              {{ validation['amount']['message'] }}
+            <b-form-invalid-feedback :state="validation['amount_locale']['state']">
+              {{ validation['amount_locale']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group
               id="input-group-comment"
               label="Comment"
@@ -57,6 +61,7 @@
             <b-form-input
                 id="input-comment"
                 v-model="form.comment"
+                :disabled="form.id"
                 required
                 placeholder="Comment"
             ></b-form-input>
@@ -93,7 +98,7 @@ export default {
       form:       {},
       validation: {
         'id':            {'state': true, 'message': ''},
-        'amount':        {'state': true, 'message': ''},
+        'amount_locale': {'state': true, 'message': ''},
         'type':          {'state': true, 'message': ''},
         'comment':       {'state': true, 'message': ''},
         'order_id':      {'state': true, 'message': ''},
@@ -105,12 +110,21 @@ export default {
     }
   },
   methods: {
+    isFloat: function (evt) {
+      evt          = (evt) ? evt : window.event;
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 44) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store(self.main_route, self.id, self.form);
+        await store(self.main_route, self.id, self.form);
         window.location.href = self.main_route;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {

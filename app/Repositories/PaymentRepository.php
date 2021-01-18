@@ -29,6 +29,16 @@ class PaymentRepository extends Repository
                 PaymentSearch::class,
             ])
             ->thenReturn()
+            ->with('consumer.user')
             ->paginate(request('itemsPerPage') ?? 10));
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        return $this->model->with('consumer.user')->findOrFail($id);
     }
 }

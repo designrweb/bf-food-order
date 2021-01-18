@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,20 +11,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class User
  *
- * @property integer     $id
- * @property string      $name
- * @property string      $email
- * @property string      $email_verified_at
- * @property string      $password
- * @property string      $remember_token
- * @property string      $created_at
- * @property string      $updated_at
- * @property string      $deleted_at
- * @property string      $role
- * @property UserInfo    $userInfo
- * @property Consumer    $consumers
- * @property Location    $location
- * @property UserCompany $userCompany
+ * @property integer  $id
+ * @property string   $name
+ * @property string   $email
+ * @property integer  $company_id
+ * @property integer  $location_id
+ * @property string   $email_verified_at
+ * @property string   $password
+ * @property string   $remember_token
+ * @property string   $created_at
+ * @property string   $updated_at
+ * @property string   $deleted_at
+ * @property string   $role
+ * @property UserInfo $userInfo
+ * @property Consumer $consumers
+ * @property Location $location
  *
  * @package App
  */
@@ -56,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'location_id', 'company_id'
     ];
 
     /**
@@ -94,22 +96,34 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function location()
     {
-        if (in_array($this->role, [self::ROLE_ADMIN])) {
-            return $this->hasOneThrough(Location::class, UserCompany::class, 'user_id', 'id', 'id', 'company_id');
-        }
-
-        return $this->hasOneThrough(Location::class, UserLocation::class, 'user_id', 'id', 'id', 'location_id');
+        return $this->hasOne(Location::class, 'id', 'location_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function userCompany()
+    public function company()
     {
-        return $this->hasOne(UserCompany::class, 'user_id', 'id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWhereCompany($query)
+    {
+        return $query->where(function ($query) {
+            $query->where(function ($q) {
+                $q->where('company_id', auth()->user()->company_id)
+                    ->where('users.id', '!=', auth()->user()->id);
+            })->orWhereHas('location', function ($relation) {
+                $relation->where('locations.company_id', auth()->user()->company_id);
+            });
+        });
     }
 }

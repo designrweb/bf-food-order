@@ -77,12 +77,10 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param OrderFormRequest $request
      * @return OrderResource
      */
-    public function store(OrderFormRequest $request): OrderResource
+    public function store(OrderFormRequest $request)
     {
         return new OrderResource($this->service->create($request->all()));
     }
@@ -120,7 +118,7 @@ class OrderController extends Controller
      * @param int              $id
      * @return OrderResource
      */
-    public function update(OrderFormRequest $request, $id): OrderResource
+    public function update(OrderFormRequest $request, $id)
     {
         return new OrderResource($this->service->update($request->all(), $id));
     }

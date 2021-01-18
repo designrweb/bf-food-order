@@ -12,6 +12,7 @@ use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements RepositoryInterface
 {
@@ -36,7 +37,7 @@ class UserRepository implements RepositoryInterface
                 UserSearch::class,
             ])
             ->thenReturn()
-            ->with('userInfo')
+            ->with(['userInfo', 'location', 'company'])
             ->paginate(request('itemsPerPage') ?? 10);
     }
 
@@ -46,7 +47,19 @@ class UserRepository implements RepositoryInterface
      */
     public function add(array $data)
     {
-        return $this->model->create($data);
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $model = $this->model->create($data);
+
+        if (empty($model->userInfo)) {
+            $model->userInfo()->create($data['user_info']);
+        } else {
+            $model->userInfo->update($data['user_info']);
+        }
+
+        return $model->load('userInfo');
     }
 
     /**
@@ -58,6 +71,10 @@ class UserRepository implements RepositoryInterface
     {
         /** @var User $model */
         $model = $this->model->findOrFail($id);
+
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
 
         $model->update($data);
 
@@ -85,7 +102,7 @@ class UserRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return $this->model->with('userInfo')->findOrFail($id);
+        return $this->model->with(['userInfo', 'location', 'company'])->findOrFail($id);
     }
 
     /**
@@ -115,6 +132,9 @@ class UserRepository implements RepositoryInterface
         $roles      = $this->model::ROLES;
 
         foreach ($roles as $key => $value) {
+            if ($key === User::ROLE_USER)
+                continue;
+
             $rolesArray[] = [
                 'id'   => $key,
                 'name' => $value,

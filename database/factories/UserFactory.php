@@ -20,14 +20,12 @@ use Illuminate\Support\Facades\Hash;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    $userRoles = [User::ROLE_ADMIN, User::ROLE_POS_MANAGER, User::ROLE_USER];
-
     return [
         'email'             => $faker->unique()->safeEmail,
         'password'          => Hash::make('admin'),
         'email_verified_at' => Carbon::now(),
         'remember_token'    => Str::random(10),
-        'role'              => $userRoles[array_rand($userRoles)],
+        'role'              => User::ROLE_ADMIN,
         'created_at'        => Carbon::now(),
         'updated_at'        => Carbon::now(),
         'deleted_at'        => null,

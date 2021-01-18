@@ -36,6 +36,7 @@
                     id="input-account_id"
                     v-model="form.account_id"
                     placeholder="Account Id"
+                    autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['account_id']['state']">
                   {{ validation['account_id']['message'] }}
@@ -43,13 +44,14 @@
               </b-form-group>
               <b-form-group
                   id="input-group-firstname"
-                  label="Firstname"
+                  label="First name"
                   label-for="input-firstname"
               >
                 <b-form-input
                     id="input-firstname"
                     v-model="form.firstname"
                     placeholder="Firstname"
+                    autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['firstname']['state']">
                   {{ validation['firstname']['message'] }}
@@ -58,13 +60,14 @@
 
               <b-form-group
                   id="input-group-lastname"
-                  label="Lastname"
+                  label="Last name"
                   label-for="input-lastname"
               >
                 <b-form-input
                     id="input-lastname"
                     v-model="form.lastname"
                     placeholder="Lastname"
+                    autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['lastname']['state']">
                   {{ validation['lastname']['message'] }}
@@ -99,6 +102,7 @@
                     id="input-balance"
                     v-model="form.balance"
                     placeholder="Balance"
+                    autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance']['state']">
                   {{ validation['balance']['message'] }}
@@ -144,6 +148,7 @@
                     id="input-balance_limit"
                     v-model="form.balance_limit"
                     placeholder="Balance Limit"
+                    autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance_limit']['state']">
                   {{ validation['balance_limit']['message'] }}

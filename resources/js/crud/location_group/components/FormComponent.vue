@@ -33,7 +33,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-location_id"
-              label="Location Id"
+              label="Location"
               label-for="input-location_id"
           >
             <b-form-select
@@ -81,7 +81,7 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
@@ -120,7 +120,7 @@ export default {
     await this._loadData();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {

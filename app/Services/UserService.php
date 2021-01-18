@@ -160,8 +160,12 @@ class UserService extends BaseModelService
                 'label' => 'Email'
             ],
             [
-                'key'   => 'location',
+                'key'   => 'location.name',
                 'label' => 'Location'
+            ],
+            [
+                'key'   => 'company.name',
+                'label' => 'Company'
             ],
             [
                 'key'   => 'role',
@@ -177,10 +181,11 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'accounts' => '',
-            'email'    => '',
-            'location' => '',
-            'role'     => '',
+            'accounts'      => '',
+            'email'         => '',
+            'location.name' => '',
+            'company.name'  => '',
+            'role'          => '',
         ];
     }
 
@@ -191,10 +196,11 @@ class UserService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'accounts' => '',
-            'email'    => '',
-            'location' => '',
-            'role'     => '',
+            'accounts'      => '',
+            'email'         => '',
+            'location.name' => '',
+            'company.name'  => '',
+            'role'          => '',
         ];
     }
 }

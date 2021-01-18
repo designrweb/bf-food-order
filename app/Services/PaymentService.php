@@ -24,16 +24,23 @@ class PaymentService extends BaseModelService
     private $subsidizedMenuCategoriesService;
 
     /**
+     * @var OrderService
+     */
+    private $consumerService;
+
+    /**
      * PaymentService constructor.
      *
      * @param PaymentRepository               $repository
      * @param OrderService                    $orderService
      * @param SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService
+     * @param ConsumerService                 $consumerService
      */
-    public function __construct(PaymentRepository $repository, OrderService $orderService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService)
+    public function __construct(PaymentRepository $repository, OrderService $orderService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, ConsumerService $consumerService)
     {
         $this->repository                      = $repository;
         $this->orderService                    = $orderService;
+        $this->consumerService                 = $consumerService;
         $this->subsidizedMenuCategoriesService = $subsidizedMenuCategoriesService;
     }
 
@@ -49,13 +56,10 @@ class PaymentService extends BaseModelService
     }
 
     /**
-     * Returns single product
-     *
      * @param $id
-     * @return PaymentResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): PaymentResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -69,9 +73,13 @@ class PaymentService extends BaseModelService
     {
         DB::beginTransaction();
         try {
+            $data['type']   = Payment::TYPE_MANUAL_TRANSACTION;
+            $data['amount'] = str_replace(',', '.', $data['amount_locale']);
+
             $payment = $this->repository->add($data);
 
             $consumer = $payment->consumer;
+
             if ($consumer) {
                 $consumer->balance -= $payment->amount;
                 $consumer->save();
@@ -88,16 +96,48 @@ class PaymentService extends BaseModelService
     }
 
     /**
-     * Updates and returns the payments model
-     *
      * @param $data
      * @param $id
-     * @return PaymentResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): PaymentResource
+    public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        DB::beginTransaction();
+        try {
+            $data['amount'] = str_replace(',', '.', $data['amount_locale']);
+
+            //current state
+            $paymentData = $this->repository->get($id);
+
+            //updated state
+            $payment = $this->repository->update($data, $id);
+
+            if ($data['consumer_id'] !== $paymentData->consumer->id) {
+                //subtract amount for new consumer
+                $consumer = $payment->consumer;
+
+                if (!empty($consumer)) {
+                    $consumer->balance -= $payment->amount;
+                    $consumer->update();
+                }
+
+
+                //return amount for previous consumer
+                $oldConsumer = $paymentData->consumer;
+
+                if (!empty($oldConsumer)) {
+                    $oldConsumer->balance += $payment->amount;
+                    $oldConsumer->update();
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
+
+        return $payment;
     }
 
     /**
@@ -137,7 +177,7 @@ class PaymentService extends BaseModelService
                 'label' => ucwords('user email')
             ],
             [
-                'key'   => 'amount',
+                'key'   => 'amount_locale',
                 'label' => ucwords('amount')
             ],
             [
@@ -145,9 +185,37 @@ class PaymentService extends BaseModelService
                 'label' => ucwords('comment')
             ],
             [
-                'key'   => 'created_at',
+                'key'   => 'created_at_human',
                 'label' => ucwords('created at')
             ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'consumer.user.email' => '',
+            'amount_locale'       => '',
+            'comment'             => '',
+            'created_at_human'    => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'consumer.user.email' => '',
+            'amount_locale'       => '',
+            'comment'             => '',
+            'created_at_human'    => '',
         ];
     }
 

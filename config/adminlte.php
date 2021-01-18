@@ -256,28 +256,32 @@ return [
             'icon'    => 'fas fa-fw fa-euro-sign',
             'submenu' => [
                 [
-                    'text' => 'Bank Transactions',
-                    'route' => 'payments.index',
-                    'icon'  => 'far fa-fw fa-exchange-alt',
-                    'can'   => 'menu-Payment',
+                    'text'   => 'Bank Transactions',
+                    'route'  => 'payments.index',
+                    'icon'   => 'fa fa-exchange-alt',
+                    'can'    => 'menu-Payment',
+                    'active' => ['*payments']
                 ],
                 [
-                    'text' => 'Meal Orders',
-                    'route' => 'payments.meal-orders',
-                    'icon'  => 'far fa-fw fa-hamburger',
-                    'can'   => 'menu-Payment',
+                    'text'   => 'Meal Orders',
+                    'route'  => 'payments.meal-orders',
+                    'icon'   => 'fa fa-hamburger',
+                    'can'    => 'menu-Payment',
+                    'active' => ['*payments/meal-orders']
                 ],
                 [
-                    'text' => 'Add Payment',
-                    'route' => 'payments.create',
-                    'icon'  => 'far fa-fw fa-handshake',
-                    'can'   => 'menu-Payment',
+                    'text'   => 'Add Payment',
+                    'route'  => 'payments.create',
+                    'icon'   => 'fa fa-handshake',
+                    'can'    => 'menu-Payment',
+                    'active' => ['*payments/create']
                 ],
                 [
-                    'text' => 'Payment Dumps',
-                    'route' => 'payment-dumps.index',
-                    'icon'  => 'far fa-fw fa-piggy-bank',
-                    'can'   => 'menu-Payment',
+                    'text'   => 'Payment Dumps',
+                    'route'  => 'payment-dumps.index',
+                    'icon'   => 'fa fa-piggy-bank',
+                    'can'    => 'menu-Payment',
+                    'active' => ['*payment-dumps']
                 ],
             ],
         ],

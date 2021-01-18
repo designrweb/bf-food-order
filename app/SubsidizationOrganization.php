@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,6 +29,17 @@ class SubsidizationOrganization extends Model
      * @var array
      */
     protected $fillable = ['name', 'zip', 'city', 'company_id', 'street', 'created_at', 'updated_at', 'deleted_at'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->where('subsidization_organizations.company_id', auth()->user()->company_id);
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
