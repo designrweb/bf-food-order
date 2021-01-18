@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentCollection;
 use App\Http\Resources\PaymentResource;
+use App\Payment;
 use App\Services\ConsumerService;
 use App\Services\PaymentService;
 use App\Http\Requests\PaymentFormRequest;
@@ -102,7 +103,10 @@ class PaymentController extends Controller
      */
     public function store(PaymentFormRequest $request)
     {
-        return (new PaymentResource($this->service->create($request->all())))->toArray($request);
+        $data = $request->all();
+        $data['type'] = Payment::TYPE_MANUAL_TRANSACTION;
+
+        return (new PaymentResource($this->service->create($data)))->toArray($request);
     }
 
     /**
