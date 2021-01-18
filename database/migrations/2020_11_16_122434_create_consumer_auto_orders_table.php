@@ -15,7 +15,7 @@ class CreateConsumerAutoOrdersTable extends Migration
     {
         Schema::create('consumer_auto_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('consumer_id')->index('consumer_auto_orders_consumer_id_foreign');
+            $table->unsignedBigInteger('consumer_id')->index();
             $table->boolean('is_active')->nullable()->default(0);
             $table->timestamps();
         });

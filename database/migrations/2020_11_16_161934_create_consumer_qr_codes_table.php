@@ -16,7 +16,7 @@ class CreateConsumerQrCodesTable extends Migration
         Schema::create('consumer_qr_codes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('qr_code_hash')->nullable();
-            $table->unsignedBigInteger('consumer_id')->nullable()->index('consumer_qr_codes_consumer_id_foreign');
+            $table->unsignedBigInteger('consumer_id')->nullable()->index();
         });
     }
 
