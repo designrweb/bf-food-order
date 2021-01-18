@@ -338,6 +338,11 @@ return [
             'route' => 'settings.combined_index',
             'icon'  => 'nav-icon fa fa-cogs',
         ],
+        [
+            'text'  => 'Financial Exports',
+            'route' => 'financial-report.index',
+            'icon'  => 'nav-icon fa fa-file',
+        ],
 
 //        [
 //            'text' => 'Vacation Location Group',

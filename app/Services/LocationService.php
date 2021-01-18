@@ -41,14 +41,14 @@ class LocationService extends BaseModelService
         return $this->repository->all();
     }
 
+
     /**
-     * Returns single product transformed to resource
+     * Returns single location
      *
      * @param $id
-     * @return LocationResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): LocationResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }

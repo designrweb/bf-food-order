@@ -346,6 +346,16 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
     });
 
+    /** reports routes */
+    Route::prefix('reports')->middleware(['auth'])->group(function () {
+        Route::get('/', 'ReportController@index')->name('financial-report.index');
+        Route::post('/', "ReportController@financialReport")->name('financial-report.store');
+        Route::post('/subsidization-report', "ReportController@subsidizationReport")->name('subsidization-report.store');
+
+//        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
+
+    });
+
 });
 
 Auth::routes(['verify' => true]);

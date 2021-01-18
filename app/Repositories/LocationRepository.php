@@ -70,12 +70,12 @@ class LocationRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return LocationResource
+     * @param $id
+     * @return mixed
      */
     public function get($id)
     {
-        return new LocationResource($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 
     /**
