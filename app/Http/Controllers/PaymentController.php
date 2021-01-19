@@ -111,6 +111,9 @@ class PaymentController extends Controller
         $data = $request->all();
         $data['type'] = Payment::TYPE_MANUAL_TRANSACTION;
 
+        // todo use mutators for amount_locale
+        $data['amount'] = str_replace(',', '.', $data['amount_locale']);
+
         return (new PaymentResource($this->service->create($data)))->toArray($request);
     }
 

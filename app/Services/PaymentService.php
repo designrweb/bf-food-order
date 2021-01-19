@@ -3,15 +3,12 @@
 namespace App\Services;
 
 use App\Exceptions\WrongOrderTypeException;
-use App\Http\Resources\PaymentResource;
 use App\Order;
 use App\Repositories\PaymentRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Payment;
 use Illuminate\Support\Facades\DB;
-
 
 class PaymentService extends BaseModelService
 {
@@ -44,7 +41,6 @@ class PaymentService extends BaseModelService
         $this->subsidizedMenuCategoriesService = $subsidizedMenuCategoriesService;
     }
 
-
     /**
      * Returns all payments
      *
@@ -73,9 +69,6 @@ class PaymentService extends BaseModelService
     {
         DB::beginTransaction();
         try {
-            $data['type']   = Payment::TYPE_MANUAL_TRANSACTION;
-            $data['amount'] = str_replace(',', '.', $data['amount_locale']);
-
             $payment = $this->repository->add($data);
 
             $consumer = $payment->consumer;
@@ -175,40 +168,6 @@ class PaymentService extends BaseModelService
 
     /**
      * @param Model $model
-     * @return string[]
-     */
-    protected function getFilters(Model $model): array
-    {
-        return [
-            'consumer_account' => '',
-            'user_email'          => '',
-            'amount'              => '',
-            'comment'             => '',
-            'is_subsidized'       => '',
-            'created_at'          => '',
-            'day'                 => '',
-        ];
-    }
-
-    /**
-     * @param Model $model
-     * @return string[]
-     */
-    protected function getSortFields(Model $model): array
-    {
-        return [
-            'consumer_account' => '',
-            'user_email'          => '',
-            'amount'              => '',
-            'comment'             => '',
-            'is_subsidized'       => '',
-            'created_at'          => '',
-            'day'                 => '',
-        ];
-    }
-
-    /**
-     * @param Model $model
      * @return array[]
      */
     protected function getIndexFieldsLabels(Model $model): array
@@ -219,7 +178,7 @@ class PaymentService extends BaseModelService
                 'label' => ucwords('account')
             ],
             [
-                'key'   => 'consumer.user.email',
+                'key'   => 'user_email',
                 'label' => ucwords('user email')
             ],
             [
@@ -231,8 +190,16 @@ class PaymentService extends BaseModelService
                 'label' => ucwords('comment')
             ],
             [
+                'key'   => 'is_subsidized',
+                'label' => ucwords('is subsidized')
+            ],
+            [
                 'key'   => 'created_at_human',
                 'label' => ucwords('created at')
+            ],
+            [
+                'key'   => 'day_human',
+                'label' => ucwords('day')
             ],
         ];
     }
@@ -244,10 +211,13 @@ class PaymentService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'consumer.user.email' => '',
+            'consumer_account'    => '',
+            'user_email' => '',
             'amount_locale'       => '',
             'comment'             => '',
+            'is_subsidized'       => '',
             'created_at_human'    => '',
+            'day_human'           => '',
         ];
     }
 
@@ -258,10 +228,13 @@ class PaymentService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'consumer.user.email' => '',
+            'consumer_account'    => '',
+            'user_email' => '',
             'amount_locale'       => '',
             'comment'             => '',
+            'is_subsidized'       => '',
             'created_at_human'    => '',
+            'day_human'           => '',
         ];
     }
 
