@@ -49,5 +49,22 @@ class PaymentSearch extends BaseSearch
         });
 
         return $this->builder;
+
+        $this->builder->select(
+            'payments.*',
+            'consumers.account_id as consumer_account')
+            ->join('consumers', 'consumers.id', '=', 'payments.consumer_id');
+
+        // filters
+        $this->builder->when(request('filters.consumer_account'), function (Builder $q) {
+            $q->where('consumers.account_id', 'like', '%' . request('filters.consumer_account') . '%');
+        });
+
+        //sort
+        $this->builder->when(request('sort.consumer_account'), function (Builder $q) {
+            return $q->orderBy('consumers.account_id', request('sort.consumer_account'));
+        });
+
+        return $this->builder;
     }
 }

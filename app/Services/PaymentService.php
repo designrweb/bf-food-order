@@ -180,13 +180,13 @@ class PaymentService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'account'       => '',
-            'user_email'    => '',
-            'amount'        => '',
-            'comment'       => '',
-            'is_subsidized' => '',
-            'created_at'    => '',
-            'day'           => '',
+            'consumer_account' => '',
+            'user_email'          => '',
+            'amount'              => '',
+            'comment'             => '',
+            'is_subsidized'       => '',
+            'created_at'          => '',
+            'day'                 => '',
         ];
     }
 
@@ -197,13 +197,13 @@ class PaymentService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'account'       => '',
-            'user_email'    => '',
-            'amount'        => '',
-            'comment'       => '',
-            'is_subsidized' => '',
-            'created_at'    => '',
-            'day'           => '',
+            'consumer_account' => '',
+            'user_email'          => '',
+            'amount'              => '',
+            'comment'             => '',
+            'is_subsidized'       => '',
+            'created_at'          => '',
+            'day'                 => '',
         ];
     }
 
@@ -215,7 +215,7 @@ class PaymentService extends BaseModelService
     {
         return [
             [
-                'key'   => 'consumer.account_id',
+                'key'   => 'consumer_account',
                 'label' => ucwords('account')
             ],
             [
