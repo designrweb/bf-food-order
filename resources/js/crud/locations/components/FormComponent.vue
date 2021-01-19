@@ -130,6 +130,7 @@
                     id="input-slug"
                     v-model="form.slug"
                     placeholder="Slug"
+                    @keypress="mask($event)"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['slug']['state']">
                   {{ validation['slug']['message'] }}
@@ -190,6 +191,18 @@ export default {
     }
   },
   methods:    {
+    mask(evt) {
+      evt          = (evt) ? evt : window.event;
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+
+      //97-122
+
+      if (charCode >= 97 && charCode <= 122 || charCode === 45) {
+        return true;
+      } else {
+        evt.preventDefault();
+      }
+    },
     handleImage(dataImage) {
       this.form.image_name = dataImage;
     },

@@ -24,7 +24,6 @@ class UserCollection extends PaginatableCollection
             'data'       => $this->collection->transform(function (User $item) {
                 $data = $item->toArray();
 
-                $data['accounts'] = $item->consumers->implode('account_id', ', ');
                 $data['role']     = User::ROLES[$item->role];
 
                 return $data;
