@@ -31,4 +31,22 @@ class PaymentDumpRepository extends Repository
             ->thenReturn()
             ->paginate(request('itemsPerPage') ?? 10);
     }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $statusesArray = [];
+        $allStatuses   = $this->model::STATUSES;
+
+        foreach ($allStatuses as $id => $value) {
+            $statusesArray[] = [
+                'id'   => $id,
+                'name' => $value
+            ];
+        }
+
+        return $statusesArray;
+    }
 }

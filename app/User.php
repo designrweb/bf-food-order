@@ -119,7 +119,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $query->where(function ($query) {
             $query->where(function ($q) {
-                $q->where('company_id', auth()->user()->company_id)
+                $q->where('users.company_id', auth()->user()->company_id)
                     ->where('users.id', '!=', auth()->user()->id);
             })->orWhereHas('location', function ($relation) {
                 $relation->where('locations.company_id', auth()->user()->company_id);

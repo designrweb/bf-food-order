@@ -13,8 +13,16 @@
           id="index-list"
           :items="items"
           :fields="fields"
+          show-empty
           :busy="isTableBusy"
           responsive="sm">
+        <template #empty="scope">
+          <div class="container mt-3 mb-3">
+            <div class="text-center text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
+            </div>
+          </div>
+        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"

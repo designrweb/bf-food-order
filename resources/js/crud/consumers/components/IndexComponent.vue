@@ -4,7 +4,7 @@
       <h3 class="card-title">Consumers</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
-    <div class="card-body overflow-auto">
+    <div class="card-body">
       <div class="d-inline">
         <div class="float-left">
           <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
@@ -21,8 +21,16 @@
           id="index-list"
           :items="items"
           :fields="fields"
+          show-empty
           :busy="isTableBusy"
           responsive="sm">
+        <template #empty="scope">
+          <div class="container mt-3 mb-3">
+            <div class="text-center text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
+            </div>
+          </div>
+        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"

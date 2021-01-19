@@ -216,20 +216,30 @@ class PaymentDumpService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->repository->getList();
+    }
+
+    /**
      * @param Model $model
      * @return array
      */
     protected function getFilters(Model $model): array
     {
-        $filters = [
+        return [
             'file_name'    => '',
-            'status'       => '',
+            'status'       => [
+                'values' => $this->repository->getList(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
             'created_at'   => '',
             'updated_at'   => '',
             'requested_at' => '',
         ];
-
-        return $filters;
     }
 
     /**

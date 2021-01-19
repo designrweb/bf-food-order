@@ -22,7 +22,14 @@ class PaymentDumpCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (PaymentDump $item) {
-                return $item->toArray();
+                $data = $item->toArray();
+
+                $data['status']       = PaymentDump::STATUSES[$item->status];
+                $data['created_at']   = date('M d, Y, H:i:s A', strtotime($item->created_at));
+                $data['updated_at']   = date('M d, Y, H:i:s A', strtotime($item->updated_at));
+                $data['requested_at'] = date('M d, Y', strtotime($item->requested_at));
+
+                return $data;
             }),
             'pagination' => $this->pagination
         ];

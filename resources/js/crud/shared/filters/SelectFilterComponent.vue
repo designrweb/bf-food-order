@@ -1,50 +1,58 @@
 <template>
-    <div class="form-group">
-        <b-form-select
-            v-model="value"
-            :options="options"
-            value-field="id"
-            text-field="name"
-            @change="changeHandler"
-            @input="inputHandler"
-            :placeholder="filterLabel"
-            :ref="'filter.'+filterName"
-        >
-          <template #first>
-            <b-form-select-option :value="null">-- Please select an option --</b-form-select-option>
-          </template>
-        </b-form-select>
-    </div>
+  <div class="form-group">
+    <b-input-group>
+      <b-form-select
+          v-model="value"
+          :options="options"
+          value-field="id"
+          text-field="name"
+          @change="changeHandler"
+          @input="inputHandler"
+          :placeholder="filterLabel"
+          :ref="'filter.'+filterName"
+      >
+      </b-form-select>
+      <b-input-group-append v-show="Object.keys(options)[this.value]" @click="clear">
+        <b-input-group-text>
+          <b-icon icon="x"/>
+        </b-input-group-text>
+      </b-input-group-append>
+    </b-input-group>
+  </div>
 </template>
 
 <script>
-    export default {
-        name:    "TextFilterComponent",
-        props:   {
-            filterName:         String,
-            filterLabel:        String,
-            appliedFilterValue: String,
-            options:            Object
-        },
-        data() {
-            return {
-                value: ''
-            }
-        },
-        methods: {
-            changeHandler() {
-                let name = this.filterName;
-                this.$emit('changeFilter', {[name]: this.value});
-            },
-            inputHandler() {
-                let name = this.filterName;
-                this.$emit('inputFilter', {[name]: this.value});
-            }
-        },
-        mounted() {
-            this.value = this.appliedFilterValue;
-        }
+export default {
+  name:  "SelectFilterComponent",
+  props: {
+    filterName:         String,
+    filterLabel:        String,
+    appliedFilterValue: String | Number,
+    options:            Array
+  },
+  data() {
+    return {
+      value: ''
     }
+  },
+  methods: {
+    clear() {
+      this.value = '';
+      this.changeHandler();
+    },
+    changeHandler() {
+      let name = this.filterName;
+      this.$emit('changeFilter', {[name]: {'filter': this.value, 'type': 'select', 'values': this.options}});
+    },
+    inputHandler() {
+      let name = this.filterName;
+      this.$emit('inputFilter', {[name]: {'filter': this.value, 'type': 'select', 'values': this.options}});
+    }
+  },
+  mounted() {
+    this.value = this.appliedFilterValue;
+  }
+}
 </script>
 
 <style scoped>

@@ -17,7 +17,7 @@ class SubsidizationOrganizationFormRequest extends FormRequest
             'name'       => 'required|string',
             'city'       => 'nullable|string',
             'street'     => 'nullable|string',
-            'zip'        => 'nullable|numeric',
+            'zip'        => 'nullable|numeric|max:5|min:5',
             'company_id' => 'required|numeric',
         ];
     }

@@ -10951,3 +10951,7 @@ a.text-dark:focus {
   font-weight: 200 !important;
 }
 
+h2.no-results {
+  font-size: 20px !important;
+}
+
