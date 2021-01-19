@@ -80,7 +80,12 @@ class PaymentController extends Controller
         return $this->service->getViewStructure();
     }
 
-    public function getMealOrdersStructure(Request $request)
+    /**
+     * Returns payments for meal orders
+     *
+     * @return array
+     */
+    public function getMealOrdersStructure(): array
     {
         return $this->service->getMealOrdersStructure();
     }

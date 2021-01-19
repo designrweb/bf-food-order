@@ -166,12 +166,58 @@ class PaymentService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function getMealOrdersStructure(): array
+    {
+        return $this->getFullStructure((new Payment()));
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getFilters(Model $model): array
+    {
+        return [
+            'account'       => '',
+            'user_email'    => '',
+            'amount'        => '',
+            'comment'       => '',
+            'is_subsidized' => '',
+            'created_at'    => '',
+            'day'           => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getSortFields(Model $model): array
+    {
+        return [
+            'account'       => '',
+            'user_email'    => '',
+            'amount'        => '',
+            'comment'       => '',
+            'is_subsidized' => '',
+            'created_at'    => '',
+            'day'           => '',
+        ];
+    }
+
+    /**
      * @param Model $model
      * @return array[]
      */
-    protected function getFieldsLabels(Model $model): array
+    protected function getIndexFieldsLabels(Model $model): array
     {
         return [
+            [
+                'key'   => 'consumer.account_id',
+                'label' => ucwords('account')
+            ],
             [
                 'key'   => 'consumer.user.email',
                 'label' => ucwords('user email')
@@ -219,6 +265,25 @@ class PaymentService extends BaseModelService
         ];
     }
 
+    /**
+     * @return array[]
+     */
+    protected function getAllowActions(): array
+    {
+        return [
+            'all'    => false,
+            'create' => false,
+            'view'   => false,
+            'edit'   => false,
+            'delete' => false,
+        ];
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
+     */
     public function createPaymentBasedOnOrder(Order $order)
     {
         $orderQuantity = $order->quantity;
@@ -241,9 +306,6 @@ class PaymentService extends BaseModelService
         $payment->amount      = -$amount;
         $payment->comment     = $paymentMessage;
         $payment->save();
-
-        // TODO: remove this logging after DB refactoring
-        // TempHelper::savePaymentJson($this, $payment);
 
         if ($canBeSubsidized) {
             $this->createReversePayment($payment, $order);

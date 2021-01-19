@@ -243,7 +243,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     /** payments routes */
     Route::prefix('payments')->middleware(['auth'])->group(function () {
-        Route::get('/get-all', 'PaymentController@getAll')->name('payments.get-all');
+        Route::get('/meal-orders/get-all', 'PaymentController@getAll')->name('payments.get-all');
         Route::get('/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
         Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('payments.meal-orders-structure');
         Route::get('/get-view-structure', 'PaymentController@getViewStructure')->name('payments.view-structure');
