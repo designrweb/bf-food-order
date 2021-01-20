@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentCollection;
 use App\Http\Resources\PaymentResource;
+use App\Payment;
 use App\Services\ConsumerService;
 use App\Services\PaymentService;
 use App\Http\Requests\PaymentFormRequest;
@@ -79,7 +80,12 @@ class PaymentController extends Controller
         return $this->service->getViewStructure();
     }
 
-    public function getMealOrdersStructure(Request $request)
+    /**
+     * Returns payments for meal orders
+     *
+     * @return array
+     */
+    public function getMealOrdersStructure(): array
     {
         return $this->service->getMealOrdersStructure();
     }
@@ -102,7 +108,13 @@ class PaymentController extends Controller
      */
     public function store(PaymentFormRequest $request)
     {
-        return (new PaymentResource($this->service->create($request->all())))->toArray($request);
+        $data = $request->all();
+        $data['type'] = Payment::TYPE_MANUAL_TRANSACTION;
+
+        // todo use mutators for amount_locale
+        $data['amount'] = str_replace(',', '.', $data['amount_locale']);
+
+        return (new PaymentResource($this->service->create($data)))->toArray($request);
     }
 
     /**

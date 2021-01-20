@@ -33,6 +33,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/subsidization_rules.js', 'public/js/crud')
     .js('resources/js/crud/companies.js', 'public/js/crud')
     .js('resources/js/crud/delivery_planning.js', 'public/js/crud')
+    .js('resources/js/crud/reports.js', 'public/js/crud')
     .sass('resources/sass/app.scss', 'public/css');
 
 //user part

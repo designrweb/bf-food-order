@@ -195,6 +195,38 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * Get all consumers that made preordered payments with organization subsidization within date range
+     *
+     * @param $startDate
+     * @param $endDate
+     * @param $organizationId
+     * @return mixed
+     */
+    public function getPreOrderedSubsidizationConsumers($startDate, $endDate, $organizationId)
+    {
+        $startDate = $this->startOfDay($startDate);
+        $endDate   = $this->endOfDay($endDate);
+
+        return $this->repository->getPreOrderedSubsidizationConsumers($startDate, $endDate, $organizationId);
+    }
+
+    /**
+     * Get all consumers that made pos ordered payments with organization subsidization within date range
+     *
+     * @param $startDate
+     * @param $endDate
+     * @param $organizationId
+     * @return Consumer[]|array
+     */
+    public function getPosOrderedSubsidizationConsumers($startDate, $endDate, $organizationId)
+    {
+        $startDate = $this->startOfDay($startDate);
+        $endDate   = $this->endOfDay($endDate);
+
+        return $this->repository->getPosOrderedSubsidizationConsumers($startDate, $endDate, $organizationId);
+    }
+
+    /**
      * @param Model $model
      * @return \string[][]
      */
@@ -322,5 +354,27 @@ class ConsumerService extends BaseModelService
             'full_name'                                  => '',
             'subsidization.subsidization_rule.rule_name' => '',
         ];
+    }
+
+    /**
+     * Convert Date to the start of the day
+     *
+     * @param $date
+     * @return false|string
+     */
+    protected function startOfDay($date)
+    {
+        return date('Y-m-d H:i:s', strtotime('midnight', strtotime($date)));
+    }
+
+    /**
+     * Convert Date to the end of the day
+     *
+     * @param $date
+     * @return false|string
+     */
+    protected function endOfDay($date)
+    {
+        return date('Y-m-d H:i:s', strtotime("tomorrow", strtotime($date)) - 1);
     }
 }

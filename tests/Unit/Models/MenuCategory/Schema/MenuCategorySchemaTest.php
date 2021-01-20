@@ -20,6 +20,7 @@ class MenuCategorySchemaTest extends TestCase
                 'category_order',
                 'price',
                 'presaleprice',
+                'location_id',
                 'created_at',
                 'updated_at',
             ]), 1);

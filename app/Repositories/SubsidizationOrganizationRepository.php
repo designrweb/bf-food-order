@@ -66,12 +66,12 @@ class SubsidizationOrganizationRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return SubsidizationOrganizationResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function get($id)
+    public function get($id): ?\Illuminate\Database\Eloquent\Model
     {
-        return new SubsidizationOrganizationResource($this->model->with('company')->findOrFail($id));
+        return $this->model->with('company')->findOrFail($id);
     }
 
     /**

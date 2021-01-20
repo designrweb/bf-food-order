@@ -32,13 +32,10 @@ class SubsidizationOrganizationService extends BaseModelService
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return SubsidizationOrganizationResource
-     * @throws ModelNotFoundException
+     * @return Model|null
      */
-    public function getOne($id): SubsidizationOrganizationResource
+    public function getOne($id): ?Model
     {
         return $this->repository->get($id);
     }

@@ -19,7 +19,14 @@ class CreateMenuCategoriesTable extends Migration
             $table->tinyInteger('category_order')->nullable();
             $table->decimal('price', 12)->nullable()->default(0.00);
             $table->decimal('presaleprice', 12)->nullable()->default(0.00);
+            $table->unsignedBigInteger('location_id')->index();
             $table->timestamps();
+
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 

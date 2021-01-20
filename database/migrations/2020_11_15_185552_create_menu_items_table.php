@@ -17,11 +17,16 @@ class CreateMenuItemsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->date('availability_date')->nullable();
-            $table->unsignedBigInteger('location_id')->index('menuitem_location_id_foreign');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('menu_category_id')->index('menuitem_menu_category_id_index');
+            $table->unsignedBigInteger('menu_category_id')->index();
             $table->string('imageurl')->nullable();
             $table->timestamps();
+
+            $table->foreign('menu_category_id')
+                ->references('id')
+                ->on('menu_categories')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 

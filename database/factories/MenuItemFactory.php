@@ -2,7 +2,6 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Location;
 use App\MenuCategory;
 use App\MenuItem;
 use Carbon\Carbon;
@@ -13,7 +12,6 @@ $factory->define(MenuItem::class, function (Faker $faker) {
     return [
         'name'              => $faker->word,
         'availability_date' => $faker->date(),
-        'location_id'       => factory(Location::class),
         'description'       => $faker->paragraph,
         'menu_category_id'  => factory(MenuCategory::class),
         'imageurl'          => null,

@@ -16,14 +16,14 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('type')->nullable();
-            $table->unsignedBigInteger('menuitem_id')->index('orders_menuitem_id_foreign');
-            $table->unsignedBigInteger('consumer_id')->index('orders_consumer_id_foreign');
+            $table->unsignedBigInteger('menuitem_id')->index();
+            $table->unsignedBigInteger('consumer_id')->index();
             $table->date('day')->nullable();
             $table->boolean('pickedup')->nullable()->default(0);
             $table->dateTime('pickedup_at')->nullable();
             $table->tinyInteger('quantity')->default(0);
             $table->boolean('is_subsidized')->nullable()->default(0);
-            $table->unsignedBigInteger('subsidization_organization_id')->nullable()->index('orders_subsidization_organization_id_foreign');
+            $table->unsignedBigInteger('subsidization_organization_id')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
         });

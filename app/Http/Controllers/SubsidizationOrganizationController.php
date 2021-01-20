@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SubsidizationOrganizationResource;
 use App\Services\CompanyService;
+use App\Services\LocationService;
 use App\Services\SubsidizationOrganizationService;
 use App\Http\Requests\SubsidizationOrganizationFormRequest;
 use Illuminate\Http\Request;
@@ -19,9 +19,19 @@ class SubsidizationOrganizationController extends Controller
     /** @var SubsidizationOrganizationService $service */
     protected $service;
 
-    public function __construct(SubsidizationOrganizationService $service)
+    /** @var LocationService */
+    private $locationService;
+
+    /**
+     * SubsidizationOrganizationController constructor.
+     *
+     * @param SubsidizationOrganizationService $service
+     * @param LocationService                  $locationService
+     */
+    public function __construct(SubsidizationOrganizationService $service, LocationService $locationService)
     {
         $this->service = $service;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -112,8 +122,9 @@ class SubsidizationOrganizationController extends Controller
     {
         /** @var array $resource */
         $resource = $this->service->getOne($id)->toArray(request());
+        $locationsList = $this->locationService->getList();
 
-        return view('subsidization_organizations.view', compact('resource'));
+        return view('subsidization_organizations.view', compact('resource', 'locationsList'));
     }
 
     /**
