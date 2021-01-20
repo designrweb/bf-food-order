@@ -23,13 +23,21 @@ class PaymentSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
-        $this->builder->select(['payments.*', 'users.email as users_email'])
+        $this->builder->select([
+            'payments.*',
+            'consumers.account_id as consumer_account',
+            'users.email as user_email'
+        ])
             ->leftJoin('consumers', 'payments.consumer_id', '=', 'consumers.id')
             ->leftJoin('users', 'users.id', '=', 'consumers.user_id');
 
         // filters
-        $this->builder->when(request('filters.consumer.user.email'), function (Builder $q) {
-            $q->where('users.email', 'like', '%' . request('filters.consumer.user.email') . '%');
+        $this->builder->when(request('filters.consumer_account'), function (Builder $q) {
+            $q->where('consumers.account_id', 'like', '%' . request('filters.consumer_account') . '%');
+        });
+
+        $this->builder->when(request('filters.user_email'), function (Builder $q) {
+            $q->where('users.email', 'like', '%' . request('filters.user_email') . '%');
         });
 
         $this->applyFilter('payments.amount', str_replace(',', '.', request('filters.amount_locale')));
@@ -44,8 +52,12 @@ class PaymentSearch extends BaseSearch
         $this->applySort('payments.comment', request('sort.comment'));
         $this->applySort('payments.created_at', request('sort.created_at_human'));
 
-        $this->builder->when(request('sort.consumer.user.email'), function (Builder $q) {
-            return $q->orderBy('users.email', request('sort.consumer.user.email'));
+        $this->builder->when(request('sort.consumer_account'), function (Builder $q) {
+            return $q->orderBy('consumers.account_id', request('sort.consumer_account'));
+        });
+
+        $this->builder->when(request('sort.user_email'), function (Builder $q) {
+            return $q->orderBy('users.email', request('sort.user_email'));
         });
 
         return $this->builder;

@@ -261,7 +261,7 @@ class PaymentDumpService extends BaseModelService
      * @param Model $model
      * @return array
      */
-    protected function getFieldsLabels(Model $model): array
+    protected function getIndexFieldsLabels(Model $model): array
     {
         return [
             [

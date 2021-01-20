@@ -243,7 +243,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     /** payments routes */
     Route::prefix('payments')->middleware(['auth'])->group(function () {
-        Route::get('/get-all', 'PaymentController@getAll')->name('payments.get-all');
+        Route::get('/meal-orders/get-all', 'PaymentController@getAll')->name('payments.get-all');
         Route::get('/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
         Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('payments.meal-orders-structure');
         Route::get('/get-view-structure', 'PaymentController@getViewStructure')->name('payments.view-structure');
@@ -344,6 +344,16 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}', 'DeliveryPlanningController@show')->name('delivery-planning.show');
         Route::put('/{id}', 'DeliveryPlanningController@update')->name('delivery-planning.update');
         Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
+    });
+
+    /** reports routes */
+    Route::prefix('reports')->middleware(['auth'])->group(function () {
+        Route::get('/', 'ReportController@index')->name('financial-report.index');
+        Route::post('/', "ReportController@financialReport")->name('financial-report.store');
+        Route::post('/subsidization-report', "ReportController@subsidizationReport")->name('subsidization-report.store');
+
+//        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
+
     });
 
 });

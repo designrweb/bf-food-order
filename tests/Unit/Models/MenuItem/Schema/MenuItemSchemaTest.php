@@ -18,7 +18,6 @@ class MenuItemSchemaTest extends TestCase
                 'id',
                 'name',
                 'availability_date',
-                'location_id',
                 'description',
                 'menu_category_id',
                 'imageurl',

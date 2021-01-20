@@ -3,15 +3,12 @@
 namespace App\Services;
 
 use App\Exceptions\WrongOrderTypeException;
-use App\Http\Resources\PaymentResource;
 use App\Order;
 use App\Repositories\PaymentRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Payment;
 use Illuminate\Support\Facades\DB;
-
 
 class PaymentService extends BaseModelService
 {
@@ -44,7 +41,6 @@ class PaymentService extends BaseModelService
         $this->subsidizedMenuCategoriesService = $subsidizedMenuCategoriesService;
     }
 
-
     /**
      * Returns all payments
      *
@@ -73,9 +69,6 @@ class PaymentService extends BaseModelService
     {
         DB::beginTransaction();
         try {
-            $data['type']   = Payment::TYPE_MANUAL_TRANSACTION;
-            $data['amount'] = str_replace(',', '.', $data['amount_locale']);
-
             $payment = $this->repository->add($data);
 
             $consumer = $payment->consumer;
@@ -166,14 +159,26 @@ class PaymentService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function getMealOrdersStructure(): array
+    {
+        return $this->getFullStructure((new Payment()));
+    }
+
+    /**
      * @param Model $model
      * @return array[]
      */
-    protected function getFieldsLabels(Model $model): array
+    protected function getIndexFieldsLabels(Model $model): array
     {
         return [
             [
-                'key'   => 'consumer.user.email',
+                'key'   => 'consumer_account',
+                'label' => ucwords('account')
+            ],
+            [
+                'key'   => 'user_email',
                 'label' => ucwords('user email')
             ],
             [
@@ -185,8 +190,16 @@ class PaymentService extends BaseModelService
                 'label' => ucwords('comment')
             ],
             [
+                'key'   => 'is_subsidized',
+                'label' => ucwords('is subsidized')
+            ],
+            [
                 'key'   => 'created_at_human',
                 'label' => ucwords('created at')
+            ],
+            [
+                'key'   => 'day_human',
+                'label' => ucwords('day')
             ],
         ];
     }
@@ -198,10 +211,13 @@ class PaymentService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'consumer.user.email' => '',
+            'consumer_account'    => '',
+            'user_email' => '',
             'amount_locale'       => '',
             'comment'             => '',
+            'is_subsidized'       => '',
             'created_at_human'    => '',
+            'day_human'           => '',
         ];
     }
 
@@ -212,13 +228,35 @@ class PaymentService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'consumer.user.email' => '',
+            'consumer_account'    => '',
+            'user_email' => '',
             'amount_locale'       => '',
             'comment'             => '',
+            'is_subsidized'       => '',
             'created_at_human'    => '',
+            'day_human'           => '',
         ];
     }
 
+    /**
+     * @return array[]
+     */
+    protected function getAllowActions(): array
+    {
+        return [
+            'all'    => false,
+            'create' => false,
+            'view'   => false,
+            'edit'   => false,
+            'delete' => false,
+        ];
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
+     */
     public function createPaymentBasedOnOrder(Order $order)
     {
         $orderQuantity = $order->quantity;
@@ -241,9 +279,6 @@ class PaymentService extends BaseModelService
         $payment->amount      = -$amount;
         $payment->comment     = $paymentMessage;
         $payment->save();
-
-        // TODO: remove this logging after DB refactoring
-        // TempHelper::savePaymentJson($this, $payment);
 
         if ($canBeSubsidized) {
             $this->createReversePayment($payment, $order);

@@ -22,8 +22,8 @@ class CreateConsumersTable extends Migration
             $table->string('imageurl')->nullable();
             $table->decimal('balance', 12)->nullable()->default(0.00);
             $table->integer('balance_limit')->default(25);
-            $table->unsignedBigInteger('location_group_id')->nullable()->index('consumer_location_group_id_foreign');
-            $table->unsignedBigInteger('user_id')->index('consumer_user_id_foreign');
+            $table->unsignedBigInteger('location_group_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
             $table->softDeletes();
         });

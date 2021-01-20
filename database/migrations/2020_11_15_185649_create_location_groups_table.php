@@ -15,8 +15,14 @@ class CreateLocationGroupsTable extends Migration
     {
         Schema::create('location_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('location_id')->nullable()->index('location_group_location_id_foreign');
+            $table->unsignedBigInteger('location_id')->nullable()->index();
             $table->string('name');
+
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 

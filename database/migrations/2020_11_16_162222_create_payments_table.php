@@ -18,8 +18,8 @@ class CreatePaymentsTable extends Migration
             $table->decimal('amount', 12)->nullable();
             $table->tinyInteger('type')->nullable();
             $table->string('comment', 250)->nullable();
-            $table->unsignedBigInteger('order_id')->nullable()->index('payment_order_id_foreign');
-            $table->unsignedBigInteger('consumer_id')->nullable()->index('payment_consumer_id_foreign');
+            $table->unsignedBigInteger('order_id')->nullable()->index();
+            $table->unsignedBigInteger('consumer_id')->nullable()->index();
             $table->timestamps();
             $table->date('transacted_at')->nullable();
         });

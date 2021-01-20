@@ -10,3 +10,9 @@ export const exportCall = function (mainRoute, filters, sort, type, exportType) 
 
     return api.request(mainRoute + '/export/run' + gridParams).withResponseType(type).get();
 };
+
+export const reportCall = (mainRoute, data, type) => api
+    .request(mainRoute)
+    .withBody(data)
+    .withResponseType(type)
+    .post();

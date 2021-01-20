@@ -1,0 +1,23 @@
+th {
+    border: 1px solid black;
+    color: white;
+}
+
+table, tr, td, th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table.no-border,table.no-border tr,table.no-border td,table.no-border th {
+    border: none;
+}
+
+td, th{
+    padding: 1mm;
+}
+p.footer-text{
+    margin: 0;
+    padding: 0;
+    color: #404040;
+    font-size: 11px;
+}

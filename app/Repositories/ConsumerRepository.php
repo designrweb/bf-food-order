@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Consumer;
+use App\Payment;
 use App\QueryBuilders\ConsumerSearch;
 use App\Services\QRService;
 use Illuminate\Pipeline\Pipeline;
@@ -173,5 +174,52 @@ class ConsumerRepository implements RepositoryInterface
         ]);
 
         return true;
+    }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $organizationId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPreOrderedSubsidizationConsumers($startDate, $endDate, $organizationId)
+    {
+        return Consumer::with([
+            'payments' => function ($query) use ($startDate, $endDate, $organizationId) {
+                $query->where(function ($query) {
+                    $query->where('payments.type', Payment::TYPE_PRE_ORDER_SUBSIDIZED_REFUND)
+                        ->orWhere('payments.type', Payment::TYPE_PRE_ORDER_SUBSIDIZED_CANCELLATION_REFUND);
+                })
+                    ->whereBetween('payments.created_at', [strtotime($startDate), strtotime($endDate)])
+                    ->whereNotNull('payments.order_id')
+                    ->where('subsidization_organization_id', $organizationId)
+                    ->orderBy('payments.id', 'asc')
+                    ->join('orders', 'payments.order_id', '=', 'orders.id');
+            }
+        ])
+            ->get();
+    }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $organizationId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPosOrderedSubsidizationConsumers($startDate, $endDate, $organizationId)
+    {
+        return Consumer::with([
+            'payments' => function ($query) use ($startDate, $endDate, $organizationId) {
+                $query->where(function ($query) {
+                    $query->where('payments.type', Payment::TYPE_POS_ORDER_SUBSIDIZED_REFUND);
+                })
+                    ->whereBetween('payments.created_at', [strtotime($startDate), strtotime($endDate)])
+                    ->whereNotNull('payments.order_id')
+                    ->where('subsidization_organization_id', $organizationId)
+                    ->orderBy('payments.id', 'asc')
+                    ->join('orders', 'payments.order_id', '=', 'orders.id');
+            }
+        ])
+            ->get();
     }
 }
