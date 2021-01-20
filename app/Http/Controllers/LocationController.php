@@ -32,7 +32,7 @@ class LocationController extends Controller
      */
     public function __construct(LocationService $service, CompanyService $companyService)
     {
-        $this->service = $service;
+        $this->service        = $service;
         $this->companyService = $companyService;
     }
 
@@ -127,7 +127,7 @@ class LocationController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                  = $this->service->getOne($id)->toArray(request());
         $resource['companiesList'] = $this->companyService->getList();
 
         return view('locations._form', compact('resource'));
@@ -153,9 +153,11 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        $this->service->remove($id);
+        if ($this->service->remove($id)) {
+            return response()->json(['redirect_url' => action('LocationController@index')]);
+        }
 
-        return response()->json(['redirect_url' => action('LocationController@index')]);
+        return response()->json(['message' => 'Can not delete location'], 403);
     }
 
     /**
