@@ -12,7 +12,7 @@
           :ref="'filter.'+filterName"
       >
       </b-form-select>
-      <b-input-group-append v-show="Object.keys(options)[this.value]" @click="clear">
+      <b-input-group-append v-show="Object.keys(options).find(key => options[key].id === this.value)" @click="clear">
         <b-input-group-text>
           <b-icon icon="x"/>
         </b-input-group-text>
