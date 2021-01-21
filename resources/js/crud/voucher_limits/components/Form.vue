@@ -8,13 +8,7 @@
         <h3 class="card-title">Voucher Limits</h3>
         <b-row class="menu-underlined-block pt-12">
           <b-col cols="12" class="text-right">
-            <b-btn size="sm"
-                   class="mb-2 btn-brand"
-                   font-scale="3"
-                   variant="warning"
-                   @click="store">
-              Save
-            </b-btn>
+            <b-btn variant="primary" @click="store">Save</b-btn>
           </b-col>
         </b-row>
       </div>

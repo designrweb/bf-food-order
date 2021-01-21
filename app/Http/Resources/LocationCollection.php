@@ -26,7 +26,6 @@ class LocationCollection extends PaginatableCollection
                     'id'             => $item->id,
                     'name'           => $item->name,
                     'image_name'     => $item->image_name,
-                    'login_url'      => url($item->slug),
                     'voucher_limits' => '',
                     'city'           => $item->city,
                     'zip'            => $item->zip,

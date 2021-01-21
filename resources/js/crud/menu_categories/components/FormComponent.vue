@@ -36,14 +36,12 @@
               label="Category Order"
               label-for="input-category_order"
           >
-            <b-form-input
-                id="input-category_order"
+            <b-form-select
                 v-model="form.category_order"
-                @keypress="isNumber($event)"
-                autocomplete="off"
-                required
-                placeholder="Category Order"
-            ></b-form-input>
+                :options="category_order_list"
+                class="mb-3"
+            ></b-form-select>
+
             <b-form-invalid-feedback :state="validation['category_order']['state']">
               {{ validation['category_order']['message'] }}
             </b-form-invalid-feedback>
@@ -126,9 +124,10 @@ export default {
     'back-button-component': BackButtonComponent,
   },
   props:      {
-    main_route:     String,
-    locations_list: Array,
-    id:             String | Number,
+    main_route:      String,
+    locations_list:  Array,
+    existing_orders: Array | Object,
+    id:              String | Number,
   },
   data() {
     return {
@@ -147,7 +146,22 @@ export default {
       },
     }
   },
-  methods: {
+  computed: {
+    category_order_list: function () {
+      let ordersList = [];
+
+      for (let i = 1; i <= 30; i++) {
+        ordersList.push({
+          value:    i,
+          text:     i,
+          disabled: (i in this.existing_orders) ? true : false
+        });
+      }
+
+      return ordersList;
+    }
+  },
+  methods:  {
     isFloat:  function (evt) {
       evt          = (evt) ? evt : window.event;
       let charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -197,8 +211,6 @@ export default {
       for (const [key, fieldData] of Object.entries(this.itemData)) {
         this.form[key] = fieldData;
       }
-
-      console.log(this.form);
     },
   },
   async mounted() {

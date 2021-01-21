@@ -25,7 +25,6 @@ class LocationFormRequest extends FormRequest
     {
         return [
             'name'       => 'required|max:128',
-            'slug'       => 'required|max:64',
             'zip'        => 'nullable|numeric',
             'city'       => 'nullable|string',
             'street'     => 'nullable|string',

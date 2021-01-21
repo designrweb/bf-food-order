@@ -32,11 +32,9 @@ class LocationService extends BaseModelService
     }
 
     /**
-     * Returns all locations transformed to resource
-     *
-     * @return LocationCollection
+     * @return mixed
      */
-    public function all(): LocationCollection
+    public function all()
     {
         return $this->repository->all();
     }
@@ -197,10 +195,6 @@ class LocationService extends BaseModelService
                 'label' => 'Voucher Limits'
             ],
             [
-                'key'   => 'login_url',
-                'label' => 'Login Url'
-            ],
-            [
                 'key'   => 'city',
                 'label' => 'City'
             ],
@@ -233,10 +227,6 @@ class LocationService extends BaseModelService
             [
                 'key'   => 'name',
                 'label' => 'Name'
-            ],
-            [
-                'key'   => 'login_url',
-                'label' => 'Login Url'
             ],
         ];
     }

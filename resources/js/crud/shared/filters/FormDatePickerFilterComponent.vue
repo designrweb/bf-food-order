@@ -1,35 +1,28 @@
 <template>
   <div class="form-group">
-    <b-input-group>
-      <b-input-group-prepend>
-        <b-form-datepicker
-            v-model="value"
-            @input="inputHandler"
-            reset-button
-            button-only
-            :aria-controls="filterName + '_date_picker-input'"
-            start-weekday="1"
-            :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-            locale="de"
-            @context="onContext"
-        ></b-form-datepicker>
-      </b-input-group-prepend>
-      <b-form-input
-          :ref="'filter.'+filterName"
-          :id="filterName + '_date_picker-input'"
-          v-model="valueInput"
-          type="text"
-          :placeholder="filterLabel"
-          autocomplete="off"
-      ></b-form-input>
-    </b-input-group>
+    <date-picker
+        v-model="value"
+        valueType="format"
+        format="DD.MM.YYYY"
+        :lang="lang"
+        @clear="clear"
+        @change="changeHandler"
+        input-class="form-control"
+    ></date-picker>
   </div>
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/de';
+
 export default {
-  name:  "FormDatePickerFilterComponent",
-  props: {
+  name:       "FormDatePickerFilterComponent",
+  components: {
+    DatePicker
+  },
+  props:      {
     filterName:         String,
     filterLabel:        String,
     appliedFilterValue: String
@@ -37,13 +30,15 @@ export default {
   data() {
     return {
       value:      '',
-      valueInput: '',
+      lang:       {
+        formatLocale:    {
+          firstDayOfWeek: 1,
+        },
+        monthBeforeYear: false,
+      },
     }
   },
   methods: {
-    onContext(ctx) {
-      this.valueInput = ctx.selectedDate ? ctx.selectedFormatted : '';
-    },
     clear() {
       this.value = '';
       this.changeHandler();
@@ -65,4 +60,7 @@ export default {
 
 <style scoped>
 
+.mx-datepicker {
+  width: 100% !important;
+}
 </style>

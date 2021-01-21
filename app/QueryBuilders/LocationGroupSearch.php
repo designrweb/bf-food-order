@@ -27,10 +27,8 @@ class LocationGroupSearch extends BaseSearch
         // filters
         $this->applyFilter('location_groups.name', request('filters.name'));
 
-        $locationId = json_decode(request('filters.location_id'), true);
-
-        if ($locationId['filter'] !== '' && $locationId['filter'] !== null) {
-            $this->applyFilter('location_groups.location_id', $locationId['filter']);
+        if (!empty(request('filters.location_id'))) {
+            $this->applyFilter('location_groups.location_id', request('filters.location_id'));
         }
 
         if (request('filters.number_of_students')) {

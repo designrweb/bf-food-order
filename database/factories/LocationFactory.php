@@ -14,7 +14,6 @@ $factory->define(Location::class, function (Faker $faker) {
         'zip'        => $faker->randomNumber(5),
         'city'       => $faker->city,
         'email'      => $faker->unique()->safeEmail,
-        'slug'       => $faker->slug(2),
         'image_name' => null,
     ];
 });

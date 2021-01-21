@@ -51,20 +51,16 @@ class DeliveryPlanningSearch extends BaseSearch
 
         // filters
 
-        $locationName = json_decode(request('filters.location_name'), true);
-
-        if ($locationName['filter'] !== '' && $locationName['filter'] !== null) {
-            $this->applyFilter('locations.id', $locationName['filter']);
+        if (!empty(request('filters.location_name'))) {
+            $this->applyFilter('locations.id', request('filters.location_name'));
         }
 
         if (request('filters.date')) {
             $this->applyFilter('orders.day', request('filters.date'));
         }
 
-        $menuCategoryName = json_decode(request('filters.menu_category_name'), true);
-
-        if ($menuCategoryName['filter'] !== '' && $menuCategoryName['filter'] !== null) {
-            $this->applyFilter('menu_categories.id', $menuCategoryName['filter']);
+        if (!empty(request('filters.menu_category_name'))) {
+            $this->applyFilter('menu_categories.id', request('filters.menu_category_name'));
         }
 
         if (request('filters.amount')) {

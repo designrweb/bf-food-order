@@ -121,25 +121,8 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-form-group
-                  id="input-group-slug"
-                  label="Slug"
-                  label-for="input-slug"
-              >
-                <b-form-input
-                    id="input-slug"
-                    v-model="form.slug"
-                    placeholder="Slug"
-                    @keypress="mask($event)"
-                ></b-form-input>
-                <b-form-invalid-feedback :state="validation['slug']['state']">
-                  {{ validation['slug']['message'] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-
             </div>
           </div>
-
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
@@ -185,24 +168,11 @@ export default {
         'zip':        {'state': true, 'message': ''},
         'city':       {'state': true, 'message': ''},
         'email':      {'state': true, 'message': ''},
-        'slug':       {'state': true, 'message': ''},
         'image_name': {'state': true, 'message': ''},
       },
     }
   },
   methods:    {
-    mask(evt) {
-      evt          = (evt) ? evt : window.event;
-      let charCode = (evt.which) ? evt.which : evt.keyCode;
-
-      //97-122
-
-      if (charCode >= 97 && charCode <= 122 || charCode === 45) {
-        return true;
-      } else {
-        evt.preventDefault();
-      }
-    },
     handleImage(dataImage) {
       this.form.image_name = dataImage;
     },

@@ -26,11 +26,8 @@ class PaymentDumpSearch extends BaseSearch
             $this->builder->where('payment_dumps.created_at', 'like', '%' . date('Y-m-d', strtotime(request('filters.created_at'))) . '%');
         }
 
-
-        $status = json_decode(request('filters.status'), true);
-
-        if ($status['filter'] !== '' && $status['filter'] !== null) {
-            $this->builder->where('payment_dumps.status', $status['filter']);
+        if (request('filters.status') !== '' && request('filters.status') !== null) {
+            $this->builder->where('payment_dumps.status', request('filters.status'));
         }
 
         if (request('filters.updated_at')) {

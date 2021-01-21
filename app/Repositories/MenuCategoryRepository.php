@@ -24,13 +24,13 @@ class MenuCategoryRepository implements RepositoryInterface
      */
     public function all()
     {
-        return new MenuCategoryCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 MenuCategorySearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**

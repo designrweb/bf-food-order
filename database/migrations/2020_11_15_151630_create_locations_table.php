@@ -20,7 +20,6 @@ class CreateLocationsTable extends Migration
             $table->integer('zip')->nullable();
             $table->string('city')->nullable();
             $table->string('email')->nullable();
-            $table->string('slug', 64)->nullable();
             $table->string('image_name')->nullable();
         });
     }

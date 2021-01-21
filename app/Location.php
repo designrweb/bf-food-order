@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
  * @property string          $city
  * @property integer         $company_id
  * @property string          $email
- * @property string          $slug
  * @property string          $image_name
  * @property LocationGroup[] $locationGroups
  */
@@ -34,7 +33,7 @@ class Location extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'street', 'zip', 'city', 'email', 'slug', 'image_name', 'company_id'];
+    protected $fillable = ['name', 'street', 'zip', 'city', 'email', 'image_name', 'company_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -55,14 +54,6 @@ class Location extends Model
                 $builder->where('locations.company_id', auth()->user()->company_id);
             }
         });
-    }
-
-    /**
-     * @param $value
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = Str::of($value)->slug('-');
     }
 
     /**
