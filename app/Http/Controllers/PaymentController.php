@@ -6,6 +6,8 @@ use App\Http\Resources\PaymentCollection;
 use App\Http\Resources\PaymentResource;
 use App\Payment;
 use App\Services\ConsumerService;
+use App\Services\Payments\BankTransactionService;
+use App\Services\Payments\MealOrderService;
 use App\Services\PaymentService;
 use App\Http\Requests\PaymentFormRequest;
 use Illuminate\Http\Request;
@@ -20,34 +22,92 @@ class PaymentController extends Controller
 {
     /** @var PaymentService $service */
     protected $service;
-    /**
-     * @var ConsumerService
-     */
+
+    /** @var ConsumerService */
     private $consumerService;
 
-    public function __construct(PaymentService $service, ConsumerService $consumerService)
+    /** @var BankTransactionService */
+    private $bankTransactionService;
+
+    /** @var MealOrderService */
+    private $mealOrderService;
+
+    /**
+     * PaymentController constructor.
+     *
+     * @param PaymentService         $service
+     * @param ConsumerService        $consumerService
+     * @param BankTransactionService $bankTransactionService
+     * @param MealOrderService       $mealOrderService
+     */
+    public function __construct(
+        PaymentService $service,
+        ConsumerService $consumerService,
+        BankTransactionService $bankTransactionService,
+        MealOrderService $mealOrderService
+    )
     {
-        $this->service         = $service;
-        $this->consumerService = $consumerService;
+        $this->service                = $service;
+        $this->consumerService        = $consumerService;
+        $this->bankTransactionService = $bankTransactionService;
+        $this->mealOrderService       = $mealOrderService;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function bankTransactions()
     {
-        return view('payments.index');
+        return view('payments.bank-transactions');
+    }
+
+    /**
+     * Returns a listing of the resource.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getBankTransactionsIndexStructure(Request $request): array
+    {
+        return $this->bankTransactionService->getIndexStructure();
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function getAll(Request $request)
+    public function getAllBankTransactions(Request $request): array
     {
-        return (new PaymentCollection($this->service->all()))->toArray($request);
+        return (new PaymentCollection($this->bankTransactionService->all()))->toArray($request);
+    }
+
+    /**
+     * Lists all payments by Meal Orders.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function mealOrders()
+    {
+        return view('payments.meal-orders');
+    }
+
+    /**
+     * Returns payments for meal orders
+     *
+     * @return array
+     */
+    public function getMealOrdersStructure(): array
+    {
+        return $this->mealOrderService->getIndexStructure();
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getAllMealOrders(Request $request): array
+    {
+        return (new PaymentCollection($this->mealOrderService->all()))->toArray($request);
     }
 
     /**
@@ -61,33 +121,12 @@ class PaymentController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function getIndexStructure(Request $request)
-    {
-        return $this->service->getIndexStructure();
-    }
-
-    /**
      * @param Request $request
      * @return array
      */
     public function getViewStructure(Request $request)
     {
         return $this->service->getViewStructure();
-    }
-
-    /**
-     * Returns payments for meal orders
-     *
-     * @return array
-     */
-    public function getMealOrdersStructure(): array
-    {
-        return $this->service->getMealOrdersStructure();
     }
 
     /**
@@ -108,7 +147,7 @@ class PaymentController extends Controller
      */
     public function store(PaymentFormRequest $request)
     {
-        $data = $request->all();
+        $data         = $request->all();
         $data['type'] = Payment::TYPE_MANUAL_TRANSACTION;
 
         // todo use mutators for amount_locale
@@ -163,15 +202,5 @@ class PaymentController extends Controller
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('PaymentController@index')]);
-    }
-
-    /**
-     * Lists all payments by Meal Orders.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function mealOrders()
-    {
-        return view('payments.meal-orders');
     }
 }

@@ -243,13 +243,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     /** payments routes */
     Route::prefix('payments')->middleware(['auth'])->group(function () {
-        Route::get('/meal-orders/get-all', 'PaymentController@getAll')->name('payments.get-all');
-        Route::get('/get-structure', 'PaymentController@getIndexStructure')->name('payments.index-structure');
-        Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('payments.meal-orders-structure');
+        Route::get('/bank-transactions', "PaymentController@bankTransactions")->name('payments.bank-transactions');
+        Route::get('/bank-transactions/get-structure', 'PaymentController@getBankTransactionsIndexStructure')->name('payments.bank-transactions-index-structure');
+        Route::get('/bank-transactions/get-all', 'PaymentController@getAllBankTransactions')->name('payments.get-all-bank-transactions');
+        Route::get('/meal-orders', 'PaymentController@mealOrders')->name('payments.meal-orders');
+        Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('payments.meal-orders-index-structure');
+        Route::get('/meal-orders/get-all', 'PaymentController@getAllMealOrders')->name('payments.get-all-meal-orders');
         Route::get('/get-view-structure', 'PaymentController@getViewStructure')->name('payments.view-structure');
         Route::get('/get-one/{id}', 'PaymentController@getOne')->name('payments.get-one');
-        Route::get('/meal-orders', 'PaymentController@mealOrders')->name('payments.meal-orders');
-        Route::get('/', "PaymentController@index")->name('payments.index');
         Route::get('/create', 'PaymentController@create')->name('payments.create');
         Route::post('/', "PaymentController@store")->name('payments.store');
         Route::get('/{id}/edit', 'PaymentController@edit')->name('payments.edit');

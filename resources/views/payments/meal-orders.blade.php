@@ -2,7 +2,10 @@
 
 @section('content')
   <div id="meal-orders-page">
-    <meal-orders :main_route="'/admin/payments/meal-orders'"></meal-orders>
+    <meal-orders
+        :main_route="'/admin/payments/meal-orders'"
+        title="Meal Orders"
+    ></meal-orders>
   </div>
 @endsection
 

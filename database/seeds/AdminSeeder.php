@@ -21,7 +21,8 @@ class AdminSeeder extends Seeder
         ]);
 
         factory(App\User::class)->create([
-            'company_id' => $company->id
+            'company_id' => $company->id,
+            'email'      => 'admin@admin.com',
         ])->each(function ($user) use ($faker) {
             $user->userInfo()->create([
                 'first_name' => $faker->firstName,
