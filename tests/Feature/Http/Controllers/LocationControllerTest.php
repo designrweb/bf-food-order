@@ -54,14 +54,13 @@ class LocationControllerTest extends TestCase
         $company = create(Company::class);
 
         $payload = [
-            'name'          => 'Name',
-            'street'        => 'Street',
-            'company_id'    => $company->id,
-            'zip'           => 12345,
-            'city'          => 'City',
-            'email'         => 'some@wxample.com',
-            'slug'          => 'new-slug',
-            'voucher_limit' => 200,
+            'name'       => 'Name',
+            'street'     => 'Street',
+            'company_id' => $company->id,
+            'zip'        => 12345,
+            'city'       => 'City',
+            'email'      => 'some@wxample.com',
+            'slug'       => 'new-slug',
         ];
 
         $response = $this->postJson('/admin/locations', $payload);
