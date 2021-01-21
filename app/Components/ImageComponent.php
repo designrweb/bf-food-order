@@ -26,6 +26,7 @@ class ImageComponent
 
             Storage::disk($folder)->put($fileName, base64_decode($imageData));
         } catch (\Exception $e) {
+            // todo resolve this error
             return false;
         }
 

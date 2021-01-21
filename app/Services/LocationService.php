@@ -91,7 +91,11 @@ class LocationService extends BaseModelService
      */
     public function remove($id): bool
     {
-        return $this->repository->delete($id);
+        try {
+            return $this->repository->delete($id);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -19,7 +19,6 @@ class LocationResource extends JsonResource
             'name'           => $this->name,
             'image_name'     => $this->image_name,
             'company_id'     => $this->company_id,
-            'voucher_limits' => '',
             'city'           => $this->city,
             'zip'            => $this->zip,
             'email'          => $this->email,
