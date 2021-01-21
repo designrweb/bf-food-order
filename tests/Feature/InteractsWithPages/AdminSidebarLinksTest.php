@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Web\InteractsWithPages;
+namespace Tests\Feature\InteractsWithPages;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
@@ -11,6 +11,14 @@ class AdminSidebarLinksTest extends BaseTestCase
     use CreatesApplication, WithoutMiddleware;
 
     public $baseUrl = 'http://localhost';
+
+    /** @test */
+    public function it_shows_admin_page()
+    {
+        $this->goToAdminPage();
+
+        $this->seePageIs('/admin');
+    }
 
     /** @test */
     public function locations_link_works_correctly()

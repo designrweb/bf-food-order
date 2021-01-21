@@ -14,9 +14,58 @@ class PaymentControllerTest extends TestCase
     use WithoutMiddleware;
 
     /** @test */
+    public function it_returns_bank_transaction_view()
+    {
+        $response = $this->get('/admin/payments/bank-transactions');
+
+        $response->assertOk();
+        $response->assertSee('grid-index-page');
+        $response->assertViewIs('payments.bank-transactions');
+    }
+
+    /** @test */
+    public function it_returns_bank_transaction_structure()
+    {
+        $response = $this->get('/admin/payments/bank-transactions/get-structure');
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                "filters"      => [
+                    'consumer_account',
+                    'user_email',
+                    'amount_locale',
+                    'comment',
+                    'created_at_human',
+                ],
+                "sort"         => [
+                    'consumer_account',
+                    'user_email',
+                    'amount_locale',
+                    'comment',
+                    'created_at_human',
+                ],
+                "fields"       => [
+
+                ],
+                "allowActions" => [] // todo add actions
+            ]);
+    }
+
+    /** @test */
     public function it_returns_all_bank_transactions()
     {
 //        $this->assertTrue(false);
+    }
+
+    /** @test */
+    public function it_returns_meal_order_view()
+    {
+        $response = $this->get('/admin/payments/meal-orders');
+
+        $response->assertOk();
+        $response->assertSee('meal-orders-page');
+        $response->assertViewIs('payments.meal-orders');
     }
 
     /** @test */
@@ -28,22 +77,22 @@ class PaymentControllerTest extends TestCase
             ->assertOk()
             ->assertJsonStructure([
                 "filters"      => [
-                    'account',
+                    'consumer_account',
                     'user_email',
-                    'amount',
+                    'amount_locale',
                     'comment',
                     'is_subsidized',
-                    'created_at',
-                    'day',
+                    'created_at_human',
+                    'day_human',
                 ],
                 "sort"         => [
-                    'account',
+                    'consumer_account',
                     'user_email',
-                    'amount',
+                    'amount_locale',
                     'comment',
                     'is_subsidized',
-                    'created_at',
-                    'day',
+                    'created_at_human',
+                    'day_human',
                 ],
                 "fields"       => [
 

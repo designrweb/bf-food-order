@@ -154,9 +154,11 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        $this->service->remove($id);
+        if ($this->service->remove($id)) {
+            return response()->json(['redirect_url' => action('LocationController@index')]);
+        }
 
-        return response()->json(['redirect_url' => action('LocationController@index')]);
+        return response()->json(['message' => 'Can not delete location'], 403);
     }
 
     /**

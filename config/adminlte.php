@@ -257,10 +257,10 @@ return [
             'submenu' => [
                 [
                     'text'   => 'Bank Transactions',
-                    'route'  => 'payments.index',
+                    'route'  => 'payments.bank-transactions',
                     'icon'   => 'fa fa-exchange-alt',
                     'can'    => 'menu-Payment',
-                    'active' => ['*payments']
+                    'active' => ['*payments/bank-transactions']
                 ],
                 [
                     'text'   => 'Meal Orders',
