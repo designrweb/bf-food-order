@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
+use App\Order;
+use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Http\Requests\OrderFormRequest;
 use Illuminate\Http\Request;
@@ -134,5 +136,15 @@ class OrderController extends Controller
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('OrderController@index')]);
+    }
+
+    /**
+     * @param Request       $request
+     * @param ExportService $exportService
+     * @return mixed
+     */
+    public function export(Request $request, ExportService $exportService)
+    {
+        return $exportService->export($request, $this->service, OrderCollection::class, Order::class);
     }
 }

@@ -224,6 +224,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}', 'OrderController@show')->name('orders.show');
         Route::put('/{id}', 'OrderController@update')->name('orders.update');
         Route::delete('/{id}', "OrderController@destroy")->name('orders.destroy');
+        Route::get('/export/run', "OrderController@export")->name('orders.export');
     });
 
     /** consumer-auto-orders routes */
@@ -345,6 +346,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}', 'DeliveryPlanningController@show')->name('delivery-planning.show');
         Route::put('/{id}', 'DeliveryPlanningController@update')->name('delivery-planning.update');
         Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
+        Route::get('/export/run', "DeliveryPlanningController@export")->name('delivery-planning.export');
     });
 
     /** reports routes */

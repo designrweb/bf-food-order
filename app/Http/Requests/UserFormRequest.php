@@ -20,7 +20,7 @@ class UserFormRequest extends FormRequest
             'user_info.first_name' => 'required|string',
             'user_info.last_name'  => 'required|string',
             'user_info.salutation' => 'required|string',
-            'user_info.zip'        => 'required|numeric|max:5|min:5',
+            'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/',
             'user_info.city'       => 'required|string',
             'user_info.street'     => 'required|string',
         ];
@@ -35,5 +35,15 @@ class UserFormRequest extends FormRequest
             'company_id'  => request()->get('role') !== User::ROLE_ADMIN ? null : auth()->user()->company_id,
             'location_id' => request()->get('role') === User::ROLE_ADMIN ? null : request()->get('location_id'),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'zip.regex' => 'Zip must have 5 digits',
+        ];
     }
 }

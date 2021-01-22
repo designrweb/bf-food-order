@@ -24,7 +24,11 @@ class OrderCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (Order $item) {
-                return $item->toArray();
+                $data = $item->toArray();
+
+                $data['day'] = date('l, d.m.Y', strtotime($item->day));
+
+                return $data;
             }),
             'pagination' => $this->pagination
         ];

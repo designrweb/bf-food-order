@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DeliveryPlanningCollection;
 use App\Http\Resources\DeliveryPlanningResource;
+use App\Order;
 use App\Services\DeliveryPlanningService;
 use App\Http\Requests\DeliveryPlanningFormRequest;
+use App\Services\ExportService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -139,5 +141,15 @@ class DeliveryPlanningController extends Controller
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('DeliveryPlanningController@index')]);
+    }
+
+    /**
+     * @param Request       $request
+     * @param ExportService $exportService
+     * @return mixed
+     */
+    public function export(Request $request, ExportService $exportService)
+    {
+        return $exportService->export($request, $this->service, DeliveryPlanningCollection::class, Order::class);
     }
 }

@@ -5,12 +5,17 @@
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body">
-      <div class="d-inline">
-        <div class="float-left">
+      <div class="card-header bg-light">
+        <div class="float-right">
           <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
         </div>
+      </div>
+      <div class="kv-panel-before">
         <div class="float-right">
           <export-button :main_route="main_route" :filters="filters" :sort="sort"></export-button>
+        </div>
+        <div class="float-right">
+          <show-all-button :itemsPerPage.sync="itemsPerPage" :total="totalItems"></show-all-button>
         </div>
       </div>
       <div class="text-center" v-if="isPageBusy">
@@ -103,6 +108,7 @@ import {CreateButton, ViewButton, EditButton, DeleteButton, ExportButton} from "
 import {getStructure, getItems}                                           from "../../api/crudRequests";
 import SpinnerComponent                                                   from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                                            from "../../shared/PaginationInfoComponent";
+import ShowAllButton                                                      from "../../shared/grid-buttons/ShowAllButton";
 
 export default {
   components: {
@@ -117,6 +123,7 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'show-all-button':           ShowAllButton,
     'export-button':             ExportButton,
   },
   props:      {
@@ -151,7 +158,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -214,7 +221,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }

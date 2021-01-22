@@ -23,6 +23,11 @@
           <b-button type="submit" variant="success">Upload</b-button>
         </b-form-group>
       </b-form>
+      <div class="card-header bg-light">
+        <div class="float-right">
+          <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+        </div>
+      </div>
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
       </div>
@@ -118,17 +123,19 @@ import {getStructure, getItems, store}                      from "../../api/crud
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import {uploadFileRequest}                                  from "../../api/imageUpload";
 import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
+import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
 
 export default {
   components: {
-    'filter-text':             FilterTextInput,
-    'filter-select':           FilterSelectInput,
-    'create-button':           CreateButton,
-    'view-button':             ViewButton,
-    'edit-button':             EditButton,
-    'delete-button':           DeleteButton,
-    'spinner-component':       SpinnerComponent,
-    'filter-form-date-picker': FormDatePickerFilterComponent,
+    'filter-text':               FilterTextInput,
+    'filter-select':             FilterSelectInput,
+    'create-button':             CreateButton,
+    'view-button':               ViewButton,
+    'edit-button':               EditButton,
+    'delete-button':             DeleteButton,
+    'spinner-component':         SpinnerComponent,
+    'filter-form-date-picker':   FormDatePickerFilterComponent,
+    'pagination-into-component': PaginationInfoComponent,
   },
   props:      {
     main_route: String
@@ -138,6 +145,8 @@ export default {
       currentPage:         1,
       perPage:             1,
       totalItems:          0,
+      firstItem:           0,
+      lastItems:           0,
       isTableBusy:         false,
       isPageBusy:          false,
       items:               [],
@@ -198,6 +207,8 @@ export default {
       this.currentPage = response['data']['pagination']['current_page'];
       this.perPage     = response['data']['pagination']['per_page'];
       this.totalItems  = response['data']['pagination']['total'];
+      this.firstItem   = response['data']['pagination']['first_item'];
+      this.lastItems   = response['data']['pagination']['last_item'];
       this.isTableBusy = false;
     },
     async applyFilter(filteredData) {

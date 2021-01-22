@@ -24,9 +24,19 @@ class CompanyFormRequest extends FormRequest
     {
         return [
             'name'   => 'required|string',
-            'zip'    => 'required|numeric',
+            'zip'    => 'required|numeric|regex:/\b\d{5}\b/',
             'city'   => 'required|string',
             'street' => 'required',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'zip.regex' => 'Zip must have 5 digits',
         ];
     }
 }

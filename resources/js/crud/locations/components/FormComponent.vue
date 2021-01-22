@@ -172,7 +172,7 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     handleImage(dataImage) {
       this.form.image_name = dataImage;
     },
@@ -181,7 +181,7 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store(self.main_route, self.id, self.form);
+        let response         = await store(self.main_route, self.id, self.form, true);
         window.location.href = self.main_route + '/' + response['data'].id;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
@@ -214,7 +214,7 @@ export default {
     await this._loadData();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {

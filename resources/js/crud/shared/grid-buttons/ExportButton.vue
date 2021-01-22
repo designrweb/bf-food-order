@@ -1,7 +1,7 @@
 <template>
   <div class="float-right m-1">
     <b-overlay :show="isBusy" rounded="sm">
-      <b-dropdown id="dropdown-header" right text="Export" variant="outline-danger" class="m-2">
+      <b-dropdown id="dropdown-header" right text="Export" variant="success" class="m-2">
         <b-dropdown-header id="dropdown-header-label">
           Export Page Data
         </b-dropdown-header>
