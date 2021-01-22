@@ -17,6 +17,8 @@ class UserSchemaTest extends TestCase
             Schema::hasColumns('users', [
                 'id',
                 'email',
+                'location_id',
+                'company_id',
                 'email_verified_at',
                 'password',
                 'role',

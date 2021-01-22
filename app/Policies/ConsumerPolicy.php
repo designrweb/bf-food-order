@@ -18,7 +18,7 @@ class ConsumerPolicy
      */
     public function viewAny(User $user)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN, User::ROLE_USER])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN, User::ROLE_USER])) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class ConsumerPolicy
      */
     public function view(User $user, Consumer $consumer)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN])) {
             return true;
         }
 
@@ -49,7 +49,7 @@ class ConsumerPolicy
      */
     public function create(User $user)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -65,7 +65,7 @@ class ConsumerPolicy
      */
     public function update(User $user, Consumer $consumer)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class ConsumerPolicy
      */
     public function delete(User $user, Consumer $consumer)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -97,7 +97,7 @@ class ConsumerPolicy
      */
     public function restore(User $user, Consumer $consumer)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -113,7 +113,7 @@ class ConsumerPolicy
      */
     public function forceDelete(User $user, Consumer $consumer)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
