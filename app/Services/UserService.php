@@ -152,10 +152,6 @@ class UserService extends BaseModelService
                 'label' => '#'
             ],
             [
-                'key'   => 'accounts',
-                'label' => 'Accounts'
-            ],
-            [
                 'key'   => 'email',
                 'label' => 'Email'
             ],

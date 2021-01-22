@@ -22,7 +22,6 @@ class LocationSchemaTest extends TestCase
                 'zip',
                 'city',
                 'email',
-                'slug',
                 'image_name',
             ]), 1);
     }

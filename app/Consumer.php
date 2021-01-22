@@ -185,4 +185,12 @@ class Consumer extends Model
 
         return true;
     }
+
+    /**
+     * @param $value
+     */
+    public function setBirthdayAttribute($value)
+    {
+        $this->attributes['birthday'] = date('Y-m-d', strtotime($value));
+    }
 }

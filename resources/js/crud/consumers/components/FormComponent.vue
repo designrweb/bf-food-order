@@ -74,21 +74,19 @@
                   {{ validation['lastname']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
+
               <b-form-group
                   id="input-group-birthday"
                   label="Birthday"
                   label-for="input-birthday"
               >
-
-                <b-form-datepicker
-                    id="input-birthday"
-                    v-model="form.birthday"
-                    reset-button
-                    class="sl-tiny-text-datepicker"
-                    start-weekday="1"
-                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                    locale="de"
-                ></b-form-datepicker>
+                <date-picker
+                    v-model="birthdayValue"
+                    valueType="format"
+                    format="DD.MM.YYYY"
+                    :lang="lang"
+                    input-class="form-control">
+                </date-picker>
                 <b-form-invalid-feedback :state="validation['birthday']['state']">
                   {{ validation['birthday']['message'] }}
                 </b-form-invalid-feedback>
@@ -270,12 +268,16 @@ import SpinnerComponent                                                         
 import BackButtonComponent                                                          from "../../shared/BackButtonComponent";
 import ImageUploadComponent                                                         from "../../shared/ImageUploadComponent";
 import _                                                                            from 'lodash'
+import DatePicker                                                                   from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/de';
 
 export default {
   components: {
     'spinner-component':      SpinnerComponent,
     'back-button-component':  BackButtonComponent,
     'image-upload-component': ImageUploadComponent,
+    DatePicker
   },
   props:      {
     main_route:                      String,
@@ -285,6 +287,13 @@ export default {
   },
   data() {
     return {
+      birthdayValue:           '',
+      lang:                    {
+        formatLocale:    {
+          firstDayOfWeek: 1,
+        },
+        monthBeforeYear: false,
+      },
       isPageBusy:              false,
       selectedFile:            null,
       itemData:                [],
@@ -316,7 +325,7 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     change(e) {
       this.selectedFile = e.target.files[0];
     },
@@ -351,8 +360,12 @@ export default {
         const formData = new FormData();
         let headers    = {};
 
+        this.form.birthday = this.birthdayValue;
+
         _.each(this.form, (value, key) => {
-          formData.append(key, value)
+          if (value) {
+            formData.append(key, value)
+          }
         })
 
         if (self.selectedFile) {
@@ -408,6 +421,10 @@ export default {
       this.itemData = response['data'];
 
       for (const [key, fieldData] of Object.entries(this.itemData)) {
+        if (key === 'birthday') {
+          this.birthdayValue = fieldData;
+        }
+
         this.form[key] = fieldData;
       }
     },
@@ -418,7 +435,7 @@ export default {
     await this.getSubsidizationRulesBySubsidizationOrganizationId();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {
@@ -439,6 +456,10 @@ export default {
 
 .card-title {
   font-size: 1.75rem;
+}
+
+.mx-datepicker {
+  width: 100% !important;
 }
 
 </style>

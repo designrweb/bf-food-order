@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MenuCategoryCollection;
 use App\Http\Resources\MenuCategoryResource;
 use App\Services\LocationService;
 use App\Services\MenuCategoryService;
@@ -42,7 +43,7 @@ class MenuCategoryController extends Controller
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new MenuCategoryCollection($this->service->all()))->toArray($request);
     }
 
 
@@ -84,10 +85,12 @@ class MenuCategoryController extends Controller
      */
     public function create(LocationService $locationService)
     {
-        $locationsList = $locationService->getList();
+        $locationsList  = $locationService->getList();
+        $existingOrders = $this->service->all()->pluck('category_order', 'category_order')->toArray();
 
         return view('menu_categories._form', [
-            'locationsList' => $locationsList,
+            'locationsList'  => $locationsList,
+            'existingOrders' => $existingOrders,
         ]);
     }
 

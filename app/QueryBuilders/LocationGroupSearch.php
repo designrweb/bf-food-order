@@ -27,9 +27,9 @@ class LocationGroupSearch extends BaseSearch
         // filters
         $this->applyFilter('location_groups.name', request('filters.name'));
 
-        $this->builder->whereHas('location', function ($query) {
-            $query->where('locations.name', 'like', '%' . request('filters.location_id') . '%');
-        });
+        if (!empty(request('filters.location_id'))) {
+            $this->applyFilter('location_groups.location_id', request('filters.location_id'));
+        }
 
         if (request('filters.number_of_students')) {
             $this->builder->havingRaw('COUNT(consumers.id) = ?', [request('filters.number_of_students')]);

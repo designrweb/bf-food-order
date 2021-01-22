@@ -121,24 +121,8 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-form-group
-                  id="input-group-slug"
-                  label="Slug"
-                  label-for="input-slug"
-              >
-                <b-form-input
-                    id="input-slug"
-                    v-model="form.slug"
-                    placeholder="Slug"
-                ></b-form-input>
-                <b-form-invalid-feedback :state="validation['slug']['state']">
-                  {{ validation['slug']['message'] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-
             </div>
           </div>
-
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
@@ -184,7 +168,6 @@ export default {
         'zip':        {'state': true, 'message': ''},
         'city':       {'state': true, 'message': ''},
         'email':      {'state': true, 'message': ''},
-        'slug':       {'state': true, 'message': ''},
         'image_name': {'state': true, 'message': ''},
       },
     }

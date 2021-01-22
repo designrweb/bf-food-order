@@ -14,11 +14,26 @@ use App\LocationGroup;
 class LocationGroupService extends BaseModelService
 {
 
+    /**
+     * @var LocationGroupRepository
+     */
     protected $repository;
 
-    public function __construct(LocationGroupRepository $repository)
+    /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    /**
+     * LocationGroupService constructor.
+     *
+     * @param LocationGroupRepository $repository
+     * @param LocationService         $locationService
+     */
+    public function __construct(LocationGroupRepository $repository, LocationService $locationService)
     {
-        $this->repository = $repository;
+        $this->repository      = $repository;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -110,7 +125,11 @@ class LocationGroupService extends BaseModelService
     {
         return [
             'name'               => '',
-            'location_id'        => '',
+            'location_id'        => [
+                'values' => $this->locationService->getList(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
             'number_of_students' => '',
         ];
     }

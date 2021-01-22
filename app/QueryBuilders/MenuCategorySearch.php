@@ -23,9 +23,6 @@ class MenuCategorySearch extends BaseSearch
     {
         /** @var Builder $builder */
         $this->builder = $next($request);
-//
-//        $this->builder->select(['menu_categories.*'])
-//            ->leftJoin('locations', 'menu_categories.location_id', '=', 'locations.id');
 
         // filters
         $this->applyFilter('menu_categories.name', request('filters.name'));
@@ -35,7 +32,13 @@ class MenuCategorySearch extends BaseSearch
 
         // sort
         $this->applySort('menu_categories.name', request('sort.name'));
-        $this->applySort('menu_categories.category_order', request('sort.category_order'));
+
+        if (!empty(request('sort.category_order'))) {
+            $this->applySort('menu_categories.category_order', request('sort.category_order'));
+        } else {
+            $this->applySort('menu_categories.category_order', 'asc');
+        }
+
         $this->applySort('menu_categories.price', request('sort.price_locale'));
         $this->applySort('menu_categories.presaleprice', request('sort.presaleprice_locale'));
 

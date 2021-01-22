@@ -26,11 +26,9 @@ class MenuCategoryService extends BaseModelService
     }
 
     /**
-     * Returns all menu_categories transformed to resource
-     *
      * @return MenuCategoryCollection
      */
-    public function all(): MenuCategoryCollection
+    public function all()
     {
         return $this->repository->all();
     }
