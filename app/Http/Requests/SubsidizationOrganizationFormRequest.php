@@ -17,8 +17,18 @@ class SubsidizationOrganizationFormRequest extends FormRequest
             'name'       => 'required|string',
             'city'       => 'nullable|string',
             'street'     => 'nullable|string',
-            'zip'        => 'nullable|numeric|max:5|min:5',
+            'zip'        => 'nullable|numeric|regex:/\b\d{5}\b/',
             'company_id' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'zip.regex' => 'Zip must have 5 digits',
         ];
     }
 }

@@ -129,11 +129,11 @@ class OrderService extends BaseModelService
      * @param Model $model
      * @return array
      */
-    protected function getIndexFieldsLabels(Model $model): array
+    public function getIndexFieldsLabels(Model $model): array
     {
         return [
             [
-                'key'   => 'menuitem_id',
+                'key'   => 'menu_item.name',
                 'label' => 'Menu'
             ],
             [
@@ -154,9 +154,9 @@ class OrderService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'menuitem_id' => '',
-            'quantity'    => '',
-            'day'         => '',
+            'menu_item.name' => '',
+            'quantity'       => '',
+            'day'            => '',
         ];
     }
 
@@ -166,15 +166,17 @@ class OrderService extends BaseModelService
      */
     protected function getFilters(Model $model): array
     {
-        $filters = [
-            'menuitem_id' => '',
-            'quantity'    => '',
-            'day'         => '',
+        return [
+            'menu_item.name' => '',
+            'quantity'       => '',
+            'day'            => '',
         ];
-
-        return $filters;
     }
 
+    /**
+     * @param Order $order
+     * @return mixed
+     */
     public function countOrdersWithSubsidization(Order $order)
     {
         return $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);

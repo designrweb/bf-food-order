@@ -25,12 +25,22 @@ class LocationFormRequest extends FormRequest
     {
         return [
             'name'       => 'required|max:128',
-            'zip'        => 'nullable|numeric',
+            'zip'        => 'nullable|numeric|regex:/\b\d{5}\b/',
             'city'       => 'nullable|string',
             'street'     => 'nullable|string',
             'email'      => 'nullable|email',
             'image_name' => 'nullable|string',
             'company_id' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'zip.regex' => 'Zip must have 5 digits',
         ];
     }
 }

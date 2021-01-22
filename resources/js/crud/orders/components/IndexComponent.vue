@@ -1,10 +1,23 @@
 <template>
   <div class="card">
     <div class="card-header" v-if="!isPageBusy">
-      <h3 class="card-title"></h3>
+      <h3 class="card-title">Food Orders</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body">
+      <div class="card-header bg-light">
+        <div class="float-right">
+          <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+        </div>
+      </div>
+      <div class="kv-panel-before">
+        <div class="float-right">
+          <export-button :main_route="main_route" :filters="filters" :sort="sort"></export-button>
+        </div>
+        <div class="float-right">
+          <show-all-button :itemsPerPage.sync="itemsPerPage" :total="totalItems"></show-all-button>
+        </div>
+      </div>
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
       </div>
@@ -37,10 +50,20 @@
         <template v-slot:top-row="scope" :columns="4">
           <b-th v-for="field in scope.fields" v-bind:key="field.key">
             <div v-if="field.key in filters">
-              <filter-text @changeFilter="applyFilter"
-                           :filterName="field.key"
-                           :filterLabel="field.label"
-                           :appliedFilterValue="filters[field.key]"
+              <filter-form-date-picker
+                  v-if="field.key === 'day'"
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
+              ></filter-form-date-picker>
+
+              <filter-text
+                  v-else
+                  @changeFilter="applyFilter"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key]"
               ></filter-text>
             </div>
           </b-th>
@@ -82,19 +105,26 @@
 </template>
 
 <script>
-import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
-import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
-import {getStructure, getItems}                             from "../../api/crudRequests";
-import SpinnerComponent                                     from "../../shared/SpinnerComponent";
+import FilterTextInput                                                    from "../../shared/filters/TextFilterComponent";
+import {CreateButton, ViewButton, EditButton, DeleteButton, ExportButton} from "../../shared/grid-buttons";
+import {getStructure, getItems}                                           from "../../api/crudRequests";
+import SpinnerComponent                                                   from "../../shared/SpinnerComponent";
+import PaginationInfoComponent                                            from "../../shared/PaginationInfoComponent";
+import FormDatePickerFilterComponent                                      from "../../shared/filters/FormDatePickerFilterComponent";
+import ShowAllButton                                                      from "../../shared/grid-buttons/ShowAllButton";
 
 export default {
   components: {
-    'filter-text':       FilterTextInput,
-    'create-button':     CreateButton,
-    'view-button':       ViewButton,
-    'edit-button':       EditButton,
-    'delete-button':     DeleteButton,
-    'spinner-component': SpinnerComponent,
+    'filter-text':               FilterTextInput,
+    'create-button':             CreateButton,
+    'view-button':               ViewButton,
+    'edit-button':               EditButton,
+    'delete-button':             DeleteButton,
+    'spinner-component':         SpinnerComponent,
+    'pagination-into-component': PaginationInfoComponent,
+    'export-button':             ExportButton,
+    'show-all-button':           ShowAllButton,
+    'filter-form-date-picker':   FormDatePickerFilterComponent,
   },
   props:      {
     main_route: String
@@ -104,6 +134,8 @@ export default {
       currentPage:         1,
       perPage:             1,
       totalItems:          0,
+      firstItem:           0,
+      lastItems:           0,
       isTableBusy:         false,
       isPageBusy:          false,
       items:               [],
@@ -151,6 +183,8 @@ export default {
       this.currentPage = response['data']['pagination']['current_page'];
       this.perPage     = response['data']['pagination']['per_page'];
       this.totalItems  = response['data']['pagination']['total'];
+      this.firstItem   = response['data']['pagination']['first_item'];
+      this.lastItems   = response['data']['pagination']['last_item'];
       this.isTableBusy = false;
     },
     async applyFilter(filteredData) {

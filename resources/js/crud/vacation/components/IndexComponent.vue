@@ -5,8 +5,10 @@
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body">
-      <div class="text-left">
-        <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+      <div class="card-header bg-light">
+        <div class="float-right">
+          <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+        </div>
       </div>
       <div class="text-center" v-if="isPageBusy">
         <spinner-component></spinner-component>
