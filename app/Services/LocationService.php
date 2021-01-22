@@ -195,20 +195,25 @@ class LocationService extends BaseModelService
                 'label' => 'Name'
             ],
             [
-                'key'   => 'voucher_limits',
-                'label' => 'Voucher Limits'
+                'key'   => 'street',
+                'label' => 'Street'
+            ],
+
+            [
+                'key'   => 'zip',
+                'label' => 'Zip'
             ],
             [
                 'key'   => 'city',
                 'label' => 'City'
             ],
             [
-                'key'   => 'zip',
-                'label' => 'Zip'
-            ],
-            [
                 'key'   => 'email',
                 'label' => 'Email'
+            ],
+            [
+                'key'   => 'company.name',
+                'label' => 'Company'
             ],
         ];
     }
