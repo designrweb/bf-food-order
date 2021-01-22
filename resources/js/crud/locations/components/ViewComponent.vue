@@ -22,9 +22,9 @@
         </div>
         <table class="table table-striped">
           <tbody>
-          <tr v-for="data in pageData" v-bind:key="data.key">
+          <tr v-for="(data, index) in pageData" v-bind:key="data.key">
             <th>{{ data.label }}</th>
-            <td v-if="data.label === 'Image Name'">
+            <td v-if="index === 'image_name'">
               <b-img v-if="data.value" rounded left :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
             </td>
             <td v-else> {{ data.value }}</td>
