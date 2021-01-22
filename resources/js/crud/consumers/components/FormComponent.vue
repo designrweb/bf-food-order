@@ -35,6 +35,7 @@
                 <b-form-input
                     id="input-account_id"
                     v-model="form.account_id"
+                    disabled
                     placeholder="Account Id"
                     autocomplete="off"
                 ></b-form-input>
