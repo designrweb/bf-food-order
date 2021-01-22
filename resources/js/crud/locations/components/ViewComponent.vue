@@ -10,7 +10,7 @@
           <div class="col-12 col-sm-4 action-buttons">
             <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
                          :mainRoute="main_route"></edit-button>
-            <delete-button v-if="allowActions.edit && allowActions.all" :id="id"
+            <delete-button v-if="allowActions.delete && allowActions.all" :id="id"
                            :mainRoute="main_route"></delete-button>
           </div>
         </div>

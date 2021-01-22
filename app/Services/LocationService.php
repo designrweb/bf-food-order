@@ -188,27 +188,31 @@ class LocationService extends BaseModelService
         return [
             [
                 'key'   => 'image_name',
-                'label' => 'Image Name'
+                'label' => ''
             ],
             [
                 'key'   => 'name',
                 'label' => 'Name'
             ],
             [
-                'key'   => 'voucher_limits',
-                'label' => 'Voucher Limits'
-            ],
-            [
-                'key'   => 'city',
-                'label' => 'City'
+                'key'   => 'street',
+                'label' => 'Street'
             ],
             [
                 'key'   => 'zip',
                 'label' => 'Zip'
             ],
             [
+                'key'   => 'city',
+                'label' => 'City'
+            ],
+            [
                 'key'   => 'email',
                 'label' => 'Email'
+            ],
+            [
+                'key'   => 'company.name',
+                'label' => 'Company'
             ],
         ];
     }

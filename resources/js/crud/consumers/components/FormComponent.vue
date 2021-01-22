@@ -397,7 +397,7 @@ export default {
         }
 
         let response         = await storeFormData(self.main_route, self.id, formData, headers);
-        window.location.href = self.main_route + '/' + response['data'].id + '/edit';
+        window.location.href = self.main_route + '/' + response['data'].id;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;
