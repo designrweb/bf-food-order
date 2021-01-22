@@ -188,7 +188,7 @@ class LocationService extends BaseModelService
         return [
             [
                 'key'   => 'image_name',
-                'label' => 'Image Name'
+                'label' => ''
             ],
             [
                 'key'   => 'name',
@@ -198,7 +198,6 @@ class LocationService extends BaseModelService
                 'key'   => 'street',
                 'label' => 'Street'
             ],
-
             [
                 'key'   => 'zip',
                 'label' => 'Zip'
