@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocationCollection;
 use App\Services\CompanyService;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;
@@ -54,7 +55,7 @@ class LocationController extends Controller
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new LocationCollection($this->service->all()))->toArray($request);
     }
 
 

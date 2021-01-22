@@ -50,16 +50,17 @@ class DeliveryPlanningSearch extends BaseSearch
             ->groupBy(['location_id', 'location_name', 'menu_category_id', 'menu_category_name', 'day']);
 
         // filters
-        if (request('filters.location_name')) {
-            $this->applyFilter('locations.name', request('filters.location_name'));
+
+        if (!empty(request('filters.location_name'))) {
+            $this->applyFilter('locations.id', request('filters.location_name'));
         }
 
         if (request('filters.date')) {
             $this->applyFilter('orders.day', request('filters.date'));
         }
 
-        if (request('filters.menu_category_name')) {
-            $this->applyFilter('menu_categories.name', request('filters.menu_category_name'));
+        if (!empty(request('filters.menu_category_name'))) {
+            $this->applyFilter('menu_categories.id', request('filters.menu_category_name'));
         }
 
         if (request('filters.amount')) {

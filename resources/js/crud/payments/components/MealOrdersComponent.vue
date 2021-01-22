@@ -15,6 +15,13 @@
           :fields="fields"
           :busy="isTableBusy"
           responsive="sm">
+        <template #empty="scope">
+          <div class="container mt-5 mb-5">
+            <div class="text-center mt-5 mb-5 text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
+            </div>
+          </div>
+        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"
@@ -118,7 +125,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -179,7 +186,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }

@@ -23,7 +23,6 @@ class LocationResource extends JsonResource
             'zip'            => $this->zip,
             'email'          => $this->email,
             'street'         => $this->street,
-            'slug'           => $this->slug,
         ];
     }
 }

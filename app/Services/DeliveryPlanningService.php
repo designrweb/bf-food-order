@@ -14,11 +14,33 @@ use App\Order;
 class DeliveryPlanningService extends BaseModelService
 {
 
+    /**
+     * @var DeliveryPlanningRepository
+     */
     protected $repository;
 
-    public function __construct(DeliveryPlanningRepository $repository)
+    /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    /**
+     * @var MenuCategoryService
+     */
+    protected $menuCategoryService;
+
+    /**
+     * DeliveryPlanningService constructor.
+     *
+     * @param DeliveryPlanningRepository $repository
+     * @param LocationService            $locationService
+     * @param MenuCategoryService        $menuCategoryService
+     */
+    public function __construct(DeliveryPlanningRepository $repository, LocationService $locationService, MenuCategoryService $menuCategoryService)
     {
-        $this->repository = $repository;
+        $this->repository          = $repository;
+        $this->locationService     = $locationService;
+        $this->menuCategoryService = $menuCategoryService;
     }
 
     /**
@@ -141,9 +163,17 @@ class DeliveryPlanningService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'location_name'      => '',
+            'location_name'      => [
+                'values' => $this->locationService->getList(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
             'date'               => '',
-            'menu_category_name' => '',
+            'menu_category_name' => [
+                'values' => $this->menuCategoryService->getList(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
             'amount'             => '',
             'voucher_percentage' => '',
         ];

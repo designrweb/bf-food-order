@@ -17,9 +17,9 @@
           show-empty
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-5 mb-5">
-            <div class="text-center mt-5 mb-5 text-gray">
-              <h2 class="card-text"> {{ scope.emptyText }} </h2>
+          <div class="container mt-3 mb-3">
+            <div class="text-center text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
             </div>
           </div>
         </template>

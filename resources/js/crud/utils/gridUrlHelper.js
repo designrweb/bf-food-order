@@ -63,11 +63,19 @@ export class UrlBuilder {
         if (!this.filters) return filterQuery;
         let iteration = 1;
         for (let key in this.filters) {
+            if (this.filters[key].type === 'select' && this.filters[key].filter === '') {
+                continue;
+            }
+
             if (this.filters[key].length == 0) continue;
             if (iteration > 1) filterQuery += '&';
 
             if (this.filters[key] instanceof Object) {
-                filterValue = JSON.stringify(this.filters[key]);
+                if (this.filters[key].type === 'select') {
+                    filterValue = this.filters[key].filter;
+                } else {
+                    filterValue = JSON.stringify(this.filters[key]);
+                }
             } else {
                 filterValue = this.filters[key];
             }

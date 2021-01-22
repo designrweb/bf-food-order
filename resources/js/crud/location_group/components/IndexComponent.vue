@@ -4,7 +4,7 @@
       <h3 class="card-title">Locations Groups</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="'/admin/' + main_route"></create-button>
     </div>
-    <div class="card-body overflow-auto">
+    <div class="card-body">
       <div class="text-left">
         <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
       </div>
@@ -20,6 +20,13 @@
           :fields="fields"
           :busy="isTableBusy"
           responsive="sm">
+        <template #empty="scope">
+          <div class="container mt-3 mb-3">
+            <div class="text-center text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
+            </div>
+          </div>
+        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"
@@ -41,6 +48,15 @@
                   :filterLabel="field.label"
                   :appliedFilterValue="filters[field.key]"
               ></filter-number>
+
+              <filter-select
+                  v-else-if="filters[field.key].type === 'select'"
+                  @changeFilter="applyFilter"
+                  :options="filters[field.key]['values']"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key].filter"
+              ></filter-select>
 
               <filter-text
                   v-else
@@ -95,10 +111,12 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import FilterSelectInput                                    from "../../shared/filters/SelectFilterComponent";
 
 export default {
   components: {
     'filter-text':               FilterTextInput,
+    'filter-select':             FilterSelectInput,
     'filter-number':             FilterNumberInput,
     'create-button':             CreateButton,
     'view-button':               ViewButton,

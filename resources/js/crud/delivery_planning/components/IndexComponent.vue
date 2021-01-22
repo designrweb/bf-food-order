@@ -17,9 +17,9 @@
           show-empty
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-5 mb-5">
-            <div class="text-center mt-5 mb-5 text-gray">
-              <h2 class="card-text"> {{ scope.emptyText }} </h2>
+          <div class="container mt-3 mb-3">
+            <div class="text-center text-gray">
+              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
             </div>
           </div>
         </template>
@@ -44,6 +44,15 @@
                   :filterLabel="field.label"
                   :appliedFilterValue="filters[field.key]"
               ></filter-form-date-picker>
+
+              <filter-select
+                  v-else-if="filters[field.key].type === 'select'"
+                  @changeFilter="applyFilter"
+                  :options="filters[field.key]['values']"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key].filter"
+              ></filter-select>
 
               <filter-text
                   v-else
@@ -97,10 +106,12 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
+import FilterSelectInput                                    from "../../shared/filters/SelectFilterComponent";
 
 export default {
   components: {
     'filter-text':             FilterTextInput,
+    'filter-select':           FilterSelectInput,
     'create-button':           CreateButton,
     'view-button':             ViewButton,
     'edit-button':             EditButton,

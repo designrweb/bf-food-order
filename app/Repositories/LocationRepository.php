@@ -25,17 +25,17 @@ class LocationRepository implements RepositoryInterface
     }
 
     /**
-     * @return LocationCollection
+     * @return mixed
      */
     public function all()
     {
-        return new LocationCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 LocationSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
