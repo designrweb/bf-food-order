@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'email'             => $faker->unique()->safeEmail,
-        'password'          => Hash::make('admin'),
+        'password'          => Hash::make('nKS2JW723Q'),
         'email_verified_at' => Carbon::now(),
         'remember_token'    => Str::random(10),
         'role'              => User::ROLE_ADMIN,
