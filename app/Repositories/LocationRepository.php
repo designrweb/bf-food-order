@@ -75,7 +75,7 @@ class LocationRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with('company')->findOrFail($id);
     }
 
     /**

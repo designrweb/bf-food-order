@@ -44,7 +44,7 @@ class PaymentSearch extends BaseSearch
         $this->applyFilter('payments.comment', request('filters.comment'));
 
         $this->builder->when(request('filters.created_at_human'), function (Builder $q) {
-            $q->where('payments.created_at', date('Y-m-d', strtotime(request('filters.created_at_human'))));
+            $q->where('payments.created_at', 'like', date('Y-m-d', strtotime(request('filters.created_at_human'))) . '%');
         });
 
         // sort
