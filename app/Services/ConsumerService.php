@@ -235,47 +235,47 @@ class ConsumerService extends BaseModelService
         return [
             [
                 'key'   => 'account_id',
-                'label' => 'Account'
+                'label' => __('consumer.Account')
             ],
             [
                 'key'   => 'user.email',
-                'label' => 'Email'
+                'label' => __('consumer.Email')
             ],
             [
                 'key'   => 'location_group.location.name',
-                'label' => 'Location'
+                'label' => __('consumer.Location')
             ],
             [
                 'key'   => 'birthday',
-                'label' => 'Birthday'
+                'label' => __('consumer.Birthday')
             ],
             [
                 'key'   => 'imageurl',
-                'label' => 'Image'
+                'label' => __('consumer.Image')
             ],
             [
                 'key'   => 'location_group.name',
-                'label' => 'Group'
+                'label' => __('consumer.Group')
             ],
             [
                 'key'   => 'user.user_info.first_name',
-                'label' => 'Parent'
+                'label' => __('consumer.Parent')
             ],
             [
                 'key'   => 'balance',
-                'label' => 'Balance'
+                'label' => __('consumer.Balance')
             ],
             [
                 'key'   => 'balance_limit',
-                'label' => 'Balance limit'
+                'label' => __('consumer.Balance limit')
             ],
             [
                 'key'   => 'full_name',
-                'label' => 'Child'
+                'label' => __('consumer.Child')
             ],
             [
                 'key'   => 'subsidization.subsidization_rule.rule_name',
-                'label' => 'Subsidization Rule'
+                'label' => __('consumer.Subsidization Rule')
             ],
         ];
     }
@@ -293,31 +293,31 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'account_id',
-                'label' => 'Account'
+                'label' => __('consumer.Account')
             ],
             [
                 'key'   => 'user.email',
-                'label' => 'Email'
+                'label' => __('consumer.Email')
             ],
             [
                 'key'   => 'location_group.location.name',
-                'label' => 'Location'
+                'label' => __('consumer.Location')
             ],
             [
                 'key'   => 'location_group.name',
-                'label' => 'Group'
+                'label' => __('consumer.Group')
             ],
             [
                 'key'   => 'user.user_info.first_name',
-                'label' => 'Parent'
+                'label' => __('consumer.Parent')
             ],
             [
                 'key'   => 'full_name',
-                'label' => 'Child'
+                'label' => __('consumer.Child')
             ],
             [
                 'key'   => 'subsidization.subsidization_rule.rule_name',
-                'label' => 'Subsidization Rule'
+                'label' => __('consumer.Subsidization Rule')
             ],
         ];
     }

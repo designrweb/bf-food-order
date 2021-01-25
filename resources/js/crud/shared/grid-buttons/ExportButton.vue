@@ -3,7 +3,7 @@
     <b-overlay :show="isBusy" rounded="sm">
       <b-dropdown id="dropdown-header" right text="Export" variant="success" class="m-2">
         <b-dropdown-header id="dropdown-header-label">
-          Export Page Data
+          Export
         </b-dropdown-header>
         <b-dropdown-item-button v-for="(item, index) in formats" v-if="item.allow" :key="index" aria-describedby="dropdown-header-label" @click="handleExport(item.type)">
           <i :class="item.icon"></i> {{ item.name }}

@@ -16,8 +16,8 @@
                 </div>
 
                 <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
-                    
-                    <b-button type="submit" variant="primary">Submit</b-button>
+
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 itemData:     [],
                 form:         {},
                 validation:   {
-            
+
                 },
             }
         },

@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Rule: ' + form.rule_name : 'Create Rule' }}</h3>
+            <h3 class="card-title">{{ form.id ? ': ' + form.rule_name : '' }}</h3>
           </div>
         </div>
       </div>
@@ -18,14 +18,14 @@
         <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
           <b-form-group
               id="input-group-rule_name"
-              label="Rule Name"
+              label="Name der Regel"
               label-for="input-rule_name"
           >
             <b-form-input
                 id="input-rule_name"
                 v-model="form.rule_name"
                 required
-                placeholder="Rule Name"
+                placeholder="Name der Regel"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['rule_name']['state']">
               {{ validation['rule_name']['message'] }}
@@ -33,7 +33,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-subsidization_organization_id"
-              label="Subsidization Organization Id"
+              label="Subventionsstelle"
               label-for="input-subsidization_organization_id"
           >
             <b-form-select
@@ -50,7 +50,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-start_date"
-              label="Start Date"
+              label="Startdatum"
               label-for="input-start_date"
           >
             <b-form-datepicker
@@ -68,7 +68,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-end_date"
-              label="End Date"
+              label="Enddatum"
               label-for="input-end_date"
           >
             <b-form-datepicker
@@ -146,7 +146,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
@@ -175,6 +175,7 @@ export default {
     subsidization_organizations_list:   Array,
     subsidization_menu_categories_list: Object,
     id:                                 String | Number,
+    title: String
   },
   data() {
     return {

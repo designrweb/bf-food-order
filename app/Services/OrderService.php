@@ -134,15 +134,15 @@ class OrderService extends BaseModelService
         return [
             [
                 'key'   => 'menu_item.name',
-                'label' => 'Menu'
+                'label' => __('order.Menu')
             ],
             [
                 'key'   => 'quantity',
-                'label' => 'Quantity'
+                'label' => __('order.Quantity')
             ],
             [
                 'key'   => 'day',
-                'label' => 'Day At'
+                'label' => __('order.Day At')
             ],
         ];
     }

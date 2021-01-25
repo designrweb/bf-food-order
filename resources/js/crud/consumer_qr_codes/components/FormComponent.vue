@@ -48,21 +48,21 @@
 </b-form-group>
 <b-form-group
     id="input-group-consumer_id"
-    label="Consumer Id"
+    label="Essensteilnehmer"
     label-for="input-consumer_id"
 >
     <b-form-input
         id="input-consumer_id"
         v-model="form.consumer_id"
         required
-        placeholder="Consumer Id"
+        placeholder="Essensteilnehmer"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['consumer_id']['state']">
         {{validation['consumer_id']['message']}}
     </b-form-invalid-feedback>
 </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>

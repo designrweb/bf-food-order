@@ -119,15 +119,15 @@ class SettingService extends BaseModelService
         return [
             [
                 'key'   => 'setting_name',
-                'label' => 'Setting Name'
+                'label' => __('setting.Setting Name')
             ],
             [
                 'key'   => 'visible_name',
-                'label' => 'Visible Name'
+                'label' => __('setting.Visible Name')
             ],
             [
                 'key'   => 'value',
-                'label' => 'Value'
+                'label' => __('setting.Value')
             ]
         ];
     }
@@ -145,15 +145,15 @@ class SettingService extends BaseModelService
             ],
             [
                 'key'   => 'setting_name',
-                'label' => 'Setting Name'
+                'label' => __('setting.Setting Name')
             ],
             [
                 'key'   => 'visible_name',
-                'label' => 'Visible Name'
+                'label' => __('setting.Visible Name')
             ],
             [
                 'key'   => 'value',
-                'label' => 'Value'
+                'label' => __('setting.Value')
             ]
         ];
     }

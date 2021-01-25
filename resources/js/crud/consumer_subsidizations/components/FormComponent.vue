@@ -33,14 +33,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-subsidization_rule_id"
-    label="Subsidization Rule Id"
+    label="Subventionierungsregel"
     label-for="input-subsidization_rule_id"
 >
     <b-form-input
         id="input-subsidization_rule_id"
         v-model="form.subsidization_rule_id"
         required
-        placeholder="Subsidization Rule Id"
+        placeholder="Subventionierungsregel"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['subsidization_rule_id']['state']">
         {{validation['subsidization_rule_id']['message']}}
@@ -48,14 +48,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-subsidization_start"
-    label="Subsidization Start"
+    label="Beginn Subventionsdatum"
     label-for="input-subsidization_start"
 >
     <b-form-input
         id="input-subsidization_start"
         v-model="form.subsidization_start"
         required
-        placeholder="Subsidization Start"
+        placeholder="Beginn Subventionsdatum"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['subsidization_start']['state']">
         {{validation['subsidization_start']['message']}}
@@ -63,14 +63,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-subsidization_end"
-    label="Subsidization End"
+    label="Ende Subventionsdatum"
     label-for="input-subsidization_end"
 >
     <b-form-input
         id="input-subsidization_end"
         v-model="form.subsidization_end"
         required
-        placeholder="Subsidization End"
+        placeholder="Ende Subventionsdatum"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['subsidization_end']['state']">
         {{validation['subsidization_end']['message']}}
@@ -78,14 +78,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-subsidization_document"
-    label="Subsidization Document"
+    label="Subventionsnachweis"
     label-for="input-subsidization_document"
 >
     <b-form-input
         id="input-subsidization_document"
         v-model="form.subsidization_document"
         required
-        placeholder="Subsidization Document"
+        placeholder="Subventionsnachweis"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['subsidization_document']['state']">
         {{validation['subsidization_document']['message']}}
@@ -93,14 +93,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-created_at"
-    label="Created At"
+    label="Erstellt am"
     label-for="input-created_at"
 >
     <b-form-input
         id="input-created_at"
         v-model="form.created_at"
         required
-        placeholder="Created At"
+        placeholder="Erstellt am"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['created_at']['state']">
         {{validation['created_at']['message']}}
@@ -108,14 +108,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-updated_at"
-    label="Updated At"
+    label="Aktualisiert am"
     label-for="input-updated_at"
 >
     <b-form-input
         id="input-updated_at"
         v-model="form.updated_at"
         required
-        placeholder="Updated At"
+        placeholder="Aktualisiert am"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['updated_at']['state']">
         {{validation['updated_at']['message']}}
@@ -123,21 +123,21 @@
 </b-form-group>
 <b-form-group
     id="input-group-deleted_at"
-    label="Deleted At"
+    label="Gelöscht um"
     label-for="input-deleted_at"
 >
     <b-form-input
         id="input-deleted_at"
         v-model="form.deleted_at"
         required
-        placeholder="Deleted At"
+        placeholder="Gelöscht um"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['deleted_at']['state']">
         {{validation['deleted_at']['message']}}
     </b-form-invalid-feedback>
 </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>

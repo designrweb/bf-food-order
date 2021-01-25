@@ -33,14 +33,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-subsidization_rule_id"
-    label="Subsidization Rule Id"
+    label="Subventionierungsregel"
     label-for="input-subsidization_rule_id"
 >
     <b-form-input
         id="input-subsidization_rule_id"
         v-model="form.subsidization_rule_id"
         required
-        placeholder="Subsidization Rule Id"
+        placeholder="Subventionierungsregel"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['subsidization_rule_id']['state']">
         {{validation['subsidization_rule_id']['message']}}
@@ -48,14 +48,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-menu_category_id"
-    label="Menu Category Id"
+    label="Menülinie"
     label-for="input-menu_category_id"
 >
     <b-form-input
         id="input-menu_category_id"
         v-model="form.menu_category_id"
         required
-        placeholder="Menu Category Id"
+        placeholder="Menülinie"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['menu_category_id']['state']">
         {{validation['menu_category_id']['message']}}
@@ -63,14 +63,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-percent"
-    label="Percent"
+    label="Prozentsatz"
     label-for="input-percent"
 >
     <b-form-input
         id="input-percent"
         v-model="form.percent"
         required
-        placeholder="Percent"
+        placeholder="Prozentsatz"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['percent']['state']">
         {{validation['percent']['message']}}
@@ -78,14 +78,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-created_at"
-    label="Created At"
+    label="Erstellt am"
     label-for="input-created_at"
 >
     <b-form-input
         id="input-created_at"
         v-model="form.created_at"
         required
-        placeholder="Created At"
+        placeholder="Erstellt am"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['created_at']['state']">
         {{validation['created_at']['message']}}
@@ -93,21 +93,21 @@
 </b-form-group>
 <b-form-group
     id="input-group-updated_at"
-    label="Updated At"
+    label="Aktualisiert am"
     label-for="input-updated_at"
 >
     <b-form-input
         id="input-updated_at"
         v-model="form.updated_at"
         required
-        placeholder="Updated At"
+        placeholder="Aktualisiert am"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['updated_at']['state']">
         {{validation['updated_at']['message']}}
     </b-form-invalid-feedback>
 </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>

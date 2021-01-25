@@ -6,6 +6,7 @@
                 :main_route="'voucher-limits'"
                 :menu_categories="{{json_encode($menuCategories)}}"
                 :weeklylist="{{json_encode($voucherLimits)}}"
+                title="@lang('voucher-limit.Voucher Limits')"
         ></grid-index>
     </div>
 @endsection

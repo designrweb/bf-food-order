@@ -5,7 +5,7 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Voucher Limits</h3>
+        <h3 class="card-title">{{ title }}</h3>
         <b-row class="menu-underlined-block pt-12">
           <b-col cols="12" class="text-right">
             <b-btn variant="primary" @click="store">Save</b-btn>
@@ -92,7 +92,8 @@ export default {
   computed:   {},
   props:      {
     menu_categories: {},
-    weeklylist:      Object | Array
+    weeklylist:      Object | Array,
+    title: String
   },
   data:       () => ({
     isLoading: true,

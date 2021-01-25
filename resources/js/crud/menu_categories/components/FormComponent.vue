@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Menu Category: ' + form.name : 'Create Menu Category' }}</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-category_order"
-              label="Category Order"
+              label="Kategorie Reihenfolge"
               label-for="input-category_order"
           >
             <b-form-select
@@ -49,7 +49,7 @@
 
           <b-form-group
               id="input-group-price"
-              label="Price"
+              label="Spontanpreis"
               label-for="input-price"
           >
             <b-form-input
@@ -57,7 +57,7 @@
                 v-model="form.price_locale"
                 type="text"
                 @keypress="isFloat($event)"
-                placeholder="Price"
+                placeholder="Spontanpreis"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['price_locale']['state']">
               {{ validation['price_locale']['message'] }}
@@ -66,7 +66,7 @@
 
           <b-form-group
               id="input-group-presaleprice"
-              label="Presaleprice"
+              label="Vorbestell-Preis"
               label-for="input-presaleprice"
           >
             <b-form-input
@@ -74,7 +74,7 @@
                 v-model="form.presaleprice_locale"
                 type="text"
                 @keypress="isFloat($event)"
-                placeholder="Presaleprice"
+                placeholder="Vorbestell-Preis"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['presaleprice_locale']['state']">
               {{ validation['presaleprice_locale']['message'] }}
@@ -83,7 +83,7 @@
 
           <b-form-group
               id="input-group-location_id"
-              label="Location"
+              label="Einrichtung"
               label-for="input-location_id"
           >
             <b-form-select
@@ -99,7 +99,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
@@ -128,6 +128,7 @@ export default {
     locations_list:  Array,
     existing_orders: Array | Object,
     id:              String | Number,
+    title: String
   },
   data() {
     return {

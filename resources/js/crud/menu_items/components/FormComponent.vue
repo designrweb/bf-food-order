@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Menuitem: ' + form.name : 'Create Menuitem' }}</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
 
           <b-form-group
               id="input-group-description"
-              label="Description"
+              label="Beschreibung"
               label-for="input-description"
           >
             <b-form-textarea
@@ -43,7 +43,7 @@
                 v-model="form.description"
                 rows="3"
                 max-rows="6"
-                placeholder="Description"
+                placeholder="Beschreibung"
             ></b-form-textarea>
             <b-form-invalid-feedback :state="validation['description']['state']">
               {{ validation['description']['message'] }}
@@ -52,7 +52,7 @@
 
           <b-form-group
               id="input-group-availability_date"
-              label="Availability Date"
+              label="Verfügbarkeitsdatum"
               label-for="input-availability_date"
           >
             <b-form-datepicker
@@ -72,7 +72,7 @@
 
           <b-form-group
               id="input-group-menu_category_id"
-              label="Menu Category"
+              label="Menülinie"
               label-for="input-menu_category_id"
           >
             <b-form-select
@@ -89,7 +89,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>
@@ -110,6 +110,7 @@ export default {
     main_route:           String,
     menu_categories_list: Array,
     id:                   String | Number,
+    title: String
   },
   data() {
     return {

@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-subtitle">{{ form.id ? 'Update Location: ' + form.name : 'Create Location' }}</h3>
+            <h3 class="card-subtitle">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -45,13 +45,13 @@
 
               <b-form-group
                   id="input-group-street"
-                  label="Street"
+                  label="Straße/Nr."
                   label-for="input-street"
               >
                 <b-form-input
                     id="input-street"
                     v-model="form.street"
-                    placeholder="Street"
+                    placeholder="Straße/Nr."
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['street']['state']">
                   {{ validation['street']['message'] }}
@@ -60,13 +60,13 @@
 
               <b-form-group
                   id="input-group-zip"
-                  label="Zip"
+                  label="PLZ"
                   label-for="input-zip"
               >
                 <b-form-input
                     id="input-zip"
                     v-model="form.zip"
-                    placeholder="Zip"
+                    placeholder="PLZ"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['zip']['state']">
                   {{ validation['zip']['message'] }}
@@ -75,13 +75,13 @@
 
               <b-form-group
                   id="input-group-city"
-                  label="City"
+                  label="Stadt"
                   label-for="input-city"
               >
                 <b-form-input
                     id="input-city"
                     v-model="form.city"
-                    placeholder="City"
+                    placeholder="Stadt"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['city']['state']">
                   {{ validation['city']['message'] }}
@@ -105,7 +105,7 @@
 
               <b-form-group
                   id="input-group-company_id"
-                  label="Company"
+                  label="Unternehmen"
                   label-for="input-company_id"
               >
                 <b-form-select
@@ -124,7 +124,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
@@ -154,6 +154,7 @@ export default {
     main_route:     String,
     companies_list: Array,
     id:             String | Number,
+    title: String
   },
   data() {
     return {

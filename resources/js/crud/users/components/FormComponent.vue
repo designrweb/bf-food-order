@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update User: ' + form.user_info.first_name + ' ' + form.user_info.last_name : 'Create User' }}</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -18,14 +18,14 @@
         <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
           <b-form-group
               id="input-group-first_name"
-              label="First Name"
+              label="Vorname"
               label-for="input-first_name"
           >
             <b-form-input
                 id="input-first_name"
                 v-model="form.user_info.first_name"
                 required
-                placeholder="First Name"
+                placeholder="Vorname"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['user_info.first_name']['state']">
               {{ validation['user_info.first_name']['message'] }}
@@ -34,14 +34,14 @@
 
           <b-form-group
               id="input-group-last_name"
-              label="Last Name"
+              label="Nachname"
               label-for="input-last_name"
           >
             <b-form-input
                 id="input-last_name"
                 v-model="form.user_info.last_name"
                 required
-                placeholder="Last Name"
+                placeholder="Nachname"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['user_info.last_name']['state']">
               {{ validation['user_info.last_name']['message'] }}
@@ -65,13 +65,13 @@
           </b-form-group>
           <b-form-group
               id="input-group-password"
-              label="Password"
+              label="Passwort"
               label-for="input-password"
           >
             <b-form-input
                 id="input-password"
                 v-model="form.password"
-                placeholder="Password"
+                placeholder="Passwort"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['password']['state']">
               {{ validation['password']['message'] }}
@@ -80,7 +80,7 @@
 
           <b-form-group
               id="input-group-salutation"
-              label="Salutation"
+              label="Anrede"
               label-for="input-salutation"
           >
             <b-form-select
@@ -98,7 +98,7 @@
 
           <b-form-group
               id="input-group-role"
-              label="Role"
+              label="Rolle"
               label-for="input-role"
           >
             <b-form-select
@@ -118,7 +118,7 @@
           <b-form-group
               v-if="showLocationId"
               id="input-group-location_id"
-              label="Location"
+              label="Einrichtung"
               label-for="input-location_id"
           >
             <b-form-select
@@ -136,14 +136,14 @@
 
           <b-form-group
               id="input-group-zip"
-              label="Zip"
+              label="PLZ"
               label-for="input-zip"
           >
             <b-form-input
                 id="input-zip"
                 v-model="form.user_info.zip"
                 required
-                placeholder="Zip"
+                placeholder="PLZ"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['user_info.zip']['state']">
               {{ validation['user_info.zip']['message'] }}
@@ -151,14 +151,14 @@
           </b-form-group>
           <b-form-group
               id="input-group-city"
-              label="City"
+              label="Stadt"
               label-for="input-city"
           >
             <b-form-input
                 id="input-city"
                 v-model="form.user_info.city"
                 required
-                placeholder="City"
+                placeholder="Stadt"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['user_info.city']['state']">
               {{ validation['user_info.city']['message'] }}
@@ -166,21 +166,21 @@
           </b-form-group>
           <b-form-group
               id="input-group-street"
-              label="Street"
+              label="Straße/Nr."
               label-for="input-street"
           >
             <b-form-input
                 id="input-street"
                 v-model="form.user_info.street"
                 required
-                placeholder="Street"
+                placeholder="Straße/Nr."
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['user_info.street']['state']">
               {{ validation['user_info.street']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>
@@ -203,6 +203,7 @@ export default {
     roles_list:       Array,
     locations_list:   Array,
     id:               String | Number,
+    title: String
   },
   data() {
     return {

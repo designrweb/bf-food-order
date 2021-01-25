@@ -2,11 +2,11 @@
   <div class="position-relative">
     <div class="d-flex justify-content-center align-items-left flex-column">
       <qrcode-vue :value="value" :size="size" level="H" v-if="value"></qrcode-vue>
-      <span v-else>QR-Code not found. Please generate it.</span>
+      <span v-else>QR-Code nicht gefunden. Bitte generieren Sie es.</span>
       <div class="row" v-show="entityId">
-        <button class="btn btn-warning mb-2 mr-1" @click.prevent="generateCode"><i class="fa fa-redo-alt"></i> Regenerate</button>
-        <button class="btn btn-success mb-2 mr-1" @click.prevent="downloadCode" v-if="value"><i class="fa fa-mobile-alt"></i> Download</button>
-        <button class="btn btn-primary mb-2"><i class="fa fa-print"></i> Manual</button>
+        <button class="btn btn-warning mb-2 mr-1" @click.prevent="generateCode"><i class="fa fa-redo-alt"></i> Regenerieren</button>
+        <button class="btn btn-success mb-2 mr-1" @click.prevent="downloadCode" v-if="value"><i class="fa fa-mobile-alt"></i> Herunterladen</button>
+        <button class="btn btn-primary mb-2"><i class="fa fa-print"></i> Druckansicht</button>
       </div>
     </div>
   </div>

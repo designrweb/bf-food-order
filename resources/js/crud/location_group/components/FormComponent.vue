@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Location Group: ' + form.name : 'Create Location Group' }}</h3>
+            <h3 class="card-title">{{ form.id ? title + form.name : title }}</h3>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
           </b-form-group>
           <b-form-group
               id="input-group-location_id"
-              label="Location"
+              label="Einrichtung"
               label-for="input-location_id"
           >
             <b-form-select
@@ -49,7 +49,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>
@@ -70,6 +70,7 @@ export default {
     main_route:     String,
     locations_list: Array,
     id:             String | Number,
+    title:          String
   },
   data() {
     return {

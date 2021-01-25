@@ -133,7 +133,7 @@ class FinancialReportCsv extends FinancialReportComponent
     protected function storeAndSendCsv()
     {
         $directory = storage_path('app/files/reports/');
-        $filename  = __('reports.financial_exports') . ".csv";
+        $filename  = __('reports.Financial Export') . ".csv";
         $file = $directory . $filename;
 
         if (!is_dir($directory)) {

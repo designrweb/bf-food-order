@@ -2,6 +2,7 @@
 
 return [
     'financial_exports'      => 'Finanz-Export',
+    'Financial Export'       => 'Finanz-Export',
     'Generate report'        => 'Bericht generieren',
     'Full Service Providing' => 'Full-Service-Bereitstellung',
     'Incoming transactions'  => 'Eingehende Transaktionen',

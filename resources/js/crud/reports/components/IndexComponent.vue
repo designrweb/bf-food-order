@@ -5,7 +5,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">Financial Exports</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
 
           <b-form-group
               id="input-group-start_date"
-              label="Start Date"
+              label="Startdatum"
               label-for="input-start_date"
           >
             <b-form-datepicker
@@ -36,7 +36,7 @@
 
           <b-form-group
               id="input-group-end_date"
-              label="End Date"
+              label="Enddatum"
               label-for="input-end_date"
           >
             <b-form-datepicker
@@ -53,7 +53,7 @@
 
           <b-form-group
               id="input-group-location_id"
-              label="Location Id"
+              label="Einrichtung"
               label-for="input-location_id"
           >
             <b-form-select
@@ -98,6 +98,7 @@ export default {
   props:      {
     main_route:     String,
     locations_list: Array,
+    title: String
   },
   data() {
     return {

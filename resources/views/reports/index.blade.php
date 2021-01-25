@@ -5,6 +5,7 @@
         <grid-index
             :main_route="'reports'"
             :locations_list="{{json_encode($locationsList)}}"
+            title="@lang('report.Financial Export')"
         ></grid-index>
     </div>
 @endsection

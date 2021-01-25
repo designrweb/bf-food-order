@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Consumer: ' + form.firstname : 'Create Consumer' }}</h3>
+            <h3 class="card-title">{{ form.id ? title + form.firstname : title }}</h3>
           </div>
         </div>
       </div>
@@ -29,14 +29,14 @@
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-8">
               <b-form-group
                   id="input-group-account_id"
-                  label="Account Id"
+                  label="Kundennummer"
                   label-for="input-account_id"
               >
                 <b-form-input
                     id="input-account_id"
                     v-model="form.account_id"
                     disabled
-                    placeholder="Account Id"
+                    placeholder="Kundennummer"
                     autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['account_id']['state']">
@@ -45,13 +45,13 @@
               </b-form-group>
               <b-form-group
                   id="input-group-firstname"
-                  label="First name"
+                  label="Vorname"
                   label-for="input-firstname"
               >
                 <b-form-input
                     id="input-firstname"
                     v-model="form.firstname"
-                    placeholder="Firstname"
+                    placeholder="Vorname"
                     autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['firstname']['state']">
@@ -61,13 +61,13 @@
 
               <b-form-group
                   id="input-group-lastname"
-                  label="Last name"
+                  label="Nachname"
                   label-for="input-lastname"
               >
                 <b-form-input
                     id="input-lastname"
                     v-model="form.lastname"
-                    placeholder="Lastname"
+                    placeholder="Nachname"
                     autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['lastname']['state']">
@@ -77,7 +77,7 @@
 
               <b-form-group
                   id="input-group-birthday"
-                  label="Birthday"
+                  label="Geburtstag"
                   label-for="input-birthday"
               >
                 <date-picker
@@ -94,13 +94,13 @@
 
               <b-form-group
                   id="input-group-balance"
-                  label="Balance"
+                  label="Guthaben"
                   label-for="input-balance"
               >
                 <b-form-input
                     id="input-balance"
                     v-model="form.balance"
-                    placeholder="Balance"
+                    placeholder="Guthaben"
                     autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance']['state']">
@@ -110,7 +110,7 @@
 
               <b-form-group
                   id="input-group-location_id"
-                  label="Location Group"
+                  label="Klasse"
                   label-for="input-location_id"
               >
                 <b-form-select
@@ -133,20 +133,20 @@
             <div class="card-header">
               <div class="row">
                 <div class="col-12 col-sm-8">
-                  <h3 class="card-title">Payment information</h3>
+                  <h3 class="card-title">{{ subsidizationTitle }}</h3>
                 </div>
               </div>
             </div>
             <div class="card-body">
               <b-form-group
                   id="input-group-balance_limit"
-                  label="Balance Limit"
+                  label="Guthaben Grenze"
                   label-for="input-balance_limit"
               >
                 <b-form-input
                     id="input-balance_limit"
                     v-model="form.balance_limit"
-                    placeholder="Balance Limit"
+                    placeholder="Guthaben Grenze"
                     autocomplete="off"
                 ></b-form-input>
                 <b-form-invalid-feedback :state="validation['balance_limit']['state']">
@@ -156,7 +156,7 @@
 
               <b-form-group
                   id="input-location_id"
-                  label="Organization name"
+                  label="Name der Organisation"
                   label-for="input-location_id"
               >
                 <b-form-select
@@ -175,7 +175,7 @@
 
               <b-form-group
                   id="input-subsidization_rule_id"
-                  label="Subsidization Rule"
+                  label="Subventionierungsregel"
                   label-for="input-subsidization_rule_id"
               >
                 <b-form-select
@@ -193,7 +193,7 @@
 
               <b-form-group
                   id="input-group-subsidization_start_date"
-                  label="Subsidization Start Date"
+                  label="Beginn Subventionsdatum"
                   label-for="input-subsidization_start_date"
               >
                 <b-form-datepicker
@@ -212,7 +212,7 @@
 
               <b-form-group
                   id="input-group-subsidization_end_date"
-                  label="Subsidization End Date"
+                  label="Ende Subventionsdatum"
                   label-for="input-subsidization_end_date"
               >
                 <b-form-datepicker
@@ -231,15 +231,15 @@
 
               <b-form-group
                   id="input-group-subsidization_document"
-                  label="Subsidization Document"
+                  label="Subventionsnachweis"
                   label-for="input-subsidization_document"
               >
                 <b-form-file
                     accept=".pdf"
                     v-model="form.subsidization.subsidization_document"
-                    :placeholder="(form.subsidization.subsidization_document ? form.subsidization.subsidization_document : 'Choose a file or drop it here...')"
+                    :placeholder="(form.subsidization.subsidization_document ? form.subsidization.subsidization_document : 'Wählen Sie eine Datei oder legen Sie sie hier ab ...')"
                     @change="change"
-                    drop-placeholder="Drop file here..."
+                    drop-placeholder="Datei hier ablegen ..."
                 ></b-form-file>
                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_document']['state']">
                   {{ validation['subsidization.subsidization_document']['message'] }}
@@ -248,7 +248,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
@@ -284,6 +284,8 @@ export default {
     location_group_list:             Array,
     subsidization_organization_list: Array,
     id:                              String | Number,
+    title:                           String,
+    subsidizationTitle:              String,
   },
   data() {
     return {

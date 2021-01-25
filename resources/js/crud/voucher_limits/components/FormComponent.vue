@@ -33,14 +33,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-menu_category_id"
-    label="Menu Category Id"
+    label="Menülinie"
     label-for="input-menu_category_id"
 >
     <b-form-input
         id="input-menu_category_id"
         v-model="form.menu_category_id"
         required
-        placeholder="Menu Category Id"
+        placeholder="Menülinie"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['menu_category_id']['state']">
         {{validation['menu_category_id']['message']}}
@@ -48,14 +48,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-weekday"
-    label="Weekday"
+    label="Wochentag"
     label-for="input-weekday"
 >
     <b-form-input
         id="input-weekday"
         v-model="form.weekday"
         required
-        placeholder="Weekday"
+        placeholder="Wochentag"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['weekday']['state']">
         {{validation['weekday']['message']}}
@@ -63,21 +63,21 @@
 </b-form-group>
 <b-form-group
     id="input-group-percentage"
-    label="Percentage"
+    label="Prozentsatz"
     label-for="input-percentage"
 >
     <b-form-input
         id="input-percentage"
         v-model="form.percentage"
         required
-        placeholder="Percentage"
+        placeholder="Prozentsatz"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['percentage']['state']">
         {{validation['percentage']['message']}}
     </b-form-invalid-feedback>
 </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>

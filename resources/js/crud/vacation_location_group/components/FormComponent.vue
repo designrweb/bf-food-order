@@ -33,14 +33,14 @@
 </b-form-group>
 <b-form-group
     id="input-group-vacation_id"
-    label="Vacation Id"
+    label="Schulfreie Zeit"
     label-for="input-vacation_id"
 >
     <b-form-input
         id="input-vacation_id"
         v-model="form.vacation_id"
         required
-        placeholder="Vacation Id"
+        placeholder="Schulfreie Zeit"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['vacation_id']['state']">
         {{validation['vacation_id']['message']}}
@@ -48,21 +48,21 @@
 </b-form-group>
 <b-form-group
     id="input-group-location_group_id"
-    label="Location Group Id"
+    label="Klasse"
     label-for="input-location_group_id"
 >
     <b-form-input
         id="input-location_group_id"
         v-model="form.location_group_id"
         required
-        placeholder="Location Group Id"
+        placeholder="Klasse"
     ></b-form-input>
     <b-form-invalid-feedback :state="validation['location_group_id']['state']">
         {{validation['location_group_id']['message']}}
     </b-form-invalid-feedback>
 </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
+                    <b-button type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>

@@ -101,23 +101,23 @@ class VacationService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'start_date',
-                'label' => 'Date From'
+                'label' => __('app.Date From')
             ],
             [
                 'key'   => 'end_date',
-                'label' => 'Date To'
+                'label' => __('app.Date To')
             ],
             [
                 'key'   => 'location_name',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'location_group_name',
-                'label' => 'Group'
+                'label' => __('location-group.Group')
             ],
         ];
     }
@@ -135,23 +135,23 @@ class VacationService extends BaseModelService
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'start_date',
-                'label' => 'Date From'
+                'label' => __('app.Date From')
             ],
             [
                 'key'   => 'end_date',
-                'label' => 'Date To'
+                'label' => __('app.Date To')
             ],
             [
                 'key'   => 'location_name',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'location_group_name',
-                'label' => 'Group'
+                'label' => __('location-group.Group')
             ],
         ];
     }
