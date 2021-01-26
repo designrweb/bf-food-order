@@ -16,6 +16,48 @@ class LocationControllerTest extends TestCase
     use WithoutMiddleware;
 
     /** @test */
+    public function index_returns_view()
+    {
+        $response = $this->get(route('locations.index'));
+
+        $response->assertOk();
+        $response->assertViewIs('locations.index');
+    }
+
+    /** @test */
+    public function create_returns_view()
+    {
+        $response = $this->get(route('locations.create'));
+
+        $response->assertOk();
+        $response->assertViewIs('locations._form');
+    }
+
+    /** @test */
+    public function show_returns_view()
+    {
+        $location = create(Location::class);
+
+        $response = $this->get(route('locations.show', $location));
+
+        $response->assertOk();
+        $response->assertViewIs('locations.view');
+        $response->assertViewHas('resource', $location);
+    }
+
+    /** @test */
+    public function edit_returns_view()
+    {
+        $location = create(Location::class);
+
+        $response = $this->get(route('locations.edit', $location));
+
+        $response->assertOk();
+        $response->assertViewIs('locations._form');
+        $response->assertViewHas('resource', $location);
+    }
+
+    /** @test */
     public function it_returns_index_location_structure()
     {
         $response = $this->get('/admin/locations/get-structure');
