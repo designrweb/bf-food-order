@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Company;
+use App\Order;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 /**
  * @group controller
  */
-class CompanyControllerTest extends TestCase
+class DeliveryPlanningControllerTest extends TestCase
 {
     // todo remove and interact as admin
     use WithoutMiddleware;
@@ -17,43 +17,43 @@ class CompanyControllerTest extends TestCase
     /** @test */
     public function index_returns_view()
     {
-        $response = $this->get(route('companies.index'));
+        $response = $this->get(route('delivery-planning.index'));
 
         $response->assertOk();
-        $response->assertViewIs('companies.index');
+        $response->assertViewIs('delivery_planning.index');
     }
 
     /** @test */
     public function create_returns_view()
     {
-        $response = $this->get(route('companies.create'));
+        $response = $this->get(route('delivery-planning.create'));
 
         $response->assertOk();
-        $response->assertViewIs('companies._form');
+        $response->assertViewIs('delivery_planning._form');
     }
 
     /** @test */
     public function show_returns_view()
     {
-        $company = create(Company::class);
+        $order = create(Order::class);
 
-        $response = $this->get(route('companies.show', $company));
+        $response = $this->get(route('delivery-planning.show', $order));
 
         $response->assertOk();
-        $response->assertViewIs('companies.view');
-        $response->assertViewHas('resource', $company);
+        $response->assertViewIs('delivery_planning.view');
+        $response->assertViewHas('resource', $order);
     }
 
     /** @test */
     public function edit_returns_view()
     {
-        $company = create(Company::class);
+        $order = create(Order::class);
 
-        $response = $this->get(route('companies.edit', $company));
+        $response = $this->get(route('delivery-planning.edit', $order));
 
         $response->assertOk();
-        $response->assertViewIs('companies._form');
-        $response->assertViewHas('resource', $company);
+        $response->assertViewIs('delivery_planning._form');
+        $response->assertViewHas('resource', $order);
     }
 
     // todo add other methods

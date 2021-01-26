@@ -5,6 +5,9 @@ namespace Tests\Feature\Http\Controllers\Auth;
 use App\User;
 use Tests\TestCase;
 
+/**
+ * @group controller
+ */
 class LoginControllerTest extends TestCase
 {
     /** @test */
