@@ -61,31 +61,31 @@ class MealOrderService extends BaseModelService
         return [
             [
                 'key'   => 'consumer_account',
-                'label' => ucwords('account')
+                'label' => __('consumer.Account')
             ],
             [
                 'key'   => 'user_email',
-                'label' => ucwords('user email')
+                'label' => __('user.Email')
             ],
             [
                 'key'   => 'amount_locale',
-                'label' => ucwords('amount')
+                'label' => __('app.Amount')
             ],
             [
                 'key'   => 'comment',
-                'label' => ucwords('comment')
+                'label' => __('app.Comment')
             ],
             [
                 'key'   => 'is_subsidized',
-                'label' => ucwords('is subsidized')
+                'label' => __('subsidization.Is subsidized')
             ],
             [
                 'key'   => 'created_at_human',
-                'label' => ucwords('created at')
+                'label' => __('app.Created St')
             ],
             [
                 'key'   => 'day_human',
-                'label' => ucwords('day')
+                'label' => __('app.Day')
             ],
         ];
     }

@@ -61,23 +61,23 @@ class BankTransactionService extends BaseModelService
         return [
             [
                 'key'   => 'consumer_account',
-                'label' => ucwords('account')
+                'label' => __('consumer.Account')
             ],
             [
                 'key'   => 'user_email',
-                'label' => ucwords('user email')
+                'label' => __('user.Email')
             ],
             [
                 'key'   => 'amount_locale',
-                'label' => ucwords('amount')
+                'label' => __('consumer.Amount')
             ],
             [
                 'key'   => 'comment',
-                'label' => ucwords('comment')
+                'label' => __('app.Comment')
             ],
             [
                 'key'   => 'created_at_human',
-                'label' => ucwords('created at')
+                'label' => __('app.Created At')
             ],
         ];
     }

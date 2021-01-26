@@ -156,15 +156,15 @@ class LocationGroupService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'location_id',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'number_of_students',
-                'label' => 'Number of students'
+                'label' => __('location-group.Number of students')
             ],
         ];
     }
@@ -182,15 +182,15 @@ class LocationGroupService extends BaseModelService
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'location_id',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'number_of_students',
-                'label' => 'Number of students'
+                'label' => __('location-group.Number of students')
             ],
         ];
     }

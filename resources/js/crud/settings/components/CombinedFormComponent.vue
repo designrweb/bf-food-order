@@ -4,7 +4,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">Settings</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-8">
               <b-form-group
                   id="input-group-email-value"
-                  label="Subsidization Support Email"
+                  label="E-Mail zur Unterstützung der Subventionierung"
                   label-for="input-email-value"
               >
                 <b-form-input
@@ -47,7 +47,7 @@
                 <div class="col-lg-6">
                   <b-form-group
                       id="input-sidebar_theme_color-value"
-                      label="Company Sidebar Color "
+                      label="Farbe der Seitenleiste des Unternehmens "
                       label-for="input-color-value"
                   >
                     <div class="row">
@@ -57,7 +57,7 @@
                             type="color"
                             v-model="form.sidebar_theme_color"
                             required
-                            placeholder="Value"
+                            placeholder="Wert"
                         ></b-form-input>
                       </div>
                       <div class="col-lg-1">
@@ -74,7 +74,7 @@
                 <div class="col-lg-6">
                   <b-form-group
                       id="input-theme_color-group"
-                      label="Company Color"
+                      label="Firmenfarbe"
                       label-for="input-color-value"
                   >
                     <div class="row">
@@ -84,7 +84,7 @@
                             type="color"
                             v-model="form.theme_color"
                             required
-                            placeholder="Value"
+                            placeholder="Wert"
                         ></b-form-input>
                       </div>
                       <div class="col-lg-1">
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="mt-4">
-            <b-button type="submit" class="float-right" variant="primary">Submit</b-button>
+            <b-button type="submit" class="float-right" variant="primary">Einreichen</b-button>
           </div>
         </b-form>
       </div>
@@ -131,6 +131,7 @@ export default {
   },
   props:      {
     main_route: String,
+    title: String
   },
   data() {
     return {

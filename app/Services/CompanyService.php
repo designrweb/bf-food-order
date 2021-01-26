@@ -109,21 +109,20 @@ class CompanyService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('location-group.Group Name')
             ],
             [
                 'key'   => 'zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'street',
-                'label' => 'Street'
+                'label' => __('app.Street')
             ],
             [
                 'key'   => 'city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
-
         ];
     }
 
@@ -136,23 +135,23 @@ class CompanyService extends BaseModelService
         return [
             [
                 'key'   => 'id',
-                'label' => 'Id'
+                'label' => __('app.Id')
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('location-group.Group Name')
             ],
             [
                 'key'   => 'zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'street',
-                'label' => 'Street'
+                'label' => __('app.Street')
             ],
             [
                 'key'   => 'city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
         ];
     }

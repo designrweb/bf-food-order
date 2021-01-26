@@ -2,7 +2,10 @@
 
 @section('content')
     <div id="grid-combined-form-page">
-        <grid-combined-form :main_route="'/admin/settings'"></grid-combined-form>
+        <grid-combined-form
+            :main_route="'/admin/settings'"
+            title="@lang('setting.Settings')"
+        ></grid-combined-form>
     </div>
 @endsection
 

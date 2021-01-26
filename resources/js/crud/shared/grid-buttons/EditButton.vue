@@ -1,7 +1,7 @@
 <template>
   <a :class="[isIcon ? 'btn btn-sm btn-warning m-1' : 'btn btn-warning m-1']" :href="mainRoute+'/'+id+'/edit'">
     <b-icon icon="pencil-fill" v-if="isIcon"></b-icon>
-    <span v-else>Update</span>
+    <span v-else>Aktualisieren</span>
   </a>
 </template>
 <script>

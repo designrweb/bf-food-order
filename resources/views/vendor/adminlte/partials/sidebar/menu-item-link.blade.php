@@ -9,7 +9,7 @@
         }}"></i>
 
         <p>
-            {{ $item['text'] }}
+            {{ __('sidebar-menu.' . $item['text']) }}
 
             @if(isset($item['label']))
                 <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} right">

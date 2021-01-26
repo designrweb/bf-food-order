@@ -33,7 +33,7 @@
       <div class="card-footer">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-sub-title">Subsidization report</h4>
+            <h4 class="card-sub-title">Subventionsbericht</h4>
           </div>
 
           <div class="card-body">
@@ -44,7 +44,7 @@
             <b-form @submit="onSubmit" @reset="onReset" v-if="!isReportBusy">
               <b-form-group
                   id="input-group-pre-order-report-start-date"
-                  label="Start Date"
+                  label="Startdatum"
                   label-for="input-pre-order-report-start-date"
               >
                 <b-form-datepicker
@@ -61,7 +61,7 @@
 
               <b-form-group
                   id="input-group-pre-order-report-end-date"
-                  label="End Date"
+                  label="Enddatum"
                   label-for="input-pre-order-report-end-date"
               >
                 <b-form-datepicker
@@ -78,7 +78,7 @@
 
               <b-form-group
                   id="input-group-report_type_id"
-                  label="Report type"
+                  label="Berichtstyp"
                   label-for="input-report_type_id"
               >
                 <b-form-select

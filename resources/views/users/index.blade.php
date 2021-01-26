@@ -2,7 +2,10 @@
 
 @section('content')
     <div id="grid-index-page">
-        <grid-index :main_route="'/admin/users'"></grid-index>
+        <grid-index
+            :main_route="'/admin/users'"
+            title="@lang('user.Administrators')"
+        ></grid-index>
     </div>
 @endsection
 

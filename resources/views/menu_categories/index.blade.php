@@ -2,7 +2,10 @@
 
 @section('content')
     <div id="grid-index-page">
-        <grid-index :main_route="'/admin/menu-categories'"></grid-index>
+        <grid-index
+            :main_route="'/admin/menu-categories'"
+            title="@lang('menu-category.Menu Categories')"
+        ></grid-index>
     </div>
 @endsection
 

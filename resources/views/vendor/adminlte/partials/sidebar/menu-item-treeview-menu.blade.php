@@ -9,7 +9,7 @@
         }}"></i>
 
         <p>
-            {{ $item['text'] }}
+            {{ __('sidebar-menu.' . $item['text']) }}
             <i class="fas fa-angle-left right"></i>
 
             @if(isset($item['label']))

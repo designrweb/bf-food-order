@@ -6,7 +6,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Setting: ' + form.setting_name : 'Create Setting' }}</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
         <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
           <b-form-group
               id="input-group-setting_name"
-              label="Setting Name"
+              label="Einstellung Name"
               label-for="input-setting_name"
           >
             <b-form-input
@@ -26,7 +26,7 @@
                 v-model="form.setting_name"
                 :disabled="Boolean(form.id)"
                 required
-                placeholder="Setting Name"
+                placeholder="Einstellung Name"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['setting_name']['state']">
               {{ validation['setting_name']['message'] }}
@@ -34,14 +34,14 @@
           </b-form-group>
           <b-form-group
               id="input-group-visible_name"
-              label="Visible Name"
+              label="Sichtbarer Name"
               label-for="input-visible_name"
           >
             <b-form-input
                 id="input-visible_name"
                 v-model="form.visible_name"
                 required
-                placeholder="Visible Name"
+                placeholder="Sichtbarer Name"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['visible_name']['state']">
               {{ validation['visible_name']['message'] }}
@@ -49,21 +49,21 @@
           </b-form-group>
           <b-form-group
               id="input-group-value"
-              label="Value"
+              label="Wert"
               label-for="input-value"
           >
             <b-form-input
                 id="input-value"
                 v-model="form.value"
                 required
-                placeholder="Value"
+                placeholder="Wert"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['value']['state']">
               {{ validation['value']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>
@@ -83,6 +83,7 @@ export default {
   props:      {
     main_route: String,
     id:         String | Number,
+    title: String
   },
   data() {
     return {

@@ -16,7 +16,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? 'Update Vacation: ' + form.name : 'Create Vacation' }}</h3>
+            <h3 class="card-title">{{ form.id ? ': ' + form.name : '' }}</h3>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
 
           <b-form-group
               id="input-group-start_date"
-              label="Start Date"
+              label="Startdatum"
               label-for="input-start_date"
           >
             <b-form-datepicker
@@ -63,7 +63,7 @@
 
           <b-form-group
               id="input-group-end_date"
-              label="End Date"
+              label="Enddatum"
               label-for="input-end_date"
           >
             <b-form-datepicker
@@ -82,7 +82,7 @@
 
           <b-form-group
               id="input-location_id"
-              label="Location"
+              label="Einrichtung"
               label-for="input-location_id"
           >
             <b-form-select
@@ -101,7 +101,7 @@
 
           <b-form-group
               id="input-location_group_id"
-              label="Location Group"
+              label="Klasse"
               label-for="input-location_id"
           >
             <b-form-select
@@ -118,7 +118,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
 
 

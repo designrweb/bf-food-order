@@ -18,8 +18,8 @@
         <img slot="placeholder" src="/image/placeholder.png"/>
       </croppa>
       <div class="btn-group">
-        <button type="button" class="btn btn-warning mt-1 mr-5" v-if="imageBase64" @click="rotateImage">Rotate</button>
-        <button type="button" class="btn btn-success mt-1" v-if="imageBase64 && entityId" @click="uploadImage">Upload Image</button>
+        <button type="button" class="btn btn-warning mt-1 mr-5" v-if="imageBase64" @click="rotateImage">Drehen</button>
+        <button type="button" class="btn btn-success mt-1" v-if="imageBase64 && entityId" @click="uploadImage">Bild hochladen</button>
       </div>
     </div>
   </div>

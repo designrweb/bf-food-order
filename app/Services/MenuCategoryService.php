@@ -119,27 +119,27 @@ class MenuCategoryService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('menu-category.Name')
             ],
             [
                 'key'   => 'category_order',
-                'label' => 'Category Order'
+                'label' => __('menu-category.Category Order')
             ],
             [
                 'key'   => 'presaleprice_locale',
-                'label' => 'Presale Price'
+                'label' => __('menu-category.Presale Price')
             ],
             [
                 'key'   => 'price_locale',
-                'label' => 'Price'
+                'label' => __('menu-category.Price')
             ],
             [
                 'key'   => 'created_at',
-                'label' => 'Created At'
+                'label' => __('app.Created At')
             ],
             [
                 'key'   => 'updated_at',
-                'label' => 'Updated At'
+                'label' => __('app.Updated At')
             ],
         ];
     }
@@ -153,19 +153,19 @@ class MenuCategoryService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('menu-category.Name')
             ],
             [
                 'key'   => 'category_order',
-                'label' => 'Category Order'
+                'label' => __('menu-category.Category Order')
             ],
             [
                 'key'   => 'presaleprice_locale',
-                'label' => 'Presale Price'
+                'label' => __('menu-category.Presale Price')
             ],
             [
                 'key'   => 'price_locale',
-                'label' => 'Price'
+                'label' => __('menu-category.Price')
             ]
         ];
     }

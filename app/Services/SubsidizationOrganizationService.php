@@ -106,23 +106,23 @@ class SubsidizationOrganizationService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
             [
                 'key'   => 'street',
-                'label' => 'Street'
+                'label' => __('app.Street')
             ],
             [
                 'key'   => 'company.name',
-                'label' => 'Company'
+                'label' => __('company.Company')
             ],
         ];
     }
@@ -140,23 +140,23 @@ class SubsidizationOrganizationService extends BaseModelService
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
             [
                 'key'   => 'street',
-                'label' => 'Street'
+                'label' => __('app.Street')
             ],
             [
                 'key'   => 'company.name',
-                'label' => 'Company'
+                'label' => __('company.Company')
             ],
         ];
     }

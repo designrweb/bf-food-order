@@ -13,12 +13,16 @@
                     :id="{{$resource['id']}}"
                     :location_group_list="{{json_encode($resource['locationGroupList'])}}"
                     :subsidization_organization_list="{{json_encode($resource['subsidizationOrganizationList'])}}"
+                    title="@lang('consumer.Update Consumer: ')"
+                    subsidizationTitle="@lang('subsidization.Subsidization information')"
             ></grid-form>
         @else
             <grid-form
                     :main_route="'/admin/consumers'"
                     :location_group_list="{{json_encode($locationGroupList)}}"
                     :subsidization_organization_list="{{json_encode($subsidizationOrganizationList)}}"
+                    title="@lang('consumer.Create Consumer')"
+                    subsidizationTitle="@lang('subsidization.Subsidization information')"
             ></grid-form>
         @endif
     </div>

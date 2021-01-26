@@ -188,19 +188,23 @@ class LocationService extends BaseModelService
         return [
             [
                 'key'   => 'image_name',
-                'label' => ''
+                'label' => __('app.Image Name')
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'street',
-                'label' => 'Street'
+                'label' => __('app.Street')
+            ],
+            [
+                'key'   => 'city',
+                'label' => __('app.City')
             ],
             [
                 'key'   => 'zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'city',
@@ -208,7 +212,7 @@ class LocationService extends BaseModelService
             ],
             [
                 'key'   => 'email',
-                'label' => 'Email'
+                'label' => __('app.Email')
             ],
             [
                 'key'   => 'company.name',
@@ -230,11 +234,11 @@ class LocationService extends BaseModelService
             ],
             [
                 'key'   => 'image_name',
-                'label' => 'Image Name'
+                'label' => __('app.Image')
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
         ];
     }

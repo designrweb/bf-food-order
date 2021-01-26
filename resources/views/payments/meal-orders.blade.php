@@ -4,7 +4,7 @@
   <div id="meal-orders-page">
     <meal-orders
         :main_route="'/admin/payments/meal-orders'"
-        title="Meal Orders"
+        title="@lang('payment.Meal Orders')"
     ></meal-orders>
   </div>
 @endsection

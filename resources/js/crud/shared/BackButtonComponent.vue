@@ -3,7 +3,7 @@
         <div class="col-12">
             <a :href="route" class="sortable">
                 <b-icon icon="arrow-left-square-fill" font-scale="1.5"></b-icon>
-                &nbsp Go back</a>
+                &nbsp Geh zurück</a>
         </div>
     </div>
 </template>

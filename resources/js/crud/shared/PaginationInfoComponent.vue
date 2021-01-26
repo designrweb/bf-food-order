@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="summary">Showing <b>{{ firstItem ? firstItem : 0 }}-{{ lastItems ? lastItems : 0 }}</b> of <b>{{ totalItems }}</b> items.</span>
+    <span class="summary">Zeige <b>{{ firstItem ? firstItem : 0 }}-{{ lastItems ? lastItems : 0 }}</b> von <b>{{ totalItems }}</b> Artikeln.</span>
   </div>
 </template>
 

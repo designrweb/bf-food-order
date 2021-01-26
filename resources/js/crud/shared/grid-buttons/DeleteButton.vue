@@ -2,7 +2,7 @@
   <div class="d-inline">
     <button :class="[isIcon ? 'btn btn-sm btn-danger m-1' : 'btn btn-danger m-1']" @click="onButtonClick">
       <b-icon icon="trash-fill" v-if="isIcon"></b-icon>
-      <span v-else>Delete</span>
+      <span v-else>Löschen</span>
     </button>
     <b-overlay :show="busy" no-wrap :fixed="true" :z-index="1135">
       <template v-slot:overlay>
@@ -11,10 +11,10 @@
              ref="dialog"
              class="text-center p-3 border border-info">
           <p>
-            <strong id="form-confirm-label">Are you sure?</strong>
+            <strong id="form-confirm-label">Sind Sie sicher?</strong>
           </p>
           <div class="d-flex">
-            <b-button variant="outline-danger" class="mr-3" @click="onCancel">Cancel</b-button>
+            <b-button variant="outline-danger" class="mr-3" @click="onCancel">Stornieren</b-button>
             <b-button variant="outline-success" @click="onOK">OK</b-button>
           </div>
         </div>

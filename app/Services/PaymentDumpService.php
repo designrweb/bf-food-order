@@ -266,23 +266,23 @@ class PaymentDumpService extends BaseModelService
         return [
             [
                 'key'   => 'file_name',
-                'label' => 'File Name'
+                'label' => __('payment-dump.File Name')
             ],
             [
                 'key'   => 'status',
-                'label' => 'Status'
+                'label' => __('app.Status')
             ],
             [
                 'key'   => 'requested_at',
-                'label' => 'Requested At'
+                'label' => __('payment-dump.Requested At')
             ],
             [
                 'key'   => 'created_at',
-                'label' => 'Uploaded At'
+                'label' => __('payment-dump.Uploaded At')
             ],
             [
                 'key'   => 'updated_at',
-                'label' => 'Processed At'
+                'label' => __('payment-dump.Processed At')
             ],
         ];
     }

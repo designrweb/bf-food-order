@@ -107,35 +107,35 @@ class UserService extends BaseModelService
         return [
             [
                 'key'   => 'email',
-                'label' => 'Email'
+                'label' => __('app.Email')
             ],
             [
                 'key'   => 'user_info.first_name',
-                'label' => 'First Name'
+                'label' => __('user.First Name')
             ],
             [
                 'key'   => 'user_info.last_name',
-                'label' => 'Last Name'
+                'label' => __('user.Last Name')
             ],
             [
                 'key'   => 'salutation_name',
-                'label' => 'Salutation'
+                'label' => __('user.Salutation')
             ],
             [
                 'key'   => 'role_name',
-                'label' => 'Access level'
+                'label' => __('user.Access level')
             ],
             [
                 'key'   => 'user_info.zip',
-                'label' => 'Zip'
+                'label' => __('app.Zip')
             ],
             [
                 'key'   => 'user_info.city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
             [
                 'key'   => 'user_info.street',
-                'label' => 'Street'
+                'label' => __('app.Street')
             ]
         ];
     }
@@ -153,19 +153,19 @@ class UserService extends BaseModelService
             ],
             [
                 'key'   => 'email',
-                'label' => 'Email'
+                'label' => __('app.Email')
             ],
             [
                 'key'   => 'location.name',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'company.name',
-                'label' => 'Company'
+                'label' => __('company.Company')
             ],
             [
                 'key'   => 'role',
-                'label' => 'Access level'
+                'label' => __('user.Access level')
             ]
         ];
     }

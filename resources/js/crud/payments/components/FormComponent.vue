@@ -5,7 +5,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-subtitle">{{ form.id ? 'Update Payment: ' + form.id : 'Add Payment' }}</h3>
+            <h3 class="card-subtitle">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -16,14 +16,14 @@
         <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
           <b-form-group
               id="input-group-consumer_id"
-              label="Consumer Id"
+              label="Essensteilnehmer"
               label-for="input-consumer_id"
           >
             <b-form-select
                 id="input-consumer_id"
                 v-model="form.consumer_id"
                 required
-                placeholder="Consumer Id"
+                placeholder="Essensteilnehmer"
                 :options="consumers_list"
                 class="mb-3"
                 value-field="id"
@@ -37,7 +37,7 @@
 
           <b-form-group
               id="input-group-amount"
-              label="Amount"
+              label="Betrag"
               label-for="input-amount"
           >
             <b-form-input
@@ -46,7 +46,7 @@
                 :disabled="form.id"
                 required
                 @keypress="isFloat($event)"
-                placeholder="Amount"
+                placeholder="Betrag"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['amount_locale']['state']">
               {{ validation['amount_locale']['message'] }}
@@ -55,7 +55,7 @@
 
           <b-form-group
               id="input-group-comment"
-              label="Comment"
+              label="Kommentar"
               label-for="input-comment"
           >
             <b-form-input
@@ -63,13 +63,13 @@
                 v-model="form.comment"
                 :disabled="form.id"
                 required
-                placeholder="Comment"
+                placeholder="Kommentar"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['comment']['state']">
               {{ validation['comment']['message'] }}
             </b-form-invalid-feedback>
           </b-form-group>
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>
@@ -90,6 +90,7 @@ export default {
     main_route:     String,
     consumers_list: Array,
     id:             String | Number,
+    title:          String
   },
   data() {
     return {

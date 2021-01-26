@@ -135,23 +135,23 @@ class DeliveryPlanningService extends BaseModelService
         return [
             [
                 'key'   => 'location_name',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'date',
-                'label' => 'Date'
+                'label' => __('app.Date')
             ],
             [
                 'key'   => 'menu_category_name',
-                'label' => 'Menu Category'
+                'label' => __('menu-category.Menu Category')
             ],
             [
                 'key'   => 'amount',
-                'label' => 'Amount'
+                'label' => __('consumer.Amount')
             ],
             [
                 'key'   => 'voucher_percentage',
-                'label' => 'Voucher Limits'
+                'label' => __('voucher-limits.Voucher Limits')
             ],
         ];
     }

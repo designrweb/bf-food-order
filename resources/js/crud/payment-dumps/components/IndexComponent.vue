@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header" v-if="!isPageBusy">
-      <h3 class="card-title">Payment Dumps</h3>
+      <h3 class="card-title">{{ title }}</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
     <div class="card-body">
@@ -11,8 +11,8 @@
               v-model="form.file"
               :state="isValidFile"
               accept=".xls, .csv"
-              placeholder="choose file..."
-              drop-placeholder="drop file..."
+              placeholder="Datei wählen..."
+              drop-placeholder="Datei hier ablegen ..."
               @change="change"
           ></b-form-file>
           <b-form-invalid-feedback :state="validation['file']['state']">
@@ -20,7 +20,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group>
-          <b-button type="submit" variant="success">Upload</b-button>
+          <b-button type="submit" variant="success">Hochladen</b-button>
         </b-form-group>
       </b-form>
       <div class="card-header bg-light">
@@ -138,7 +138,8 @@ export default {
     'pagination-into-component': PaginationInfoComponent,
   },
   props:      {
-    main_route: String
+    main_route: String,
+    title: String
   },
   data() {
     return {

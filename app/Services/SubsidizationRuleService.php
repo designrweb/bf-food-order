@@ -119,19 +119,19 @@ class SubsidizationRuleService extends BaseModelService
         return [
             [
                 'key'   => 'rule_name',
-                'label' => 'Rule Name'
+                'label' => __('subsidization.Rule Name')
             ],
             [
                 'key'   => 'subsidization_organization.name',
-                'label' => 'Subsidization Organization'
+                'label' => __('subsidization.Subsidization Organization')
             ],
             [
                 'key'   => 'start_date',
-                'label' => 'Start Date'
+                'label' => __('app.Start Date')
             ],
             [
                 'key'   => 'end_date',
-                'label' => 'End Date'
+                'label' => __('app.End Date')
             ],
         ];
     }
@@ -149,19 +149,19 @@ class SubsidizationRuleService extends BaseModelService
             ],
             [
                 'key'   => 'rule_name',
-                'label' => 'Rule Name'
+                'label' => __('subsidization.Rule Name')
             ],
             [
                 'key'   => 'subsidization_organization.name',
-                'label' => 'Subsidization Organization'
+                'label' => __('subsidization.Subsidization Organization')
             ],
             [
                 'key'   => 'start_date',
-                'label' => 'Start Date'
+                'label' => __('app.Start Date')
             ],
             [
                 'key'   => 'end_date',
-                'label' => 'End Date'
+                'label' => __('app.End Date')
             ],
         ];
     }
