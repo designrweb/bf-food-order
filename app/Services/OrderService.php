@@ -134,7 +134,7 @@ class OrderService extends BaseModelService
         return [
             [
                 'key'   => 'consumer.full_name',
-                'label' => 'Child Full Name'
+                'label' => __('order.Child Full Name')
             ],
             [
                 'key'   => 'menu_item.name',
