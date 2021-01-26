@@ -1,5 +1,5 @@
 <template>
-  <a :class="[isIcon ? 'btn btn-sm btn-success m-1' : 'btn btn-success m-1']" :href="mainRoute+'/'+id+'/replicate'">
+  <a :class="[isIcon ? 'btn btn-sm btn-info m-1' : 'btn btn-info m-1']" :href="mainRoute+'/'+id+'/replicate'">
     <b-icon icon="files" v-if="isIcon"></b-icon>
     <span v-else>Copy</span>
   </a>

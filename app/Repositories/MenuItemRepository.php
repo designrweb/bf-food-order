@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\MenuItemCollection;
-use App\Http\Resources\MenuItemResource;
 use App\MenuItem;
 use App\QueryBuilders\MenuItemSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -20,40 +18,40 @@ class MenuItemRepository implements RepositoryInterface
     }
 
     /**
-     * @return MenuItemCollection
+     * @return mixed
      */
     public function all()
     {
-        return new MenuItemCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 MenuItemSearch::class,
             ])
             ->thenReturn()
             ->with(['menuCategory'])
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return MenuItemResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new MenuItemResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return MenuItemResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new MenuItemResource($model);
+        return $model;
     }
 
     /**
@@ -66,12 +64,12 @@ class MenuItemRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return MenuItemResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        return new MenuItemResource($this->getModel($id));
+        return $this->getModel($id);
     }
 
     /**

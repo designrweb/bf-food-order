@@ -2,43 +2,44 @@
 
 namespace App\Services;
 
-use App\Http\Resources\MenuItemCollection;
-use App\Http\Resources\MenuItemResource;
 use App\Repositories\MenuItemRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\MenuItem;
 
-
+/**
+ * Class MenuItemService
+ *
+ * @package App\Services
+ */
 class MenuItemService extends BaseModelService
 {
 
     protected $repository;
 
+    /**
+     * MenuItemService constructor.
+     *
+     * @param MenuItemRepository $repository
+     */
     public function __construct(MenuItemRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * Returns all menu_items transformed to resource
-     *
-     * @return MenuItemCollection
+     * @return mixed
      */
-    public function all(): MenuItemCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return MenuItemResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): MenuItemResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -53,25 +54,20 @@ class MenuItemService extends BaseModelService
     }
 
     /**
-     * Creates and returns the menu_items model
-     *
      * @param $data
-     * @return MenuItemResource
+     * @return mixed
      */
-    public function create($data): MenuItemResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the menu_items model
-     *
      * @param $data
      * @param $id
-     * @return MenuItemResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): MenuItemResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
