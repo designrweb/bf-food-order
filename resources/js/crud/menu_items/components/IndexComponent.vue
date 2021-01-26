@@ -75,6 +75,8 @@
                          :id="data.item.id"></edit-button>
             <delete-button v-if="allowActions.delete" :mainRoute="main_route"
                            :id="data.item.id"></delete-button>
+            <copy-button v-if="allowActions.copy" :mainRoute="main_route"
+                         :id="data.item.id"></copy-button>
           </div>
           <div v-else>
             {{ data.value }}
@@ -112,11 +114,13 @@ import FilterDatePickerInput                                from "../../shared/f
 import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
 import FilterFloatInput                                     from "../../shared/filters/FloatFilterComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import CopyButton                                           from "../../shared/grid-buttons/CopyButton";
 
 export default {
   components: {
     'filter-text':               FilterTextInput,
     'create-button':             CreateButton,
+    'copy-button':               CopyButton,
     'filter-date-picker':        FilterDatePickerInput,
     'filter-float':              FilterFloatInput,
     'view-button':               ViewButton,
@@ -155,6 +159,7 @@ export default {
         view:   true,
         edit:   true,
         delete: true,
+        copy:   true,
       }
     }
   },

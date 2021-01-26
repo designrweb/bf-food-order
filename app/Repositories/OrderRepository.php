@@ -29,7 +29,7 @@ class OrderRepository extends Repository
                 OrderSearch::class,
             ])
             ->thenReturn()
-            ->with('menuItem')
+            ->with(['menuItem', 'consumer'])
             ->paginate(request('itemsPerPage') ?? 10);
     }
 

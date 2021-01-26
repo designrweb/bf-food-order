@@ -71,6 +71,27 @@ class MenuItemRepository implements RepositoryInterface
      */
     public function get($id)
     {
-        return new MenuItemResource($this->model->with('menuCategory')->findOrFail($id));
+        return new MenuItemResource($this->getModel($id));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    public function getModel($id)
+    {
+        return $this->model->with('menuCategory')->findOrFail($id);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function replicate($id)
+    {
+        $replicated = $this->getModel($id)->replicate();
+        $replicated->save();
+
+        return $replicated;
     }
 }

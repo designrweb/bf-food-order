@@ -44,6 +44,15 @@ class MenuItemService extends BaseModelService
     }
 
     /**
+     * @param $id
+     * @return Model
+     */
+    public function replicate($id)
+    {
+        return $this->repository->replicate($id);
+    }
+
+    /**
      * Creates and returns the menu_items model
      *
      * @param $data
@@ -92,6 +101,20 @@ class MenuItemService extends BaseModelService
         return $this->getSimpleStructure((new MenuItem()));
     }
 
+    /**
+     * @return bool[]
+     */
+    protected function getAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
+            'view'   => true,
+            'edit'   => true,
+            'delete' => true,
+            'copy'   => true,
+        ];
+    }
 
     /**
      * @param Model $model

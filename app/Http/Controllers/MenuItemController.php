@@ -130,6 +130,18 @@ class MenuItemController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function replicate($id)
+    {
+        /** @var array $resource */
+        $replicatedId = $this->service->replicate($id);
+
+        return redirect()->route('menu-items.edit', $replicatedId);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param MenuItemFormRequest $request

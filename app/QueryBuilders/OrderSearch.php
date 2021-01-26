@@ -19,7 +19,8 @@ class OrderSearch extends BaseSearch
         $this->builder = $next($request);
 
         $this->builder->select(['orders.*', 'menu_items.name as menu_item_name'])
-            ->leftJoin('menu_items', 'menu_items.id', '=', 'orders.menuitem_id');
+            ->leftJoin('menu_items', 'menu_items.id', '=', 'orders.menuitem_id')
+            ->leftJoin('consumers', 'consumers.id', '=', 'orders.consumer_id');
 
         // filters
         $this->builder->when(request('filters.quantity'), function (Builder $query) {
@@ -34,12 +35,20 @@ class OrderSearch extends BaseSearch
             $query->where('menu_items.name', 'like', '%' . request('filters.menu_item.name') . '%');
         });
 
+        if (!empty(request('filters.consumer.full_name'))) {
+            $this->builder->whereRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) like '%" . request('filters.consumer.full_name') . "%' ");
+        }
+
         // sort
         $this->applySort('orders.quantity', request('sort.quantity'));
         $this->applySort('orders.day', request('sort.day'));
 
         $this->builder->when(request('sort.menu_item.name'), function (Builder $query) {
             return $query->orderBy('menu_items.name', request('sort.menu_item.name'));
+        });
+
+        $this->builder->when(request('sort.consumer.full_name'), function (Builder $query) {
+            return $query->orderByRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) " . request('sort.consumer.full_name'));
         });
 
         return $this->builder;

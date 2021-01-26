@@ -125,6 +125,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'MenuItemController@create')->name('menu-items.create');
         Route::post('/', "MenuItemController@store")->name('menu-items.store');
         Route::get('/{id}/edit', 'MenuItemController@edit')->name('menu-items.edit');
+        Route::get('/{id}/replicate', 'MenuItemController@replicate')->name('menu-items.replicate');
         Route::get('/{id}', 'MenuItemController@show')->name('menu-items.show');
         Route::put('/{id}', 'MenuItemController@update')->name('menu-items.update');
         Route::delete('/{id}', "MenuItemController@destroy")->name('menu-items.destroy');
