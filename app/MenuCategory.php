@@ -113,6 +113,14 @@ class MenuCategory extends Model
     }
 
     /**
+     * @param $value
+     */
+    public function setNotAvailableForPosAttribute($value)
+    {
+        $this->attributes['not_available_for_pos'] = (string)$value;
+    }
+
+    /**
      * @param $consumer
      * @return bool
      */
