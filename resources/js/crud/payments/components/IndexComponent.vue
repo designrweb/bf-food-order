@@ -2,7 +2,9 @@
   <div class="card">
     <div class="card-header" v-if="!isPageBusy">
       <h3 class="card-title">{{ title }}</h3>
-      <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
+      <a class="btn btn-success float-right" :href="'/admin/payments/create'">
+        Manuelle Zahlungsbuchung
+      </a>
     </div>
     <div class="card-body">
       <div class="card-header bg-light">

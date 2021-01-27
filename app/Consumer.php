@@ -5,6 +5,7 @@ namespace App;
 use App\Components\ImageComponent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property integer       $id
@@ -25,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Consumer extends Model
 {
+    use SoftDeletes;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
