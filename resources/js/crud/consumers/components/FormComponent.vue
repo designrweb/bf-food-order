@@ -423,12 +423,10 @@ export default {
       this.itemData = response['data'];
 
       for (const [key, fieldData] of Object.entries(this.itemData)) {
-        if (key === 'birthday') {
-          this.birthdayValue = fieldData;
-        }
-
         this.form[key] = fieldData;
       }
+
+      this.birthdayValue = this.form.birthday;
     },
   },
   async mounted() {

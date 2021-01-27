@@ -87,7 +87,7 @@ class MenuItemRepository implements RepositoryInterface
      */
     public function replicate($id)
     {
-        $replicated = $this->getModel($id)->replicate();
+        $replicated = $this->getModel($id)->replicate(['availability_date']);
         $replicated->save();
 
         return $replicated;

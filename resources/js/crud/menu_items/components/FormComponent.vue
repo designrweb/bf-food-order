@@ -55,16 +55,14 @@
               label="Verfügbarkeitsdatum"
               label-for="input-availability_date"
           >
-            <b-form-datepicker
-                id="input-availability_date"
-                autocomplete="off"
-                v-model="form.availability_date"
-                class="sl-tiny-text-datepicker"
-                reset-button
-                start-weekday="1"
-                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                locale="de"
-            ></b-form-datepicker>
+            <date-picker
+                v-model="availabilityDate"
+                valueType="format"
+                format="DD.MM.YYYY"
+                :disabled-date="disabledBeforeTodayAndAfterAWeek"
+                :lang="lang"
+                input-class="form-control">
+            </date-picker>
             <b-form-invalid-feedback :state="validation['availability_date']['state']">
               {{ validation['availability_date']['message'] }}
             </b-form-invalid-feedback>
@@ -100,24 +98,35 @@
 import {getItem, store}    from "../../api/crudRequests";
 import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
+import DatePicker          from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/de';
 
 export default {
   components: {
     'spinner-component':     SpinnerComponent,
     'back-button-component': BackButtonComponent,
+    DatePicker
   },
   props:      {
     main_route:           String,
     menu_categories_list: Array,
     id:                   String | Number,
-    title: String
+    title:                String
   },
   data() {
     return {
-      isPageBusy: false,
-      itemData:   [],
-      form:       {},
-      validation: {
+      lang:             {
+        formatLocale:    {
+          firstDayOfWeek: 1,
+        },
+        monthBeforeYear: false,
+      },
+      isPageBusy:       false,
+      availabilityDate: '',
+      itemData:         [],
+      form:             {},
+      validation:       {
         'id':                {'state': true, 'message': ''},
         'name':              {'state': true, 'message': ''},
         'availability_date': {'state': true, 'message': ''},
@@ -130,13 +139,21 @@ export default {
     }
   },
   methods: {
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return date < today;
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store(self.main_route, self.id, self.form);
-        window.location.href = self.main_route + '/' + response['data'].id;
+        this.form.availability_date = this.availabilityDate;
+
+        let response = await store(self.main_route, self.id, self.form);
+        //window.location.href = self.main_route + '/' + response['data'].id;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           let errors = error.response.data.errors;
@@ -161,6 +178,8 @@ export default {
       for (const [key, fieldData] of Object.entries(this.itemData)) {
         this.form[key] = fieldData;
       }
+
+      this.availabilityDate = this.form.availability_date;
     },
   },
   async mounted() {
@@ -189,6 +208,10 @@ export default {
 
 .card-title {
   font-size: 1.75rem;
+}
+
+.mx-datepicker {
+  width: 100% !important;
 }
 
 </style>
