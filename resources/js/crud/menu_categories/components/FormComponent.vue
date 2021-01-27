@@ -145,7 +145,6 @@ export default {
   data() {
     return {
       isPageBusy:         false,
-      isDisabledPrice:    false,
       notAvailableForPos: false,
       itemData:           [],
       form:               {},
