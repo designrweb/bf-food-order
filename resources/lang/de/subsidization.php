@@ -16,7 +16,7 @@ return [
     'Pos ordered subsidization report'                          => 'Spontanessen Subventionsbericht',
     'Pre ordered subsidization report'                          => 'Vorbestellter Subventionsbericht',
     'Proof document'                                            => 'Probedokument',
-    'Rule name'                                                 => 'Name der Regel',
+    'Rule Name'                                                 => 'Name der Regel',
     'Subsidization “{0}”'                                       => 'Subventionierung “{0}”',
     'Subsidization Date end'                                    => 'Ende Subventionsdatum',
     'Subsidization Date start'                                  => 'Beginn Subventionsdatum',

@@ -77,11 +77,11 @@ class MealOrderService extends BaseModelService
             ],
             [
                 'key'   => 'is_subsidized',
-                'label' => __('subsidization.Is subsidized')
+                'label' => __('subsidization.Is Subsidized')
             ],
             [
                 'key'   => 'created_at_human',
-                'label' => __('app.Created St')
+                'label' => __('app.Created At')
             ],
             [
                 'key'   => 'day_human',
