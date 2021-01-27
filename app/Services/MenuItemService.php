@@ -82,6 +82,15 @@ class MenuItemService extends BaseModelService
     }
 
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function getCountExistingMenuItems(array $data)
+    {
+        return $this->repository->getCountExistingMenuItems($data);
+    }
+
+    /**
      * @return array
      */
     public function getIndexStructure(): array

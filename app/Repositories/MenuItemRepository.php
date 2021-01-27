@@ -64,6 +64,24 @@ class MenuItemRepository implements RepositoryInterface
     }
 
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function getCountExistingMenuItems(array $data)
+    {
+        if (!empty($data['availability_date'])) {
+            $menuItemsCount = MenuItem::whereRaw('availability_date = "' . date('Y-m-d', strtotime($data['availability_date'])) . '" ')
+                ->where('menu_category_id', $data['menu_category_id']);
+
+            if (!empty($data['id'])) {
+                $menuItemsCount = $menuItemsCount->where('id', '!=', $data['id']);
+            }
+
+            return $menuItemsCount->count();
+        }
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */

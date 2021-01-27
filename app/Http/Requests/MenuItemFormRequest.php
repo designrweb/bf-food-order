@@ -3,11 +3,27 @@
 namespace App\Http\Requests;
 
 use App\MenuItem;
+use App\Services\MenuItemService;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemFormRequest extends FormRequest
 {
+    /**
+     * @var MenuItemService
+     */
+    public $menuItemService;
+
+    /**
+     * MenuItemFormRequest constructor.
+     *
+     * @param MenuItemService $menuItemService
+     */
+    public function __construct(MenuItemService $menuItemService)
+    {
+        $this->menuItemService = $menuItemService;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,14 +44,7 @@ class MenuItemFormRequest extends FormRequest
      */
     public function withValidator(Validator $validator)
     {
-        $menuItemsCount = MenuItem::whereRaw('availability_date = "' . date('Y-m-d', strtotime(request()->get('availability_date'))) . '" ')
-            ->where('menu_category_id', request()->get('menu_category_id'));
-
-        if (!empty(request()->get('id'))) {
-            $menuItemsCount = $menuItemsCount->where('id', '!=', request()->get('id'));
-        }
-
-        $menuItemsCount = $menuItemsCount->count();
+        $menuItemsCount = $this->menuItemService->getCountExistingMenuItems(request()->all());
 
         $validator->after(function (Validator $validator) use ($menuItemsCount) {
             if (!empty($menuItemsCount)) {
