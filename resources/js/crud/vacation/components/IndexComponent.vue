@@ -100,6 +100,7 @@ import PaginationInfoComponent                              from "../../shared/P
 import FilterDatePickerInput                                from "../../shared/filters/DatePickerFilterComponent";
 import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
 import NoDataComponent                                      from "../../shared/NoDataComponent";
+import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
 export default {
   components: {
@@ -118,6 +119,7 @@ export default {
     main_route: String,
     title: String
   },
+  mixins: [actionColumnMixin],
   data() {
     return {
       currentPage:         1,
@@ -157,13 +159,6 @@ export default {
       this.allowActions = data['data']['allowActions'];
       this._addActionColumn();
       this.isPageBusy = false;
-    },
-    _addActionColumn() {
-      if (this.allowActions.all)
-        this.fields.push({
-          key:   'actions',
-          label: 'Actions',
-        });
     },
     async _loadData(page = 1) {
       this.isTableBusy = true;
