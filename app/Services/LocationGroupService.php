@@ -2,26 +2,17 @@
 
 namespace App\Services;
 
-use App\Http\Resources\LocationGroupCollection;
-use App\Http\Resources\LocationGroupResource;
 use App\Repositories\LocationGroupRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\LocationGroup;
-
 
 class LocationGroupService extends BaseModelService
 {
-
-    /**
-     * @var LocationGroupRepository
-     */
+    /** @var LocationGroupRepository */
     protected $repository;
 
-    /**
-     * @var LocationService
-     */
+    /** @var LocationService */
     protected $locationService;
 
     /**
@@ -37,23 +28,22 @@ class LocationGroupService extends BaseModelService
     }
 
     /**
-     * Returns all location_group transformed to resource
+     * Returns all location_group
      *
-     * @return LocationGroupCollection
+     * @return mixed
      */
-    public function all(): LocationGroupCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
+     * Returns single location_group model
      *
      * @param $id
-     * @return LocationGroupResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): LocationGroupResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
@@ -62,9 +52,9 @@ class LocationGroupService extends BaseModelService
      * Creates and returns the location_group model
      *
      * @param $data
-     * @return LocationGroupResource
+     * @return mixed
      */
-    public function create($data): LocationGroupResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
@@ -74,10 +64,9 @@ class LocationGroupService extends BaseModelService
      *
      * @param $data
      * @param $id
-     * @return LocationGroupResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): LocationGroupResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
@@ -89,15 +78,6 @@ class LocationGroupService extends BaseModelService
     public function getList($locationId = null)
     {
         return $this->repository->getList($locationId);
-    }
-
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function remove($id): bool
-    {
-        return $this->repository->delete($id);
     }
 
     /**
@@ -115,7 +95,6 @@ class LocationGroupService extends BaseModelService
     {
         return $this->getSimpleStructure((new LocationGroup()));
     }
-
 
     /**
      * @param Model $model
@@ -159,12 +138,8 @@ class LocationGroupService extends BaseModelService
                 'label' => __('app.Name')
             ],
             [
-                'key'   => 'location_id',
+                'key'   => 'location.name',
                 'label' => __('location.Location')
-            ],
-            [
-                'key'   => 'number_of_students',
-                'label' => __('location-group.Number of students')
             ],
         ];
     }
@@ -200,13 +175,13 @@ class LocationGroupService extends BaseModelService
      *
      * @return array
      */
-    protected function getAllowActions()
+    protected function getAllowActions(): array
     {
         return [
             'all'    => true,
             'create' => true,
-            'view'   => false,
-            'edit'   => false,
+            'view'   => true,
+            'edit'   => true,
             'delete' => false,
         ];
     }

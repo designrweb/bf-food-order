@@ -239,11 +239,11 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'user.email',
-                'label' => __('consumer.Email')
+                'label' => __('app.Email')
             ],
             [
                 'key'   => 'location_group.location.name',
-                'label' => __('consumer.Location')
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'birthday',
@@ -251,11 +251,11 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'imageurl',
-                'label' => __('consumer.Image')
+                'label' => __('app.Image Name')
             ],
             [
                 'key'   => 'location_group.name',
-                'label' => __('consumer.Group')
+                'label' => __('location-group.Group')
             ],
             [
                 'key'   => 'user.user_info.first_name',
@@ -275,7 +275,7 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'subsidization.subsidization_rule.rule_name',
-                'label' => __('consumer.Subsidization Rule')
+                'label' => __('subsidization.Subsidization Rule')
             ],
         ];
     }
@@ -297,15 +297,15 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'user.email',
-                'label' => __('consumer.Email')
+                'label' => __('app.Email')
             ],
             [
                 'key'   => 'location_group.location.name',
-                'label' => __('consumer.Location')
+                'label' => __('location.Location')
             ],
             [
                 'key'   => 'location_group.name',
-                'label' => __('consumer.Group')
+                'label' => __('location-group.Group')
             ],
             [
                 'key'   => 'user.user_info.first_name',
@@ -317,7 +317,7 @@ class ConsumerService extends BaseModelService
             ],
             [
                 'key'   => 'subsidization.subsidization_rule.rule_name',
-                'label' => __('consumer.Subsidization Rule')
+                'label' => __('subsidization.Subsidization Rule')
             ],
         ];
     }

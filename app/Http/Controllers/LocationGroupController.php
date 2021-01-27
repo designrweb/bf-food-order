@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationGroupResource;
-use App\Location;
+use App\Http\Resources\LocationGroupCollection;
 use App\Services\LocationGroupService;
 use App\Http\Requests\LocationGroupFormRequest;
 use App\Services\LocationService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class LocationGroupController
@@ -20,9 +18,7 @@ class LocationGroupController extends Controller
     /** @var LocationGroupService $service */
     protected $service;
 
-    /**
-     * @var LocationService
-     */
+    /** @var LocationService */
     protected $locationService;
 
     /**
@@ -33,14 +29,14 @@ class LocationGroupController extends Controller
      */
     public function __construct(LocationGroupService $service, LocationService $locationService)
     {
-        $this->service = $service;
+        $this->service         = $service;
         $this->locationService = $locationService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -51,35 +47,43 @@ class LocationGroupController extends Controller
      * Returns a listing of the resource.
      *
      * @param Request $request
-     * @return array
+     * @return LocationGroupCollection
      */
-    public function getAll(Request $request)
+    public function getAll(Request $request): LocationGroupCollection
     {
-        return $this->service->all()->toArray($request);
+        return new LocationGroupCollection($this->service->all());
+    }
+
+    /**
+     * Returns a resource
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getOne($id): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($this->service->getOne($id));
+    }
+
+    /**
+     * Returns a structure for the index page
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getIndexStructure(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($this->service->getIndexStructure());
     }
 
 
     /**
-     * Returns a listing of the resource.
+     * Returns a structure for the view page
      *
-     * @param Request $request
-     * @param         $id
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getOne(Request $request, $id)
+    public function getViewStructure(): \Illuminate\Http\JsonResponse
     {
-        return $this->service->getOne($id)->toArray($request);
-    }
-
-    /**
-     * Returns a listing of the resource.
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function getIndexStructure(Request $request)
-    {
-        return $this->service->getIndexStructure();
+        return response()->json($this->service->getViewStructure());
     }
 
     /**
@@ -100,37 +104,36 @@ class LocationGroupController extends Controller
      * Store a newly created resource in storage.
      *
      * @param LocationGroupFormRequest $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(LocationGroupFormRequest $request)
+    public function store(LocationGroupFormRequest $request): \Illuminate\Http\JsonResponse
     {
-        return $this->service->create($request->all())->toArray($request);
+        return response()->json($this->service->create($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        $resource = $this->service->getOne($id);
 
         return view('location_group.view', compact('resource'));
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
-        /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource                  = $this->service->getOne($id);
         $resource['locationsList'] = $this->locationService->getList();
 
         return view('location_group._form', compact('resource'));
@@ -140,25 +143,12 @@ class LocationGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param LocationGroupFormRequest $request
-     * @param int     $id
-     * @return array
+     * @param                          $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(LocationGroupFormRequest $request, $id)
+    public function update(LocationGroupFormRequest $request, $id): \Illuminate\Http\JsonResponse
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $this->service->remove($id);
-
-        return response()->json(['redirect_url' => action('LocationGroupController@index')]);
+        return response()->json($this->service->update($request->all(), $id));
     }
 
     /**

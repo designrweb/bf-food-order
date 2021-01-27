@@ -8,10 +8,11 @@ return [
     'Group Name'                                                 => 'Klasse',
     'Group'                                                      => 'Klasse',
     'Groups'                                                     => 'Klassen',
+    'Location Groups'                                            => 'Klassen',
     'Location group cannot be blank.'                            => 'Klasse darf nicht leer sein.',
     'Location Group'                                             => 'Klasse',
     'Number of students'                                         => 'Anzahl Schüler',
-    'Update Location Group: '                                    => 'todo translate',
+    'Update Location Group'                                      => 'Klasse :name bearbeiten',
     'You are not allowed to delete a class with assigned pupils' => 'Sie dürfen keine Klasse mit zugewiesenen Schülern löschen',
 
 ];

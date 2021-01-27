@@ -234,7 +234,7 @@ class LocationService extends BaseModelService
             ],
             [
                 'key'   => 'image_name',
-                'label' => __('app.Image')
+                'label' => __('app.Image Name')
             ],
             [
                 'key'   => 'name',
@@ -255,7 +255,7 @@ class LocationService extends BaseModelService
             'create' => true,
             'view'   => true,
             'edit'   => true,
-            'delete' => false,
+            'delete' => true,
         ];
     }
 }

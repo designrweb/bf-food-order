@@ -7,7 +7,10 @@
 
 @section('content')
     <div id="grid-view-page">
-        <grid-view :main_route="'location-groups'" :id="{{$resource['id']}}"></grid-view>
+        <grid-view
+            :main_route="'/admin/location-groups'"
+            :id="{{$resource['id']}}"
+        ></grid-view>
     </div>
 @endsection
 
