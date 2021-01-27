@@ -66,4 +66,12 @@ class MenuItem extends Model
     {
         return date('l, d.m.Y', strtotime($this->attributes['availability_date']));
     }
+
+    /**
+     * @param $value
+     */
+    public function setAvailabilityDateAttribute($value)
+    {
+        $this->attributes['availability_date'] = date('Y-m-d', strtotime($value));
+    }
 }
