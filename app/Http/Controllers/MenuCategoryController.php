@@ -102,7 +102,12 @@ class MenuCategoryController extends Controller
      */
     public function store(MenuCategoryFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        $data = $request->all();
+
+        $data['presaleprice'] = $data['presaleprice_locale'];
+        $data['price']        = $data['price_locale'];
+
+        return $this->service->create($data)->toArray($request);
     }
 
     /**
@@ -125,8 +130,8 @@ class MenuCategoryController extends Controller
     public function edit(LocationService $locationService, $id)
     {
         /** @var array $resource */
-        $resource                  = $this->service->getOne($id)->toArray(request());
-        $resource['locationsList'] = $locationService->getList();
+        $resource                   = $this->service->getOne($id)->toArray(request());
+        $resource['locationsList']  = $locationService->getList();
         $resource['existingOrders'] = $this->service->all()->pluck('category_order', 'category_order')->toArray();
 
         return view('menu_categories._form', compact('resource'));
@@ -141,7 +146,12 @@ class MenuCategoryController extends Controller
      */
     public function update(MenuCategoryFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        $data = $request->all();
+
+        $data['presaleprice'] = $data['presaleprice_locale'];
+        $data['price']        = $data['price_locale'];
+
+        return $this->service->update($data, $id)->toArray($request);
     }
 
     /**

@@ -62,6 +62,16 @@
             <b-form-invalid-feedback :state="validation['price_locale']['state']">
               {{ validation['price_locale']['message'] }}
             </b-form-invalid-feedback>
+
+            <br>
+
+            <b-form-checkbox v-model="notAvailableForPos" switch>
+              nicht verfügbar für POS
+            </b-form-checkbox>
+
+            <b-form-invalid-feedback :state="validation['not_available_for_pos']['state']">
+              {{ validation['not_available_for_pos']['message'] }}
+            </b-form-invalid-feedback>
           </b-form-group>
 
           <b-form-group
@@ -128,22 +138,24 @@ export default {
     locations_list:  Array,
     existing_orders: Array | Object,
     id:              String | Number,
-    title: String
+    title:           String
   },
   data() {
     return {
-      isPageBusy: false,
-      itemData:   [],
-      form:       {},
-      validation: {
-        'id':                  {'state': true, 'message': ''},
-        'name':                {'state': true, 'message': ''},
-        'category_order':      {'state': true, 'message': ''},
-        'price_locale':        {'state': true, 'message': ''},
-        'presaleprice_locale': {'state': true, 'message': ''},
-        'location_id':         {'state': true, 'message': ''},
-        'created_at':          {'state': true, 'message': ''},
-        'updated_at':          {'state': true, 'message': ''},
+      isPageBusy:         false,
+      notAvailableForPos: false,
+      itemData:           [],
+      form:               {},
+      validation:         {
+        'id':                    {'state': true, 'message': ''},
+        'name':                  {'state': true, 'message': ''},
+        'category_order':        {'state': true, 'message': ''},
+        'price_locale':          {'state': true, 'message': ''},
+        'presaleprice_locale':   {'state': true, 'message': ''},
+        'not_available_for_pos': {'state': true, 'message': ''},
+        'location_id':           {'state': true, 'message': ''},
+        'created_at':            {'state': true, 'message': ''},
+        'updated_at':            {'state': true, 'message': ''},
       },
     }
   },
@@ -186,7 +198,9 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        let response         = await store(self.main_route, self.id, self.form);
+        this.form.not_available_for_pos = this.notAvailableForPos ? 1 : 0;
+
+        let response = await store(self.main_route, self.id, self.form, true);
         window.location.href = self.main_route + '/' + response['data'].id;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
@@ -212,6 +226,8 @@ export default {
       for (const [key, fieldData] of Object.entries(this.itemData)) {
         this.form[key] = fieldData;
       }
+
+      this.notAvailableForPos = Boolean(this.form.not_available_for_pos);
     },
   },
   async mounted() {
