@@ -15,7 +15,7 @@ class AlterMenuCategoriesAddedAvailableForPosField extends Migration
     public function up()
     {
         Schema::table('menu_categories', function (Blueprint $table) {
-            $table->integer('not_available_for_pos')->after('presaleprice')->default(MenuCategory::AVAILABLE_POS);
+            $table->enum('not_available_for_pos', [MenuCategory::AVAILABLE_POS, MenuCategory::NOT_AVAILABLE_POS])->after('presaleprice')->default(MenuCategory::AVAILABLE_POS);
         });
     }
 
