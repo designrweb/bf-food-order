@@ -130,31 +130,31 @@ class MenuItemService extends BaseModelService
         return [
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'description',
-                'label' => 'Description'
+                'label' => __('menu-item.Description')
             ],
             [
                 'key'   => 'menu_category.presaleprice_locale',
-                'label' => 'Presale Price'
+                'label' => __('menu-category.Presale Price')
             ],
             [
                 'key'   => 'menu_category.price_locale',
-                'label' => 'Price'
+                'label' => __('menu-category.Price')
             ],
             [
                 'key'   => 'menu_category.name',
-                'label' => 'Menu Category'
+                'label' => __('menu-category.Menu Category')
             ],
             [
                 'key'   => 'availability_date_human',
-                'label' => 'Availability Date'
+                'label' => __('menu-item.Availability Date')
             ],
             [
                 'key'   => 'location.name',
-                'label' => 'Location'
+                'label' => __('location.Location')
             ]
         ];
     }
@@ -172,23 +172,23 @@ class MenuItemService extends BaseModelService
             ],
             [
                 'key'   => 'name',
-                'label' => 'Name'
+                'label' => __('app.Name')
             ],
             [
                 'key'   => 'menu_category.presaleprice_locale',
-                'label' => 'Presale Price'
+                'label' => __('menu-category.Presale Price')
             ],
             [
                 'key'   => 'menu_category.price_locale',
-                'label' => 'Price'
+                'label' => __('menu-category.Price')
             ],
             [
                 'key'   => 'menu_categories_name',
-                'label' => 'Menu Category'
+                'label' => __('menu-category.Menu Category')
             ],
             [
                 'key'   => 'availability_date_human',
-                'label' => 'Availability Date'
+                'label' => __('menu-item.Availability Date')
             ]
         ];
     }

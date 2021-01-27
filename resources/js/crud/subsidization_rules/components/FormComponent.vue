@@ -89,17 +89,17 @@
             <div class="col-md-12">
               <div class="card mt-5">
                 <div class="card-header">
-                  <h4>Menu categories</h4>
+                  <h4>Menülinien</h4>
                 </div>
                 <div class="card-body ">
                   <table class="w-100">
                     <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Pre-order price</th>
-                      <th>Percent %</th>
-                      <th>Subsidization price</th>
-                      <th>Resultet price</th>
+                      <th>Vorbestellpreis</th>
+                      <th>Prozentsatz %</th>
+                      <th>Subventionspreis</th>
+                      <th>Resultierter Preis</th>
                     </tr>
                     </thead>
                     <tbody>
