@@ -16,7 +16,7 @@ class MenuCategoryFormRequest extends FormRequest
         return [
             'name'                  => 'required|string',
             'location_id'           => 'required|numeric',
-            'price_locale'          => 'required|regex:/^[0-9]+(\,[0-9][0-9]?)?$/',
+            'price_locale'          => request()->get('not_available_for_pos') == 0 ? 'required|regex:/^[0-9]+(\,[0-9][0-9]?)?$/' : '',
             'presaleprice_locale'   => 'required|regex:/^[0-9]+(\,[0-9][0-9]?)?$/',
             'not_available_for_pos' => 'in:1,0',
             'category_order'        => 'required|integer',
