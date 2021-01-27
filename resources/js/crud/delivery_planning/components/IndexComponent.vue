@@ -30,11 +30,7 @@
           show-empty
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-3 mb-3">
-            <div class="text-center text-gray">
-              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
+          <no-data-component></no-data-component>
         </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
@@ -122,6 +118,7 @@ import FormDatePickerFilterComponent                                      from "
 import FilterSelectInput                                                  from "../../shared/filters/SelectFilterComponent";
 import PaginationInfoComponent                                            from "../../shared/PaginationInfoComponent";
 import ShowAllButton                                                      from "../../shared/grid-buttons/ShowAllButton";
+import NoDataComponent                                                    from "../../shared/NoDataComponent";
 
 export default {
   components: {
@@ -136,6 +133,7 @@ export default {
     'pagination-into-component': PaginationInfoComponent,
     'show-all-button':           ShowAllButton,
     'export-button':             ExportButton,
+    'no-data-component':         NoDataComponent
   },
   props:      {
     main_route: String,

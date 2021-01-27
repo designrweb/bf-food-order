@@ -24,11 +24,7 @@
           :busy="isTableBusy"
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-3 mb-3">
-            <div class="text-center text-gray">
-              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
+          <no-data-component></no-data-component>
         </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
@@ -114,6 +110,7 @@ import SpinnerComponent                                     from "../../shared/S
 import FormDatePickerFilterComponent                        from "../../shared/filters/FormDatePickerFilterComponent";
 import FilterFloatInput                                     from "../../shared/filters/FloatFilterComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import NoDataComponent                                      from "../../shared/NoDataComponent";
 
 export default {
   components: {
@@ -126,6 +123,7 @@ export default {
     'spinner-component':         SpinnerComponent,
     'filter-form-date-picker':   FormDatePickerFilterComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'no-data-component':         NoDataComponent
   },
   props:      {
     main_route: String,

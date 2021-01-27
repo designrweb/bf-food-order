@@ -18,14 +18,11 @@
           id="index-list"
           :items="items"
           :fields="fields"
+          show-empty
           :busy="isTableBusy"
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-5 mb-5">
-            <div class="text-center mt-5 mb-5 text-gray">
-              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
+          <no-data-component></no-data-component>
         </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
@@ -91,6 +88,7 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import NoDataComponent                                      from "../../shared/NoDataComponent";
 
 export default {
   components: {
@@ -101,6 +99,7 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'no-data-component':         NoDataComponent
   },
   props:      {
     main_route: String,
