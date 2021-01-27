@@ -14,10 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property float    $presaleprice
  * @property int      $created_at
  * @property int      $updated_at
+ * @property int      $not_available_for_pos
  * @property Location $location
  */
 class MenuCategory extends Model
 {
+
+    const AVAILABLE_POS     = 0;
+    const NOT_AVAILABLE_POS = 1;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -33,7 +38,7 @@ class MenuCategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'location_id', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'not_available_for_pos', 'location_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Closure|mixed|void
@@ -73,6 +78,38 @@ class MenuCategory extends Model
     public function getPresalepriceLocaleAttribute()
     {
         return str_replace('.', ',', $this->presaleprice);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setCreatedAtAttribute($value)
+    {
+        $this->attributes['created_at'] = date('Y-m-d H:i:s', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     */
+    public function setUpdatedAtAttribute($value)
+    {
+        $this->attributes['updated_at'] = date('Y-m-d H:i:s', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     */
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = str_replace(',', '.', $value);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setPresalepriceAttribute($value)
+    {
+        $this->attributes['presaleprice'] = str_replace(',', '.', $value);
     }
 
     /**

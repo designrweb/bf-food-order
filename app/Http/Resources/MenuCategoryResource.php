@@ -14,17 +14,13 @@ class MenuCategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id'                  => $this->id,
-            'name'                => $this->name,
-            'category_order'      => $this->category_order,
-            'price'               => $this->price,
-            'price_locale'        => $this->price_locale,
-            'presaleprice'        => $this->presaleprice,
-            'presaleprice_locale' => $this->presaleprice_locale,
-            'location_id'         => $this->location_id,
-            'created_at'          => date('M d, Y, H:i:s A', strtotime($this->created_at)),
-            'updated_at'          => date('M d, Y, H:i:s A', strtotime($this->updated_at)),
-        ];
+        $data = parent::toArray($request);
+
+        $data['price_locale']        = $this->price_locale;
+        $data['presaleprice_locale'] = $this->presaleprice_locale;
+        $data['created_at']          = date('M d, Y, H:i:s A', strtotime($this->created_at));
+        $data['updated_at']          = date('M d, Y, H:i:s A', strtotime($this->updated_at));
+
+        return $data;
     }
 }
