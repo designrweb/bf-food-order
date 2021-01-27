@@ -142,7 +142,6 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}/edit', 'LocationGroupController@edit')->name('location-groups.edit');
         Route::get('/{id}', 'LocationGroupController@show')->name('location-groups.show');
         Route::put('/{id}', 'LocationGroupController@update')->name('location-groups.update');
-        Route::delete('/{id}', "LocationGroupController@destroy")->name('location-groups.destroy');
         Route::get('/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
     });
 

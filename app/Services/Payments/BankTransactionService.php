@@ -69,7 +69,7 @@ class BankTransactionService extends BaseModelService
             ],
             [
                 'key'   => 'amount_locale',
-                'label' => __('consumer.Amount')
+                'label' => __('payment.Amount')
             ],
             [
                 'key'   => 'comment',

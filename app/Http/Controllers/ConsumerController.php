@@ -46,8 +46,6 @@ class ConsumerController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Consumer::class);
-
         return view('consumers.index');
     }
 
@@ -59,7 +57,6 @@ class ConsumerController extends Controller
     {
         return (new ConsumerCollection($this->service->all()))->toArray($request);
     }
-
 
     /**
      * @param Request $request

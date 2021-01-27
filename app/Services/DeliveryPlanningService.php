@@ -147,11 +147,11 @@ class DeliveryPlanningService extends BaseModelService
             ],
             [
                 'key'   => 'amount',
-                'label' => __('consumer.Amount')
+                'label' => __('payment.Amount')
             ],
             [
                 'key'   => 'voucher_percentage',
-                'label' => __('voucher-limits.Voucher Limits')
+                'label' => __('voucher-limit.Voucher Limits')
             ],
         ];
     }

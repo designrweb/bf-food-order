@@ -6,7 +6,6 @@ return [
     'Menuitem ID'       => 'Menü Nr?',
     'Menuitem'          => 'Menü',
     'Menu Items'        => 'Menüs',
-    'Name'              => 'Name',
     'Availability Date' => 'Verfügbarkeitsdatum',
     'Description'       => 'Beschreibung',
     'Location ID'       => 'Ort',
