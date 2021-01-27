@@ -53,10 +53,12 @@
               label-for="input-price"
           >
             <b-form-input
+                ref="input-price"
                 id="input-price"
                 v-model="form.price_locale"
                 type="text"
                 @keypress="isFloat($event)"
+                :disabled="notAvailableForPos"
                 placeholder="Spontanpreis"
             ></b-form-input>
             <b-form-invalid-feedback :state="validation['price_locale']['state']">
@@ -65,7 +67,7 @@
 
             <br>
 
-            <b-form-checkbox v-model="notAvailableForPos" switch>
+            <b-form-checkbox v-model="notAvailableForPos" switch @change="handlerNotAvailableForPos($event)">
               nicht verfügbar für POS
             </b-form-checkbox>
 
@@ -143,6 +145,7 @@ export default {
   data() {
     return {
       isPageBusy:         false,
+      isDisabledPrice:    false,
       notAvailableForPos: false,
       itemData:           [],
       form:               {},
@@ -175,6 +178,12 @@ export default {
     }
   },
   methods:  {
+    handlerNotAvailableForPos(value) {
+      if (value === true) {
+        this.$refs['input-price'].value = '0,00';
+        this.form.price_locale          = '0,00';
+      }
+    },
     isFloat:  function (evt) {
       evt          = (evt) ? evt : window.event;
       let charCode = (evt.which) ? evt.which : evt.keyCode;
