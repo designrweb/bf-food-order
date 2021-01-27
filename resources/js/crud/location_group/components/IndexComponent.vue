@@ -112,6 +112,7 @@ import SpinnerComponent                                     from "../../shared/S
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
 import FilterSelectInput                                    from "../../shared/filters/SelectFilterComponent";
 import NoDataComponent                                      from "../../shared/NoDataComponent";
+import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
 export default {
   components: {
@@ -130,6 +131,7 @@ export default {
     main_route: String,
     title: String
   },
+  mixins: [actionColumnMixin],
   data() {
     return {
       currentPage:         1,
@@ -169,13 +171,6 @@ export default {
       this.allowActions = data['data']['allowActions'];
       this._addActionColumn();
       this.isPageBusy = false;
-    },
-    _addActionColumn() {
-      if (this.allowActions.all)
-        this.fields.push({
-          key:   'actions',
-          label: 'Aktionen',
-        });
     },
     async _loadData(page = 1) {
       this.isTableBusy = true;

@@ -87,6 +87,7 @@ import {getStructure, getItems}                             from "../../api/crud
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
 import NoDataComponent                                      from "../../shared/NoDataComponent";
+import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
 export default {
   components: {
@@ -102,6 +103,7 @@ export default {
   props:      {
     main_route: String
   },
+  mixins: [actionColumnMixin],
   data() {
     return {
       currentPage:         1,
@@ -141,13 +143,6 @@ export default {
       this.allowActions = data['data']['allowActions'];
       this._addActionColumn();
       this.isPageBusy = false;
-    },
-    _addActionColumn() {
-      if (this.allowActions.all)
-        this.fields.push({
-          key:   'actions',
-          label: 'Actions',
-        });
     },
     async _loadData(page = 1) {
       this.isTableBusy = true;
