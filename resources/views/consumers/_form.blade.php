@@ -13,7 +13,7 @@
                     :id="{{$resource['id']}}"
                     :location_group_list="{{json_encode($resource['locationGroupList'])}}"
                     :subsidization_organization_list="{{json_encode($resource['subsidizationOrganizationList'])}}"
-                    title="@lang('consumer.Update Consumer: ')"
+                    title="{{ __('consumer.Update Consumer', ['name' => $resource['firstname'] . ' ' .$resource['lastname']]) }}"
                     subsidizationTitle="@lang('subsidization.Subsidization information')"
             ></grid-form>
         @else
