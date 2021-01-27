@@ -2,83 +2,51 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\LocationGroupCollection;
-use App\Http\Resources\LocationGroupResource;
 use App\LocationGroup;
 use App\QueryBuilders\LocationGroupSearch;
 use Illuminate\Pipeline\Pipeline;
-use bigfood\grid\RepositoryInterface;
 
-class LocationGroupRepository implements RepositoryInterface
+class LocationGroupRepository extends Repository
 {
-    /** @var LocationGroup */
-    protected $model;
-
-    public function __construct(LocationGroup $model)
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    function model(): string
     {
-        $this->model = $model;
+        return LocationGroup::class;
     }
 
     /**
-     * @return LocationGroupCollection
+     * @return mixed
      */
     public function all()
     {
-        return new LocationGroupCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 LocationGroupSearch::class,
             ])
             ->thenReturn()
             ->with('location')
-            ->paginate(request('itemsPerPage') ?? 10));
-    }
-
-    /**
-     * @param array $data
-     * @return LocationGroupResource
-     */
-    public function add(array $data)
-    {
-        return new LocationGroupResource($this->model->create($data));
-    }
-
-    /**
-     * @param array $data
-     * @param       $id
-     * @return LocationGroupResource
-     */
-    public function update(array $data, $id)
-    {
-        $model = $this->model->findOrFail($id);
-        $model->update($data);
-
-        return new LocationGroupResource($model);
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param $id
-     * @return int
-     */
-    public function delete($id)
-    {
-        return $this->model->destroy($id);
-    }
-
-    /**
-     * @param       $id
-     * @return LocationGroupResource
+     * @return mixed
      */
     public function get($id)
     {
-        return new LocationGroupResource($this->model->findOrFail($id));
+        return $this->model->with('location')->findOrFail($id);
     }
 
     /**
      * @param null $locationId
      * @return array
      */
-    public function getList($locationId = null)
+    public function getList($locationId = null): array
     {
         $locationGroupArray = [];
         $allLocationGroup   = $this->model->newQuery();

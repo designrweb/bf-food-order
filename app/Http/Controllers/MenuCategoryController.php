@@ -127,6 +127,7 @@ class MenuCategoryController extends Controller
         /** @var array $resource */
         $resource                  = $this->service->getOne($id)->toArray(request());
         $resource['locationsList'] = $locationService->getList();
+        $resource['existingOrders'] = $this->service->all()->pluck('category_order', 'category_order')->toArray();
 
         return view('menu_categories._form', compact('resource'));
     }

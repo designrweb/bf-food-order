@@ -28,13 +28,6 @@
             </div>
           </div>
         </template>
-        <template #empty="scope">
-          <div class="container mt-5 mb-5">
-            <div class="text-center mt-5 mb-5 text-gray">
-              <h2 class="card-text"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
-        </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
             <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"

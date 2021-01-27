@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Actions'                                    => 'Aktionen',
     'All'                                        => 'Alle',
     'Amount'                                     => 'Betrag',
     'Are you sure you want to delete this item?' => 'Wollen Sie den Eintrag wirklich löschen?',

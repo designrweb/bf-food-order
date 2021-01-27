@@ -138,7 +138,7 @@ class OrderService extends BaseModelService
             ],
             [
                 'key'   => 'menu_item.name',
-                'label' => __('order.Menu')
+                'label' => __('menu-item.Menuitem')
             ],
             [
                 'key'   => 'quantity',
@@ -146,7 +146,7 @@ class OrderService extends BaseModelService
             ],
             [
                 'key'   => 'day',
-                'label' => __('order.Day At')
+                'label' => __('app.Day')
             ],
         ];
     }
