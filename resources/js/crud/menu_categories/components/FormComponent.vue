@@ -198,9 +198,9 @@ export default {
       const self      = this;
       self.isPageBusy = true;
       try {
-        this.form.not_available_for_pos = this.notAvailableForPos ? 1 : 0;
+        this.form.not_available_for_pos = this.notAvailableForPos ? '1' : '0';
 
-        let response = await store(self.main_route, self.id, self.form, true);
+        let response         = await store(self.main_route, self.id, self.form, true);
         window.location.href = self.main_route + '/' + response['data'].id;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
@@ -227,7 +227,7 @@ export default {
         this.form[key] = fieldData;
       }
 
-      this.notAvailableForPos = Boolean(this.form.not_available_for_pos);
+      this.notAvailableForPos = parseInt(this.form.not_available_for_pos) === 0 ? false : true;
     },
   },
   async mounted() {
