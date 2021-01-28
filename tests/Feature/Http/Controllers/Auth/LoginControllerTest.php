@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 /**
@@ -31,7 +32,10 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function login_authenticates_and_redirects_user()
     {
-        $user = create(User::class);
+        $user = create(User::class, [
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin')
+        ]);
 
         $response = $this->post(route('login'), [
             'email' => $user->email,

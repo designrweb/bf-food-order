@@ -222,4 +222,12 @@ class ConsumerRepository implements RepositoryInterface
         ])
             ->get();
     }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAccountIdList(): \Illuminate\Support\Collection
+    {
+        return $this->model->all()->pluck('account_id');
+    }
 }
