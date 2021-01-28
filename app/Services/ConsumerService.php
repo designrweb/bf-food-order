@@ -73,6 +73,8 @@ class ConsumerService extends BaseModelService
             $data['imageurl'] = ImageComponent::storeEncrypt($data['imageurl']);
         }
 
+        $data['account_id'] = $this->generateAccountId();
+
         $model = $this->repository->add($data);
 
         if (empty($model->subsidization)) {
@@ -376,5 +378,21 @@ class ConsumerService extends BaseModelService
     protected function endOfDay($date)
     {
         return date('Y-m-d H:i:s', strtotime("tomorrow", strtotime($date)) - 1);
+    }
+
+    /**
+     * Generate unique account id that contains 6 digits
+     */
+    protected function generateAccountId(): string
+    {
+        $accounts  = $this->repository->getAccountIdList();
+
+        $accountId = strval(rand(100000, 999999));
+
+        while ($accounts->contains($accountId)) {
+            $accountId = strval(rand(100000, 999999));
+        }
+
+        return $accountId;
     }
 }
