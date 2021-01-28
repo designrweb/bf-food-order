@@ -91,7 +91,7 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-button type="submit" variant="primary">Generate report</b-button>
+              <b-button type="submit" variant="primary">Bericht generieren</b-button>
 
             </b-form>
           </div>
@@ -135,9 +135,9 @@ export default {
         delete: true,
       },
       reportTypes:  [
-        {value: null, text: 'Please select an report type', disabled: true},
-        {value: 1, text: 'Pre ordered subsidization report'},
-        {value: 2, text: 'Pos ordered subsidization report'},
+        {value: null, text: 'Bitte wählen Sie einen Berichtstyp', disabled: true},
+        {value: 1, text: 'Vorbestellter Subventionsbericht'},
+        {value: 2, text: 'Pos bestellter Subventionsbericht'},
       ],
       form:         {
         report_type: null

@@ -16,14 +16,11 @@
           id="index-list"
           :items="items"
           :fields="fields"
+          show-empty
           :busy="isTableBusy"
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-3 mb-3">
-            <div class="text-center text-gray">
-              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
+          <no-data-component></no-data-component>
         </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
@@ -89,6 +86,8 @@ import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/g
 import {getStructure, getItems}                             from "../../api/crudRequests";
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
+import NoDataComponent                                      from "../../shared/NoDataComponent";
+import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
 export default {
   components: {
@@ -99,10 +98,12 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'no-data-component':         NoDataComponent
   },
   props:      {
     main_route: String
   },
+  mixins: [actionColumnMixin],
   data() {
     return {
       currentPage:         1,
@@ -132,7 +133,7 @@ export default {
       }
     }
   },
-  methods:    {
+  methods: {
     async _loadStructure() {
       this.isPageBusy   = true;
       let data          = await getStructure(this.main_route);
@@ -142,13 +143,6 @@ export default {
       this.allowActions = data['data']['allowActions'];
       this._addActionColumn();
       this.isPageBusy = false;
-    },
-    _addActionColumn() {
-      if (this.allowActions.all)
-        this.fields.push({
-          key:   'actions',
-          label: 'Actions',
-        });
     },
     async _loadData(page = 1) {
       this.isTableBusy = true;
@@ -195,7 +189,7 @@ export default {
     await this._loadStructure();
     await this._loadData(1);
   },
-  watch:      {
+  watch: {
     itemsPerPage: function (val) {
       this._loadData(1);
     }

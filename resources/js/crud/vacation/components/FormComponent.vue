@@ -7,7 +7,7 @@
       <b-modal ref="orders-exists" id="bv-modal-example" hide-footer title="Warning">
         <p>But there are pre-orders in created vacation date. Would you like to cancel all orders during this period? Money will be refunded automatically.</p>
         <ul>
-          <li v-for="order in validation['orders_exists']['message']">OrderID: {{order.id}}</li>
+          <li v-for="order in validation['orders_exists']['message']">OrderID: {{ order.id }}</li>
         </ul>
         <b-button @click="$refs['orders-exists'].hide()">Close</b-button>
         <b-button variant="danger" @click="proceedWithDeleteOrder($event)">Delete</b-button>
@@ -16,7 +16,7 @@
       <div class="card-header" v-if="!isPageBusy">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <h3 class="card-title">{{ form.id ? ': ' + form.name : '' }}</h3>
+            <h3 class="card-title">{{ title }}</h3>
           </div>
         </div>
       </div>
@@ -148,6 +148,7 @@ export default {
     main_route:     String,
     locations_list: Array,
     id:             String | Number,
+    title:          String,
   },
   data() {
     return {
@@ -166,7 +167,7 @@ export default {
       },
     }
   },
-  methods:    {
+  methods: {
     async proceedWithDeleteOrder(evt) {
       this.form['with_deleting_orders'] = true;
       await this.onSubmit(evt);
@@ -228,7 +229,7 @@ export default {
     await this.getLocationGroupsByLocationId();
     this.isPageBusy = false;
   },
-  watch:      {
+  watch: {
     form: {
       deep: true,
       handler(val) {

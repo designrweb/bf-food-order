@@ -208,7 +208,7 @@ class LocationService extends BaseModelService
             ],
             [
                 'key'   => 'city',
-                'label' => 'City'
+                'label' => __('app.City')
             ],
             [
                 'key'   => 'email',
@@ -216,7 +216,7 @@ class LocationService extends BaseModelService
             ],
             [
                 'key'   => 'company.name',
-                'label' => 'Company'
+                'label' => __('company.Company')
             ],
         ];
     }

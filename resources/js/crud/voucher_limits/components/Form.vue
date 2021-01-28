@@ -8,7 +8,7 @@
         <h3 class="card-title">{{ title }}</h3>
         <b-row class="menu-underlined-block pt-12">
           <b-col cols="12" class="text-right">
-            <b-btn variant="primary" @click="store">Save</b-btn>
+            <b-btn variant="primary" @click="store">Speichern</b-btn>
           </b-col>
         </b-row>
       </div>

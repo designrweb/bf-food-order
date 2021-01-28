@@ -75,9 +75,10 @@ v<template>
 
 <script>
     import FilterTextInput                                      from "../../shared/filters/TextFilterComponent";
-    import {CreateButton, ViewButton, EditButton, DeleteButton}  from "../../shared/grid-buttons";
+    import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../shared/grid-buttons";
     import {getStructure, getItems}                             from "../../api/crudRequests";
     import SpinnerComponent                                     from "../../shared/SpinnerComponent";
+    import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
     export default {
         components: {
@@ -91,6 +92,7 @@ v<template>
         props:      {
             main_route: String
         },
+        mixins: [actionColumnMixin],
         data() {
             return {
                 currentPage:         1,
@@ -128,13 +130,6 @@ v<template>
                 this.allowActions = data['data']['allowActions'];
                 this._addActionColumn();
                 this.isPageBusy = false;
-            },
-            _addActionColumn() {
-                if (this.allowActions.all)
-                    this.fields.push({
-                        key:   'actions',
-                        label: 'Actions',
-                    });
             },
             async _loadData(page = 1) {
                 this.isTableBusy = true;

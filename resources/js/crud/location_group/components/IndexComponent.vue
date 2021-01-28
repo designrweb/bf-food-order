@@ -20,14 +20,11 @@
           striped
           hover
           :fields="fields"
+          show-empty
           :busy="isTableBusy"
           responsive="sm">
         <template #empty="scope">
-          <div class="container mt-3 mb-3">
-            <div class="text-center text-gray">
-              <h2 class="card-text no-results"> {{ scope.emptyText }} </h2>
-            </div>
-          </div>
+          <no-data-component></no-data-component>
         </template>
         <template v-slot:head()="scope">
           <div class="text-nowrap">
@@ -114,6 +111,8 @@ import {getStructure, getItems}                             from "../../api/crud
 import SpinnerComponent                                     from "../../shared/SpinnerComponent";
 import PaginationInfoComponent                              from "../../shared/PaginationInfoComponent";
 import FilterSelectInput                                    from "../../shared/filters/SelectFilterComponent";
+import NoDataComponent                                      from "../../shared/NoDataComponent";
+import {actionColumnMixin}                                  from "../../mixins/actionColumnMixin";
 
 export default {
   components: {
@@ -126,11 +125,13 @@ export default {
     'delete-button':             DeleteButton,
     'spinner-component':         SpinnerComponent,
     'pagination-into-component': PaginationInfoComponent,
+    'no-data-component':         NoDataComponent
   },
   props:      {
     main_route: String,
     title: String
   },
+  mixins: [actionColumnMixin],
   data() {
     return {
       currentPage:         1,
@@ -170,13 +171,6 @@ export default {
       this.allowActions = data['data']['allowActions'];
       this._addActionColumn();
       this.isPageBusy = false;
-    },
-    _addActionColumn() {
-      if (this.allowActions.all)
-        this.fields.push({
-          key:   'actions',
-          label: 'Aktionen',
-        });
     },
     async _loadData(page = 1) {
       this.isTableBusy = true;
