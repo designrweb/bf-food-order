@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Gate;
+
 return [
 
     /*
@@ -46,9 +48,9 @@ return [
     */
 
     'logo'              => '',
-    'logo_img'          => '/image/Coolinary_Logo_rgb.png',
+    'logo_img'          => '/image/logo_small.png',
     'logo_img_class'    => 'brand-image img-circle elevation-3',
-    'logo_img_xl'       => '/image/Coolinary_Logo_rgb.png',
+    'logo_img_xl'       => '/image/logo_small.png',
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt'      => 'FoodOrder',
 
@@ -70,6 +72,7 @@ return [
     'usermenu_image'        => false,
     'usermenu_desc'         => false,
     'usermenu_profile_url'  => false,
+    'switch_company'        => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -232,6 +235,12 @@ return [
 
     'menu' => [
         [
+            'text'  => 'Companies',
+            'route' => 'companies.index',
+            'icon'  => 'nav-icon fa fa-building',
+            'can'   => ['menu-Company'],
+        ],
+        [
             'text'  => 'Locations',
             'route' => 'locations.index',
             'icon'  => 'nav-icon fa fa-map-marked',
@@ -259,28 +268,24 @@ return [
                     'text'   => 'Bank Transactions',
                     'route'  => 'payments.bank-transactions',
                     'icon'   => 'fa fa-exchange-alt',
-                    'can'    => 'menu-Payment',
                     'active' => ['*payments/bank-transactions']
                 ],
                 [
                     'text'   => 'Meal Orders',
                     'route'  => 'payments.meal-orders',
                     'icon'   => 'fa fa-hamburger',
-                    'can'    => 'menu-Payment',
                     'active' => ['*payments/meal-orders']
                 ],
                 [
                     'text'   => 'Add Payment',
                     'route'  => 'payments.create',
                     'icon'   => 'fa fa-handshake',
-                    'can'    => 'menu-Payment',
                     'active' => ['*payments/create']
                 ],
                 [
                     'text'   => 'Payment Dumps',
                     'route'  => 'payment-dumps.index',
                     'icon'   => 'fa fa-piggy-bank',
-                    'can'    => 'menu-Payment',
                     'active' => ['*payment-dumps']
                 ],
             ],

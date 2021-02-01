@@ -1,6 +1,6 @@
 <nav class="main-header navbar
     {{ config('adminlte.classes_topnav_nav', 'navbar-expand') }}
-    {{ config('adminlte.classes_topnav', 'navbar-white navbar-light') }}">
+{{ config('adminlte.classes_topnav', 'navbar-white navbar-light') }}">
 
     {{-- Navbar left links --}}
     <ul class="navbar-nav">
@@ -21,6 +21,12 @@
 
         {{-- Configured right links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
+
+        @can('menu-Company')
+            @if(config('adminlte.switch_company'))
+                @include('adminlte::partials.navbar.switch-company')
+            @endif
+        @endcan
 
         {{-- User menu link --}}
         @if(Auth::user())

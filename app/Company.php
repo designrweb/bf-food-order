@@ -47,7 +47,7 @@ class Company extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && !in_array(auth()->user()->role, [User::ROLE_SUPER_ADMIN])) {
                 $builder->where('companies.id', auth()->user()->company_id);
             }
         });

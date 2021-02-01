@@ -7,6 +7,7 @@ use App\Services\CompanyService;
 use App\Http\Requests\CompanyFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class CompanyController
@@ -141,15 +142,22 @@ class CompanyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $this->service->remove($id);
 
         return response()->json(['redirect_url' => action('CompanyController@index')]);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function switchCompany($id): bool
+    {
+        return $this->service->switchCompany($id);
     }
 }

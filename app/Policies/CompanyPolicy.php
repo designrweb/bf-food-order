@@ -18,7 +18,7 @@ class CompanyPolicy
      */
     public function viewAny(User $user)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -49,7 +49,7 @@ class CompanyPolicy
      */
     public function create(User $user)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -65,7 +65,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company)
     {
-        if (in_array($user->role, [User::ROLE_ADMIN])) {
+        if (in_array($user->role, [User::ROLE_SUPER_ADMIN])) {
             return true;
         }
 

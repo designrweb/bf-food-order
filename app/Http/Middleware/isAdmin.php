@@ -16,8 +16,8 @@ class isAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!in_array($request->user()->role, [User::ROLE_ADMIN])) {
-            return redirect('/home');
+        if (!in_array($request->user()->role, [User::ROLE_ADMIN, User::ROLE_SUPER_ADMIN])) {
+            return redirect()->route('profile.index');
         }
 
         return $next($request);

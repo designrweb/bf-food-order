@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Services\ImageService;
+use App\Company;
 use App\Setting;
 use Illuminate\View\View;
 
@@ -27,7 +27,7 @@ class CompanySettingCompose
      */
     public function compose(View $view)
     {
-        $settings = !empty(auth()->user()) ? auth()->user()->company->settings->keyBy('setting_name')
+        $settings = !empty(auth()->user()) && auth()->user()->company_id ? Setting::where('company_id', auth()->user()->company_id)->get()->keyBy('setting_name')
             ->transform(function ($setting) {
                 return $setting->value;
             })->toArray() : [];
@@ -37,12 +37,16 @@ class CompanySettingCompose
         $companyLogo           = !empty($settings['logo']) ? asset(Setting::IMAGE_FOLDER . DIRECTORY_SEPARATOR . $settings['logo']) : asset(config('adminlte.logo_img_xl'));
         $themeColorRgba        = $this->hex2rgba($themeColor);
         $sidebarThemeColorRgba = $this->hex2rgba($sidebarThemeColor);
+        $companiesList         = Company::all();
+        $selectedCompany       = !empty(auth()->user()->company_id) ? Company::find(auth()->user()->company_id) : [];
 
         $view->with('themeColor', $themeColor);
         $view->with('themeColorRgba', $themeColorRgba);
         $view->with('sidebarThemeColor', $sidebarThemeColor);
         $view->with('sidebarThemeColorRgba', $sidebarThemeColorRgba);
         $view->with('companyLogo', $companyLogo);
+        $view->with('companiesList', $companiesList);
+        $view->with('selectedCompany', $selectedCompany);
     }
 
     /**
@@ -51,7 +55,6 @@ class CompanySettingCompose
      */
     public function hex2rgba($color): string
     {
-
         $default = 'rgb(0,0,0)';
 
         //Return default if no color provided
