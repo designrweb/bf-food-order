@@ -68,7 +68,8 @@ class Order extends Model
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth()->check()) {
                 $builder->whereHas('menuItem.menuCategory.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id);
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('menu_categories.location_id', auth()->user()->location_id);
                 });
             }
         });

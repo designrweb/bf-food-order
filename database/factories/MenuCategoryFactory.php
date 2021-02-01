@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(MenuCategory::class, function (Faker $faker) {
-    $price = $faker->randomFloat(10, 3, 6);
+    $price = $faker->randomFloat(2, 3, 6);
 
     return [
         'name'           => $faker->word,
