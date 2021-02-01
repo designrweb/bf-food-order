@@ -359,6 +359,22 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => false,
+            'view'   => true,
+            'edit'   => false,
+            'delete' => false,
+        ];
+    }
+
+    /**
      * Convert Date to the start of the day
      *
      * @param $date

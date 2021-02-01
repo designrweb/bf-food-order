@@ -183,12 +183,12 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('consumers.view-structure');
         Route::get('/get-one/{id}', 'ConsumerController@getOne')->name('consumers.get-one');
         Route::get('/', "ConsumerController@index")->name('consumers.index');
-        Route::get('/create', 'ConsumerController@create')->name('consumers.create');
-        Route::post('/', "ConsumerController@store")->name('consumers.store');
-        Route::get('/{id}/edit', 'ConsumerController@edit')->name('consumers.edit');
+        Route::get('/create', 'ConsumerController@create')->name('consumers.create')->middleware('checkRole:create,App\Consumer');
+        Route::post('/', "ConsumerController@store")->name('consumers.store')->middleware('checkRole:create,App\Consumer');
+        Route::get('/{id}/edit', 'ConsumerController@edit')->name('consumers.edit')->middleware('checkRole:update,App\Consumer,id');
         Route::get('/{id}', 'ConsumerController@show')->name('consumers.show');
         Route::put('/{id}', 'ConsumerController@update')->name('consumers.update');
-        Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy');
+        Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
         Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
         Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
         Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');

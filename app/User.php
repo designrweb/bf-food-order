@@ -36,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ROLE_USER        = 'user';
     const ROLE_ADMIN       = 'admin';
+    const ROLE_SUPER_ADMIN = 'super_admin';
     const ROLE_POS_MANAGER = 'pos_manager';
     const ROLE_SUPER_ADMIN = 'super_admin';
 
