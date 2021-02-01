@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(AdminSeeder::class);
+        $this->call(SuperAdminSeed::class);
     }
 }

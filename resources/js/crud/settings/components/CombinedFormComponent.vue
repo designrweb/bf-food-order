@@ -19,8 +19,8 @@
               <image-upload-component
                   :imageFieldName="'logo'"
                   :image="form.logo"
-                  :height="948"
-                  :width="4410"
+                  :height="45"
+                  :width="285"
                   :route="main_route"
                   :entityId="''"
                   @changed="handleImage"

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Companies'         => 'Unternehmen',
     'Locations'         => 'Einrichtung',
     'Groups'            => 'Klassen',
     'Administrators'    => 'Administratoren',

@@ -103,28 +103,10 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-form-group
-                  id="input-group-company_id"
-                  label="Unternehmen"
-                  label-for="input-company_id"
-              >
-                <b-form-select
-                    v-model="form.company_id"
-                    :options="companies_list"
-                    class="mb-3"
-                    value-field="id"
-                    text-field="name"
-                    disabled-field="notEnabled"
-                ></b-form-select>
-                <b-form-invalid-feedback :state="validation['company_id']['state']">
-                  {{ validation['company_id']['message'] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button type="submit" variant="primary" class="float-right">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
@@ -152,7 +134,6 @@ export default {
   },
   props:      {
     main_route:     String,
-    companies_list: Array,
     id:             String | Number,
     title: String
   },

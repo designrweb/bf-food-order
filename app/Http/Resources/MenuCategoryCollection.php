@@ -24,7 +24,11 @@ class MenuCategoryCollection extends PaginatableCollection
     {
         return [
             'data'       => $this->collection->transform(function (MenuCategory $item) {
-                return $item->toArray();
+                $data = $item->toArray();
+
+                $data['price_locale'] = $item->price_locale == '0,00' ? __('menu-category.Not Available for POS') : $item->price_locale;
+
+                return $data;
             }),
             'pagination' => $this->pagination
         ];
