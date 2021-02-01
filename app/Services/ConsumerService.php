@@ -367,9 +367,9 @@ class ConsumerService extends BaseModelService
     {
         return [
             'all'    => true,
-            'create' => false,
+            'create' => auth()->user()->can('create', Consumer::class),
             'view'   => true,
-            'edit'   => false,
+            'edit'   => auth()->user()->can('create', Consumer::class),
             'delete' => false,
         ];
     }
@@ -401,7 +401,7 @@ class ConsumerService extends BaseModelService
      */
     protected function generateAccountId(): string
     {
-        $accounts  = $this->repository->getAccountIdList();
+        $accounts = $this->repository->getAccountIdList();
 
         $accountId = strval(rand(100000, 999999));
 
