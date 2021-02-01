@@ -60,11 +60,10 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateThemeColor($themeColor = null)
     {
-        $settings = auth()->user()->company->settings();
-
-        $settings->updateOrCreate([
+        Setting::updateOrCreate([
             'setting_name' => 'theme_color',
             'visible_name' => 'Theme Color',
+            'company_id'   => auth()->user()->company_id,
         ], [
             'value' => $themeColor
         ]);
@@ -78,11 +77,10 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateSidebarColor($sidebarThemeColor = null)
     {
-        $settings = auth()->user()->company->settings();
-
-        $settings->updateOrCreate([
+        Setting::updateOrCreate([
             'setting_name' => 'sidebar_theme_color',
             'visible_name' => 'Sidebar Theme Color',
+            'company_id'   => auth()->user()->company_id,
         ], [
             'value' => $sidebarThemeColor
         ]);
@@ -96,11 +94,10 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateEmail($email = null)
     {
-        $settings = auth()->user()->company->settings();
-
-        $settings->updateOrCreate([
+        Setting::updateOrCreate([
             'setting_name' => 'email',
             'visible_name' => 'Email',
+            'company_id'   => auth()->user()->company_id,
         ], [
             'value' => $email,
         ]);
@@ -114,11 +111,10 @@ class SettingRepository implements RepositoryInterface
      */
     public function updateLogo($logo = null)
     {
-        $settings = auth()->user()->company->settings();
-
-        $settings->updateOrCreate([
+        Setting::updateOrCreate([
             'setting_name' => 'logo',
             'visible_name' => 'Logo',
+            'company_id'   => auth()->user()->company_id,
         ], [
             'value' => !empty($logo) ? ImageComponent::storeInFile($logo, $this->model::IMAGE_FOLDER) : '',
         ]);

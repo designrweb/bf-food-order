@@ -49,3 +49,7 @@ export const getLocationGroupsByLocationId = (url) => api
 export const getSubsidizationRulesBySubsidizationOrganizationId = (url) => api
     .request(url)
     .get();
+
+export const switchCompany = (url) => api
+    .request(url)
+    .get();

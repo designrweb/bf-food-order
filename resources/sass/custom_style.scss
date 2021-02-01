@@ -10,6 +10,28 @@
   opacity: 0.8 !important;
 }
 
+#companies-switcher-page {
+  margin-top: -8px;
+}
+
+#companies-switcher-page .dropdown-item.active, #companies-switcher-page .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: var(--main-theme-color) !important;
+}
+
+.btn-outline-success {
+  color: var(--main-theme-color) !important;
+  border-color: var(--main-theme-color) !important;
+  opacity: 0.8 !important;
+}
+
+.btn-outline-success:hover {
+  color: #fff !important;
+  background-color: var(--main-theme-color) !important;
+  opacity: 1 !important;
+}
+
 .btn-success:hover, .sortable:hover {
   opacity: 1 !important;
 }

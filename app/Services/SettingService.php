@@ -70,7 +70,7 @@ class SettingService extends BaseModelService
         $this->repository->updateLogo($data['logo'] ?? null);
         $this->repository->updateThemeColor($data['theme_color'] ?? null);
         $this->repository->updateSidebarColor($data['sidebar_theme_color'] ?? null);
-        $this->repository->updateEmail($data['email']) ?? null;
+        $this->repository->updateEmail($data['email'] ?? null);
 
         return true;
     }

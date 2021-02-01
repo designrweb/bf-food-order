@@ -21,20 +21,13 @@ class LocationController extends Controller
     protected $service;
 
     /**
-     * @var CompanyService
-     */
-    protected $companyService;
-
-    /**
      * LocationController constructor.
      *
      * @param LocationService $service
-     * @param CompanyService  $companyService
      */
-    public function __construct(LocationService $service, CompanyService $companyService)
+    public function __construct(LocationService $service)
     {
-        $this->service        = $service;
-        $this->companyService = $companyService;
+        $this->service = $service;
     }
 
     /**
@@ -87,11 +80,7 @@ class LocationController extends Controller
      */
     public function create()
     {
-        $companiesList = $this->companyService->getList();
-
-        return view('locations._form', [
-            'companiesList' => $companiesList
-        ]);
+        return view('locations._form');
     }
 
     /**
@@ -128,8 +117,7 @@ class LocationController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource                  = $this->service->getOne($id)->toArray(request());
-        $resource['companiesList'] = $this->companyService->getList();
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('locations._form', compact('resource'));
     }

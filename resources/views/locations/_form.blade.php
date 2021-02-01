@@ -9,16 +9,14 @@
     <div id="grid-form-page">
         @if(!empty($resource))
             <grid-form
-                :main_route="'/admin/locations'"
-                :id="{{$resource['id']}}"
-                :companies_list="{{json_encode($resource['companiesList'])}}"
-                title="{{ __('location.Update Location', ['name' => $resource['name']]) }}"
+                    :main_route="'/admin/locations'"
+                    :id="{{$resource['id']}}"
+                    title="{{ __('location.Update Location', ['name' => $resource['name']]) }}"
             ></grid-form>
         @else
             <grid-form
-                :main_route="'/admin/locations'"
-                :companies_list="{{json_encode($companiesList)}}"
-                title="@lang('location.Create Location')"
+                    :main_route="'/admin/locations'"
+                    title="@lang('location.Create Location')"
             ></grid-form>
         @endif
     </div>

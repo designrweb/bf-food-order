@@ -8,6 +8,7 @@ use App\Company;
 use App\QueryBuilders\CompanySearch;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository implements RepositoryInterface
 {
@@ -89,5 +90,25 @@ class CompanyRepository implements RepositoryInterface
         }
 
         return $companiesArray;
+    }
+
+    /**
+     * @param null $id
+     * @return bool
+     */
+    public function switchCompany($id = null): bool
+    {
+        $user = auth()->user();
+
+        if (empty($id)) {
+            $id = Company::first()->id;
+        }
+
+        if (!empty($id)) {
+            $user->company_id = $id;
+            $user->save();
+        }
+
+        return true;
     }
 }

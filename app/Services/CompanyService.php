@@ -101,6 +101,15 @@ class CompanyService extends BaseModelService
     }
 
     /**
+     * @param null $id
+     * @return bool
+     */
+    public function switchCompany($id = null): bool
+    {
+        return $this->repository->switchCompany($id);
+    }
+
+    /**
      * @param Model $model
      * @return \string[][]
      */
@@ -162,15 +171,13 @@ class CompanyService extends BaseModelService
      */
     protected function getFilters(Model $model): array
     {
-        $filters = [
+        return [
             'name'   => '',
             'email'  => '',
             'zip'    => '',
             'street' => '',
             'city'   => '',
         ];
-
-        return $filters;
     }
 
     /**
@@ -179,7 +186,7 @@ class CompanyService extends BaseModelService
      */
     protected function getSortFields(Model $model): array
     {
-        $sortFields = [
+        return [
             'id'     => '',
             'name'   => '',
             'email'  => '',
@@ -187,7 +194,5 @@ class CompanyService extends BaseModelService
             'street' => '',
             'city'   => '',
         ];
-
-        return $sortFields;
     }
 }
