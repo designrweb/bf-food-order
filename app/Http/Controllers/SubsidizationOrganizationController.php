@@ -30,7 +30,7 @@ class SubsidizationOrganizationController extends Controller
      */
     public function __construct(SubsidizationOrganizationService $service, LocationService $locationService)
     {
-        $this->service = $service;
+        $this->service         = $service;
         $this->locationService = $locationService;
     }
 
@@ -89,16 +89,11 @@ class SubsidizationOrganizationController extends Controller
     }
 
     /**
-     * @param CompanyService $companyService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(CompanyService $companyService)
+    public function create()
     {
-        $companiesList = $companyService->getList();
-
-        return view('subsidization_organizations._form', [
-            'companiesList' => $companiesList
-        ]);
+        return view('subsidization_organizations._form');
     }
 
     /**
@@ -121,7 +116,7 @@ class SubsidizationOrganizationController extends Controller
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource      = $this->service->getOne($id)->toArray(request());
         $locationsList = $this->locationService->getList();
 
         return view('subsidization_organizations.view', compact('resource', 'locationsList'));
@@ -132,11 +127,10 @@ class SubsidizationOrganizationController extends Controller
      * @param                $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(CompanyService $companyService, $id)
+    public function edit($id)
     {
         /** @var array $resource */
-        $resource                  = $this->service->getOne($id)->toArray(request());
-        $resource['companiesList'] = $companyService->getList();
+        $resource = $this->service->getOne($id)->toArray(request());
 
         return view('subsidization_organizations._form', compact('resource'));
     }

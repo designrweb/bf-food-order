@@ -13,12 +13,26 @@ use App\Order;
 
 class OrderService extends BaseModelService
 {
-
+    /**
+     * @var OrderRepository
+     */
     protected $repository;
 
-    public function __construct(OrderRepository $repository)
+    /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    /**
+     * OrderService constructor.
+     *
+     * @param OrderRepository $repository
+     * @param LocationService $locationService
+     */
+    public function __construct(OrderRepository $repository, LocationService $locationService)
     {
-        $this->repository = $repository;
+        $this->repository      = $repository;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -148,6 +162,10 @@ class OrderService extends BaseModelService
                 'key'   => 'day',
                 'label' => __('app.Day')
             ],
+            [
+                'key'   => 'menu_item.menu_category.location.name',
+                'label' => __('order.Location')
+            ],
         ];
     }
 
@@ -158,10 +176,11 @@ class OrderService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'consumer.full_name' => '',
-            'menu_item.name'     => '',
-            'quantity'           => '',
-            'day'                => '',
+            'consumer.full_name'                    => '',
+            'menu_item.name'                        => '',
+            'quantity'                              => '',
+            'day'                                   => '',
+            'menu_item.menu_category.location.name' => '',
         ];
     }
 
@@ -172,10 +191,15 @@ class OrderService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'consumer.full_name' => '',
-            'menu_item.name'     => '',
-            'quantity'           => '',
-            'day'                => '',
+            'consumer.full_name'                    => '',
+            'menu_item.name'                        => '',
+            'quantity'                              => '',
+            'day'                                   => '',
+            'menu_item.menu_category.location.name' => [
+                'values' => $this->locationService->getList(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
         ];
     }
 

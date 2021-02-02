@@ -85,7 +85,10 @@ class MenuCategory extends Model
      */
     public function setCreatedAtAttribute($value)
     {
-        $this->attributes['created_at'] = date('Y-m-d H:i:s', strtotime($value));
+        if (!empty($value)) {
+            $this->attributes['created_at'] = date('Y-m-d H:i:s', strtotime($value));
+        }
+
     }
 
     /**
@@ -93,7 +96,9 @@ class MenuCategory extends Model
      */
     public function setUpdatedAtAttribute($value)
     {
-        $this->attributes['updated_at'] = date('Y-m-d H:i:s', strtotime($value));
+        if (!empty($value)) {
+            $this->attributes['updated_at'] = date('Y-m-d H:i:s', strtotime($value));
+        }
     }
 
     /**

@@ -229,10 +229,6 @@ class LocationService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'image_name',
                 'label' => __('app.Image Name')
             ],
