@@ -327,11 +327,10 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/', "CompanyController@index")->name('companies.index')->middleware('checkRole:viewAny,App\Company');
         Route::get('/create', 'CompanyController@create')->name('companies.create')->middleware('checkRole:create,App\Company');
         Route::post('/', "CompanyController@store")->name('companies.store')->middleware('checkRole:viewAny,App\Company');
-        Route::get('/{id}/edit', 'CompanyController@edit')->name('companies.edit')->middleware('checkRole:update,App\Company');
+        Route::get('/{id}/edit', 'CompanyController@edit')->name('companies.edit')->middleware('checkRole:update,App\Company,id');
         Route::get('/{id}', 'CompanyController@show')->name('companies.show')->middleware('checkRole:view,App\Company,id');
-        Route::put('/{id}', 'CompanyController@update')->name('companies.update')->middleware('checkRole:update,App\Company');
-        Route::delete('/{id}', "CompanyController@destroy")->name('companies.destroy')->middleware('checkRole:delete,App\Company');
-        Route::delete('/{id}', "CompanyController@destroy")->name('companies.destroy')->middleware('checkRole:delete,App\Company');
+        Route::put('/{id}', 'CompanyController@update')->name('companies.update')->middleware('checkRole:update,App\Company,id');
+        Route::delete('/{id}', "CompanyController@destroy")->name('companies.destroy')->middleware('checkRole:delete,App\Company,id');
         Route::get('/{id}/switch-company', 'CompanyController@switchCompany')->name('companies.switch-company')->middleware('checkRole:view,App\Company,id');
     });
 
