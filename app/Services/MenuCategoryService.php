@@ -134,11 +134,11 @@ class MenuCategoryService extends BaseModelService
                 'label' => __('menu-category.Price')
             ],
             [
-                'key'   => 'created_at',
+                'key'   => 'created_at_human',
                 'label' => __('app.Created At')
             ],
             [
-                'key'   => 'updated_at',
+                'key'   => 'updated_at_human',
                 'label' => __('app.Updated At')
             ],
         ];
