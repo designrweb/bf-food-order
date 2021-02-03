@@ -69,6 +69,7 @@
               label-for="input-password"
           >
             <b-form-input
+                type="password"
                 id="input-password"
                 v-model="form.password"
                 placeholder="Passwort"

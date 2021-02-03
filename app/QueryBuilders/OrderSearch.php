@@ -18,8 +18,10 @@ class OrderSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
-        $this->builder->select(['orders.*', 'menu_items.name as menu_item_name'])
+        $this->builder->select(['orders.*', 'menu_items.name as menu_item_name', 'locations.name as location_name'])
             ->leftJoin('menu_items', 'menu_items.id', '=', 'orders.menuitem_id')
+            ->leftJoin('menu_categories', 'menu_categories.id', '=', 'menu_items.menu_category_id')
+            ->leftJoin('locations', 'locations.id', '=', 'menu_categories.location_id')
             ->leftJoin('consumers', 'consumers.id', '=', 'orders.consumer_id');
 
         // filters
@@ -30,6 +32,10 @@ class OrderSearch extends BaseSearch
         $this->builder->when(request('filters.day'), function (Builder $query) {
             $query->where('orders.day', date('Y-m-d', strtotime(request('filters.day'))));
         });
+
+        if (!empty(request('filters.menu_item.menu_category.location.name'))) {
+            $this->applyFilter('menu_categories.location_id', request('filters.menu_item.menu_category.location.name'));
+        }
 
         $this->builder->when(request('filters.menu_item.name'), function (Builder $query) {
             $query->where('menu_items.name', 'like', '%' . request('filters.menu_item.name') . '%');
@@ -49,6 +55,10 @@ class OrderSearch extends BaseSearch
 
         $this->builder->when(request('sort.consumer.full_name'), function (Builder $query) {
             return $query->orderByRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) " . request('sort.consumer.full_name'));
+        });
+
+        $this->builder->when(request('sort.menu_item.menu_category.location.name'), function (Builder $q) {
+            return $q->orderBy('locations.name', request('sort.menu_item.menu_category.location.name'));
         });
 
         return $this->builder;

@@ -74,7 +74,7 @@ class PaymentService extends BaseModelService
             $consumer = $payment->consumer;
 
             if ($consumer) {
-                $consumer->balance -= $payment->amount;
+                $consumer->balance += $payment->amount;
                 $consumer->save();
             }
 
@@ -110,7 +110,7 @@ class PaymentService extends BaseModelService
                 $consumer = $payment->consumer;
 
                 if (!empty($consumer)) {
-                    $consumer->balance -= $payment->amount;
+                    $consumer->balance += $payment->amount;
                     $consumer->update();
                 }
 
@@ -119,7 +119,7 @@ class PaymentService extends BaseModelService
                 $oldConsumer = $paymentData->consumer;
 
                 if (!empty($oldConsumer)) {
-                    $oldConsumer->balance += $payment->amount;
+                    $oldConsumer->balance -= $payment->amount;
                     $oldConsumer->update();
                 }
             }

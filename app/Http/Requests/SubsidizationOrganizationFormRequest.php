@@ -31,4 +31,14 @@ class SubsidizationOrganizationFormRequest extends FormRequest
             'zip.regex' => 'Zip must have 5 digits',
         ];
     }
+
+    /**
+     *
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'company_id' => auth()->user()->company_id,
+        ]);
+    }
 }

@@ -30,5 +30,6 @@ return [
     'Your balance:'                                                => 'Ihr Kontostand lautet:',
     'Your order costs:'                                            => 'Ihre Bestellung kostet:',
     'Child Full Name'                                              => 'Vollständiger Name des Kindes',
+    'Location'                                                     => 'Einrichtung',
 
 ];

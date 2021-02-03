@@ -54,6 +54,15 @@
                   :appliedFilterValue="filters[field.key]"
               ></filter-form-date-picker>
 
+              <filter-select
+                  v-else-if="filters[field.key].type === 'select'"
+                  @changeFilter="applyFilter"
+                  :options="filters[field.key]['values']"
+                  :filterName="field.key"
+                  :filterLabel="field.label"
+                  :appliedFilterValue="filters[field.key].filter"
+              ></filter-select>
+
               <filter-text
                   v-else
                   @changeFilter="applyFilter"
@@ -110,10 +119,12 @@ import FormDatePickerFilterComponent                                      from "
 import ShowAllButton                                                      from "../../shared/grid-buttons/ShowAllButton";
 import NoDataComponent                                                    from "../../shared/NoDataComponent";
 import {actionColumnMixin}                                                from "../../mixins/actionColumnMixin";
+import FilterSelectInput                                                  from "../../shared/filters/SelectFilterComponent";
 
 export default {
   components: {
     'filter-text':               FilterTextInput,
+    'filter-select':             FilterSelectInput,
     'create-button':             CreateButton,
     'view-button':               ViewButton,
     'edit-button':               EditButton,
@@ -128,7 +139,7 @@ export default {
   props:      {
     main_route: String
   },
-  mixins: [actionColumnMixin],
+  mixins:     [actionColumnMixin],
   data() {
     return {
       currentPage:         1,

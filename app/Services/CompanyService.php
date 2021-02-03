@@ -143,10 +143,6 @@ class CompanyService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => __('app.Id')
-            ],
-            [
                 'key'   => 'name',
                 'label' => __('location-group.Group Name')
             ],
