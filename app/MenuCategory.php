@@ -33,7 +33,7 @@ class MenuCategory extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['price_locale', 'presaleprice_locale'];
+    protected $appends = ['price_locale', 'presaleprice_locale', 'created_at_human', 'updated_at_human'];
 
     /**
      * @var array
@@ -81,24 +81,19 @@ class MenuCategory extends Model
     }
 
     /**
-     * @param $value
+     * @return false|string
      */
-    public function setCreatedAtAttribute($value)
+    public function getCreatedAtHumanAttribute()
     {
-        if (!empty($value)) {
-            $this->attributes['created_at'] = date('Y-m-d H:i:s', strtotime($value));
-        }
-
+        return $this->attributes['created_at'] = date('M d, Y, H:i:s A', strtotime($this->created_at));
     }
 
     /**
-     * @param $value
+     * @return false|string
      */
-    public function setUpdatedAtAttribute($value)
+    public function getUpdatedAtHumanAttribute()
     {
-        if (!empty($value)) {
-            $this->attributes['updated_at'] = date('Y-m-d H:i:s', strtotime($value));
-        }
+        return $this->attributes['updated_at'] = date('M d, Y, H:i:s A', strtotime($this->updated_at));
     }
 
     /**
