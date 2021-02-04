@@ -85,7 +85,7 @@
                     valueType="format"
                     format="DD.MM.YYYY"
                     :lang="lang"
-                    input-class="form-control">
+                    input-class="form-control b-day">
                 </date-picker>
                 <b-form-invalid-feedback :state="validation['birthday']['state']">
                   {{ validation['birthday']['message'] }}
