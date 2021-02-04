@@ -411,4 +411,12 @@ class ConsumerService extends BaseModelService
 
         return $accountId;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getConsumersForPosTerminal()
+    {
+        return $this->repository->getConsumersForPosTerminal();
+    }
 }

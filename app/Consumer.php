@@ -55,7 +55,8 @@ class Consumer extends Model
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth()->check()) {
                 $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id);
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('locations.id', auth()->user()->location_id);
                 });
             }
         });
@@ -104,6 +105,33 @@ class Consumer extends Model
     public function qrcode()
     {
         return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function preOrderedItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 0)
+            ->where('type', Order::TYPE_PRE_ORDER)
+            ->where('day', date('Y-m-d'));
+    }
+
+    public function pickedUpPreOrderedItems()
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 1)
+            ->where('type', Order::TYPE_PRE_ORDER)
+            ->where('day', date('Y-m-d'));
+    }
+
+    public function pickedUpPosOrderedItems()
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 1)
+            ->where('type', Order::TYPE_POS_ORDER)
+            ->where('pickedup_at', 'like', date('Y-m-d'));
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Tests\Unit\Models\Consumer\Relation;
 
 use App\Consumer;
 use App\ConsumerSubsidization;
+use App\LocationGroup;
+use App\Order;
 use App\SubsidizationRule;
 use Tests\TestCase;
 
@@ -33,5 +35,76 @@ class ConsumerRelationTest extends TestCase
         $consumer = create(Consumer::class);
 
         $this->assertEmpty($consumer->subsidizationRule);
+    }
+
+    /** @test */
+    public function consumer_has_many_pre_orders_for_current_day()
+    {
+        $consumer = create(Consumer::class);
+
+        $order = create(Order::class, [
+            'consumer_id' => $consumer->id,
+            'pickedup'    => 0,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ]);
+
+        create(Order::class, [
+            'consumer_id' => $consumer->id,
+            'pickedup'    => 0,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ], 3);
+
+
+        create(Order::class, [
+            'pickedup'    => 0,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ], 2);
+
+        $this->assertEquals(4, $consumer->preOrderedItems->count());
+        $this->assertTrue($consumer->preOrderedItems->contains($order));
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $consumer->preOrderedItems);
+    }
+
+    /** @test */
+    public function consumer_has_many_pre_orders_picked_up_in_current_day()
+    {
+
+        $posManager = $this->actingAsPosManager();
+
+        $consumer = create(Consumer::class, [
+            'location_group_id' => create(LocationGroup::class, [
+                'location_id' => $posManager->location_id
+            ])
+        ]);
+
+        $order = create(Order::class, [
+            'consumer_id' => $consumer->id,
+            'pickedup'    => 1,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ]);
+
+        create(Order::class, [
+            'consumer_id' => $consumer->id,
+            'pickedup'    => 1,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ], 2);
+
+        create(Order::class, [
+            'consumer_id' => $consumer->id,
+            'pickedup'    => 0,
+            'type'        => Order::TYPE_PRE_ORDER,
+            'day'         => date('Y-m-d')
+        ]);
+
+        $t = $consumer->pickedUpPreOrderedItems;
+
+        $this->assertEquals(3, $consumer->pickedUpPreOrderedItems->count());
+        $this->assertTrue($consumer->pickedUpPreOrderedItems->contains($order));
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $consumer->pickedUpPreOrderedItems);
     }
 }

@@ -8,6 +8,9 @@ use App\MenuItem;
 use Carbon\Carbon;
 use Tests\TestCase;
 
+/**
+ * @group api_controller
+ */
 class MenuItemControllerTest extends TestCase
 {
     /** @test */

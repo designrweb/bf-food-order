@@ -35,5 +35,6 @@ Route::prefix('v1')->group(function() {
     /** POS terminal routes */
     Route::prefix('pos')->group(function() {
         Route::get('menuitem', 'api\v1\pos\MenuItemController@index');
+        Route::get('consumer', 'api\v1\pos\ConsumerController@index');
     });
 });

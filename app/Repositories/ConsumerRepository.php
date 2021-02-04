@@ -230,4 +230,12 @@ class ConsumerRepository implements RepositoryInterface
     {
         return $this->model->all()->pluck('account_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getConsumersForPosTerminal()
+    {
+        return Consumer::with('locationgroup', 'preOrderedItems', 'pickedUpPreOrderedItems', 'pickedUpPosOrderedItems')->get();
+    }
 }
