@@ -1,0 +1,52 @@
+### Authorization request
+POST http://food-order-laravel.loc/api/v1/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed")
+})
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+
+### Request user data (me)
+POST http://food-order-laravel.loc/api/v1/auth/me
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Request user data (me)', function() {
+  client.assert(response.body.hasOwnProperty('id'), "User object is not received")
+})
+%}
+
+#### Refresh token
+POST http://food-order-laravel.loc/api/v1/auth/refresh
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Refresh access token', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Refresh failed")
+})
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+#### Logout action
+POST http://food-order-laravel.loc/api/v1/auth/logout
+Authorization: Bearer {{access_token}}
+
+> {%
+client.log(JSON.stringify(response.status));
+client.test('Logout request', function() {
+  client.assert(response.status === 200, "Logout failed")
+})
+
+client.global.clear('access_token')
+%}
+
+
+

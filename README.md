@@ -8,8 +8,9 @@ The main purpose of the application is to organize food ordering and it consumin
 3) Run `composer install`
 4) Run `php artisan key:generate`
 5) Run `php artisan storage:link`
-6) Run `npm install`
-7) Then build assets `npm run dev`
+6) Run `php artisan jwt:secret` - to generate jwt token
+7) Run `npm install`
+8) Then build assets `npm run dev`
 
 ### Environment variables
 `KEY_FILE_ENCRYPT` (long key for encrypt and decrypt images)
@@ -22,6 +23,9 @@ Check [docs](https://github.com/andriyburda/crud-generator/blob/master/readme.md
 
 ## AdminLTE
 Check [docs](https://github.com/jeroennoten/Laravel-AdminLTE/blob/master/README.md) for more details
+
+## JWT-Auth
+Check [docs](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) for more details
 
 ## Testing
 1) Create new test DB for testing purposes.
