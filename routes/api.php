@@ -18,12 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function() {
+Route::prefix('v1')->group(function () {
 
     /** Auth routes */
     Route::group([
         'middleware' => 'api',
-        'prefix' => 'auth'
+        'prefix'     => 'auth'
     ], function ($router) {
         Route::post('login', 'api\v1\AuthController@login');
         Route::post('logout', 'api\v1\AuthController@logout');
@@ -32,9 +32,33 @@ Route::prefix('v1')->group(function() {
 
     });
 
+    /** POS terminal Auth routes */
+    Route::group([
+        'middleware' => 'api',
+        'prefix'     => 'pos',
+        'namespace'  => 'api\v1\pos',
+    ], function ($router) {
+        Route::post('user/login', 'AuthController@login');
+        Route::get('user/data', 'AuthController@me');
+        Route::post('logout', 'AuthController@logout');
+    });
+
     /** POS terminal routes */
-    Route::prefix('pos')->group(function() {
-        Route::get('menuitem', 'api\v1\pos\MenuItemController@index');
-        Route::get('consumer', 'api\v1\pos\ConsumerController@index');
+    Route::group([
+        'middleware' => 'auth:api',
+        'prefix'     => 'pos',
+        'namespace'  => 'api\v1\pos',
+    ], function () {
+        Route::post('order/create', 'OrderController@create');
+        Route::get('order/limit', 'OrderController@limit');
+        Route::get('order/statistic', 'OrderController@statistic');
+
+        Route::get('menuitem', 'MenuItemController@index');
+
+        Route::get('history', 'HistoryController@index');
+
+        Route::get('consumer', 'ConsumerController@index');
+        Route::get('search/consumer', 'ConsumerController@searchByConsumer');
+        Route::get('search/consumer-qr-code', 'ConsumerController@searchByQrCode');
     });
 });

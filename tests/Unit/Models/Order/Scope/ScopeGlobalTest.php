@@ -6,6 +6,7 @@ use App\Location;
 use App\MenuCategory;
 use App\MenuItem;
 use App\Order;
+use App\User;
 use Tests\TestCase;
 
 /**
@@ -51,7 +52,10 @@ class ScopeGlobalTest extends TestCase
     /** @test */
     public function it_returns_orders_that_belongs_to_pos_manager_location()
     {
-        $posManager = $this->actingAsPosManager();
+        $posManager = create(User::class, [
+            'location_id' => create(Location::class),
+            'role'       => User::ROLE_POS_MANAGER
+        ]);
 
         create(Order::class, [
             'menuitem_id' => create(MenuItem::class, [
@@ -63,7 +67,7 @@ class ScopeGlobalTest extends TestCase
 
         create(Order::class, [], 3);
 
-        $this->assertDatabaseCount('orders', 5);
+        $this->actingAs($posManager);
 
         $orders = Order::all();
 

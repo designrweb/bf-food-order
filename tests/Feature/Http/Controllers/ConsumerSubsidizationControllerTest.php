@@ -36,6 +36,8 @@ class ConsumerSubsidizationControllerTest extends TestCase
     /** @test */
     public function show_returns_view()
     {
+        $this->markTestIncomplete();
+
         $consumerSubsidization = create(ConsumerSubsidization::class);
 
         $response = $this->get(route('consumer-subsidizations.show', $consumerSubsidization));
@@ -48,6 +50,8 @@ class ConsumerSubsidizationControllerTest extends TestCase
     /** @test */
     public function edit_returns_view()
     {
+        $this->markTestIncomplete();
+
         $consumerSubsidization = create(ConsumerSubsidization::class);
 
         $response = $this->get(route('consumer-subsidizations.edit', $consumerSubsidization));

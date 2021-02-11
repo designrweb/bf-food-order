@@ -70,15 +70,14 @@ class OrderRepository extends Repository
     }
 
     /**
-     * @param Order $order
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function countOrdersWithSubsidizationByDateForConsumer(Order $order)
+    public function getOrdersForToday()
     {
-        return Order::hasSubsidization()
-            ->where('consumer_id', $order->consumer_id)
-            ->where('day', $order->day)
-            ->where('id', '<>', $order->id)
-            ->count();
+        return Order::with(['menuItem.menuCategory', 'consumer'])
+            ->where('pickedup', 1)
+            ->where('pickedup_at', 'like', date('Y-m-d') . '%')
+            ->orderBy('pickedup_at', 'desc')
+            ->get();
     }
 }

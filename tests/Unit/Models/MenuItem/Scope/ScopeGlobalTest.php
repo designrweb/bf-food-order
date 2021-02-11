@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\MenuItem\Scope;
 use App\Location;
 use App\MenuCategory;
 use App\MenuItem;
+use App\User;
 use Tests\TestCase;
 
 /**
@@ -46,7 +47,10 @@ class ScopeGlobalTest extends TestCase
     /** @test */
     public function it_returns_menu_items_that_belongs_to_pos_manager_location()
     {
-        $posManager = $this->actingAsPosManager();
+        $posManager = create(User::class, [
+            'location_id' => create(Location::class),
+            'role'        => User::ROLE_POS_MANAGER
+        ]);
 
         create(MenuItem::class, [
             'menu_category_id' => create(MenuCategory::class, [
@@ -55,6 +59,8 @@ class ScopeGlobalTest extends TestCase
         ], 2);
 
         create(MenuItem::class);
+
+        $this->actingAs($posManager);
 
         $menuItems = MenuItem::all();
 

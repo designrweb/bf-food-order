@@ -2,8 +2,10 @@
 
 namespace Tests\Unit\Models\Consumer\Relation;
 
+use App\Company;
 use App\Consumer;
 use App\ConsumerSubsidization;
+use App\Location;
 use App\LocationGroup;
 use App\Order;
 use App\SubsidizationRule;
@@ -106,5 +108,44 @@ class ConsumerRelationTest extends TestCase
         $this->assertEquals(3, $consumer->pickedUpPreOrderedItems->count());
         $this->assertTrue($consumer->pickedUpPreOrderedItems->contains($order));
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $consumer->pickedUpPreOrderedItems);
+    }
+
+    /** @test */
+    public function consumer_belongs_to_location_group()
+    {
+        $consumer = create(Consumer::class, [
+            'location_group_id' => create(LocationGroup::class)
+        ]);
+
+        $this->assertEquals(1, $consumer->locationgroup->count());
+        $this->assertInstanceOf(LocationGroup::class, $consumer->locationgroup);
+    }
+
+    /** @test */
+    public function consumer_belongs_to_location_through_location_group()
+    {
+        $consumer = create(Consumer::class, [
+            'location_group_id' => create(LocationGroup::class, [
+                'location_id' => create(Location::class)
+            ])
+        ]);
+
+        $this->assertEquals(1, $consumer->location->count());
+        $this->assertInstanceOf(Location::class, $consumer->location);
+    }
+
+    /** @test */
+    public function consumer_belongs_to_company_through_location()
+    {
+        $consumer = create(Consumer::class, [
+            'location_group_id' => create(LocationGroup::class, [
+                'location_id' => create(Location::class, [
+                    'company_id' => create(Company::class)
+                ])
+            ])
+        ]);
+
+        $this->assertEquals(1, $consumer->company->count());
+        $this->assertInstanceOf(Company::class, $consumer->company);
     }
 }

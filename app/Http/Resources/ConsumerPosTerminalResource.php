@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\PosTerminal\SubsidizedMenuCategoriesPosTerminalResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ConsumerPosTerminalResource extends JsonResource
@@ -24,7 +25,7 @@ class ConsumerPosTerminalResource extends JsonResource
             "preOrderedItems"          => ConsumerOrdersPosTerminalResource::collection($this->preOrderedItems),
             "pickedUpPreOrderedItems"  => ConsumerOrdersPosTerminalResource::collection($this->pickedUpPreOrderedItems),
             "pickedUpPosOrderedItems"  => ConsumerOrdersPosTerminalResource::collection($this->pickedUpPosOrderedItems),
-            "subsidizedMenuCategories" => [],
+            "subsidizedMenuCategories" => SubsidizedMenuCategoriesPosTerminalResource::collection($this->subsidizedMenuCategories),
         ];
     }
 }

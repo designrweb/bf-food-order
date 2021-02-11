@@ -69,7 +69,10 @@ class Order extends Model
             if (auth()->check()) {
                 $builder->whereHas('menuItem.menuCategory.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id)
-                        ->orWhere('menu_categories.location_id', auth()->user()->location_id);
+                        ->orWhere('locations.id', auth()->user()->location_id);
+                })->orWhereHas('consumer.locationgroup.location', function ($query) {
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('locations.id', auth()->user()->location_id);
                 });
             }
         });
@@ -105,7 +108,9 @@ class Order extends Model
      */
     public function menuCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->menuItem->menuCategory();
+        $menuItem = $this->belongsTo(MenuItem::class, 'menuitem_id');
+
+        return $menuItem->getResults()->belongsTo(MenuCategory::class, 'menu_category_id');
     }
 
     /**

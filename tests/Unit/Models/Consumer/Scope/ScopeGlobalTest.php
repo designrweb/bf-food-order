@@ -3,7 +3,9 @@
 namespace Tests\Unit\Models\Consumer\Scope;
 
 use App\Consumer;
+use App\Location;
 use App\LocationGroup;
+use App\User;
 use Tests\TestCase;
 
 /**
@@ -25,7 +27,10 @@ class ScopeGlobalTest extends TestCase
     /** @test */
     public function it_returns_consumers_that_belongs_to_pos_manager_location()
     {
-        $posManager = $this->actingAsPosManager();
+        $posManager = create(User::class, [
+            'location_id' => create(Location::class),
+            'role'       => User::ROLE_POS_MANAGER
+        ]);
 
         create(Consumer::class, [
             'location_group_id' => create(LocationGroup::class, [
@@ -34,6 +39,8 @@ class ScopeGlobalTest extends TestCase
         ], 2);
 
         create(Consumer::class, [], 3);
+
+        $this->actingAs($posManager);
 
         $consumers = Consumer::all();
 

@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Models\LocationGroup\Scope;
 
+use App\Location;
 use App\LocationGroup;
+use App\User;
 use Tests\TestCase;
 
 /**
@@ -24,13 +26,18 @@ class ScopeGlobalTest extends TestCase
     /** @test */
     public function it_returns_location_groups_that_belongs_to_pos_manager_location()
     {
-        $posManager = $this->actingAsPosManager();
+        $posManager = create(User::class, [
+            'location_id' => create(Location::class),
+            'role'       => User::ROLE_POS_MANAGER
+        ]);
 
         create(LocationGroup::class, [
             'location_id' => $posManager->location_id
         ], 2);
 
         create(LocationGroup::class, [], 3);
+
+        $this->actingAs($posManager);
 
         $locationGroup = LocationGroup::all();
 

@@ -40,7 +40,7 @@ class OrderRelationTest extends TestCase
     }
 
     /** @test */
-    public function order_belongs_to_menu_category()
+    public function order_belongs_to_menu_category_through_menu_item()
     {
         $menuCategory = create(MenuCategory::class);
 

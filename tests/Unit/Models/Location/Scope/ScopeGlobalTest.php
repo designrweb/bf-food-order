@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Location\Scope;
 
 use App\Location;
+use App\User;
 use Tests\TestCase;
 
 /**
@@ -42,9 +43,14 @@ class ScopeGlobalTest extends TestCase
     /** @test */
     public function it_returns_locations_that_has_current_pos_manager()
     {
-        $this->actingAsPosManager();
+        $posManager = create(User::class, [
+            'location_id' => create(Location::class),
+            'role'       => User::ROLE_POS_MANAGER
+        ]);
 
         create(Location::class, [], 3);
+
+        $this->actingAs($posManager);
 
         $locations = Location::all();
 

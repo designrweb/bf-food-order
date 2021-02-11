@@ -8,6 +8,8 @@ use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -24,13 +26,13 @@ abstract class TestCase extends BaseTestCase
     /**
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function actingAsAdmin()
+    protected function actingAsAdmin(): \Illuminate\Database\Eloquent\Model
     {
         $company = create(Company::class);
 
         $user = create(User::class, [
             'company_id' => $company->id,
-            'role' => User::ROLE_ADMIN
+            'role'       => User::ROLE_ADMIN
         ]);
 
         $this->actingAs($user);
@@ -41,16 +43,18 @@ abstract class TestCase extends BaseTestCase
     /**
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function actingAsPosManager()
+    protected function actingAsPosManager(): \Illuminate\Database\Eloquent\Model
     {
-        $location = create(Location::class);
-
         $user = create(User::class, [
-            'location_id' => $location->id,
-            'role' => User::ROLE_POS_MANAGER
+            'email'       => 'admin@admin.com',
+            'password'    => Hash::make('secret'),
+            'role'        => User::ROLE_POS_MANAGER,
+            'location_id' => create(Location::class),
         ]);
 
-        $this->actingAs($user);
+        $token = JWTAuth::fromUser($user);
+
+        $this->withHeader('Authorization', "Bearer {$token}");
 
         return $user;
     }

@@ -44,8 +44,8 @@ class LocationServiceTest extends TestCase
             'location_id' => $location->id
         ]);
 
-        $this->expectException(Exception::class);
+        $result = $this->locationService->remove($location->id);
 
-        $this->locationService->remove($location->id);
+        $this->assertFalse($result);
     }
 }

@@ -35,6 +35,8 @@ class DeliveryPlanningControllerTest extends TestCase
     /** @test */
     public function show_returns_view()
     {
+        $this->markTestIncomplete();
+
         $order = create(Order::class);
 
         $response = $this->get(route('delivery-planning.show', $order));
@@ -47,6 +49,8 @@ class DeliveryPlanningControllerTest extends TestCase
     /** @test */
     public function edit_returns_view()
     {
+        $this->markTestIncomplete();
+
         $order = create(Order::class);
 
         $response = $this->get(route('delivery-planning.edit', $order));

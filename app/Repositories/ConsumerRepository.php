@@ -236,6 +236,11 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function getConsumersForPosTerminal()
     {
-        return Consumer::with('locationgroup', 'preOrderedItems', 'pickedUpPreOrderedItems', 'pickedUpPosOrderedItems')->get();
+        return Consumer::with(
+            'locationgroup',
+            'preOrderedItems',
+            'pickedUpPreOrderedItems',
+            'pickedUpPosOrderedItems'
+        )->get();
     }
 }
