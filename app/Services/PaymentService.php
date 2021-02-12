@@ -184,6 +184,13 @@ class PaymentService extends BaseModelService
         $payment->comment     = $paymentMessage;
         $payment->save();
 
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+            $consumer->balance -= $amount;
+            $consumer->save();
+        }
+
         if ($canBeSubsidized) {
             $this->createReversePayment($payment, $order);
         }
