@@ -48,7 +48,10 @@ class Company extends Model
 
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth()->check() && !in_array(auth()->user()->role, [User::ROLE_SUPER_ADMIN])) {
-                $builder->where('companies.id', auth()->user()->company_id);
+                $builder->where('companies.id', auth()->user()->company_id)
+                    ->orWhereHas('locations', function ($query) {
+                        $query->where('locations.id', auth()->user()->location_id);
+                    });
             }
         });
     }

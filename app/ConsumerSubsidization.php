@@ -36,4 +36,12 @@ class ConsumerSubsidization extends Model
     {
         return $this->belongsTo(SubsidizationRule::class, 'subsidization_rules_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function consumer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Consumer::class);
+    }
 }

@@ -13,26 +13,27 @@ use App\Order;
 
 class OrderService extends BaseModelService
 {
-    /**
-     * @var OrderRepository
-     */
+    /** @var OrderRepository */
     protected $repository;
 
-    /**
-     * @var LocationService
-     */
+    /** @var LocationService */
     protected $locationService;
+
+    /** @var PaymentService */
+    private $paymentService;
 
     /**
      * OrderService constructor.
      *
      * @param OrderRepository $repository
      * @param LocationService $locationService
+     * @param PaymentService  $paymentService
      */
-    public function __construct(OrderRepository $repository, LocationService $locationService)
+    public function __construct(OrderRepository $repository, LocationService $locationService, PaymentService $paymentService)
     {
         $this->repository      = $repository;
         $this->locationService = $locationService;
+        $this->paymentService  = $paymentService;
     }
 
     /**
@@ -63,7 +64,10 @@ class OrderService extends BaseModelService
      */
     public function create($data)
     {
-        return $this->repository->add($data);
+        $order = $this->repository->add($data);
+        $this->paymentService->createPaymentBasedOnOrder($order);
+
+        return $order;
     }
 
     /**
@@ -204,11 +208,12 @@ class OrderService extends BaseModelService
     }
 
     /**
-     * @param Order $order
-     * @return mixed
+     * Returns all orders for current day
+     *
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function countOrdersWithSubsidization(Order $order)
+    public function getOrdersForToday()
     {
-        return $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);
+        return $this->repository->getOrdersForToday();
     }
 }

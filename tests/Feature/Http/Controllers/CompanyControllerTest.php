@@ -35,6 +35,8 @@ class CompanyControllerTest extends TestCase
     /** @test */
     public function show_returns_view()
     {
+        $this->markTestIncomplete();
+
         $company = create(Company::class);
 
         $response = $this->get(route('companies.show', $company));
@@ -47,6 +49,8 @@ class CompanyControllerTest extends TestCase
     /** @test */
     public function edit_returns_view()
     {
+        $this->markTestIncomplete();
+
         $company = create(Company::class);
 
         $response = $this->get(route('companies.edit', $company));

@@ -12,31 +12,29 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentService extends BaseModelService
 {
-
+    /** @var PaymentRepository */
     protected $repository;
-    private   $orderService;
-    /**
-     * @var SubsidizedMenuCategoriesService
-     */
+
+    /** @var SubsidizedMenuCategoriesService */
     private $subsidizedMenuCategoriesService;
 
-    /**
-     * @var OrderService
-     */
+    /** @var ConsumerService */
     private $consumerService;
 
     /**
      * PaymentService constructor.
      *
      * @param PaymentRepository               $repository
-     * @param OrderService                    $orderService
      * @param SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService
      * @param ConsumerService                 $consumerService
      */
-    public function __construct(PaymentRepository $repository, OrderService $orderService, SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService, ConsumerService $consumerService)
+    public function __construct(
+        PaymentRepository $repository,
+        SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService,
+        ConsumerService $consumerService
+    )
     {
         $this->repository                      = $repository;
-        $this->orderService                    = $orderService;
         $this->consumerService                 = $consumerService;
         $this->subsidizedMenuCategoriesService = $subsidizedMenuCategoriesService;
     }
@@ -204,7 +202,7 @@ class PaymentService extends BaseModelService
         // create a reverse order (should be available only for 1 item)
         $isFirstItem = $order->quantity == 1 && ($oldQuantityValue == null || $oldQuantityValue == 0);
 
-        $ordersWithSubsidizationCount = $this->orderService->countOrdersWithSubsidization($order);
+        $ordersWithSubsidizationCount = $this->repository->countOrdersWithSubsidizationByDateForConsumer($order);
 
         if ($order->type === Order::TYPE_POS_ORDER) {
             if (isset($order->is_subsidized) && $order->is_subsidized) {

@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('type')->nullable();
             $table->unsignedBigInteger('menuitem_id')->index();
-            $table->unsignedBigInteger('consumer_id')->index();
+            $table->unsignedBigInteger('consumer_id')->nullable()->index();
             $table->date('day')->nullable();
             $table->boolean('pickedup')->nullable()->default(0);
             $table->dateTime('pickedup_at')->nullable();

@@ -51,7 +51,8 @@ class Location extends Model
 
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth()->check()) {
-                $builder->where('locations.company_id', auth()->user()->company_id);
+                $builder->where('locations.company_id', auth()->user()->company_id)
+                    ->orWhere('locations.id', auth()->user()->location_id);
             }
         });
     }

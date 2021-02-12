@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Repositories;
 
-use App\Consumer;
 use App\Order;
 use App\Repositories\OrderRepository;
 use Tests\TestCase;
@@ -79,51 +78,5 @@ class OrderRepositoryTest extends TestCase
         $this->assertEquals(1, $result->count());
         $this->assertEquals($model->id, $result->id);
         $this->assertInstanceOf(Order::class, $result);
-    }
-
-    /** @test */
-    public function there_is_already_one_order_with_subsidization_for_consumer_on_given_date()
-    {
-        $date = '2021-02-02';
-
-        $consumer = create(Consumer::class);
-
-        $subsidizedOrder = create(Order::class, [
-            'consumer_id'   => $consumer->id,
-            'day'           => $date,
-            'is_subsidized' => Order::IS_SUBSIDIZED,
-        ]);
-
-        $newOrder = create(Order::class, [
-            'consumer_id' => $consumer->id,
-            'day'         => $date,
-        ]);
-
-        $ordersWithSubsidizationCount = $this->orderRepository->countOrdersWithSubsidizationByDateForConsumer($newOrder);
-
-        $this->assertEquals(1, $ordersWithSubsidizationCount);
-    }
-
-    /** @test */
-    public function there_is_no_orders_with_subsidization_for_consumer_on_given_date()
-    {
-        $date = '2021-02-02';
-
-        $consumer = create(Consumer::class);
-
-        $notSubsidizedOrder = create(Order::class, [
-            'consumer_id'   => $consumer->id,
-            'day'           => $date,
-            'is_subsidized' => null,
-        ]);
-
-        $newOrder = create(Order::class, [
-            'consumer_id' => $consumer->id,
-            'day'         => $date,
-        ]);
-
-        $ordersWithSubsidizationCount = $this->orderRepository->countOrdersWithSubsidizationByDateForConsumer($newOrder);
-
-        $this->assertEquals(0, $ordersWithSubsidizationCount);
     }
 }

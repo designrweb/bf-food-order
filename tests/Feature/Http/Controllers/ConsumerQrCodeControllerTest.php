@@ -36,6 +36,8 @@ class ConsumerQrCodeControllerTest extends TestCase
     /** @test */
     public function show_returns_view()
     {
+        $this->markTestIncomplete();
+
         $qrCode = create(ConsumerQrCode::class);
 
         $response = $this->get(route('consumer-qr-codes.show', $qrCode));
@@ -48,6 +50,8 @@ class ConsumerQrCodeControllerTest extends TestCase
     /** @test */
     public function edit_returns_view()
     {
+        $this->markTestIncomplete();
+
         $qrCode = create(ConsumerQrCode::class);
 
         $response = $this->get(route('consumer-qr-codes.edit', $qrCode));

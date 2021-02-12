@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string        $updated_at
  * @property string        $deleted_at
  * @property LocationGroup $locationGroup
+ * @property Location      $location
+ * @property Company       $company
  * @property User          $user
  */
 class Consumer extends Model
@@ -55,7 +57,8 @@ class Consumer extends Model
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth()->check()) {
                 $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id);
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('locations.id', auth()->user()->location_id);
                 });
             }
         });
@@ -67,6 +70,27 @@ class Consumer extends Model
     public function locationgroup()
     {
         return $this->belongsTo('App\LocationGroup', 'location_group_id', 'id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function location()
+    {
+        $locationGroup = $this->belongsTo(LocationGroup::class, 'location_group_id');
+
+        return $locationGroup->getResults()->belongsTo(Location::class, 'location_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function company()
+    {
+        $locationGroup = $this->belongsTo(LocationGroup::class, 'location_group_id');
+        $location      = $locationGroup->getResults()->belongsTo(Location::class, 'location_id');
+
+        return $location->getResults()->belongsTo(Company::class, 'company_id');
     }
 
     /**
@@ -104,6 +128,62 @@ class Consumer extends Model
     public function qrcode()
     {
         return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function preOrderedItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 0)
+            ->where('type', Order::TYPE_PRE_ORDER)
+            ->where('day', date('Y-m-d'));
+    }
+
+    public function pickedUpPreOrderedItems()
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 1)
+            ->where('type', Order::TYPE_PRE_ORDER)
+            ->where('day', date('Y-m-d'));
+    }
+
+    public function pickedUpPosOrderedItems()
+    {
+        return $this->hasMany(Order::class, 'consumer_id', 'id')
+            ->where('pickedup', 1)
+            ->where('type', Order::TYPE_POS_ORDER)
+            ->where('pickedup_at', 'like', date('Y-m-d') . '%');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubsidizedMenuCategoriesAttribute()
+    {
+        return SubsidizedMenuCategories::join('subsidizationRule.consumerSubsidizations.consumer')
+
+            ->where(function ($query) {
+                $query->where('subsidization_start', '<=', date('Y-m-d'))
+                    ->orWhere('subsidization_start', null);
+            })
+            ->where(function ($query) {
+                $query->where('subsidization_end', '>=', date('Y-m-d'))
+                    ->orWhere('subsidization_end', null);
+            })
+            ->where(function ($query) {
+                $query->where('start_date', '<=', date('Y-m-d'))
+                    ->orWhere('start_date', null);
+            })
+            ->where(function ($query) {
+                $query->where('end_date', '>=', date('Y-m-d'))
+                    ->orWhere('end_date', null);
+            })
+
+            ->where('consumers.id', $this->consumer_id)
+            ->where('percent', '>', 0)
+            ->get();
     }
 
     /**

@@ -12,7 +12,7 @@ $factory->define(MenuItem::class, function (Faker $faker) {
     return [
         'name'              => $faker->word,
         'availability_date' => $faker->date(),
-        'description'       => $faker->paragraph,
+        'description'       => $faker->sentence,
         'menu_category_id'  => factory(MenuCategory::class),
         'imageurl'          => null,
         'created_at'        => Carbon::now(),

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\MenuItem;
 use App\QueryBuilders\MenuItemSearch;
+use Carbon\Carbon;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 
@@ -109,5 +110,18 @@ class MenuItemRepository implements RepositoryInterface
         $replicated->save();
 
         return $replicated;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMenuItemsForPosTerminal()
+    {
+        return MenuItem::with('menuCategory')
+            ->whereHas('menuCategory', function ($query) {
+                $query->where('price', '>', 0);
+            })
+            ->where('availability_date', Carbon::now()->format('Y-m-d'))
+            ->get();
     }
 }

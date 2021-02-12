@@ -222,4 +222,12 @@ class MenuItemService extends BaseModelService
             'availability_date_human'           => '',
         ];
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMenuItemsForPosTerminal()
+    {
+        return $this->repository->getMenuItemsForPosTerminal();
+    }
 }

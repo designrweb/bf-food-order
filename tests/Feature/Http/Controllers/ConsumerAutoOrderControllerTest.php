@@ -35,6 +35,8 @@ class ConsumerAutoOrderControllerTest extends TestCase
     /** @test */
     public function show_returns_view()
     {
+        $this->markTestIncomplete();
+
         $autoOrder = create(ConsumerAutoOrder::class);
 
         $response = $this->get(route('consumer-auto-orders.show', $autoOrder));
@@ -47,6 +49,8 @@ class ConsumerAutoOrderControllerTest extends TestCase
     /** @test */
     public function edit_returns_view()
     {
+        $this->markTestIncomplete();
+
         $autoOrder = create(ConsumerAutoOrder::class);
 
         $response = $this->get(route('consumer-auto-orders.edit', $autoOrder));

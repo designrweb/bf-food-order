@@ -5,6 +5,9 @@ namespace Tests\Unit\Models\Order\Scope;
 use App\Order;
 use Tests\TestCase;
 
+/**
+ * @group scope
+ */
 class ScopeHasSubsidization extends TestCase
 {
     /** @test */
