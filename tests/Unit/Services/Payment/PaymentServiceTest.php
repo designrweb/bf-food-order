@@ -73,6 +73,36 @@ class PaymentServiceTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_consumer_balance_after_payment_based_on_order_is_created()
+    {
+        $consumer = create(Consumer::class, [
+            'balance' => 200
+        ]);
+
+        $menuCategory = create(MenuCategory::class, [
+            'price' => 25,
+            'location_id' => $consumer->locationgroup->location->id
+        ]);
+
+        $order = create(Order::class, [
+            'type'     => Order::TYPE_POS_ORDER,
+            'quantity' => 1,
+            'consumer_id' => $consumer->id,
+            'subsidization_organization_id' => null,
+            'menuitem_id' => create(MenuItem::class, [
+                'menu_category_id' => $menuCategory->id
+            ]),
+        ]);
+
+        $this->paymentService->createPaymentBasedOnOrder($order);
+
+        $this->assertDatabaseHas('consumers', [
+            'id'      => $consumer->id,
+            'balance' => 175
+        ]);
+    }
+
+    /** @test */
     public function it_creates_reverse_payment_for_pre_order()
     {
         // we  have menu category and menu item
@@ -338,7 +368,7 @@ class PaymentServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_consumer_balance_after_payment_is_created()
+    public function it_updates_consumer_balance_after_manual_payment_is_created()
     {
         $consumer = create(Consumer::class, [
             'balance' => 200
@@ -352,7 +382,7 @@ class PaymentServiceTest extends TestCase
 
         $this->assertDatabaseHas('consumers', [
             'id'      => $consumer->id,
-            'balance' => 190
+            'balance' => 210
         ]);
     }
 }

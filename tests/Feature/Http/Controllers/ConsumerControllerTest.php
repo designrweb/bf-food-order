@@ -6,6 +6,7 @@ use App\Company;
 use App\Consumer;
 use App\Location;
 use App\LocationGroup;
+use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
@@ -114,6 +115,47 @@ class ConsumerControllerTest extends TestCase
 
         $this->getJson('/admin/consumers/get-one/' . $consumer->id)
             ->assertOk();
+    }
+
+    /** @test */
+    public function admin_can_view_all_consumers_only_from_his_company()
+    {
+        $admin = $this->actingAsAdmin();
+
+        $location = create(Location::class, [
+            'company_id' => $admin->company->id
+        ]);
+
+        $locationGroup = create(LocationGroup::class, [
+            'location_id' => $location->id
+        ]);
+
+        $user = create(User::class, [
+            'role' => User::ROLE_USER,
+        ]);
+
+        create(Consumer::class, [
+            'location_group_id' => $locationGroup->id,
+            'user_id'           => $user->id,
+        ]);
+
+        $response = $this->getJson('/admin/consumers/get-all');
+
+        $response->assertOk();
+        $response->assertExactJson([
+            "data"       => [
+                'id' => 1
+            ],
+            "pagination" => [
+                "count"        => 0,
+                "current_page" => 1,
+                "first_item"   => null,
+                "last_item"    => null,
+                "per_page"     => 10,
+                "total"        => 0,
+                "total_pages"  => 1
+            ]
+        ]);
     }
 
     /** @test */
