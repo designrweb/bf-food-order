@@ -33,9 +33,9 @@ class ConsumerFormRequest extends FormRequest
             'imageurl'                             => 'nullable|string',
             'balance_limit'                        => 'required|numeric',
             'subsidization.subsidization_document' => 'nullable|file',
-            'subsidization.subsidization_rules_id' => 'nullable|numeric',
-            'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_rules_id|nullable|date',
-            'subsidization.subsidization_end'      => 'required_with:subsidization.subsidization_rules_id|nullable|date|after_or_equal:subsidization.subsidization_start',
+            'subsidization.subsidization_rule_id'  => 'nullable|numeric',
+            'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_rule_id|nullable|date',
+            'subsidization.subsidization_end'      => 'required_with:subsidization.subsidization_rule_id|nullable|date|after_or_equal:subsidization.subsidization_start',
         ];
     }
 
@@ -58,7 +58,7 @@ class ConsumerFormRequest extends FormRequest
             'location_group_id'                    => 'Location group',
             'firstname'                            => 'First name',
             'lastname'                             => 'Last name',
-            'subsidization.subsidization_rules_id' => 'Subsidization Rule',
+            'subsidization.subsidization_rule_id'  => 'Subsidization Rule',
             'subsidization.subsidization_document' => 'Subsidization Document',
             'subsidization.subsidization_start'    => 'Subsidization Start Date',
             'subsidization.subsidization_end'      => 'Subsidization End Date',

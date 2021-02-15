@@ -19,8 +19,7 @@ class SubsidizedMenuCategories extends Model
     /**
      * @var array
      */
-    // todo rewrite to 'subsidization_rule_id' in all app
-    protected $fillable = ['subsidization_rules_id', 'menu_category_id', 'percent', 'created_at', 'updated_at'];
+    protected $fillable = ['subsidization_rule_id', 'menu_category_id', 'percent', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -35,6 +34,6 @@ class SubsidizedMenuCategories extends Model
      */
     public function subsidizationRule()
     {
-        return $this->belongsTo('App\SubsidizationRule');
+        return $this->belongsTo(SubsidizationRule::class, 'subsidization_rule_id');
     }
 }

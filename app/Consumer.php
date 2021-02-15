@@ -6,6 +6,7 @@ use App\Components\ImageComponent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property integer       $id
@@ -162,8 +163,9 @@ class Consumer extends Model
      */
     public function getSubsidizedMenuCategoriesAttribute()
     {
-        return SubsidizedMenuCategories::join('subsidizationRule.consumerSubsidizations.consumer')
-
+        return DB::table('subsidized_menu_categories')
+            ->join('subsidization_rules', 'subsidization_rules.id', '=', 'subsidized_menu_categories.subsidization_rule_id')
+            ->join('consumer_subsidizations', 'consumer_subsidizations.subsidization_rule_id', '=', 'subsidization_rules.id')
             ->where(function ($query) {
                 $query->where('subsidization_start', '<=', date('Y-m-d'))
                     ->orWhere('subsidization_start', null);
@@ -180,8 +182,7 @@ class Consumer extends Model
                 $query->where('end_date', '>=', date('Y-m-d'))
                     ->orWhere('end_date', null);
             })
-
-            ->where('consumers.id', $this->consumer_id)
+            ->where('consumer_id', $this->id)
             ->where('percent', '>', 0)
             ->get();
     }
@@ -212,7 +213,7 @@ class Consumer extends Model
         $subsidization     = $this->subsidization;
         $subsidizationRule = optional($subsidization)->subsidizationRule;
 
-        if (!empty($subsidization->subsidization_rules_id)) {
+        if (!empty($subsidization->subsidization_rule_id)) {
             if (
                 empty($subsidizationRule->start_date)
                 && empty($subsidizationRule->end_date)

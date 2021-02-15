@@ -179,15 +179,15 @@
                   label-for="input-subsidization_rule_id"
               >
                 <b-form-select
-                    v-model="form.subsidization.subsidization_rules_id"
+                    v-model="form.subsidization.subsidization_rule_id"
                     :options="subsidization_rule_list"
                     class="mb-3"
                     value-field="id"
                     text-field="name"
                     disabled-field="notEnabled"
                 ></b-form-select>
-                <b-form-invalid-feedback :state="validation['subsidization.subsidization_rules_id']['state']">
-                  {{ validation['subsidization.subsidization_rules_id']['message'] }}
+                <b-form-invalid-feedback :state="validation['subsidization.subsidization_rule_id']['state']">
+                  {{ validation['subsidization.subsidization_rule_id']['message'] }}
                 </b-form-invalid-feedback>
               </b-form-group>
 
@@ -319,7 +319,7 @@ export default {
         'created_at':                                  {'state': true, 'message': ''},
         'updated_at':                                  {'state': true, 'message': ''},
         'deleted_at':                                  {'state': true, 'message': ''},
-        'subsidization.subsidization_rules_id':        {'state': true, 'message': ''},
+        'subsidization.subsidization_rule_id':        {'state': true, 'message': ''},
         'subsidization.subsidization_organization_id': {'state': true, 'message': ''},
         'subsidization.subsidization_start':           {'state': true, 'message': ''},
         'subsidization.subsidization_end':             {'state': true, 'message': ''},
@@ -389,10 +389,10 @@ export default {
           formData.append('subsidization[subsidization_end]', '');
         }
 
-        if (typeof self.form.subsidization.subsidization_rules_id !== "undefined") {
-          formData.append('subsidization[subsidization_rules_id]', self.form.subsidization.subsidization_rules_id);
+        if (typeof self.form.subsidization.subsidization_rule_id !== "undefined") {
+          formData.append('subsidization[subsidization_rule_id]', self.form.subsidization.subsidization_rule_id);
         } else {
-          formData.append('subsidization[subsidization_rules_id]', '');
+          formData.append('subsidization[subsidization_rule_id]', '');
         }
 
         if (self.id) {

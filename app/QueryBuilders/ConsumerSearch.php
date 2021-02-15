@@ -28,7 +28,7 @@ class ConsumerSearch extends BaseSearch
             'subsidization_rules.rule_name as subsidization_rules_rule_name'
         ])
             ->leftJoin('consumer_subsidizations', 'consumers.id', '=', 'consumer_subsidizations.consumer_id')
-            ->leftJoin('subsidization_rules', 'consumer_subsidizations.subsidization_rules_id', '=', 'subsidization_rules.id')
+            ->leftJoin('subsidization_rules', 'consumer_subsidizations.subsidization_rule_id', '=', 'subsidization_rules.id')
             ->leftJoin('location_groups', 'location_groups.id', '=', 'consumers.location_group_id')
             ->join('locations', 'locations.id', '=', 'location_groups.location_id')
             ->leftJoin('users', 'users.id', '=', 'consumers.user_id')

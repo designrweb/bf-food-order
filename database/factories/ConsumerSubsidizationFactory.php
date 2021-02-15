@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 $factory->define(ConsumerSubsidization::class, function (Faker $faker) {
     return [
-        'subsidization_rules_id' => factory(SubsidizationRule::class),
+        'subsidization_rule_id' => factory(SubsidizationRule::class),
         'consumer_id'            => factory(Consumer::class),
         'subsidization_start'    => Carbon::now()->addDays(1),
         'subsidization_end'      => Carbon::now()->addDays(20),

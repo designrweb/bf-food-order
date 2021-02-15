@@ -91,7 +91,7 @@ class SubsidizedMenuCategoriesRepositoryTest extends TestCase
 
         $subsidizedMenuCategory = create(SubsidizedMenuCategories::class, [
             'menu_category_id'       => $menuCategory->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
         ]);
 
         $menuCategoryWithSubsidization = $this->repository->getMenuCategoryWithSubsidization($menuCategory->id, $subsidizationRule->id);

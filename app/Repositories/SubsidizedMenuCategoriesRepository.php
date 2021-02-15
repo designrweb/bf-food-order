@@ -45,7 +45,7 @@ class SubsidizedMenuCategoriesRepository extends Repository
         $SubsidizationMenuCategoriesArray = [];
 
         if (!empty($id)) {
-            $menuCategoriesPercent = $this->model::where('subsidization_rules_id', $id)->pluck('percent', 'menu_category_id')->toArray();
+            $menuCategoriesPercent = $this->model::where('subsidization_rule_id', $id)->pluck('percent', 'menu_category_id')->toArray();
         }
 
         foreach ($menuCategories as $menu) {
@@ -78,7 +78,7 @@ class SubsidizedMenuCategoriesRepository extends Repository
     {
         return $this->model
             ->where('menu_category_id', $menuCategoryId)
-            ->where('subsidization_rules_id', $subsidizationRuleId)
+            ->where('subsidization_rule_id', $subsidizationRuleId)
             ->first();
     }
 }

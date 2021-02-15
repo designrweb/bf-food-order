@@ -83,7 +83,7 @@ class ConsumerService extends BaseModelService
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+            if (!empty($data['subsidization']['subsidization_rule_id'])) {
                 $model->subsidization()->create($data['subsidization']);
             }
         }
@@ -112,7 +112,7 @@ class ConsumerService extends BaseModelService
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+            if (!empty($data['subsidization']['subsidization_rule_id'])) {
                 $model->subsidization()->create($data['subsidization']);
             }
         } else {
@@ -121,7 +121,7 @@ class ConsumerService extends BaseModelService
                 $request->file('subsidization.subsidization_document')->storeAs('subsidization_documents', $fileName, ['disk' => 'public']);
                 $data['subsidization']['subsidization_document'] = $fileName;
             }
-            if (!empty($data['subsidization']['subsidization_rules_id'])) {
+            if (!empty($data['subsidization']['subsidization_rule_id'])) {
                 $model->subsidization->update($data['subsidization']);
             }
         }

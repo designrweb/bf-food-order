@@ -33,7 +33,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => null,
             'subsidization_end'      => null,
         ]);
@@ -53,7 +53,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => Carbon::now()->subDays(5),
             'subsidization_end'      => Carbon::now()->addDays(5),
         ]);
@@ -73,7 +73,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => Carbon::now()->subDays(5),
             'subsidization_end'      => Carbon::now()->addDays(5),
         ]);
@@ -93,7 +93,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => null,
             'subsidization_end'      => null,
         ]);
@@ -113,7 +113,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => Carbon::now()->subDays(10),
             'subsidization_end'      => Carbon::now()->subDays(5),
         ]);
@@ -133,7 +133,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => Carbon::now()->subDays(10),
             'subsidization_end'      => Carbon::now()->subDays(5),
         ]);
@@ -153,7 +153,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => Carbon::now()->subDays(10),
             'subsidization_end'      => Carbon::now()->addDays(10),
         ]);
@@ -173,7 +173,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => null,
             'subsidization_end'      => null,
         ]);
@@ -196,7 +196,7 @@ class ConsumerTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => null,
+            'subsidization_rule_id' => null,
             'subsidization_start'    => Carbon::now()->subDays(5),
             'subsidization_end'      => Carbon::now()->addDays(5),
         ]);

@@ -16,7 +16,7 @@ class ConsumerSubsidizationSchemaTest extends TestCase
         $this->assertTrue(
             Schema::hasColumns('consumer_subsidizations', [
                 'id',
-                'subsidization_rules_id',
+                'subsidization_rule_id',
                 'consumer_id',
                 'subsidization_start',
                 'subsidization_end',
