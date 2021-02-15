@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
 
         $company = factory(App\Company::class)->create();
 
-        factory(App\Location::class)->create([
+        $location = factory(App\Location::class)->create([
             'company_id' => $company->id,
         ]);
 
@@ -33,5 +33,11 @@ class AdminSeeder extends Seeder
                 'street'     => $faker->address,
             ]);
         });
+
+        factory(App\User::class)->create([
+            'location_id' => $location->id,
+            'email'      => 'pos@manager.com',
+            'role'     => User::ROLE_POS_MANAGER,
+        ]);
     }
 }

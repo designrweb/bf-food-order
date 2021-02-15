@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer           $id
- * @property integer           $subsidization_rules_id
+ * @property integer           $subsidization_rule_id
  * @property string            $subsidization_start
  * @property string            $subsidization_end
  * @property string            $subsidization_document
@@ -27,14 +27,14 @@ class ConsumerSubsidization extends Model
     /**
      * @var array
      */
-    protected $fillable = ['subsidization_rules_id', 'subsidization_start', 'subsidization_end', 'subsidization_document', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['subsidization_rule_id', 'subsidization_start', 'subsidization_end', 'subsidization_document', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subsidizationRule()
     {
-        return $this->belongsTo(SubsidizationRule::class, 'subsidization_rules_id', 'id');
+        return $this->belongsTo(SubsidizationRule::class, 'subsidization_rule_id', 'id');
     }
 
     /**

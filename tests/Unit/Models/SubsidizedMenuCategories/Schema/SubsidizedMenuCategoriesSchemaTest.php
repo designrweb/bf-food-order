@@ -16,7 +16,7 @@ class SubsidizedMenuCategoriesSchemaTest extends TestCase
         $this->assertTrue(
             Schema::hasColumns('subsidized_menu_categories', [
                 'id',
-                'subsidization_rules_id',
+                'subsidization_rule_id',
                 'menu_category_id',
                 'percent',
                 'created_at',

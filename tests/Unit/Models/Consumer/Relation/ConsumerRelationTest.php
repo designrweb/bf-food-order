@@ -24,7 +24,7 @@ class ConsumerRelationTest extends TestCase
 
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id
+            'subsidization_rule_id' => $subsidizationRule->id
         ]);
 
         $this->assertEquals(1, $consumer->subsidization->count());

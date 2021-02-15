@@ -4,7 +4,13 @@ namespace Tests\Feature\Http\Controllers\Api\V1\PosApplication;
 
 use App\Consumer;
 use App\ConsumerQrCode;
+use App\ConsumerSubsidization;
 use App\LocationGroup;
+use App\MenuCategory;
+use App\SubsidizationOrganization;
+use App\SubsidizationRule;
+use App\SubsidizedMenuCategories;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 /**
@@ -28,11 +34,29 @@ class ConsumerControllerTest extends TestCase
     {
         $posManager = $this->actingAsPosManager();
 
+        $subsidizedMenuCategory = create(SubsidizedMenuCategories::class, [
+            'subsidization_rule_id' => create(SubsidizationRule::class, [
+                'subsidization_organization_id' => create(SubsidizationOrganization::class, [
+                    'company_id' => $posManager->location->company->id,
+                ]),
+            ]),
+            'menu_category_id'      => create(MenuCategory::class, [
+                'location_id' => $posManager->location->id,
+            ]),
+            'percent'               => 70
+        ]);
+
         $consumerFirst = create(Consumer::class, [
             'balance'           => '250.45',
             'location_group_id' => create(LocationGroup::class, [
                 'location_id' => $posManager->location_id
             ])
+        ]);
+
+        create(ConsumerSubsidization::class, [
+            'subsidization_rule_id' => $subsidizedMenuCategory->subsidization_rule_id,
+            'consumer_id'           => $consumerFirst->id,
+            'subsidization_start'   => Carbon::now()->subDays(10),
         ]);
 
         $consumerSecond = create(Consumer::class, [
@@ -60,7 +84,13 @@ class ConsumerControllerTest extends TestCase
                 "preOrderedItems"          => $consumerFirst->preOrderedItems,
                 "pickedUpPreOrderedItems"  => $consumerFirst->pickedUpPreOrderedItems,
                 "pickedUpPosOrderedItems"  => $consumerFirst->pickedUpPosOrderedItems,
-                "subsidizedMenuCategories" => []
+                "subsidizedMenuCategories" => [
+                    [
+                        'menu_category_id'      => $subsidizedMenuCategory->menu_category_id,
+                        'subsidization_rule_id' => $subsidizedMenuCategory->subsidization_rule_id,
+                        'percent'               => 70
+                    ],
+                ]
             ],
             [
                 "consumer_id"              => $consumerSecond->id,
@@ -72,7 +102,7 @@ class ConsumerControllerTest extends TestCase
                 "preOrderedItems"          => $consumerSecond->preOrderedItems,
                 "pickedUpPreOrderedItems"  => $consumerSecond->pickedUpPreOrderedItems,
                 "pickedUpPosOrderedItems"  => $consumerSecond->pickedUpPosOrderedItems,
-                "subsidizedMenuCategories" => []
+                "subsidizedMenuCategories" => $consumerSecond->subsidizedMenuCategories
             ]
         ]);
     }

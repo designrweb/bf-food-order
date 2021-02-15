@@ -116,12 +116,12 @@ class PaymentServiceTest extends TestCase
         $subsidizationRule     = create(SubsidizationRule::class);
         $consumerSubsidization = create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id
+            'subsidization_rule_id' => $subsidizationRule->id
         ]);
 
         // we have subsidized menu category
         create(SubsidizedMenuCategories::class, [
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'menu_category_id'       => $menuCategory->id,
             'percent'                => 55,
         ]);
@@ -164,12 +164,12 @@ class PaymentServiceTest extends TestCase
         $subsidizationRule     = create(SubsidizationRule::class);
         $consumerSubsidization = create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id
+            'subsidization_rule_id' => $subsidizationRule->id
         ]);
 
         // we have subsidized menu category
         create(SubsidizedMenuCategories::class, [
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'menu_category_id'       => $menuCategory->id,
             'percent'                => 50,
         ]);
@@ -295,14 +295,14 @@ class PaymentServiceTest extends TestCase
         ]);
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => null,
             'subsidization_end'      => null,
         ]);
 
         // we have subsidized menu category
         create(SubsidizedMenuCategories::class, [
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'menu_category_id'       => $menuCategory->id,
             'percent'                => 50,
         ]);
@@ -339,14 +339,14 @@ class PaymentServiceTest extends TestCase
         ]);
         create(ConsumerSubsidization::class, [
             'consumer_id'            => $consumer->id,
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'subsidization_start'    => null,
             'subsidization_end'      => null,
         ]);
 
         // we have subsidized menu category
         create(SubsidizedMenuCategories::class, [
-            'subsidization_rules_id' => $subsidizationRule->id,
+            'subsidization_rule_id' => $subsidizationRule->id,
             'menu_category_id'       => $menuCategory->id,
             'percent'                => 50,
         ]);

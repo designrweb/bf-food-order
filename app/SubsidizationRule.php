@@ -78,6 +78,6 @@ class SubsidizationRule extends Model
      */
     public function subsidizedMenuCategories()
     {
-        return $this->hasMany(SubsidizedMenuCategories::class, 'subsidization_rules_id', 'id');
+        return $this->hasMany(SubsidizedMenuCategories::class, 'subsidization_rule_id', 'id');
     }
 }

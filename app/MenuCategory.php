@@ -128,7 +128,7 @@ class MenuCategory extends Model
     // todo move to repository
     public function isAllowSubsidization($consumer): bool
     {
-        return (bool)SubsidizedMenuCategories::where('subsidization_rules_id', $consumer->subsidization->subsidization_rules_id)
+        return (bool)SubsidizedMenuCategories::where('subsidization_rule_id', $consumer->subsidization->subsidization_rule_id)
             ->where('menu_category_id', $this->id)
             ->where('percent', '>', 0)
             ->count();
