@@ -18,21 +18,44 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function () {
 
-    /** Auth routes */
-    Route::group([
-        'middleware' => 'api',
-        'prefix'     => 'auth'
-    ], function ($router) {
-        Route::post('login', 'api\v1\AuthController@login');
-        Route::post('logout', 'api\v1\AuthController@logout');
-        Route::post('refresh', 'api\v1\AuthController@refresh');
-        Route::post('me', 'api\v1\AuthController@me');
+/**
+ * Auth mobile app routes
+ */
+Route::group([
+    'middleware' => 'api',
+    'prefix'     => 'mobile',
+    'namespace'  => 'api\mobile\v1',
+], function ($router) {
+    Route::prefix('v1')->group(function () {
+        Route::post('login', 'AuthController@login');
+        Route::post('register', 'AuthController@register');
+        Route::get('resend/{id}', 'AuthController@resend');
 
+        Route::middleware('auth:api')->group(function () {
+            Route::post('logout', 'AuthController@logout');
+            Route::post('refresh', 'AuthController@refresh');
+            Route::post('me', 'AuthController@me');
+
+            // user routes
+            Route::post('user/update', 'UserController@update');
+
+            // consumers routes
+            Route::get('consumers/{id}', 'ConsumerController@getOne');
+            Route::get('consumers', 'ConsumerController@getAll');
+            Route::post('consumers', 'ConsumerController@store');
+            Route::put('consumers/{id}', 'ConsumerController@update');
+            Route::delete('consumers/{id}', 'ConsumerController@destroy');
+
+        });
     });
+});
 
-    /** POS terminal Auth routes */
+
+Route::prefix('v1')->group(function () {
+    /**
+     * POS terminal Auth routes
+     */
     Route::group([
         'middleware' => 'api',
         'prefix'     => 'pos',

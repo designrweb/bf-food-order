@@ -56,7 +56,7 @@ class Consumer extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth('web')->check()) {
                 $builder->whereHas('locationgroup.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id)
                         ->orWhere('locations.id', auth()->user()->location_id);
