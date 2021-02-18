@@ -36,6 +36,15 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function allByUserId($userId)
+    {
+        return $this->repository->allByUserId($userId);
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
