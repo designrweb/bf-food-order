@@ -23,7 +23,11 @@ class OrderFormRequest extends BaseApiFormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'menuitem_id' => 'required|numeric',
+            'consumer_id' => 'required|numeric',
+            'quantity'    => 'required|min:1',
+        ];
     }
 
     /**
@@ -31,6 +35,15 @@ class OrderFormRequest extends BaseApiFormRequest
      */
     public function messages(): array
     {
-        return [];
+        return [
+            'menuitem_id.required' => 'ERROR_MENUITEM_ID_IS_REQUIRED',
+            'menuitem_id.numeric'  => 'ERROR_MENUITEM_ID_MUST_BE_NUMERIC',
+
+            'consumer_id.required' => 'ERROR_CONSUMER_ID_IS_REQUIRED',
+            'consumer_id.numeric'  => 'ERROR_CONSUMER_ID_MUST_BE_NUMERIC',
+
+            'quantity.required' => 'ERROR_QUANTITY_IS_REQUIRED',
+            'quantity.min'      => 'ERROR_QUANTITY_MIN_1',
+        ];
     }
 }
