@@ -37,6 +37,7 @@ class MobileConsumerCollection extends JsonResource
                 'created_at'        => $item->created_at,
                 'updated_at'        => $item->updated_at,
                 'deleted_at'        => $item->deleted_at,
+                'company_email'     => $item->company->settings()->where('setting_name', 'email')->value('value'),
             ];
         });
     }
