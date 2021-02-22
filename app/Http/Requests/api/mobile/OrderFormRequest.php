@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Requests\api\mobile;
-
 
 use App\Http\Requests\api\BaseApiFormRequest;
 

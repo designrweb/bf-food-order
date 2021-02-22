@@ -133,6 +133,25 @@ client.test('Check updated data', function() {
 client.log("Response: " + JSON.stringify(response.body))
 %}
 
+### Get All orders
+GET {{url}}/orders
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get All orders', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Found " + response.body.length + " items")
+var idsList = '';
+response.body.forEach(function (item){
+     idsList += item.id + ", ";
+});
+client.log("Retrieved ids: " + idsList)
+%}
+
 ### Delete order previously created
 DELETE {{url}}/orders/{{created_order_id}}
 Content-Type: application/json
@@ -151,24 +170,5 @@ client.test('Check error existence', function() {
 })
 
 client.log("Response: " + JSON.stringify(response.body))
-%}
-
-### Get All orders
-GET {{url}}/orders
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{access_token}}
-
-> {%
-client.test('Get All orders', function() {
-  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
-})
-
-client.log("Found " + response.body.length + " items")
-var idsList = '';
-response.body.forEach(function (item){
-     idsList += item.id + ", ";
-});
-client.log("Retrieved ids: " + idsList)
 %}
 
