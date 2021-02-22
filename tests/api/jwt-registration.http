@@ -1,0 +1,39 @@
+#### Register new user
+### An email with confirmation will be sent
+POST {{url}}/register
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}&password_confirmation={{password}}
+
+> {%
+client.test('Registration', function() {
+  client.assert((response.status === 201), "Registration failed. Response: "+JSON.stringify(response.body));
+})
+
+client.test('User information', function() {
+  client.assert(
+      (response.body.hasOwnProperty('user')
+      && response.body.user.hasOwnProperty('email')
+      && response.body.user.hasOwnProperty('id')
+      && response.body.user.hasOwnProperty('created_at')
+      ), "User " +
+   "information not received. Response: "+JSON.stringify
+  (response.body));
+})
+
+  client.global.set('user_id', response.body.user.id)
+%}
+
+### Resend verigfication password
+### An email with confirmation will be sent
+GET {{url}}/resend/{{user_id}}
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+> {%
+client.test('Resending verification password', function() {
+  client.assert((response.status === 202), "Sending email failed. Response: "+JSON.stringify(response.body));
+})
+
+%}

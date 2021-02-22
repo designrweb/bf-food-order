@@ -1,0 +1,149 @@
+### Authorization request
+POST {{url}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed. Response: "+JSON.stringify
+  (response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+### Create consumer for the current user
+POST {{url}}/consumers
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "firstname": "ConsumerFName",
+  "lastname": "ConsumerLName",
+  "birthday": "2000-02-09",
+  "location_group_id": "1",
+  "imageurl": "{{dummy_image_base64}}",
+  "balance_limit": "40"
+}
+
+> {%
+client.test('Store consumer', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check stored data', function() {
+  client.assert((
+      response.body.firstname === "ConsumerFName"
+      && response.body.lastname === "ConsumerLName"
+      && response.body.birthday === "09.02.2000"
+      && response.body.balance_limit === "40"
+  ), "Error. Response: "
+  +"\r\nIs firstname correct: " + (response.body.firstname === "ConsumerFName" ? "+" : "-")
+  +"\r\nIs lastname correct: " + (response.body.lastname === "ConsumerLName" ? "+" : "-")
+  +"\r\nIs birthday correct: " + (response.body.birthday === "10.02.2000" ? "+" : "-")
+  +"\r\nIs balance_limit correct: " + (response.body.balance_limit === "40" ? "+" : "-")
+  )
+})
+
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('created_consumer_id', response.body.id)
+%}
+
+### Get created Consumers for the current user
+GET {{url}}/consumers/{{created_consumer_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get created consumer', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Update consumer previously created
+PUT {{url}}/consumers/{{created_consumer_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "firstname": "ConsumerFName updated",
+  "lastname": "ConsumerLName updated",
+  "birthday": "2000-02-10",
+  "location_group_id": "1",
+  "imageurl": "{{dummy_image_base64}}",
+  "balance_limit": "45"
+}
+
+> {%
+client.test('Update consumer', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check updated data', function() {
+  client.assert((
+      response.body.firstname === "ConsumerFName updated"
+      && response.body.lastname === "ConsumerLName updated"
+      && response.body.birthday === "10.02.2000"
+      && response.body.balance_limit === "45"
+  ), "Error. Response: "
+  +"\r\nIs firstname correct: " + (response.body.firstname === "ConsumerFName updated" ? "+" : "-")
+  +"\r\nIs lastname correct: " + (response.body.lastname === "ConsumerLName updated" ? "+" : "-")
+  +"\r\nIs birthday correct: " + (response.body.birthday === "10.02.2000" ? "+" : "-")
+  +"\r\nIs balance_limit correct: " + (response.body.balance_limit === "45" ? "+" : "-")
+  )
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+
+### Delete consumer previously created
+DELETE {{url}}/consumers/{{created_consumer_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Delete consumer. Check header', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check error existence', function() {
+  client.assert((
+      !response.body.hasOwnProperty('error')
+  ), "Error. Message: " + response.body.error)
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Get All Consumers for the current user
+GET {{url}}/consumers
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get All consumers', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Found " + response.body.length + " items")
+var idsList = '';
+response.body.forEach(function (item){
+     idsList += item.id + ", ";
+});
+client.log("Retrieved ids: " + idsList)
+%}
+

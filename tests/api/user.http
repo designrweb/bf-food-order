@@ -1,0 +1,35 @@
+### Authorization request
+POST {{url}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed. Response: "+JSON.stringify
+  (response.body))
+})
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+### User Updating
+POST {{url}}/user/update
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{"email":"{{email}}","user_info":{"first_name":"Testname", "last_name":"LastName", "salutation":"mr", "zip":"79000",
+"city":"Test city", "street":"Test"}}
+
+> {%
+client.log(JSON.stringify(response.body));
+
+client.test('User update', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify
+  (response.body))
+})
+
+%}
+

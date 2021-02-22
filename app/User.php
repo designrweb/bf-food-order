@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +12,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * Class User
  *
  * @property integer  $id
- * @property string   $name
  * @property string   $email
  * @property integer  $company_id
  * @property integer  $location_id
@@ -60,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'location_id', 'company_id'
+        'email', 'password', 'role', 'location_id', 'company_id'
     ];
 
     /**

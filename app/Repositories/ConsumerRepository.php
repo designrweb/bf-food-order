@@ -6,8 +6,10 @@ use App\Consumer;
 use App\Payment;
 use App\QueryBuilders\ConsumerSearch;
 use App\Services\QRService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class ConsumerRepository implements RepositoryInterface
 {
@@ -38,6 +40,15 @@ class ConsumerRepository implements RepositoryInterface
             ->thenReturn()
             ->with(['user.userInfo', 'locationGroup.location', 'subsidization.subsidizationRule'])
             ->paginate(request('itemsPerPage') ?? 10);
+    }
+
+    /**
+     * @param $userId
+     * @return Collection
+     */
+    public function allByUserId($userId)
+    {
+        return $this->model::where('user_id', $userId)->get();
     }
 
     /**
