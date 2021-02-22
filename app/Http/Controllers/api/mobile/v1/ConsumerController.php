@@ -1,18 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers\api\mobile\v1;
 
-use App\Consumer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\mobile\ConsumerFormRequest;
-use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\Mobile\MobileConsumerResource;
 use App\Http\Resources\Mobile\MobileConsumerCollection;
 use App\Services\ConsumerService;
-use App\Services\ExportService;
-use App\Services\SubsidizationOrganizationService;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

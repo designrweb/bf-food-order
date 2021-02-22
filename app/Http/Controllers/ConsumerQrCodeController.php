@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ConsumerQrCodeCollection;
 use App\Http\Resources\ConsumerQrCodeResource;
 use App\Services\ConsumerQrCodeService;
 use App\Http\Requests\ConsumerQrCodeFormRequest;
@@ -24,9 +25,7 @@ class ConsumerQrCodeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -41,7 +40,7 @@ class ConsumerQrCodeController extends Controller
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new ConsumerQrCodeCollection($this->service->all()))->toArray($request);
     }
 
 
@@ -54,7 +53,7 @@ class ConsumerQrCodeController extends Controller
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new ConsumerQrCodeResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -69,9 +68,7 @@ class ConsumerQrCodeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -79,61 +76,51 @@ class ConsumerQrCodeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param ConsumerQrCodeFormRequest $request
      * @return array
      */
     public function store(ConsumerQrCodeFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new ConsumerQrCodeResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-       /** @var array $resource */
-       $resource = $this->service->getOne($id)->toArray(request());
+        /** @var array $resource */
+        $resource = (new ConsumerQrCodeResource($this->service->getOne($id)))->toArray(request());
 
         return view('consumer_qr_codes.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new ConsumerQrCodeResource($this->service->getOne($id)))->toArray(request());
 
         return view('consumer_qr_codes._form', compact('resource'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param ConsumerQrCodeFormRequest $request
-     * @param int     $id
+     * @param                           $id
      * @return array
      */
     public function update(ConsumerQrCodeFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new ConsumerQrCodeResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

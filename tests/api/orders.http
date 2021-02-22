@@ -1,0 +1,174 @@
+### Authorization request
+POST {{url}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed. Response: "+JSON.stringify
+  (response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+### Create order
+POST {{url}}/orders
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "type":                          "1",
+  "menuitem_id":                   "1",
+  "consumer_id":                   "1",
+  "day":                           "2021-03-08",
+  "pickedup":                      "0",
+  "pickedup_at":                   "2021-03-10 12:40:36",
+  "quantity":                      "4",
+  "is_subsidized":                 "1",
+  "subsidization_organization_id": "1"
+}
+
+> {%
+client.test('Store order', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check stored data', function() {
+  client.assert((
+      response.body.type === "1"
+      && response.body.menuitem_id === "1"
+      && response.body.consumer_id === "1"
+      && response.body.day === "2021-03-08"
+      && response.body.pickedup === "0"
+      && response.body.pickedup_at === "2021-03-10 12:40:36"
+      && response.body.quantity === "4"
+      && response.body.is_subsidized === "1"
+      && response.body.subsidization_organization_id === "1"
+  ), "Error. Response: "
+  +"\r\nIs type correct: " + (response.body.type === "1" ? "+" : "-")
+  +"\r\nIs menuitem_id correct: " + (response.body.menuitem_id === "1" ? "+" : "-")
+  +"\r\nIs consumer_id correct: " + (response.body.consumer_id === "1" ? "+" : "-")
+  +"\r\nIs day correct: " + (response.body.day === "2021-03-08" ? "+" : "-")
+  +"\r\nIs pickedup correct: " + (response.body.pickedup === "0" ? "+" : "-")
+  +"\r\nIs pickedup_at correct: " + (response.body.pickedup_at === "2021-03-10 12:40:36" ? "+" : "-")
+  +"\r\nIs quantity correct: " + (response.body.quantity === "4" ? "+" : "-")
+  +"\r\nIs is_subsidized correct: " + (response.body.is_subsidized === "1" ? "+" : "-")
+  +"\r\nIs subsidization_organization_id correct: " + (response.body.subsidization_organization_id === "1" ? "+" : "-")
+  )
+})
+
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('created_order_id', response.body.id)
+%}
+
+### Get created order
+GET {{url}}/orders/{{created_order_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get created consumer', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Update order previously created
+PUT {{url}}/orders/{{created_order_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "type":                          "2",
+  "menuitem_id":                   "1",
+  "consumer_id":                   "1",
+  "day":                           "2021-03-08",
+  "pickedup":                      "1",
+  "pickedup_at":                   "2021-03-10 12:40:36",
+  "quantity":                      "4",
+  "is_subsidized":                 "1",
+  "subsidization_organization_id": "1"
+}
+
+> {%
+client.test('Update order', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check updated data', function() {
+  client.assert((
+      response.body.type === "2"
+      && response.body.menuitem_id === "1"
+      && response.body.consumer_id === "1"
+      && response.body.day === "2021-03-08"
+      && response.body.pickedup === "1"
+      && response.body.pickedup_at === "2021-03-10 12:40:36"
+      && response.body.quantity === "4"
+      && response.body.is_subsidized === "1"
+      && response.body.subsidization_organization_id === "1"
+  ), "Error. Response: "
+  +"\r\nIs type correct: " + (response.body.type === "2" ? "+" : "-")
+  +"\r\nIs menuitem_id correct: " + (response.body.menuitem_id === "1" ? "+" : "-")
+  +"\r\nIs consumer_id correct: " + (response.body.consumer_id === "1" ? "+" : "-")
+  +"\r\nIs day correct: " + (response.body.day === "2021-03-08" ? "+" : "-")
+  +"\r\nIs pickedup correct: " + (response.body.pickedup === "1" ? "+" : "-")
+  +"\r\nIs pickedup_at correct: " + (response.body.pickedup_at === "2021-03-10 12:40:36" ? "+" : "-")
+  +"\r\nIs quantity correct: " + (response.body.quantity === "4" ? "+" : "-")
+  +"\r\nIs is_subsidized correct: " + (response.body.is_subsidized === "1" ? "+" : "-")
+  +"\r\nIs subsidization_organization_id correct: " + (response.body.subsidization_organization_id === "1" ? "+" : "-")
+  )
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Delete order previously created
+DELETE {{url}}/orders/{{created_order_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Delete order. Check header', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check error existence', function() {
+  client.assert((
+      !response.body.hasOwnProperty('error')
+  ), "Error. Message: " + response.body.error)
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Get All orders
+GET {{url}}/orders
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get All orders', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Found " + response.body.length + " items")
+var idsList = '';
+response.body.forEach(function (item){
+     idsList += item.id + ", ";
+});
+client.log("Retrieved ids: " + idsList)
+%}
+

@@ -1,0 +1,78 @@
+### Authorization request
+POST {{url}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed. Response: "+JSON.stringify
+  (response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+### Create location
+POST {{url}}/locations
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name":       "LocationName",
+  "street":     "LocationStreet",
+  "company_id": "1",
+  "zip":        "12345",
+  "city":       "LocationCity",
+  "email":      "location@test.com"
+}
+
+> {%
+client.test('Store location', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check stored data', function() {
+  client.assert((
+      response.body.name === "LocationName"
+      && response.body.street === "LocationStreet"
+      && response.body.zip === "12345"
+      && response.body.city === "LocationCity"
+      && response.body.email === "location@test.com"
+  ), "Error. Response: "
+  +"\r\nIs name correct: " + (response.body.name === "LocationName" ? "+" : "-")
+  +"\r\nIs street correct: " + (response.body.street === "LocationStreet" ? "+" : "-")
+  +"\r\nIs zip correct: " + (response.body.zip === "12345" ? "+" : "-")
+  +"\r\nIs city correct: " + (response.body.city === "LocationCity" ? "+" : "-")
+  +"\r\nIs email correct: " + (response.body.email === "location@test.com" ? "+" : "-")
+  )
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('created_location_id', response.body.id)
+%}
+
+### Get All Locations
+GET {{url}}/locations
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get All locations', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Found " + response.body.length + " items")
+var idsList = '';
+response.body.forEach(function (item){
+     idsList += item.id + ", ";
+});
+client.log("Retrieved ids: " + idsList)
+%}
+

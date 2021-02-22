@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\mobile\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\api\AuthRegisterFormRequest;
+use App\Http\Requests\api\mobile\AuthRegisterFormRequest;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

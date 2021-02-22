@@ -1,0 +1,132 @@
+### Authorization request
+POST {{url}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email={{email}}&password={{password}}
+
+> {%
+client.test('Authorization', function() {
+  client.assert(response.body.hasOwnProperty('access_token'), "Authorization failed. Response: "+JSON.stringify
+  (response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('access_token', response.body.access_token)
+%}
+
+### Create consumer for the current user
+POST {{url}}/consumer-qr-codes
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "consumer_id":  "1",
+  "qr_code_hash": "b67c8553225e31e836f70c6f3cb520e3d87c2710bd9eaa6bace82726fcd76983"
+}
+
+> {%
+client.test('Store consumer', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check stored data', function() {
+  client.assert((
+      response.body.consumer_id === "1"
+      && response.body.qr_code_hash === "b67c8553225e31e836f70c6f3cb520e3d87c2710bd9eaa6bace82726fcd76983"
+  ), "Error. Response: "
+  +"\r\nIs consumer_id correct: " + (response.body.consumer_id === "1" ? "+" : "-")
+  +"\r\nIs qr_code_hash correct: " + (response.body.qr_code_hash === "b67c8553225e31e836f70c6f3cb520e3d87c2710bd9eaa6bace82726fcd76983" ? "+" : "-")
+  )
+})
+
+
+client.log("Response: " + JSON.stringify(response.body))
+
+client.global.set('created_consumer_qr_codes_id', response.body.id)
+%}
+
+### Get created Consumers for the current user
+GET {{url}}/consumer-qr-codes/{{created_consumer_qr_codes_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get created consumer', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Update consumer previously created
+PUT {{url}}/consumer-qr-codes/{{created_consumer_qr_codes_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "consumer_id":  "1",
+  "qr_code_hash": "6e3b3fcd20cc9b57e68d590e6b1abe4ce4666c0c626b6d7ac3f328e2e44c2b2e"
+}
+
+> {%
+client.test('Update consumer', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check updated data', function() {
+  client.assert((
+      response.body.consumer_id === "1"
+      && response.body.qr_code_hash === "6e3b3fcd20cc9b57e68d590e6b1abe4ce4666c0c626b6d7ac3f328e2e44c2b2e"
+  ), "Error. Response: "
+  +"\r\nIs consumer_id correct: " + (response.body.consumer_id === "1" ? "+" : "-")
+  +"\r\nIs qr_code_hash_updated correct: " + (response.body.qr_code_hash === "6e3b3fcd20cc9b57e68d590e6b1abe4ce4666c0c626b6d7ac3f328e2e44c2b2e" ? "+" : "-")
+  )
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
+### Get All Consumers for the current user
+GET {{url}}/consumer-qr-codes
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Get All consumers', function() {
+  client.assert((response.status === 200), "Internal error. Response: "+JSON.stringify(response.body))
+})
+
+client.log("Found " + response.body.length + " items")
+var idsList = '';
+response.body.forEach(function (item){
+     idsList += item.id + ", ";
+});
+client.log("Retrieved ids: " + idsList)
+%}
+
+### Delete consumer previously created
+DELETE {{url}}/consumer-qr-codes/{{created_consumer_qr_codes_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+client.test('Delete consumer. Check header', function() {
+  client.assert((response.status === 200), "Error. Response: "+JSON.stringify(response.body))
+})
+
+client.test('Check error existence', function() {
+  client.assert((
+      !response.body.hasOwnProperty('error')
+  ), "Error. Message: " + response.body.error)
+})
+
+client.log("Response: " + JSON.stringify(response.body))
+%}
+
