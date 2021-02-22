@@ -2,6 +2,7 @@
 /node_modules
 /public/hot
 /public/js
+/public/js_frontend/*
 /public/css/*
 /public/css_frontend/*
 /public/mix-manifest.json
@@ -17,3 +18,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+_ide_helper.php
