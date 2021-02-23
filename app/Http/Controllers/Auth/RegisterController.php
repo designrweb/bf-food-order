@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Services\UserService;
 use App\User;
-use App\UserInfo;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -33,14 +31,18 @@ class RegisterController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    /** @var UserService $userService */
+    protected $userService;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param UserService $userService
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
         $this->middleware('guest');
+        $this->userService = $userService;
     }
 
     /**
@@ -65,17 +67,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'email'    => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role'     => User::ROLE_USER,
+        return $this->userService->create([
+            'email'     => $data['email'],
+            'password'  => $data['password'],
+            'role'      => User::ROLE_USER,
+            'user_info' => []
         ]);
-
-        //create row in user_info table
-        UserInfo::create([
-            'user_id' => $user->id
-        ]);
-
-        return $user;
     }
 }
