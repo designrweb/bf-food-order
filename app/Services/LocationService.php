@@ -3,12 +3,10 @@
 namespace App\Services;
 
 use App\Components\ImageComponent;
-use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Repositories\LocationRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Location;
 use Illuminate\Support\Facades\DB;
 
@@ -52,12 +50,10 @@ class LocationService extends BaseModelService
     }
 
     /**
-     * Creates and returns the locations model
-     *
      * @param $data
-     * @return LocationResource
+     * @return mixed
      */
-    public function create($data): LocationResource
+    public function create($data)
     {
         if (!empty($data['image_name'])) {
             $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);
@@ -67,14 +63,11 @@ class LocationService extends BaseModelService
     }
 
     /**
-     * Updates and returns the locations model
-     *
      * @param $data
      * @param $id
-     * @return LocationResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): LocationResource
+    public function update($data, $id)
     {
         if (!empty($data['image_name'])) {
             $data['image_name'] = ImageComponent::storeInFile($data['image_name'], Location::IMAGE_FOLDER);

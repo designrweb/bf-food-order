@@ -107,7 +107,6 @@ client.test('Check updated data', function() {
 client.log("Response: " + JSON.stringify(response.body))
 %}
 
-
 ### Delete consumer previously created
 DELETE {{url}}/consumers/{{created_consumer_id}}
 Content-Type: application/json

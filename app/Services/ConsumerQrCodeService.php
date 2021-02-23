@@ -1,66 +1,66 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Resources\ConsumerQrCodeCollection;
-use App\Http\Resources\ConsumerQrCodeResource;
 use App\Repositories\ConsumerQrCodeRepository;
 use bigfood\grid\BaseModelService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\ConsumerQrCode;
 
-
+/**
+ * Class ConsumerQrCodeService
+ *
+ * @package App\Services
+ */
 class ConsumerQrCodeService extends BaseModelService
 {
-
+    /**
+     * @var ConsumerQrCodeRepository
+     */
     protected $repository;
 
+    /**
+     * ConsumerQrCodeService constructor.
+     *
+     * @param ConsumerQrCodeRepository $repository
+     */
     public function __construct(ConsumerQrCodeRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * Returns all consumer_qr_codes transformed to resource
-     *
      * @return ConsumerQrCodeCollection
      */
-    public function all(): ConsumerQrCodeCollection
+    public function all()
     {
-         return $this->repository->all();
+        return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return ConsumerQrCodeResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function getOne($id): ConsumerQrCodeResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the consumer_qr_codes model
-     *
      * @param $data
-     * @return ConsumerQrCodeResource
+     * @return mixed
      */
-    public function create($data): ConsumerQrCodeResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the consumer_qr_codes model
-     *
      * @param $data
      * @param $id
-     * @return ConsumerQrCodeResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): ConsumerQrCodeResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
@@ -82,7 +82,7 @@ class ConsumerQrCodeService extends BaseModelService
         return $this->getFullStructure((new ConsumerQrCode()));
     }
 
-     /**
+    /**
      * @return array
      */
     public function getViewStructure(): array

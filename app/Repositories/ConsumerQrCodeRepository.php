@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Http\Resources\ConsumerQrCodeCollection;
-use App\Http\Resources\ConsumerQrCodeResource;
 use App\ConsumerQrCode;
 use App\QueryBuilders\ConsumerQrCodeSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -24,35 +23,35 @@ class ConsumerQrCodeRepository implements RepositoryInterface
      */
     public function all()
     {
-        return new ConsumerQrCodeCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 ConsumerQrCodeSearch::class,
             ])
             ->thenReturn()
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return ConsumerQrCodeResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new ConsumerQrCodeResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return ConsumerQrCodeResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new ConsumerQrCodeResource($model);
+        return $model;
     }
 
     /**
@@ -65,11 +64,11 @@ class ConsumerQrCodeRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return ConsumerQrCodeResource
+     * @param $id
+     * @return mixed
      */
     public function get($id)
     {
-        return new ConsumerQrCodeResource($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 }

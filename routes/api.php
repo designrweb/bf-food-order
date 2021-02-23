@@ -47,6 +47,24 @@ Route::group([
             Route::put('consumers/{id}', 'ConsumerController@update');
             Route::delete('consumers/{id}', 'ConsumerController@destroy');
 
+            // locations routes
+            Route::get('locations/{id}', 'LocationController@getOne');
+            Route::get('locations', 'LocationController@getAll');
+            Route::post('locations', 'LocationController@store');
+
+            // orders routes
+            Route::get('orders/{id}', 'OrderController@getOne');
+            Route::get('orders', 'OrderController@getAll');
+            Route::post('orders', 'OrderController@store');
+            Route::put('orders/{id}', 'OrderController@update');
+            Route::delete('orders/{id}', 'OrderController@destroy');
+
+            // consumer-qr-codes routes
+            Route::get('consumer-qr-codes/{id}', 'ConsumerQrCodeController@getOne');
+            Route::get('consumer-qr-codes', 'ConsumerQrCodeController@getAll');
+            Route::post('consumer-qr-codes', 'ConsumerQrCodeController@store');
+            Route::put('consumer-qr-codes/{id}', 'ConsumerQrCodeController@update');
+            Route::delete('consumer-qr-codes/{id}', 'ConsumerQrCodeController@destroy');
         });
     });
 });

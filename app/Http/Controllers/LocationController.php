@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\LocationCollection;
+use App\Http\Resources\LocationResource;
 use App\Services\CompanyService;
 use App\Services\LocationService;
 use App\Http\Requests\LocationFormRequest;
@@ -61,7 +62,7 @@ class LocationController extends Controller
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new LocationResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -91,33 +92,29 @@ class LocationController extends Controller
      */
     public function store(LocationFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new LocationResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new LocationResource($this->service->getOne($id)))->toArray(request());
 
         return view('locations.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new LocationResource($this->service->getOne($id)))->toArray(request());
 
         return view('locations._form', compact('resource'));
     }
@@ -131,7 +128,7 @@ class LocationController extends Controller
      */
     public function update(LocationFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new LocationResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**

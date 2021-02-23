@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\LocationCollection;
-use App\Http\Resources\LocationResource;
 use App\Location;
 use App\QueryBuilders\LocationSearch;
 use Illuminate\Pipeline\Pipeline;
@@ -35,29 +33,30 @@ class LocationRepository implements RepositoryInterface
                 LocationSearch::class,
             ])
             ->thenReturn()
+            ->with('locationGroups')
             ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return LocationResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new LocationResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return LocationResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new LocationResource($model);
+        return $model;
     }
 
     /**
