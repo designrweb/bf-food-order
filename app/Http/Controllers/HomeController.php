@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserFormRequest;
 use App\Services\ConsumerService;
 use App\Services\LocationGroupService;
+use App\Services\LocationService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -27,17 +28,27 @@ class HomeController extends Controller
     protected $consumerService;
 
     /**
+     * @var LocationService
+     */
+    protected $locationService;
+
+    /**
      * Create a new controller instance.
      *
      * @param LocationGroupService $locationGroupService
      * @param UserService          $userService
      * @param ConsumerService      $consumerService
+     * @param LocationService      $locationService
      */
-    public function __construct(LocationGroupService $locationGroupService, UserService $userService, ConsumerService $consumerService)
+    public function __construct(LocationGroupService $locationGroupService,
+                                UserService $userService,
+                                ConsumerService $consumerService,
+                                LocationService $locationService)
     {
         $this->locationGroupService = $locationGroupService;
         $this->userService          = $userService;
         $this->consumerService      = $consumerService;
+        $this->locationService      = $locationService;
         $this->middleware('auth');
     }
 
@@ -49,9 +60,11 @@ class HomeController extends Controller
     public function index()
     {
         $locationGroupList = $this->locationGroupService->getList();
+        $locationList      = $this->locationService->getList();
 
         return view('home', [
-            'locationGroupList' => $locationGroupList
+            'locationGroupList' => $locationGroupList,
+            'locationList'      => $locationList
         ]);
     }
 

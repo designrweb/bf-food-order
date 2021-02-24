@@ -143,7 +143,6 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}/edit', 'LocationGroupController@edit')->name('location-groups.edit');
         Route::get('/{id}', 'LocationGroupController@show')->name('location-groups.show');
         Route::put('/{id}', 'LocationGroupController@update')->name('location-groups.update');
-        Route::get('/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
     });
 
     /** vacation-location-group routes */
@@ -359,13 +358,41 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 //        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
 
     });
-
 });
+
+
+//user role
+Route::prefix('user')
+    ->middleware(['auth', 'verified'])
+//    ->namespace('User')
+    ->group(function () {
+        Route::get('/profile', 'User\\ProfileController@index')->name('profile.index');
+        Route::post('/profile', 'User\\ProfileController@update')->name('profile.update');
+        Route::post('/profile/image-upload/{user}', 'User\\ProfileController@imageUpload')->name('profile.image-upload');
+        Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
+
+        /** delivery-planning routes */
+        Route::prefix('consumer')->middleware(['auth', 'verified'])->group(function () {
+            Route::get('/get-all', 'DeliveryPlanningController@getAll')->name('delivery-planning.get-all');
+            Route::get('/get-structure', 'DeliveryPlanningController@getIndexStructure')->name('delivery-planning.index-structure');
+            Route::get('/get-view-structure', 'DeliveryPlanningController@getViewStructure')->name('delivery-planning.view-structure');
+            Route::get('/get-one/{id}', 'DeliveryPlanningController@getOne')->name('delivery-planning.get-one');
+            Route::get('/', "DeliveryPlanningController@index")->name('delivery-planning.index');
+            Route::get('/create', 'DeliveryPlanningController@create')->name('delivery-planning.create');
+            Route::post('/', "DeliveryPlanningController@store")->name('delivery-planning.store');
+            Route::get('/{id}/edit', 'DeliveryPlanningController@edit')->name('delivery-planning.edit');
+            Route::get('/{id}', 'DeliveryPlanningController@show')->name('delivery-planning.show');
+            Route::put('/{id}', 'DeliveryPlanningController@update')->name('delivery-planning.update');
+            Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
+            Route::get('/export/run', "DeliveryPlanningController@export")->name('delivery-planning.export');
+        });
+//        Route::get('/consumers', 'HomeController@index')->name('profile.index');
+    });
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/home', 'HomeController@index')->name('profile.index');
-    Route::post('/profile/update', 'HomeController@update')->name('profile.update');
-});
+//Route::group(['middleware' => ['auth', 'verified']], function () {
+//    Route::get('/profile', 'HomeController@index')->name('profile.index');
+//    Route::post('/profile/update', 'HomeController@update')->name('profile.update');
+//});
 

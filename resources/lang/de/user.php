@@ -190,4 +190,7 @@ return [
     'Just click on the following link or copy it into your browser to create a new password'                                       => 'Klicken Sie einfach auf den folgenden Link oder kopieren Sie Ihn in Ihren Browser um ein neues Passwort zu erstellen',
     'If you did not send this request you can ignore this email'                                                                   => 'Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren',
     'Your email did not return any results. Please try again with other email.'                                                    => 'Ihre E-Mail hat keine Ergebnisse zurückgegeben. Bitte versuchen Sie es erneut mit einer anderen E-Mail.',
+    'Zip'                                                                                                                          => 'Postleitzahl',
+    'City'                                                                                                                         => 'Stadt',
+    'Street'                                                                                                                       => 'Straße',
 ];

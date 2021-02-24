@@ -123,8 +123,11 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug')) {
-            $response['trace'] = $exception->getTrace();
-            $response['code']  = $exception->getCode();
+            $response['message'] = $exception->original['message'];
+            $response['errors']  = $exception->original['errors'];
+//            $response['trace']   = $exception->getTrace();
+//            $response['code']    = $exception->getCode();
+//            $response['message'] = $exception->getMessage();
         }
 
         $response['status'] = $statusCode;

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string  $zip
  * @property string  $city
  * @property string  $street
+ * @property string  $image_url
+ * @property Carbon  $birthday
  * @property mixed   $created_at
  * @property mixed   $updated_at
  * @property User    $user
@@ -29,7 +32,15 @@ class UserInfo extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'first_name', 'last_name', 'salutation', 'zip', 'city', 'street', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'first_name', 'last_name', 'salutation', 'zip', 'city', 'street', 'image_url', 'birthday', 'created_at', 'updated_at'];
+
+    protected $dates = [
+        'birthday'
+    ];
+
+    protected $casts = [
+        'birthday' => 'date:d.m.Y',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
