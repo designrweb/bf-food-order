@@ -51,7 +51,7 @@ class ImageComponent
      */
     public static function encrypt($data)
     {
-        $key            = env('KEY_FILE_ENCRYPT');
+        $key            = config('app.file_encrypt_key');
         $encryption_key = base64_decode($key);
         $iv             = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
         $encrypted      = openssl_encrypt($data, 'aes-256-cbc', $encryption_key, 0, $iv);
@@ -65,7 +65,7 @@ class ImageComponent
      */
     public static function decrypt($data)
     {
-        $key            = env('KEY_FILE_ENCRYPT');
+        $key            = config('app.file_encrypt_key');
         $encryption_key = base64_decode($key);
         [$encrypted_data, $iv] = explode('::', base64_decode($data), 2);
 

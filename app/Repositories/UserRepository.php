@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Components\ImageComponent;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;

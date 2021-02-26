@@ -57,10 +57,10 @@ class Consumer extends Model
 
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth('web')->check()) {
-                $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id)
-                        ->orWhere('locations.id', auth()->user()->location_id);
-                });
+//                $builder->whereHas('locationgroup.location', function ($query) {
+//                    $query->where('locations.company_id', auth()->user()->company_id)
+//                        ->orWhere('locations.id', auth()->user()->location_id);
+//                });
             }
         });
     }

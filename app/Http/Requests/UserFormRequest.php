@@ -17,12 +17,13 @@ class UserFormRequest extends FormRequest
         return [
 //            'email'                => 'required|email|unique:users,email,' . $this->id,
             'location_id'          => 'required_if:role,' . User::ROLE_POS_MANAGER,
-            'first_name' => 'required|string',
-            'last_name'  => 'required|string',
-            'salutation' => 'required|string',
-            'zip'        => 'required|numeric|regex:/\b\d{5}\b/',
-            'city'       => 'required|string',
-            'street'     => 'required|string',
+            'user_info.first_name' => 'required|string',
+            'user_info.last_name'  => 'required|string',
+            'user_info.salutation' => 'required|string',
+            'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/',
+            'user_info.city'       => 'required|string',
+            'user_info.street'     => 'required|string',
+            'user_info.birthday'   => 'required|date',
         ];
     }
 

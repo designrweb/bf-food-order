@@ -22,6 +22,7 @@
     "/js/crud/subsidization_rules.js": "/js/crud/subsidization_rules.js",
     "/js/crud/subsidized_menu_categories.js": "/js/crud/subsidized_menu_categories.js",
     "/js/crud/user.js": "/js/crud/user.js",
+    "/js/crud/user_consumers.js": "/js/crud/user_consumers.js",
     "/js/crud/users.js": "/js/crud/users.js",
     "/js/crud/vacation.js": "/js/crud/vacation.js",
     "/js/crud/vacation_location_group.js": "/js/crud/vacation_location_group.js",

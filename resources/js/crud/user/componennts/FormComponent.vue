@@ -16,16 +16,7 @@
 
                 <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-4">
-                            <image-upload-component
-                                :imageFieldName="'image_url'"
-                                :image="form.user_info.image_url"
-                                :route="main_route"
-                                :entityId="form.id"
-                                @changed="handleImage"
-                            ></image-upload-component>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <b-form-group
                                 id="input-group-firstname"
                                 label="Vorname"
@@ -75,6 +66,54 @@
                                     {{ validation['user_info']['birthday']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
+
+                            <b-form-group
+                                id="input-group-city"
+                                label="City"
+                                label-for="input-city"
+                            >
+                                <b-form-input
+                                    id="input-city"
+                                    v-model="form.user_info.city"
+                                    placeholder="City"
+                                    autocomplete="off"
+                                ></b-form-input>
+                                <b-form-invalid-feedback :state="validation['user_info']['city']['state']">
+                                    {{ validation['user_info']['city']['message'] }}
+                                </b-form-invalid-feedback>
+                            </b-form-group>
+
+                            <b-form-group
+                                id="input-group-zip"
+                                label="Zip"
+                                label-for="input-zip"
+                            >
+                                <b-form-input
+                                    id="input-zip"
+                                    v-model="form.user_info.zip"
+                                    placeholder="Zip"
+                                    autocomplete="off"
+                                ></b-form-input>
+                                <b-form-invalid-feedback :state="validation['user_info']['zip']['state']">
+                                    {{ validation['user_info']['zip']['message'] }}
+                                </b-form-invalid-feedback>
+                            </b-form-group>
+
+                            <b-form-group
+                                id="input-group-street"
+                                label="Street"
+                                label-for="input-street"
+                            >
+                                <b-form-input
+                                    id="input-street"
+                                    v-model="form.user_info.street"
+                                    placeholder="Street"
+                                    autocomplete="off"
+                                ></b-form-input>
+                                <b-form-invalid-feedback :state="validation['user_info']['street']['state']">
+                                    {{ validation['user_info']['street']['message'] }}
+                                </b-form-invalid-feedback>
+                            </b-form-group>
                         </div>
                     </div>
 
@@ -117,11 +156,11 @@ export default {
     },
     props:      {
         main_route:    String,
-        location_list: Array,
+        // location_list: Array,
         // subsidization_organization_list: Array,
         id:                 String | Number,
         title:              String,
-        subsidizationTitle: String,
+        // subsidizationTitle: String,
         user:               Object,
     },
     data() {
@@ -139,7 +178,7 @@ export default {
             itemData:                [],
             subsidization_rule_list: [],
             form:                    {
-                user_info: {
+                user_info:     {
                     first_name: ''
                 },
                 subsidization: {
@@ -147,12 +186,16 @@ export default {
                 }
             },
             validation:              {
-                'id':         {'state': true, 'message': ''},
-                'user_info':  {
+                'id':        {'state': true, 'message': ''},
+                'user_info': {
                     'first_name': {'state': true, 'message': ''},
                     'last_name':  {'state': true, 'message': ''},
+                    'salutation': {'state': true, 'message': ''},
                     'birthday':   {'state': true, 'message': ''},
                     'image_url':  {'state': true, 'message': ''},
+                    'city':       {'state': true, 'message': ''},
+                    'zip':        {'state': true, 'message': ''},
+                    'street':     {'state': true, 'message': ''},
                 },
 
 
@@ -189,7 +232,7 @@ export default {
             }
         },
         handleImage(dataImage) {
-            this.form.imageurl = dataImage;
+            this.form.user_info.image_url = dataImage;
         },
         async onSubmit(evt) {
             evt.preventDefault();
@@ -199,10 +242,14 @@ export default {
                 const formData = new FormData();
                 let headers    = {};
 
-                this.form.birthday = this.birthdayValue;
+                this.form.user_info.birthday = this.birthdayValue;
 
                 _.each(this.form, (value, key) => {
-                    if (value) {
+                    if (_.isObject(value)) {
+                        _.each(value, (objectValue, objectKey) => {
+                            formData.append(`${key}[${objectKey}]`, objectValue)
+                        })
+                    } else {
                         formData.append(key, value)
                     }
                 })
@@ -238,16 +285,26 @@ export default {
 
                 let response = await storeFormData(self.main_route, self.id, formData, headers);
                 // window.location.href = self.main_route + '/' + response['data'].id;
+
+                self.isPageBusy = false;
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {
                     let errors = error.response.data.errors;
                     for (const [key, fieldData] of Object.entries(errors)) {
-                        this.validation[key] = {
-                            'state':   false,
-                            'message': fieldData[0]
-                        };
+                        if (key.split('.').length === 2) {
+                            this.validation[key.split('.')[0]][key.split('.')[1]] = {
+                                'state':   false,
+                                'message': fieldData[0]
+                            }
+                        } else {
+                            this.validation[key] = {
+                                'state':   false,
+                                'message': fieldData[0]
+                            };
+                        }
                     }
                 }
+
                 self.isPageBusy = false;
             }
         },
@@ -259,8 +316,6 @@ export default {
             for (const [key, fieldData] of Object.entries(this.user)) {
                 this.form[key] = fieldData;
             }
-
-            // console.log(this.form.birthday);
 
             this.birthdayValue = this.form.user_info.birthday;
         },
@@ -281,9 +336,18 @@ export default {
             deep: true,
             handler(val) {
                 for (const [key, fieldData] of Object.entries(this.validation)) {
-                    if (fieldData['state'] == false) {
-                        this.validation[key]['state'] = true;
+                    if (_.isObject(fieldData)) {
+                        _.each(fieldData, (objectValue, objectKey) => {
+                            if (objectValue['state'] == false) {
+                                this.validation[key][objectKey]['state'] = true;
+                            }
+                        })
+                    } else {
+                        if (fieldData['state'] == false) {
+                            this.validation[key]['state'] = true;
+                        }
                     }
+
                 }
             }
         }

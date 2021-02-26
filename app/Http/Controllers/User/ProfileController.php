@@ -62,10 +62,22 @@ class ProfileController extends Controller
         $locationGroupList = $this->locationGroupService->getList();
         $locationList      = $this->locationService->getList();
 
-        return view('user.profile', [
+        return view('user.profile.index', [
             'locationGroupList' => $locationGroupList,
             'locationList'      => $locationList,
             'userInfo'          => auth()->user()->load('userInfo')
+        ]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit()
+    {
+        return view('user.profile._form', [
+            'userInfo' => auth()->user()->load('userInfo')
         ]);
     }
 
@@ -76,12 +88,5 @@ class ProfileController extends Controller
     public function update(UserFormRequest $request)
     {
         $this->userService->update($request->all(), auth()->user()->id)->toArray();
-
-        return redirect()->route('profile.index');
-    }
-
-    public function imageUpload(Request $request)
-    {
-
     }
 }

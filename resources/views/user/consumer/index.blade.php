@@ -3,12 +3,12 @@
 @section('content')
     <div id="grid-index-page">
         <grid-index
-            :main_route="'/admin/delivery-planning'"
-            title="@lang('order.Delivery Planning')"
+            :main_route="'/user/consumers'"
+            title="@lang('Consumers')"
         ></grid-index>
     </div>
 @endsection
 
 @section('js')
-    <script src="{{('/js/crud/delivery_planning.js')}}"></script>
+    <script src="{{('/js/crud/user_consumers.js')}}"></script>
 @stop

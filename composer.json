@@ -10,17 +10,18 @@
     "require": {
         "php": "^7.2.5",
         "barryvdh/laravel-dompdf": "^0.9.0",
-        "chillerlan/php-qrcode": "^3.4",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^7.24",
-        "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.4",
-        "maatwebsite/excel": "^3.1",
-        "mpdf/mpdf": "^8.0",
+        "chillerlan/php-qrcode":    "^3.4",
+        "fideloper/proxy":          "^4.2",
+        "fruitcake/laravel-cors":   "^2.0",
+        "guzzlehttp/guzzle":        "^6.3",
+        "laravel/framework":        "^7.24",
+        "laravel/tinker":           "^2.0",
+        "laravel/ui":               "^2.4",
+        "maatwebsite/excel":        "^3.1",
+        "mpdf/mpdf":                "^8.0",
         "phpoffice/phpspreadsheet": "^1.15",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth":           "^1.0",
+      "ext-openssl":                "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

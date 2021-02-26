@@ -32,7 +32,7 @@ class UserInfo extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'first_name', 'last_name', 'salutation', 'zip', 'city', 'street', 'image_url', 'birthday', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'first_name', 'last_name', 'salutation', 'zip', 'city', 'street', 'birthday', 'created_at', 'updated_at'];
 
     protected $dates = [
         'birthday'
@@ -40,6 +40,10 @@ class UserInfo extends Model
 
     protected $casts = [
         'birthday' => 'date:d.m.Y',
+    ];
+
+    protected $appends = [
+        'full_name'
     ];
 
     /**

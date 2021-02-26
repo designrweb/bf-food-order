@@ -2,10 +2,10 @@
 
 @section('content')
     <div id="grid-view-page">
-        <grid-view :main_route="'/admin/delivery-planning'" :id="{{$resource['id']}}"></grid-view>
+        <grid-view :main_route="'/user/consumers'" :id="{{ $resource['id'] }}"></grid-view>
     </div>
 @endsection
 
 @section('js')
-    <script src="{{('/js/crud/delivery_planning.js')}}"></script>
+    <script src="{{('/js/crud/user_consumers.js')}}"></script>
 @stop

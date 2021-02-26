@@ -366,26 +366,37 @@ Route::prefix('user')
     ->middleware(['auth', 'verified'])
 //    ->namespace('User')
     ->group(function () {
-        Route::get('/profile', 'User\\ProfileController@index')->name('profile.index');
-        Route::post('/profile', 'User\\ProfileController@update')->name('profile.update');
-        Route::post('/profile/image-upload/{user}', 'User\\ProfileController@imageUpload')->name('profile.image-upload');
+
+        Route::prefix('profile')->namespace('User')->group(function () {
+            Route::get('/', 'ProfileController@index')->name('profile.index');
+            Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
+            Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
+            Route::post('/', 'ProfileController@update')->name('profile.update');
+            Route::post('/image-upload/{user}', 'ProfileController@imageUpload')->name('profile.image-upload');
+        });
+
         Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
 
-        /** delivery-planning routes */
-        Route::prefix('consumer')->middleware(['auth', 'verified'])->group(function () {
-            Route::get('/get-all', 'DeliveryPlanningController@getAll')->name('delivery-planning.get-all');
-            Route::get('/get-structure', 'DeliveryPlanningController@getIndexStructure')->name('delivery-planning.index-structure');
-            Route::get('/get-view-structure', 'DeliveryPlanningController@getViewStructure')->name('delivery-planning.view-structure');
-            Route::get('/get-one/{id}', 'DeliveryPlanningController@getOne')->name('delivery-planning.get-one');
-            Route::get('/', "DeliveryPlanningController@index")->name('delivery-planning.index');
-            Route::get('/create', 'DeliveryPlanningController@create')->name('delivery-planning.create');
-            Route::post('/', "DeliveryPlanningController@store")->name('delivery-planning.store');
-            Route::get('/{id}/edit', 'DeliveryPlanningController@edit')->name('delivery-planning.edit');
-            Route::get('/{id}', 'DeliveryPlanningController@show')->name('delivery-planning.show');
-            Route::put('/{id}', 'DeliveryPlanningController@update')->name('delivery-planning.update');
-            Route::delete('/{id}', "DeliveryPlanningController@destroy")->name('delivery-planning.destroy');
-            Route::get('/export/run', "DeliveryPlanningController@export")->name('delivery-planning.export');
+        /** consumers routes */
+        Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/get-all', 'ConsumerController@getAll')->name('consumers.get-all');
+            Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('consumers.index-structure');
+            Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('consumers.view-structure');
+            Route::get('/get-one/{id}', 'ConsumerController@getOne')->name('consumers.get-one');
+            Route::get('/create', 'ConsumerController@create')->name('consumers.create')->middleware('checkRole:create,App\Consumer');
+            Route::post('/', "ConsumerController@store")->name('consumers.store')->middleware('checkRole:create,App\Consumer');
+            Route::get('/{id}/edit', 'ConsumerController@edit')->name('consumers.edit')->middleware('checkRole:update,App\Consumer,id');
+            Route::get('/{id}', 'ConsumerController@show')->name('consumers.show');
+            Route::put('/{id}', 'ConsumerController@update')->name('consumers.update');
+            Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
+            Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
+            Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
+            Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
+            Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
+            Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
         });
+
+        Route::get('/get-list-by-organization/{organizationId?}', "SubsidizationRuleController@getList")->name('subsidization-rules.get-list-by-organization');
 //        Route::get('/consumers', 'HomeController@index')->name('profile.index');
     });
 

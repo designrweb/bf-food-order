@@ -42,15 +42,6 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index()
-    {
-        return view('consumers.index');
-    }
-
-    /**
      * @param Request $request
      * @return array
      */
@@ -98,7 +89,7 @@ class ConsumerController extends Controller
         $locationGroupList             = $this->locationGroupService->getList();
         $subsidizationOrganizationList = $subsidizationOrganizationService->getList();
 
-        return view('consumers._form', [
+        return view('user.consumer._form', [
             'locationGroupList'             => $locationGroupList,
             'subsidizationOrganizationList' => $subsidizationOrganizationList,
         ]);
@@ -122,7 +113,7 @@ class ConsumerController extends Controller
         /** @var array $resource */
         $resource = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
 
-        return view('consumers.view', compact('resource'));
+        return view('user.consumer.view', compact('resource'));
     }
 
     /**
@@ -135,9 +126,8 @@ class ConsumerController extends Controller
         /** @var array $resource */
         $resource                                  = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
         $resource['locationGroupList']             = $this->locationGroupService->getList();
-        $resource['subsidizationOrganizationList'] = $subsidizationOrganizationService->getList();
 
-        return view('consumers._form', compact('resource'));
+        return view('user.consumer._form', compact('resource'));
     }
 
     /**
