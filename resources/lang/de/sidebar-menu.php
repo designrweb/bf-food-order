@@ -22,5 +22,6 @@ return [
     'Organizations'     => 'Subventionsstelle',
     'Rules'             => 'Subventionierungsregeln',
     'Subsidization'     => 'Subventionierung',
+    'Profile'           => 'Profil',
 
 ];

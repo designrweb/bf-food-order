@@ -10,7 +10,7 @@
     </div>
 
     {{--Cumsumer table--}}
-    @include('user.consumer.index')
+{{--    @include('user.consumer.index')--}}
 @endsection
 
 @section('js')

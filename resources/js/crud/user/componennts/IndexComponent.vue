@@ -36,16 +36,9 @@
                     <b-td>Geburtstag</b-td>
                     <b-td>{{ user.user_info.birthday }}</b-td>
                 </b-tr>
-                <b-tr>
-                    <b-td>Geburtstag</b-td>
-                    <b-td>
-                        <img :src="user.user_info.image_url"
-                             :alt="user.user_info.full_name">
-                    </b-td>
-                </b-tr>
             </b-table-simple>
-
         </div>
+
     </div>
 </template>
 
@@ -65,7 +58,7 @@ export default {
     },
     methods: {
         async _loadData() {
-            // let response = await get('/profile');
+            let response = await get('/profile');
             // console.log(response);
         },
     },

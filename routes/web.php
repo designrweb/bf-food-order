@@ -372,13 +372,15 @@ Route::prefix('user')
             Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
             Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
             Route::post('/', 'ProfileController@update')->name('profile.update');
-            Route::post('/image-upload/{user}', 'ProfileController@imageUpload')->name('profile.image-upload');
+            Route::get('/balance-limit', 'ProfileController@update')->name('profile.update');
         });
 
         Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
+        Route::get('/location-groups/get-one/{id}', "LocationGroupController@getOne")->name('user.location-groups.get-one');
 
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/', 'ConsumerController@index')->name('consumers.index');
             Route::get('/get-all', 'ConsumerController@getAll')->name('consumers.get-all');
             Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('consumers.index-structure');
             Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('consumers.view-structure');
@@ -394,9 +396,8 @@ Route::prefix('user')
             Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
             Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
             Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
+            Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });
-
-        Route::get('/get-list-by-organization/{organizationId?}', "SubsidizationRuleController@getList")->name('subsidization-rules.get-list-by-organization');
 //        Route::get('/consumers', 'HomeController@index')->name('profile.index');
     });
 

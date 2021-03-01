@@ -2,7 +2,10 @@
 
 @section('content')
     <div id="grid-view-page">
-        <grid-view :main_route="'/user/consumers'" :id="{{ $resource['id'] }}"></grid-view>
+        <grid-view
+                subsidization_support_email="{{ $subsidizationSupportEmail }}"
+                :main_route="'/user/consumers'"
+                :id="{{ $resource['id'] }}"></grid-view>
     </div>
 @endsection
 

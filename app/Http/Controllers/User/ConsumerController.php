@@ -10,9 +10,18 @@ use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
 use App\Services\ExportService;
 use App\Services\LocationGroupService;
+use App\Services\LocationService;
+use App\Services\SettingService;
 use App\Services\SubsidizationOrganizationService;
+use App\Setting;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Class ConsumerController
@@ -39,6 +48,15 @@ class ConsumerController extends Controller
     {
         $this->service              = $service;
         $this->locationGroupService = $locationGroupService;
+    }
+
+    /**
+     * @param Request $request
+     * @return array|Application|Factory|View
+     */
+    public function index(Request $request)
+    {
+        return view('user.consumer.index');
     }
 
     /**
@@ -81,17 +99,15 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param SubsidizationOrganizationService $subsidizationOrganizationService
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param LocationService $locationService
+     * @return Application|Factory|View
      */
-    public function create(SubsidizationOrganizationService $subsidizationOrganizationService)
+    public function create(LocationService $locationService)
     {
-        $locationGroupList             = $this->locationGroupService->getList();
-        $subsidizationOrganizationList = $subsidizationOrganizationService->getList();
+        $locationList      = $locationService->getList();
 
         return view('user.consumer._form', [
-            'locationGroupList'             => $locationGroupList,
-            'subsidizationOrganizationList' => $subsidizationOrganizationList,
+            'locationList'      => $locationList
         ]);
     }
 
@@ -105,29 +121,28 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param SettingService $settingService
+     * @param                $id
+     * @return Application|Factory|View
      */
-    public function show($id)
+    public function show(SettingService $settingService, $id)
     {
-        /** @var array $resource */
-        $resource = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $resource                  = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $subsidizationSupportEmail = $settingService->getSubsidizationSupportEmail();
 
-        return view('user.consumer.view', compact('resource'));
+        return view('user.consumer.view', compact('resource', 'subsidizationSupportEmail'));
     }
 
     /**
-     * @param SubsidizationOrganizationService $subsidizationOrganizationService
      * @param                                  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
-    public function edit(SubsidizationOrganizationService $subsidizationOrganizationService, $id)
+    public function edit($id, LocationService $locationService)
     {
-        /** @var array $resource */
-        $resource                                  = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
-        $resource['locationGroupList']             = $this->locationGroupService->getList();
+        $resource          = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $locationList      = $locationService->getList();
 
-        return view('user.consumer._form', compact('resource'));
+        return view('user.consumer._form', compact('resource', 'locationList'));
     }
 
     /**
@@ -143,7 +158,7 @@ class ConsumerController extends Controller
     /**
      * @param $id
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function generateCode($id)
     {
@@ -163,7 +178,7 @@ class ConsumerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -175,7 +190,7 @@ class ConsumerController extends Controller
     /**
      * @param $request
      * @param $id
-     * @return bool|\Illuminate\Http\JsonResponse
+     * @return bool|JsonResponse
      */
     public function updateImage(Request $request, $id)
     {
@@ -189,7 +204,7 @@ class ConsumerController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function removeImage($id)
     {
@@ -209,10 +224,20 @@ class ConsumerController extends Controller
     /**
      * @param ExportService $exportService
      * @param Request       $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
     public function export(Request $request, ExportService $exportService)
     {
         return $exportService->export($request, $this->service, ConsumerCollection::class, Consumer::class);
+    }
+
+    /**
+     * @param                 $groupId
+     * @param LocationService $locationService
+     * @return BinaryFileResponse
+     */
+    public function getLocationList($locationId, LocationService $locationService)
+    {
+        return $locationService->getOne($locationId)->locationGroups->toArray();
     }
 }

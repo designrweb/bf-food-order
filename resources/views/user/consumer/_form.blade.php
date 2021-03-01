@@ -2,15 +2,17 @@
 
 @section('content')
     <div id="grid-form-page">
-        @if(!empty($resource))
+        @isset($resource)
             <grid-form
-                    :location_group_list="{{ json_encode($resource['locationGroupList']) }}"
+                    :location_list="{{ json_encode($locationList) }}"
                     :main_route="'/user/consumers'"
-                    :id="{{ $resource['id'] }}"></grid-form>
+                    :id="{{ $resource['id'] }}">
+            </grid-form>
         @else
             <grid-form
-                    :location_group_list="{{ json_encode($resource['locationGroupList']) }}"
-                    :main_route="'/user/consumers'"></grid-form>
+                    :location_list="{{ json_encode($locationList) }}"
+                    :main_route="'/user/consumers'">
+            </grid-form>
         @endif
     </div>
 @endsection

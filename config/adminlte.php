@@ -364,6 +364,18 @@ return [
             'icon'  => 'nav-icon fa fa-file',
             'can'   => ['menu-Payment'],
         ],
+        [
+            'text'  => 'Profile',
+            'route' => 'profile.index',
+            'icon'  => 'nav-icon fa fa-file',
+            'can'   => ['menu-Profile'],
+        ],
+        [
+            'text'  => 'Consumers',
+            'route' => 'consumers.index',
+            'icon'  => 'nav-icon fa fa-file',
+            'can'   => ['menu-Profile'],
+        ],
 
 //        [
 //            'text' => 'Vacation Location Group',

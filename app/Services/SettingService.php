@@ -111,6 +111,14 @@ class SettingService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function getSubsidizationSupportEmail(): ?string
+    {
+        return $this->repository->getSubsidizationSupportEmail();
+    }
+
+    /**
      * @param Model $model
      * @return \string[][]
      */

@@ -118,4 +118,19 @@ class UserPolicy
 
         return false;
     }
+
+    /**
+     * Determine whether the user can view his profile.
+     *
+     * @param \App\User $user
+     * @return mixed
+     */
+    public function viewProfile(User $user)
+    {
+        if (in_array($user->role, [User::ROLE_USER])) {
+            return true;
+        }
+
+        return false;
+    }
 }

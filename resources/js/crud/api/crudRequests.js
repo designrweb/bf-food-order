@@ -46,6 +46,11 @@ export const getLocationGroupsByLocationId = (url) => api
     .request(url)
     .get();
 
+
+export const getLocationsByLocationGroupId = (url) => api
+    .request(url)
+    .get();
+
 export const getSubsidizationRulesBySubsidizationOrganizationId = (url) => api
     .request(url)
     .get();
