@@ -1,22 +1,20 @@
-import ConsumerImageUploadForm from "./components/ConsumerImageUploadForm";
-import Croppa from 'vue-croppa';
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
+import IndexComponent                    from '../componennts/IndexComponent';
+
 window.Vue = require('vue');
 
-Vue.use(Croppa)
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 
-
 function init() {
-    let $page = document.querySelector('#consumer-image-upload-form');
+    let $page = document.querySelector('#grid-index-page');
 
     if (typeof ($page) == 'undefined' || $page == null) return false;
 
     new Vue({
-        el:         '#consumer-image-upload-form',
+        el:         '#grid-index-page',
         components: {
-            "consumer-image-upload-form": ConsumerImageUploadForm
+            "grid-index": IndexComponent
         },
         props:      {
             main_route: String

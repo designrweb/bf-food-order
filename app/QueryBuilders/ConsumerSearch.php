@@ -47,23 +47,23 @@ class ConsumerSearch extends BaseSearch
             $this->applyFilter('consumers.account_id', request('filters.account_id'));
         }
 
-//        $this->builder->whereRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) like '%" . request('filters.full_name') . "%' ");
+        $this->builder->whereRaw("CONCAT_WS(' ', consumers.firstname, consumers.lastname) like '%" . request('filters.full_name') . "%' ");
 
-//        $this->builder->when(request('filters.user.email'), function (Builder $q) {
-//            $q->where('users.email', 'like', '%' . request('filters.user.email') . '%');
-//        });
-//
-//        $this->builder->whereHas('locationGroup.location', function (Builder $q) {
-//            $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
-//        });
-//
-//        $this->builder->whereHas('locationGroup', function (Builder $q) {
-//            $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
-//        });
-//
-//        $this->builder->whereHas('user.userInfo', function (Builder $q) {
-//            $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
-//        });
+        $this->builder->when(request('filters.user.email'), function (Builder $q) {
+            $q->where('users.email', 'like', '%' . request('filters.user.email') . '%');
+        });
+
+        $this->builder->whereHas('locationGroup.location', function (Builder $q) {
+            $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
+        });
+
+        $this->builder->whereHas('locationGroup', function (Builder $q) {
+            $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
+        });
+
+        $this->builder->whereHas('user.userInfo', function (Builder $q) {
+            $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
+        });
 
         if (request('filters.subsidization.subsidization_rule.rule_name')) {
             $this->builder->whereHas('subsidization.subsidizationRule', function (Builder $q) {

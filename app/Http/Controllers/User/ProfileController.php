@@ -49,7 +49,6 @@ class ProfileController extends Controller
         $this->userService          = $userService;
         $this->consumerService      = $consumerService;
         $this->locationService      = $locationService;
-        $this->middleware('auth');
     }
 
     /**

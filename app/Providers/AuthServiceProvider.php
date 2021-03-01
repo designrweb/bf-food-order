@@ -107,6 +107,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('menu-' . class_basename(MenuCategory::class), [MenuCategoryPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(Location::class), [LocationPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(LocationGroup::class), [LocationGroupPolicy::class, 'viewAny']);
+        Gate::define('menu-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'viewAny']);
         Gate::define('menu-Profile', [UserPolicy::class, 'viewProfile']);
     }
 }

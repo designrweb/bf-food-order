@@ -367,13 +367,7 @@ return [
         [
             'text'  => 'Profile',
             'route' => 'profile.index',
-            'icon'  => 'nav-icon fa fa-file',
-            'can'   => ['menu-Profile'],
-        ],
-        [
-            'text'  => 'Consumers',
-            'route' => 'consumers.index',
-            'icon'  => 'nav-icon fa fa-file',
+            'icon'  => 'nav-icon fa fa-user',
             'can'   => ['menu-Profile'],
         ],
 

@@ -1,19 +1,20 @@
+import FormComponent                     from "../componennts/FormComponent";
+
 window.Vue = require('vue');
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
-import IndexComponent                    from '../componennts/IndexComponent';
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 
 function init() {
-    let $page = document.querySelector('#grid-index-page');
+    let $page = document.querySelector('#grid-form-page');
 
     if (typeof ($page) == 'undefined' || $page == null) return false;
 
     new Vue({
-        el:         '#grid-index-page',
+        el:         '#grid-form-page',
         components: {
-            "grid-index": IndexComponent
+            "grid-form": FormComponent
         },
         props:      {
             main_route: String

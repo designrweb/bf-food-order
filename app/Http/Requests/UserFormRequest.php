@@ -15,7 +15,6 @@ class UserFormRequest extends FormRequest
     public function rules()
     {
         return [
-//            'email'                => 'required|email|unique:users,email,' . $this->id,
             'location_id'          => 'required_if:role,' . User::ROLE_POS_MANAGER,
             'user_info.first_name' => 'required|string',
             'user_info.last_name'  => 'required|string',
@@ -23,7 +22,6 @@ class UserFormRequest extends FormRequest
             'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/',
             'user_info.city'       => 'required|string',
             'user_info.street'     => 'required|string',
-            'user_info.birthday'   => 'required|date',
         ];
     }
 

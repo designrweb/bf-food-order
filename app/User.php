@@ -146,14 +146,4 @@ class User extends Authenticatable implements MustVerifyEmail,JWTSubject
     {
         return [];
     }
-
-    /**
-     * Determinate if user has user role
-     *
-     * @todo - move to trait
-     */
-    public function isUser(): bool
-    {
-        return $this->role === self::ROLE_USER;
-    }
 }

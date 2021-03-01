@@ -364,9 +364,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 //user role
 Route::prefix('user')
     ->middleware(['auth', 'verified'])
-//    ->namespace('User')
     ->group(function () {
-
         Route::prefix('profile')->namespace('User')->group(function () {
             Route::get('/', 'ProfileController@index')->name('profile.index');
             Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
@@ -398,13 +396,6 @@ Route::prefix('user')
             Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });
-//        Route::get('/consumers', 'HomeController@index')->name('profile.index');
     });
 
 Auth::routes(['verify' => true]);
-
-//Route::group(['middleware' => ['auth', 'verified']], function () {
-//    Route::get('/profile', 'HomeController@index')->name('profile.index');
-//    Route::post('/profile/update', 'HomeController@update')->name('profile.update');
-//});
-

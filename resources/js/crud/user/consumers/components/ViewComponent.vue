@@ -78,14 +78,11 @@
 </template>
 
 <script>
-import {getSubsidizationRulesBySubsidizationOrganizationId, storeFormData} from "../../../api/crudRequests";
-
 import {EditButton, DeleteButton}  from "../../../shared/grid-buttons";
 import {getViewStructure, getItem} from "../../../api/crudRequests";
 import SpinnerComponent            from "../../../shared/SpinnerComponent";
 import BackButtonComponent         from "../../../shared/BackButtonComponent";
 import QrcodeComponent             from "../../../shared/QrcodeComponent";
-import _                           from "lodash";
 
 export default {
     components: {
@@ -114,20 +111,6 @@ export default {
                 view:   true,
                 edit:   true,
                 delete: true,
-            },
-            subsidization_rule_list: [],
-            form:                    {
-                subsidization: {
-                    subsidization_document: null
-                }
-            },
-            validation:              {
-                'id':                                          {'state': true, 'message': ''},
-                'subsidization.subsidization_rule_id':         {'state': true, 'message': ''},
-                'subsidization.subsidization_organization_id': {'state': true, 'message': ''},
-                'subsidization.subsidization_start':           {'state': true, 'message': ''},
-                'subsidization.subsidization_end':             {'state': true, 'message': ''},
-                'subsidization.subsidization_document':        {'state': true, 'message': ''},
             },
         }
     },
@@ -169,79 +152,10 @@ export default {
 
             this.isPageBusy = false;
         },
-        async onSubmit(evt) {
-            evt.preventDefault();
-            const self      = this;
-            self.isPageBusy = true;
-            try {
-                const formData = new FormData();
-                let headers    = {};
-
-                _.each(this.form, (value, key) => {
-                    formData.append(key, value)
-                })
-
-                if (self.selectedFile) {
-                    headers = {
-                        "Content-type": "multipart/form-data"
-                    };
-                    formData.append('subsidization[subsidization_document]', self.selectedFile, self.selectedFile.name);
-                }
-
-                if (typeof self.form.subsidization.subsidization_start !== "undefined") {
-                    formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
-                } else {
-                    formData.append('subsidization[subsidization_start]', '');
-                }
-
-                if (typeof self.form.subsidization.subsidization_end !== "undefined") {
-                    formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
-                } else {
-                    formData.append('subsidization[subsidization_end]', '');
-                }
-
-                if (typeof self.form.subsidization.subsidization_rule_id !== "undefined") {
-                    formData.append('subsidization[subsidization_rule_id]', self.form.subsidization.subsidization_rule_id);
-                } else {
-                    formData.append('subsidization[subsidization_rule_id]', '');
-                }
-
-                if (self.id) {
-                    formData.append('_method', 'PUT');
-                }
-
-                let response         = await storeFormData(self.main_route, self.id, formData, headers);
-                window.location.href = self.main_route + '/' + response['data'].id + '/edit';
-            } catch (error) {
-                if (error.response && error.response.data && error.response.data.errors) {
-                    let errors = error.response.data.errors;
-                    for (const [key, fieldData] of Object.entries(errors)) {
-                        this.validation[key] = {
-                            'state':   false,
-                            'message': fieldData[0]
-                        };
-                    }
-                }
-                self.isPageBusy = false;
-            }
-        },
         onReset() {
-        },
-        async getSubsidizationRulesBySubsidizationOrganizationId() {
-            if (this.form.subsidization.subsidization_organization_id === null) return;
-
-            try {
-                let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_organization_id);
-                this.subsidization_rule_list = response['data'];
-            } catch (error) {
-                if (error.response && error.response.data && error.response.data.errors) {
-                    let errors = error.response.data.errors;
-                }
-            }
         },
     },
     async mounted() {
-        console.log(this.subsidization_support_email);
         await this._loadStructure();
         await this._loadData();
         this._preparePageData();

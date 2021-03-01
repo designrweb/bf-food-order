@@ -32,10 +32,6 @@
                     <b-td>Ort</b-td>
                     <b-td>{{ user.user_info.city }}</b-td>
                 </b-tr>
-                <b-tr>
-                    <b-td>Geburtstag</b-td>
-                    <b-td>{{ user.user_info.birthday }}</b-td>
-                </b-tr>
             </b-table-simple>
         </div>
 
@@ -43,8 +39,6 @@
 </template>
 
 <script>
-import {get} from "../../api/profile";
-
 export default {
     components: {},
     props:      {
@@ -56,21 +50,6 @@ export default {
             isPageBusy: false,
         }
     },
-    methods: {
-        async _loadData() {
-            let response = await get('/profile');
-            // console.log(response);
-        },
-    },
-    async mounted() {
-        console.log(this.user);
-        await this._loadData();
-    },
-    watch: {
-        // itemsPerPage: function (val) {
-        //     this._loadData(1);
-        // }
-    }
 }
 </script>
 

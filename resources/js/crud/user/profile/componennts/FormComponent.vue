@@ -50,24 +50,6 @@
                             </b-form-group>
 
                             <b-form-group
-                                id="input-group-birthday"
-                                label="Geburtstag"
-                                label-for="input-birthday"
-                            >
-                                <date-picker
-                                    v-model="birthdayValue"
-                                    :default-value="birthdayValue"
-                                    valueType="format"
-                                    format="DD.MM.YYYY"
-                                    :lang="lang"
-                                    input-class="form-control b-day">
-                                </date-picker>
-                                <b-form-invalid-feedback :state="validation['user_info']['birthday']['state']">
-                                    {{ validation['user_info']['birthday']['message'] }}
-                                </b-form-invalid-feedback>
-                            </b-form-group>
-
-                            <b-form-group
                                 id="input-group-city"
                                 label="City"
                                 label-for="input-city"
@@ -134,16 +116,12 @@
 
 <script>
 import {
-    getItem,
-    getSubsidizationRulesBySubsidizationOrganizationId,
     storeFormData,
-    getLocationGroupsByLocationId
-}                           from "../../api/crudRequests";
-import SpinnerComponent     from "../../shared/SpinnerComponent";
-import BackButtonComponent  from "../../shared/BackButtonComponent";
-import ImageUploadComponent from "../../shared/ImageUploadComponent";
+}                           from "../../../api/crudRequests";
+import SpinnerComponent     from "../../../shared/SpinnerComponent";
+import BackButtonComponent  from "../../../shared/BackButtonComponent";
+import ImageUploadComponent from "../../../shared/ImageUploadComponent";
 import _                    from 'lodash'
-import DatePicker           from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/de';
 
@@ -152,15 +130,11 @@ export default {
         'spinner-component':      SpinnerComponent,
         'back-button-component':  BackButtonComponent,
         'image-upload-component': ImageUploadComponent,
-        DatePicker
     },
     props:      {
         main_route:    String,
-        // location_list: Array,
-        // subsidization_organization_list: Array,
         id:                 String | Number,
         title:              String,
-        // subsidizationTitle: String,
         user:               Object,
     },
     data() {
@@ -192,18 +166,10 @@ export default {
                     'last_name':  {'state': true, 'message': ''},
                     'salutation': {'state': true, 'message': ''},
                     'birthday':   {'state': true, 'message': ''},
-                    'image_url':  {'state': true, 'message': ''},
                     'city':       {'state': true, 'message': ''},
                     'zip':        {'state': true, 'message': ''},
                     'street':     {'state': true, 'message': ''},
                 },
-
-
-                // 'subsidization.subsidization_rule_id':         {'state': true, 'message': ''},
-                // 'subsidization.subsidization_organization_id': {'state': true, 'message': ''},
-                // 'subsidization.subsidization_start':           {'state': true, 'message': ''},
-                // 'subsidization.subsidization_end':             {'state': true, 'message': ''},
-                // 'subsidization.subsidization_document':        {'state': true, 'message': ''},
             },
         }
     },
@@ -218,18 +184,6 @@ export default {
                 vm.form.subsidization.subsidization_document = e.target.result;
             };
             reader.readAsDataURL(file);
-        },
-        async getSubsidizationRulesBySubsidizationOrganizationId() {
-            if (this.form.subsidization.subsidization_organization_id === null) return;
-
-            try {
-                let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_organization_id);
-                this.subsidization_rule_list = response['data'];
-            } catch (error) {
-                if (error.response && error.response.data && error.response.data.errors) {
-                    let errors = error.response.data.errors;
-                }
-            }
         },
         handleImage(dataImage) {
             this.form.user_info.image_url = dataImage;
@@ -254,37 +208,12 @@ export default {
                     }
                 })
 
-                if (self.selectedFile) {
-                    headers = {
-                        "Content-type": "multipart/form-data"
-                    };
-                    formData.append('subsidization[subsidization_document]', self.selectedFile, self.selectedFile.name);
-                }
-
-                if (typeof self.form.subsidization.subsidization_start !== "undefined") {
-                    formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
-                } else {
-                    formData.append('subsidization[subsidization_start]', '');
-                }
-
-                if (typeof self.form.subsidization.subsidization_end !== "undefined") {
-                    formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
-                } else {
-                    formData.append('subsidization[subsidization_end]', '');
-                }
-
-                if (typeof self.form.subsidization.subsidization_rule_id !== "undefined") {
-                    formData.append('subsidization[subsidization_rule_id]', self.form.subsidization.subsidization_rule_id);
-                } else {
-                    formData.append('subsidization[subsidization_rule_id]', '');
-                }
-
                 if (self.id) {
                     formData.append('_method', 'PUT');
                 }
 
                 let response = await storeFormData(self.main_route, self.id, formData, headers);
-                // window.location.href = self.main_route + '/' + response['data'].id;
+                window.location.href = self.main_route;
 
                 self.isPageBusy = false;
             } catch (error) {
@@ -316,19 +245,11 @@ export default {
             for (const [key, fieldData] of Object.entries(this.user)) {
                 this.form[key] = fieldData;
             }
-
-            this.birthdayValue = this.form.user_info.birthday;
         },
-        async getLocationGroupsByLocationId() {
-            let {data} = await getLocationGroupsByLocationId(`/user/location-groups/get-list-by-location/${this.form.location_id}`)
-
-            this.location_group_list = data;
-        }
     },
     async mounted() {
         this.isPageBusy = true;
         await this._loadData();
-        await this.getSubsidizationRulesBySubsidizationOrganizationId();
         this.isPageBusy = false;
     },
     watch: {

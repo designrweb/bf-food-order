@@ -8,9 +8,6 @@
                 title="@lang('user.Profile')"
         ></grid-index>
     </div>
-
-    {{--Cumsumer table--}}
-{{--    @include('user.consumer.index')--}}
 @endsection
 
 @section('js')

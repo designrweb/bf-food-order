@@ -1,5 +1,5 @@
-import initGridPage from "./user/pages/form.js";
-import initIndexPage from "./user/pages/index.js";
+import initGridPage from "./user/profile/pages/form.js";
+import initIndexPage from "./user/profile/pages/index.js";
 
 function init() {
     initGridPage();

@@ -184,7 +184,7 @@ class ConsumerController extends Controller
     {
         $this->service->remove($id);
 
-        return response()->json(['redirect_url' => action('ConsumerController@index')]);
+        return response()->json(['redirect_url' => action('User\ConsumerController@index')]);
     }
 
     /**
@@ -232,11 +232,11 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param                 $groupId
+     * @param                 $locationId
      * @param LocationService $locationService
-     * @return BinaryFileResponse
+     * @return array
      */
-    public function getLocationList($locationId, LocationService $locationService)
+    public function getLocationList($locationId, LocationService $locationService): array
     {
         return $locationService->getOne($locationId)->locationGroups->toArray();
     }
