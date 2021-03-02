@@ -396,6 +396,7 @@ Route::prefix('user')
             Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
             Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
+            Route::get('/qr-code', 'ConsumerController@qrCode')->name('qr-code.index');
         });
     });
 

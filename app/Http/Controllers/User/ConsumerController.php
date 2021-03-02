@@ -240,4 +240,14 @@ class ConsumerController extends Controller
     {
         return $locationService->getOne($locationId)->locationGroups->toArray();
     }
+
+    /**
+     * @param                 $locationId
+     * @param LocationService $locationService
+     * @return array
+     */
+    public function qrCode($locationId, LocationService $locationService): array
+    {
+        return view('qr');
+    }
 }

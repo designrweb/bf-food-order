@@ -370,6 +370,12 @@ return [
             'icon'  => 'nav-icon fa fa-user',
             'can'   => ['menu-Profile'],
         ],
+        [
+            'text'  => 'QR Code',
+            'route' => 'qr-code.index',
+            'icon'  => 'nav-icon fa fa-user',
+            'can'   => ['menu-Profile'],
+        ],
 
 //        [
 //            'text' => 'Vacation Location Group',
