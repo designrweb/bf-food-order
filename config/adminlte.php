@@ -265,6 +265,12 @@ return [
             'can'   => ['menu-Consumer'],
         ],
         [
+            'text'  => 'Consumers',
+            'route' => 'user.consumers.index',
+            'icon'  => 'nav-icon fa fa-users',
+            'can'   => ['menu-User-Consumer'],
+        ],
+        [
             'text'    => 'Payments',
             'icon'    => 'fas fa-fw fa-euro-sign',
             'can'     => ['menu-Payment'],
