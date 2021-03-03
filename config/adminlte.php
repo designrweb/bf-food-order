@@ -374,7 +374,7 @@ return [
             'text'  => 'Profile',
             'route' => 'profile.index',
             'icon'  => 'nav-icon fa fa-user',
-            'can'   => ['menu-Profile'],
+            'can'   => ['menu-User-Profile'],
         ],
 
 //        [

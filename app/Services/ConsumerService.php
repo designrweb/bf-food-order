@@ -183,6 +183,22 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function getIndexStructureForUser(): array
+    {
+        return $this->getFullStructureForUser((new Consumer()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewStructureForUser(): array
+    {
+        return $this->getSimpleStructureForUser((new Consumer()));
+    }
+
+    /**
      * @param $data
      * @param $id
      * @return bool
@@ -377,6 +393,23 @@ class ConsumerService extends BaseModelService
         return [
             'all'    => true,
             'create' => auth()->user()->can('create', Consumer::class),
+            'view'   => true,
+            'edit'   => auth()->user()->can('create', Consumer::class),
+            'delete' => false,
+        ];
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     * for user role
+     *
+     * @return array
+     */
+    protected function getAllowActionsForUser()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
             'view'   => true,
             'edit'   => auth()->user()->can('create', Consumer::class),
             'delete' => true,

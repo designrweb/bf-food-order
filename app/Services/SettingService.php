@@ -111,11 +111,13 @@ class SettingService extends BaseModelService
     }
 
     /**
-     * @return array
+     * @return string|null
      */
     public function getSubsidizationSupportEmail(): ?string
     {
-        return $this->repository->getSubsidizationSupportEmail();
+        $email = $this->repository->getSubsidizationSupportEmail();
+
+        return $email ? $email->value : null;
     }
 
     /**

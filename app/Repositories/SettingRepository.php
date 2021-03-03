@@ -156,12 +156,10 @@ class SettingRepository implements RepositoryInterface
     /**
      * Get setting email
      *
-     * @return string|null
+     * @return Setting|null
      */
     public function getSubsidizationSupportEmail(): ?string
     {
-        $setting = auth()->user()->company->settings->where('setting_name', '=', 'subsidization_support_email')->first();
-
-        return $setting ? $setting->value : null;
+        return auth()->user()->company->settings->where('setting_name', '=', 'subsidization_support_email')->first();
     }
 }
