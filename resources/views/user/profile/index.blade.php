@@ -11,5 +11,5 @@
 @endsection
 
 @section('js')
-    <script src="{{('/js/crud/user.js')}}"></script>
+    <script src="{{('/js/crud/profile.js')}}"></script>
 @stop

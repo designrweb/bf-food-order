@@ -127,10 +127,6 @@ class UserPolicy
      */
     public function viewProfile(User $user)
     {
-        if (in_array($user->role, [User::ROLE_USER])) {
-            return true;
-        }
-
-        return false;
+        return in_array($user->role, [User::ROLE_USER]);
     }
 }

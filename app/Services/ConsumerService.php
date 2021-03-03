@@ -17,20 +17,20 @@ class ConsumerService extends BaseModelService
      */
     public $repository;
     /**
-     * @var ConsumerQrCodeRepository
+     * @var ConsumerQrCodeService
      */
-    public $qrCodeRepository;
+    public $qrCodeService;
 
     /**
      * ConsumerService constructor.
      *
      * @param ConsumerRepository       $repository
-     * @param ConsumerQrCodeRepository $consumerQrCodeRepository
+     * @param ConsumerQrCodeService $consumerQrCodeService
      */
-    public function __construct(ConsumerRepository $repository, ConsumerQrCodeRepository $consumerQrCodeRepository)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService)
     {
-        $this->repository       = $repository;
-        $this->qrCodeRepository = $consumerQrCodeRepository;
+        $this->repository    = $repository;
+        $this->qrCodeService = $consumerQrCodeService;
     }
 
     /**
@@ -93,9 +93,9 @@ class ConsumerService extends BaseModelService
         $model = $this->repository->add($data);
 
         //create qr code for consumer
-        $this->qrCodeRepository->add([
+        $this->qrCodeService->create([
             'consumer_id' => $model->id,
-            'qr_code_hash'
+            'qr_code_hash' => $this->qrCodeService->generateQrCodeForConsumer($data['account_id'])
         ]);
 
         if (empty($model->subsidization)) {
@@ -192,6 +192,22 @@ class ConsumerService extends BaseModelService
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new Consumer()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getIndexStructureForUser(): array
+    {
+        return $this->getFullStructureForUser((new Consumer()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewStructureForUser(): array
+    {
+        return $this->getSimpleStructureForUser((new Consumer()));
     }
 
     /**
@@ -389,6 +405,23 @@ class ConsumerService extends BaseModelService
         return [
             'all'    => true,
             'create' => auth()->user()->can('create', Consumer::class),
+            'view'   => true,
+            'edit'   => auth()->user()->can('create', Consumer::class),
+            'delete' => false,
+        ];
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     * for user role
+     *
+     * @return array
+     */
+    protected function getAllowActionsForUser()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
             'view'   => true,
             'edit'   => auth()->user()->can('create', Consumer::class),
             'delete' => true,

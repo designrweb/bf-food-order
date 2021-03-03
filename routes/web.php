@@ -380,22 +380,22 @@ Route::prefix('user')
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
             Route::get('/qr-code', 'ConsumerController@qrCode')->name('user.consumers.qr-code.index');
-            Route::get('/', 'ConsumerController@index')->name('consumers.index');
-            Route::get('/get-all', 'ConsumerController@getAll')->name('consumers.get-all');
-            Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('consumers.index-structure');
-            Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('consumers.view-structure');
-            Route::get('/get-one/{id}', 'ConsumerController@getOne')->name('consumers.get-one');
-            Route::get('/create', 'ConsumerController@create')->name('consumers.create')->middleware('checkRole:create,App\Consumer');
-            Route::post('/', "ConsumerController@store")->name('consumers.store')->middleware('checkRole:create,App\Consumer');
-            Route::get('/{id}/edit', 'ConsumerController@edit')->name('consumers.edit')->middleware('checkRole:update,App\Consumer,id');
-            Route::get('/{id}', 'ConsumerController@show')->name('consumers.show');
-            Route::put('/{id}', 'ConsumerController@update')->name('consumers.update');
-            Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
-            Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
-            Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('consumers.remove-image');
-            Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
-            Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
-            Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
+            Route::get('/', 'ConsumerController@index')->name('user.consumers.index');
+            Route::get('/get-all', 'ConsumerController@getAll')->name('user.consumers.get-all');
+            Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('user.consumers.index-structure');
+            Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('user.consumers.view-structure');
+            Route::get('/get-one/{id}', 'ConsumerController@getOne')->name('user.consumers.get-one');
+            Route::get('/create', 'ConsumerController@create')->name('user.consumers.create')->middleware('checkRole:create,App\Consumer');
+            Route::post('/', "ConsumerController@store")->name('user.consumers.store')->middleware('checkRole:create,App\Consumer');
+            Route::get('/{id}/edit', 'ConsumerController@edit')->name('user.consumers.edit')->middleware('checkRole:update,App\Consumer,id');
+            Route::get('/{id}', 'ConsumerController@show')->name('user.consumers.show');
+            Route::put('/{id}', 'ConsumerController@update')->name('user.consumers.update');
+            Route::delete('/{id}', "ConsumerController@destroy")->name('user.consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
+            Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('user.consumers.update-image');
+            Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('user.consumers.remove-image');
+            Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('user.consumers.generate-code');
+            Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('user.consumers.download-code');
+            Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });
     });

@@ -86,7 +86,7 @@ class ConsumerController extends Controller
      */
     public function getIndexStructure(Request $request)
     {
-        return $this->service->getIndexStructure();
+        return $this->service->getIndexStructureForUser();
     }
 
     /**
@@ -95,7 +95,7 @@ class ConsumerController extends Controller
      */
     public function getViewStructure(Request $request)
     {
-        return $this->service->getViewStructure();
+        return $this->service->getViewStructureForUser();
     }
 
     /**
