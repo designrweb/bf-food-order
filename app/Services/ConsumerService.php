@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use App\Components\ImageComponent;
-use App\Repositories\ConsumerQrCodeRepository;
 use App\Repositories\ConsumerRepository;
 use bigfood\grid\BaseModelService;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Consumer;
+use Mpdf\Mpdf;
+use PDF;
 
 
 class ConsumerService extends BaseModelService
@@ -92,11 +95,7 @@ class ConsumerService extends BaseModelService
 
         $model = $this->repository->add($data);
 
-        //create qr code for consumer
-        $this->qrCodeService->create([
-            'consumer_id' => $model->id,
-            'qr_code_hash' => $this->qrCodeService->generateQrCodeForConsumer($data['account_id'])
-        ]);
+        $this->generateCode($model->id);
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
@@ -157,7 +156,9 @@ class ConsumerService extends BaseModelService
      */
     public function generateCode($id)
     {
-        return $this->repository->generateCode($id);
+        $codeHash = bin2hex(random_bytes(32));
+
+        return $this->repository->generateCode($id, $codeHash);
     }
 
     /**
@@ -166,7 +167,26 @@ class ConsumerService extends BaseModelService
      */
     public function downloadCode($id)
     {
-        return $this->repository->downloadCode($id);
+        $model = $this->getOne($id);
+
+        return QRService::codeToImage($model->qrCode->qr_code_hash);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function downloadManual($id)
+    {
+        $model = $this->repository->get($id);
+        $qrCodeImage = $this->getQrCodeImage($id);
+        $view = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($view);
+
+        return $mpdf->Output('', 'I');
     }
 
     /**
@@ -476,10 +496,26 @@ class ConsumerService extends BaseModelService
 
 
     /**
+     * Generate base64 image from qr code hash
+     *
+     * @param $id
      * @return string|null
      */
-    public function getQrCode()
+    public function getQrCodeImage($id)
     {
-        return $this->repository->getQrImage();
+        if (!$qrCodeModel = $this->repository->get($id)->qrCode) return null;
+
+        $options = new QROptions([
+            'outputType'     => QRCode::OUTPUT_IMAGE_PNG,
+            'eccLevel'       => QRCode::ECC_H,
+            'pngCompression' => -1,
+            'scale'          => 10
+
+        ]);
+
+        $q        = new QRCode($options);
+        $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
+
+        return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
     }
 }

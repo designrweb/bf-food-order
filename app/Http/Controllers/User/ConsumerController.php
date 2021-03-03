@@ -175,6 +175,16 @@ class ConsumerController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function downloadManual($id)
+    {
+        return response($this->service->downloadManual($id));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param $id
@@ -242,14 +252,14 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
+     * @param ConsumerService $consumerService
      * @return Application|Factory|View
      */
     public function qrCode(Request $request, ConsumerService $consumerService)
     {
-        $image = $consumerService->getQrCode();
-        dd($image);
+        $qrCodeResource = $request->consumer->qrCode;
 
-        return view('user.consumer.qr-code', compact('image'));
+        return view('user.consumer.qr-code', compact('qrCodeResource'));
     }
 }

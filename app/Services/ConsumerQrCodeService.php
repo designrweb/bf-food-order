@@ -89,18 +89,4 @@ class ConsumerQrCodeService extends BaseModelService
     {
         return $this->getSimpleStructure((new ConsumerQrCode()));
     }
-
-    /**
-     * @param $accountId
-     * @return bool
-     */
-    public function generateQrCodeForConsumer($accountId)
-    {
-        try {
-            return bin2hex(random_bytes(32));
-        } catch (\Exception $t) {
-            // TODO: check if needed exception handling
-            return false;
-        }
-    }
 }

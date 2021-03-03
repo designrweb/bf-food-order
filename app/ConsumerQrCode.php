@@ -2,8 +2,6 @@
 
 namespace App;
 
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,22 +37,5 @@ class ConsumerQrCode extends Model
     public function consumer()
     {
         return $this->belongsTo('App\Consumer');
-    }
-
-
-    public function getQrCodeImageAttribute()
-    {
-        $options = new QROptions([
-            'outputType'     => QRCode::OUTPUT_IMAGE_PNG,
-            'eccLevel'       => QRCode::ECC_H,
-            'pngCompression' => -1,
-            'scale'          => 10
-
-        ]);
-
-        $q        = new QRCode($options);
-        $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
-
-        return $q->render($this->qr_code_hash, $tmpFile);
     }
 }

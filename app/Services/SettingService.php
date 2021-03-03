@@ -117,8 +117,6 @@ class SettingService extends BaseModelService
     {
         $email = $this->repository->getSubsidizationSupportEmail();
 
-        dd($email);
-
         return $email ? $email->value : null;
     }
 

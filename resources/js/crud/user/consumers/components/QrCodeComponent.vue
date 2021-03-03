@@ -2,109 +2,47 @@
     <div>
         <back-button-component :route="main_route"></back-button-component>
         <div class="card">
+            <div class="text-center" v-if="isPageBusy">
+                <spinner-component></spinner-component>
+            </div>
+
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">
                     <div class="col-12 col-sm-8">
                         <h3 class="card-title"></h3>
                     </div>
-                    <div class="col-12 col-sm-4 action-buttons">
-                        <edit-button v-if="allowActions.edit && allowActions.all" :id="id"
-                                     :mainRoute="main_route"></edit-button>
-                        <delete-button v-if="allowActions.delete && allowActions.all" :id="id"
-                                       :mainRoute="main_route"></delete-button>
-                    </div>
                 </div>
 
             </div>
-            <div class="card-body">
-                asdasdas
+            <div class="card-body" v-if="!isPageBusy">
+                <qr-code-component
+                    :entity-id="resource.consumer_id"
+                    :initial="resource.qr_code_hash"
+                    :route="main_route"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import {EditButton, DeleteButton}  from "../../../shared/grid-buttons";
-import {getViewStructure, getItem} from "../../../api/crudRequests";
-import SpinnerComponent            from "../../../shared/SpinnerComponent";
-import BackButtonComponent         from "../../../shared/BackButtonComponent";
-import QrcodeComponent             from "../../../shared/QrcodeComponent";
+import QrcodeComponent     from "../../../shared/QrcodeComponent";
+import BackButtonComponent from "../../../shared/BackButtonComponent";
+import SpinnerComponent    from "../../../shared/SpinnerComponent";
 
 export default {
     components: {
-        'edit-button':           EditButton,
-        'delete-button':         DeleteButton,
         'spinner-component':     SpinnerComponent,
+        'qr-code-component':     QrcodeComponent,
         'back-button-component': BackButtonComponent,
-        'qr-code-component':     QrcodeComponent
     },
     props:      {
-        main_route:                      String,
-        id:                              String | Number,
-        subsidization_organization_list: Array,
-        subsidization_support_email:     String
+        main_route: String,
+        resource:   Object
     },
     data() {
         return {
-            isTableBusy:             false,
-            isPageBusy:              false,
-            itemData:                [],
-            fields:                  [],
-            pageData:                {},
-            allowActions:            {
-                all:    true,
-                create: true,
-                view:   true,
-                edit:   true,
-                delete: true,
-            },
+            isPageBusy: false,
         }
-    },
-    methods: {
-        async _loadStructure() {
-            this.isPageBusy   = true;
-            let data          = await getViewStructure(this.main_route);
-            this.fields       = data['data']['fields'];
-            this.allowActions = data['data']['allowActions'];
-            this.isPageBusy   = false;
-        },
-        async _loadData() {
-            this.isPageBusy = true;
-            let response    = await getItem(this.main_route, this.id);
-            this.itemData   = response['data'];
-            this.isPageBusy = false;
-        },
-
-        _preparePageData() {
-            const self      = this;
-            this.isPageBusy = true;
-
-            for (const [key, value] of Object.entries(this.fields)) {
-                self.pageData[value.key] = {
-                    'label': value.label,
-                    'value': ''
-                };
-                let fieldValue;
-
-                value.key.split('.').forEach(function (item, index) {
-                    if (typeof fieldValue == "undefined") {
-                        fieldValue = self.itemData[item];
-                    } else {
-                        fieldValue = fieldValue != null ? fieldValue[item] : '';
-                    }
-                });
-                self.pageData[value.key]['value'] = fieldValue;
-            }
-
-            this.isPageBusy = false;
-        },
-        onReset() {
-        },
-    },
-    async mounted() {
-        await this._loadStructure();
-        await this._loadData();
-        this._preparePageData();
     },
 }
 </script>

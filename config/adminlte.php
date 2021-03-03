@@ -379,7 +379,7 @@ return [
         [
             'text'  => 'QR Code',
             'route' => 'user.consumers.qr-code.index',
-            'icon'  => 'nav-icon fa fa-user',
+            'icon'  => 'nav-icon fa fa-qrcode',
             'can'   => ['menu-User-ConsumerQrCode'],
         ],
 

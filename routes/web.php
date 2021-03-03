@@ -395,6 +395,7 @@ Route::prefix('user')
             Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('user.consumers.remove-image');
             Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('user.consumers.generate-code');
             Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('user.consumers.download-code');
+            Route::get('/{id}/download-manual', "ConsumerController@downloadManual")->name('user.consumers.download-manual');
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });
