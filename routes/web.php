@@ -364,7 +364,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 //user role
 Route::prefix('user')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'getConsumer'])
     ->group(function () {
         Route::prefix('profile')->namespace('User')->group(function () {
             Route::get('/', 'ProfileController@index')->name('profile.index');
@@ -379,6 +379,7 @@ Route::prefix('user')
 
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/qr-code', 'ConsumerController@qrCode')->name('user.consumers.qr-code.index');
             Route::get('/', 'ConsumerController@index')->name('consumers.index');
             Route::get('/get-all', 'ConsumerController@getAll')->name('consumers.get-all');
             Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('consumers.index-structure');
@@ -396,7 +397,6 @@ Route::prefix('user')
             Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
             Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
-            Route::get('/qr-code', 'ConsumerController@qrCode')->name('qr-code.index');
         });
     });
 

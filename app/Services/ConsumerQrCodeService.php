@@ -89,4 +89,25 @@ class ConsumerQrCodeService extends BaseModelService
     {
         return $this->getSimpleStructure((new ConsumerQrCode()));
     }
+
+    /**
+     * @param $consumerId
+     * @return bool
+     */
+    public function generateQrCodeForConsumer($consumerId)
+    {
+        try {
+            $model = $this->getOne($consumerId);
+
+            if (!$qrCodeModel) $qrCodeModel = new ConsumerQrCode(['consumer_id' => $this->consumer->consumer_id]);
+
+            $qrCodeModel->qr_code_hash = bin2hex(random_bytes(32));
+            $qrCodeModel->save();
+        } catch (\Exception $t) {
+            // TODO: check if needed exception handling
+            return false;
+        }
+
+        return true;
+    }
 }

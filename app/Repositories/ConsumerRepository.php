@@ -254,4 +254,13 @@ class ConsumerRepository implements RepositoryInterface
             'pickedUpPosOrderedItems'
         )->get();
     }
+
+    /**
+     * @param $consumerId
+     * @return bool
+     */
+    public function getQrImage()
+    {
+        return request()->consumer->qrcode ? request()->consumer->qrcode->qr_code_image : null;
+    }
 }

@@ -242,12 +242,14 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param                 $locationId
-     * @param LocationService $locationService
-     * @return array
+     * @param Request $request
+     * @return Application|Factory|View
      */
-    public function qrCode($locationId, LocationService $locationService): array
+    public function qrCode(Request $request, ConsumerService $consumerService)
     {
-        return view('qr');
+        $image = $consumerService->getQrCode();
+        dd($image);
+
+        return view('user.consumer.qr-code', compact('image'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Components\ImageComponent;
+use App\Repositories\ConsumerQrCodeRepository;
 use App\Repositories\ConsumerRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
@@ -11,20 +12,25 @@ use App\Consumer;
 
 class ConsumerService extends BaseModelService
 {
-
     /**
      * @var ConsumerRepository
      */
     public $repository;
+    /**
+     * @var ConsumerQrCodeRepository
+     */
+    public $qrCodeRepository;
 
     /**
      * ConsumerService constructor.
      *
-     * @param ConsumerRepository $repository
+     * @param ConsumerRepository       $repository
+     * @param ConsumerQrCodeRepository $consumerQrCodeRepository
      */
-    public function __construct(ConsumerRepository $repository)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeRepository $consumerQrCodeRepository)
     {
-        $this->repository = $repository;
+        $this->repository       = $repository;
+        $this->qrCodeRepository = $consumerQrCodeRepository;
     }
 
     /**
@@ -85,6 +91,12 @@ class ConsumerService extends BaseModelService
         $data['account_id'] = $this->generateAccountId();
 
         $model = $this->repository->add($data);
+
+        //create qr code for consumer
+        $this->qrCodeRepository->add([
+            'consumer_id' => $model->id,
+            'qr_code_hash'
+        ]);
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
@@ -427,5 +439,14 @@ class ConsumerService extends BaseModelService
     public function getConsumersForPosTerminal()
     {
         return $this->repository->getConsumersForPosTerminal();
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getQrCode()
+    {
+        return $this->repository->getQrImage();
     }
 }

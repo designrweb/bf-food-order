@@ -26,6 +26,17 @@ class ConsumerQrCodePolicy
     }
 
     /**
+     * Determine whether the user can view any models.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function userViewAny(User $user)
+    {
+        return $user->role === User::ROLE_USER;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
