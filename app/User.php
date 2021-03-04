@@ -28,7 +28,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *
  * @package App
  */
-class User extends Authenticatable implements MustVerifyEmail,JWTSubject
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use Notifiable;
     use SoftDeletes;

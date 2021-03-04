@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -95,5 +96,18 @@ class VerificationController extends Controller
         return $request->wantsJson()
             ? new JsonResponse([], 204)
             : redirect($this->redirectPath())->with('verified', true);
+    }
+
+    /**
+     * The user has been verified.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function verified(Request $request)
+    {
+        if (!$request->user()) return;
+
+        $request->user()->notify(new WelcomeNotification());
     }
 }
