@@ -81,6 +81,7 @@
                   label-for="input-birthday"
               >
                 <date-picker
+                    :input-attr="{id: 'input-birthday'}"
                     v-model="birthdayValue"
                     valueType="format"
                     format="DD.MM.YYYY"
@@ -114,6 +115,7 @@
                   label-for="input-location_id"
               >
                 <b-form-select
+                    id="input-location_id"
                     v-model="form.location_group_id"
                     :options="location_group_list"
                     class="mb-3"
@@ -157,9 +159,10 @@
               <b-form-group
                   id="input-location_id"
                   label="Name der Organisation"
-                  label-for="input-location_id"
+                  label-for="input-subsidization-organization-id"
               >
                 <b-form-select
+                    id="input-subsidization-organization-id"
                     v-model="form.subsidization.subsidization_organization_id"
                     :options="subsidization_organization_list"
                     @change="getSubsidizationRulesBySubsidizationOrganizationId($event)"
@@ -179,6 +182,7 @@
                   label-for="input-subsidization_rule_id"
               >
                 <b-form-select
+                    id="input-subsidization_rule_id"
                     v-model="form.subsidization.subsidization_rule_id"
                     :options="subsidization_rule_list"
                     class="mb-3"
@@ -235,6 +239,7 @@
                   label-for="input-subsidization_document"
               >
                 <b-form-file
+                    id="input-subsidization_document"
                     accept=".pdf"
                     v-model="form.subsidization.subsidization_document"
                     :placeholder="(form.subsidization.subsidization_document ? form.subsidization.subsidization_document : 'Wählen Sie eine Datei oder legen Sie sie hier ab ...')"
@@ -248,7 +253,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button id="consumers-submit-btn" type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">

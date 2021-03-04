@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="mt-4">
-            <b-button type="submit" class="float-right" variant="primary">Einreichen</b-button>
+            <b-button id="settings-submit-btn" type="submit" class="float-right" variant="primary">Einreichen</b-button>
           </div>
         </b-form>
       </div>
