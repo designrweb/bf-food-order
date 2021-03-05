@@ -98,6 +98,11 @@ class AuthController extends Controller
                     'role'     => User::ROLE_USER
                 ]
             ));
+
+            $user->userInfo()->create([
+                'first_name' => $request->get('name')
+            ]);
+
             $user->sendEmailVerificationNotification();;
         } catch (\Throwable $t) {
             return response()->json([
@@ -105,11 +110,9 @@ class AuthController extends Controller
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 
+        $token = auth('api')->fromUser($user);
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user'    => $user
-        ], 201);
+        return $this->respondWithToken($token);
     }
 
     /**
