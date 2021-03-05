@@ -20,12 +20,11 @@ class MobileConsumerCollection extends JsonResource
      */
     public function toArray($request)
     {
-        $r = $this->resource;
-
         return $this->resource->transform(function (Consumer $item) {
             return [
                 'id'                => $item->id,
                 'location_group_id' => $item->location_group_id,
+                'location_id'       => $item->location->id,
                 'user_id'           => $item->user_id,
                 'account_id'        => $item->account_id,
                 'firstname'         => $item->firstname,
@@ -37,7 +36,7 @@ class MobileConsumerCollection extends JsonResource
                 'created_at'        => $item->created_at,
                 'updated_at'        => $item->updated_at,
                 'deleted_at'        => $item->deleted_at,
-                'company_email'     => $item->company->settings()->where('setting_name', 'email')->value('value'),
+                //  'company_email'     => $item->company->settings()->where('setting_name', 'email')->value('value'),
             ];
         });
     }
