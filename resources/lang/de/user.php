@@ -199,4 +199,7 @@ return [
     'Welcome to My Food Order'                                                                                                     => 'Willkommen zu My Food Order',
     'Your account has been successfully registered'                                                                                => 'Ihr Konto wurde erfolgreich registriert',
     'Go to application'                                                                                => 'Zur Anwendung gehen',
+    'Zip'                                                                                                                          => 'Postleitzahl',
+    'City'                                                                                                                         => 'Stadt',
+    'Street'                                                                                                                       => 'Straße',
 ];

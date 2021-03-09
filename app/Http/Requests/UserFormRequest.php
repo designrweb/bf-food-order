@@ -15,7 +15,6 @@ class UserFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'                => 'required|email|unique:users,email,' . $this->id,
             'location_id'          => 'required_if:role,' . User::ROLE_POS_MANAGER,
             'user_info.first_name' => 'required|string',
             'user_info.last_name'  => 'required|string',

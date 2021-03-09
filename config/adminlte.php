@@ -244,25 +244,36 @@ return [
             'text'  => 'Locations',
             'route' => 'locations.index',
             'icon'  => 'nav-icon fa fa-map-marked',
+            'can'   => ['menu-Location'],
         ],
         [
             'text'  => 'Groups',
             'route' => 'location-groups.index',
             'icon'  => 'nav-icon fa fa-object-ungroup',
+            'can'   => ['menu-LocationGroup'],
         ],
         [
             'text'  => 'Administrators',
             'route' => 'users.index',
             'icon'  => 'nav-icon fa fa-user-friends',
+            'can'   => ['menu-User'],
         ],
         [
             'text'  => 'Consumers',
             'route' => 'consumers.index',
             'icon'  => 'nav-icon fa fa-users',
+            'can'   => ['menu-Consumer'],
+        ],
+        [
+            'text'  => 'Consumers',
+            'route' => 'user.consumers.index',
+            'icon'  => 'nav-icon fa fa-users',
+            'can'   => ['menu-User-Consumer'],
         ],
         [
             'text'    => 'Payments',
             'icon'    => 'fas fa-fw fa-euro-sign',
+            'can'     => ['menu-Payment'],
             'submenu' => [
                 [
                     'text'   => 'Bank Transactions',
@@ -293,18 +304,21 @@ return [
         [
             'text'    => 'Subsidization',
             'icon'    => 'nav-icon fa fa-hand-holding-heart',
+            'can'     => ['menu-SubsidizationOrganization', 'menu-SubsidizationRule'],
             'submenu' => [
                 [
                     'text'   => 'Organizations',
                     'route'  => 'subsidization-organizations.index',
                     'icon'   => 'nav-icon fa fa-landmark',
-                    'active' => ['*subsidization-organizations*']
+                    'active' => ['*subsidization-organizations*'],
+                    'can'    => ['menu-SubsidizationOrganization'],
                 ],
                 [
                     'text'   => 'Rules',
                     'route'  => 'subsidization-rules.index',
                     'icon'   => 'nav-icon fa fa-percent',
-                    'active' => ['*subsidization-rules*']
+                    'active' => ['*subsidization-rules*'],
+                    'can'    => ['menu-SubsidizationRule'],
                 ],
             ],
         ],
@@ -312,41 +326,55 @@ return [
             'text'  => 'Menu Categories',
             'route' => 'menu-categories.index',
             'icon'  => 'nav-icon fas fa-book-open',
+            'can'   => ['menu-MenuCategory'],
         ],
         [
             'text'  => 'Menu Items',
             'route' => 'menu-items.index',
             'icon'  => 'nav-icon fa fa-utensils',
+            'can'   => ['menu-MenuItem'],
         ],
         [
             'text'  => 'Food Orders',
             'route' => 'orders.index',
             'icon'  => 'nav-icon fa fa-list-ol',
+            'can'   => ['menu-Order'],
         ],
         [
             'text'  => 'Voucher Limits',
             'route' => 'voucher-limits.index',
             'icon'  => 'nav-icon fas fa-calendar-week',
+            'can'   => ['menu-VoucherLimit'],
         ],
         [
             'text'  => 'Delivery Planning',
             'route' => 'delivery-planning.index',
             'icon'  => 'nav-icon fa fa-calendar-alt',
+            'can'   => ['menu-Order'],
         ],
         [
             'text'  => 'Vacations',
             'route' => 'vacations.index',
             'icon'  => 'nav-icon fa fa-calendar',
+            'can'   => ['menu-Vacation'],
         ],
         [
             'text'  => 'Settings',
             'route' => 'settings.combined_index',
             'icon'  => 'nav-icon fa fa-cogs',
+            'can'   => ['menu-Setting'],
         ],
         [
             'text'  => 'Financial Exports',
             'route' => 'financial-report.index',
             'icon'  => 'nav-icon fa fa-file',
+            'can'   => ['menu-Payment'],
+        ],
+        [
+            'text'  => 'Profile',
+            'route' => 'profile.index',
+            'icon'  => 'nav-icon fa fa-user',
+            'can'   => ['menu-User-Profile'],
         ],
 
 //        [

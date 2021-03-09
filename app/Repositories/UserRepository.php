@@ -2,16 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
 use App\User;
 use App\QueryBuilders\UserSearch;
-use App\UserInfo;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements RepositoryInterface

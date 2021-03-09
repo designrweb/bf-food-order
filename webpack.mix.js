@@ -35,6 +35,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/companies_switcher.js', 'public/js/crud')
     .js('resources/js/crud/delivery_planning.js', 'public/js/crud')
     .js('resources/js/crud/reports.js', 'public/js/crud')
+    .js('resources/js/crud/profile.js', 'public/js/crud')
+    .js('resources/js/crud/user_consumers.js', 'public/js/crud')
     .sass('resources/sass/app.scss', 'public/css');
 
 //user part

@@ -89,6 +89,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     private function registerMenuGates()
     {
+        //admin side gates
         Gate::define('menu-' . class_basename(User::class), [UserPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(Order::class), [OrderPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(ConsumerSubsidization::class), [ConsumerSubsidizationPolicy::class, 'viewAny']);
@@ -108,5 +109,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('menu-' . class_basename(Location::class), [LocationPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(LocationGroup::class), [LocationGroupPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'viewAny']);
+
+        //User side gates
+        Gate::define('menu-User-Profile', [UserPolicy::class, 'viewProfile']);
+        Gate::define('menu-User-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'userViewAny']);
     }
 }

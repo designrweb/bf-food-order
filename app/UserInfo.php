@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,6 +31,10 @@ class UserInfo extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'first_name', 'last_name', 'salutation', 'zip', 'city', 'street', 'created_at', 'updated_at'];
+
+    protected $appends = [
+        'full_name'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

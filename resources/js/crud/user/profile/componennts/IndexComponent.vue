@@ -1,0 +1,68 @@
+<template>
+    <div class="card">
+        <div class="card-header" v-if="!isPageBusy">
+            <h3 class="card-title">{{ title }}</h3>
+            <a class="btn btn-success float-right" :href="'/user/profile/edit'">
+                Edit
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="text-center" v-if="isPageBusy">
+                <spinner-component></spinner-component>
+            </div>
+
+            <b-table-simple bordered>
+                <b-tr>
+                    <b-td>E-Mail</b-td>
+                    <b-td>{{ user.email }}</b-td>
+                </b-tr>
+                <b-tr>
+                    <b-td>Vollständiger Name</b-td>
+                    <b-td>{{ user.user_info.full_name }}</b-td>
+                </b-tr>
+                <b-tr>
+                    <b-td>Straße/Nr.</b-td>
+                    <b-td>{{ user.user_info.street }}</b-td>
+                </b-tr>
+                <b-tr>
+                    <b-td>PLZ</b-td>
+                    <b-td>{{ user.user_info.zip }}</b-td>
+                </b-tr>
+                <b-tr>
+                    <b-td>Ort</b-td>
+                    <b-td>{{ user.user_info.city }}</b-td>
+                </b-tr>
+            </b-table-simple>
+        </div>
+
+    </div>
+</template>
+
+<script>
+export default {
+    components: {},
+    props:      {
+        title: String,
+        user:  Object,
+    },
+    data() {
+        return {
+            isPageBusy: false,
+        }
+    },
+}
+</script>
+
+<style lang="scss">
+@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap-vue/src/index.scss';
+
+.sortable {
+    color: #3490dc;
+    cursor: pointer;
+}
+
+.sortable:hover {
+    color: #3caedc;
+}
+</style>

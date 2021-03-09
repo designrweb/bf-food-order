@@ -359,13 +359,44 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 //        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
 
     });
-
 });
+
+
+//user role
+Route::prefix('user')
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::prefix('profile')->namespace('User')->group(function () {
+            Route::get('/', 'ProfileController@index')->name('profile.index');
+            Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
+            Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
+            Route::post('/', 'ProfileController@update')->name('profile.update');
+            Route::get('/balance-limit', 'ProfileController@update')->name('profile.update');
+        });
+
+        Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
+        Route::get('/location-groups/get-one/{id}', "LocationGroupController@getOne")->name('user.location-groups.get-one');
+
+        /** consumers routes */
+        Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/', 'ConsumerController@index')->name('user.consumers.index');
+            Route::get('/get-all', 'ConsumerController@getAll')->name('user.consumers.get-all');
+            Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('user.consumers.index-structure');
+            Route::get('/get-view-structure', 'ConsumerController@getViewStructure')->name('user.consumers.view-structure');
+            Route::get('/get-one/{id}', 'ConsumerController@getOne')->name('user.consumers.get-one');
+            Route::get('/create', 'ConsumerController@create')->name('user.consumers.create')->middleware('checkRole:create,App\Consumer');
+            Route::post('/', "ConsumerController@store")->name('user.consumers.store')->middleware('checkRole:create,App\Consumer');
+            Route::get('/{id}/edit', 'ConsumerController@edit')->name('user.consumers.edit')->middleware('checkRole:update,App\Consumer,id');
+            Route::get('/{id}', 'ConsumerController@show')->name('user.consumers.show');
+            Route::put('/{id}', 'ConsumerController@update')->name('user.consumers.update');
+            Route::delete('/{id}', "ConsumerController@destroy")->name('user.consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
+            Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('user.consumers.update-image');
+            Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('user.consumers.remove-image');
+            Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('user.consumers.generate-code');
+            Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('user.consumers.download-code');
+            Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
+            Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
+        });
+    });
 
 Auth::routes(['verify' => true]);
-
-Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/home', 'HomeController@index')->name('profile.index');
-    Route::post('/profile/update', 'HomeController@update')->name('profile.update');
-});
-
