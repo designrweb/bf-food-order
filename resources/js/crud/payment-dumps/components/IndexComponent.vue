@@ -8,6 +8,7 @@
       <b-form @submit="onSubmit">
         <b-form-group>
           <b-form-file
+              id="input-file"
               v-model="form.file"
               :state="isValidFile"
               accept=".xls, .csv"
@@ -20,7 +21,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group>
-          <b-button type="submit" variant="success">Hochladen</b-button>
+          <b-button id="payment-dumps-submit-btn" type="submit" variant="success">Hochladen</b-button>
         </b-form-group>
       </b-form>
       <div class="card-header bg-light">

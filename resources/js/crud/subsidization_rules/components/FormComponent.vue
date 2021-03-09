@@ -37,6 +37,7 @@
               label-for="input-subsidization_organization_id"
           >
             <b-form-select
+                id="input-subsidization_organization_id"
                 v-model="form.subsidization_organization_id"
                 :options="subsidization_organizations_list"
                 class="mb-3"
@@ -146,7 +147,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button id="subsidization-rules-submit-btn" type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">

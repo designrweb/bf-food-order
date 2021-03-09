@@ -17,52 +17,52 @@
 
                 <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
                     <b-form-group
-    id="input-group-id"
-    label="Id"
-    label-for="input-id"
->
-    <b-form-input
-        id="input-id"
-        v-model="form.id"
-        required
-        placeholder="Id"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['id']['state']">
-        {{validation['id']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-qr_code_hash"
-    label="Qr Code Hash"
-    label-for="input-qr_code_hash"
->
-    <b-form-input
-        id="input-qr_code_hash"
-        v-model="form.qr_code_hash"
-        required
-        placeholder="Qr Code Hash"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['qr_code_hash']['state']">
-        {{validation['qr_code_hash']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
-<b-form-group
-    id="input-group-consumer_id"
-    label="Essensteilnehmer"
-    label-for="input-consumer_id"
->
-    <b-form-input
-        id="input-consumer_id"
-        v-model="form.consumer_id"
-        required
-        placeholder="Essensteilnehmer"
-    ></b-form-input>
-    <b-form-invalid-feedback :state="validation['consumer_id']['state']">
-        {{validation['consumer_id']['message']}}
-    </b-form-invalid-feedback>
-</b-form-group>
+                        id="input-group-id"
+                        label="Id"
+                        label-for="input-id"
+                    >
+                        <b-form-input
+                            id="input-id"
+                            v-model="form.id"
+                            required
+                            placeholder="Id"
+                        ></b-form-input>
+                        <b-form-invalid-feedback :state="validation['id']['state']">
+                            {{ validation['id']['message'] }}
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group
+                        id="input-group-qr_code_hash"
+                        label="Qr Code Hash"
+                        label-for="input-qr_code_hash"
+                    >
+                        <b-form-input
+                            id="input-qr_code_hash"
+                            v-model="form.qr_code_hash"
+                            required
+                            placeholder="Qr Code Hash"
+                        ></b-form-input>
+                        <b-form-invalid-feedback :state="validation['qr_code_hash']['state']">
+                            {{ validation['qr_code_hash']['message'] }}
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group
+                        id="input-group-consumer_id"
+                        label="Essensteilnehmer"
+                        label-for="input-consumer_id"
+                    >
+                        <b-form-input
+                            id="input-consumer_id"
+                            v-model="form.consumer_id"
+                            required
+                            placeholder="Essensteilnehmer"
+                        ></b-form-input>
+                        <b-form-invalid-feedback :state="validation['consumer_id']['state']">
+                            {{ validation['consumer_id']['message'] }}
+                        </b-form-invalid-feedback>
+                    </b-form-group>
 
-                    <b-button type="submit" variant="primary">Einreichen</b-button>
+                    <b-button id="qr-code-submit-btn" type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
         </div>
@@ -70,89 +70,89 @@
 </template>
 
 <script>
-    import {getItem, store} from "../../api/crudRequests";
-    import SpinnerComponent               from "../../shared/SpinnerComponent";
-    import BackButtonComponent            from "../../shared/BackButtonComponent";
+import {getItem, store}    from "../../api/crudRequests";
+import SpinnerComponent    from "../../shared/SpinnerComponent";
+import BackButtonComponent from "../../shared/BackButtonComponent";
 
-    export default {
-        components: {
-            'spinner-component':     SpinnerComponent,
-            'back-button-component': BackButtonComponent,
-        },
-        props:      {
-            main_route: String,
-            id:         String | Number,
-        },
-        data() {
-            return {
-                isPageBusy:   false,
-                itemData:     [],
-                form:         {},
-                validation:   {
-            'id':{'state': true,'message': ''},'qr_code_hash':{'state': true,'message': ''},'consumer_id':{'state': true,'message': ''},
-                },
+export default {
+    components: {
+        'spinner-component':     SpinnerComponent,
+        'back-button-component': BackButtonComponent,
+    },
+    props:      {
+        main_route: String,
+        id:         String | Number,
+    },
+    data() {
+        return {
+            isPageBusy: false,
+            itemData:   [],
+            form:       {},
+            validation: {
+                'id': {'state': true, 'message': ''}, 'qr_code_hash': {'state': true, 'message': ''}, 'consumer_id': {'state': true, 'message': ''},
+            },
+        }
+    },
+    methods: {
+        async onSubmit(evt) {
+            evt.preventDefault();
+            const self      = this;
+            self.isPageBusy = true;
+            try {
+                let response         = await store(self.main_route, self.id, self.form);
+                window.location.href = self.main_route + '/' + response['data'].id;
+            } catch (error) {
+                if (error.response && error.response.data && error.response.data.errors) {
+                    let errors = error.response.data.errors;
+                    for (const [key, fieldData] of Object.entries(errors)) {
+                        this.validation[key] = {
+                            'state':   false,
+                            'message': fieldData[0]
+                        };
+                    }
+                }
+                self.isPageBusy = false;
             }
         },
-        methods:    {
-            async onSubmit(evt) {
-                evt.preventDefault();
-                const self = this;
-                self.isPageBusy = true;
-                try {
-                    let response = await store(self.main_route, self.id, self.form);
-                    window.location.href = self.main_route + '/' + response['data'].id;
-                } catch (error) {
-                    if (error.response && error.response.data && error.response.data.errors) {
-                        let errors = error.response.data.errors;
-                        for(const [key, fieldData] of Object.entries(errors)) {
-                            this.validation[key] = {
-                                'state':false,
-                                'message':fieldData[0]
-                            };
-                        }
-                    }
-                    self.isPageBusy = false;
-                }
-            },
-            onReset() {
-            },
-            async _loadData() {
-                if (this.id == null) return;
-
-                let response  = await getItem(this.main_route, this.id);
-                this.itemData = response['data'];
-
-                for (const [key, fieldData] of Object.entries(this.itemData)) {
-                    this.form[key] = fieldData;
-                }
-            },
+        onReset() {
         },
-        async mounted() {
-            this.isPageBusy = true;
-            await this._loadData();
-            this.isPageBusy = false;
+        async _loadData() {
+            if (this.id == null) return;
+
+            let response  = await getItem(this.main_route, this.id);
+            this.itemData = response['data'];
+
+            for (const [key, fieldData] of Object.entries(this.itemData)) {
+                this.form[key] = fieldData;
+            }
         },
-        watch: {
-            form: {
-                deep: true,
-                handler(val) {
-                    for(const [key, fieldData] of Object.entries(this.validation)) {
-                        if(fieldData['state'] == false){
-                            this.validation[key]['state'] = true;
-                        }
+    },
+    async mounted() {
+        this.isPageBusy = true;
+        await this._loadData();
+        this.isPageBusy = false;
+    },
+    watch: {
+        form: {
+            deep: true,
+            handler(val) {
+                for (const [key, fieldData] of Object.entries(this.validation)) {
+                    if (fieldData['state'] == false) {
+                        this.validation[key]['state'] = true;
                     }
                 }
             }
         }
     }
+}
 </script>
 
 <style lang="scss">
-    @import './node_modules/bootstrap/scss/bootstrap.scss';
-    @import './node_modules/bootstrap-vue/src/index.scss';
+@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap-vue/src/index.scss';
 
-    .card-title {
-        font-size: 1.75rem;
-    }
+.card-title {
+    font-size: 1.75rem;
+}
 
 </style>

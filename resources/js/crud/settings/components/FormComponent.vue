@@ -63,7 +63,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button id="settings-submit-btn" type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
     </div>

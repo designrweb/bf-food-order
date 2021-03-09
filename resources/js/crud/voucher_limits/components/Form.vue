@@ -44,22 +44,32 @@
                     :menu-category="menuCategory"
                 ></menu-categories-component>
                 <ordered-items-component
+                    :menuId="menuCategory.id"
+                    :day="0"
                     @updateOrderItem=updateOrderItem($event,0,menuCategory.id)
                     :dayValue="getDateValue(menuCategory, 0)"
                 ></ordered-items-component>
                 <ordered-items-component
+                    :menuId="menuCategory.id"
+                    :day="1"
                     @updateOrderItem=updateOrderItem($event,1,menuCategory.id)
                     :dayValue="getDateValue(menuCategory, 1)"
                 ></ordered-items-component>
                 <ordered-items-component
+                    :menuId="menuCategory.id"
+                    :day="2"
                     @updateOrderItem=updateOrderItem($event,2,menuCategory.id)
                     :dayValue="getDateValue(menuCategory, 2)"
                 ></ordered-items-component>
                 <ordered-items-component
+                    :menuId="menuCategory.id"
+                    :day="3"
                     @updateOrderItem=updateOrderItem($event,3,menuCategory.id)
                     :dayValue="getDateValue(menuCategory, 3)"
                 ></ordered-items-component>
                 <ordered-items-component
+                    :menuId="menuCategory.id"
+                    :day="4"
                     @updateOrderItem=updateOrderItem($event,4,menuCategory.id)
                     :dayValue="getDateValue(menuCategory, 4)"
                 ></ordered-items-component>
