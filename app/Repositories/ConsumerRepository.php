@@ -48,7 +48,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function allByUserId($userId)
     {
-        return $this->model::where('user_id', $userId)->get();
+        return $this->model::where('user_id', $userId)->with(['locationGroup'])->get();
     }
 
     /**

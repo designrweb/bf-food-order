@@ -75,7 +75,7 @@ class ConsumerFormRequest extends BaseApiFormRequest
             'location_group_id.numeric'  => 'ERROR_LOCATION_GROUP_MUST_BE_NUMERIC',
             'location_group_id.exists'   => 'ERROR_LOCATION_GROUP_NOT_EXISTS',
 
-            'imageurl.string'   => 'ERROR_IMAGEURL_MUST_BE_STRING',
+            'imageurl.string' => 'ERROR_IMAGEURL_MUST_BE_STRING',
 
             'balance_limit.required' => 'ERROR_BALANCE_LIMIT_IS_REQUIRED',
             'balance_limit.numeric'  => 'ERROR_BALANCE_LIMIT_MUST_BE_NUMERIC',

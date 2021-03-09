@@ -50,7 +50,7 @@ class Location extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && !in_array(auth()->user()->role, [User::ROLE_USER])) {
                 $builder->where('locations.company_id', auth()->user()->company_id)
                     ->orWhere('locations.id', auth()->user()->location_id);
             }
