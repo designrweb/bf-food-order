@@ -23,5 +23,5 @@ return [
     'Rules'             => 'Subventionierungsregeln',
     'Subsidization'     => 'Subventionierung',
     'Profile'           => 'Profil',
-
+    'QR Code'           => 'QR Code',
 ];

@@ -5,26 +5,35 @@ namespace App\Services;
 use App\Components\ImageComponent;
 use App\Repositories\ConsumerRepository;
 use bigfood\grid\BaseModelService;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Consumer;
+use Mpdf\Mpdf;
+use PDF;
 
 
 class ConsumerService extends BaseModelService
 {
-
     /**
      * @var ConsumerRepository
      */
     public $repository;
+    /**
+     * @var ConsumerQrCodeService
+     */
+    public $qrCodeService;
 
     /**
      * ConsumerService constructor.
      *
-     * @param ConsumerRepository $repository
+     * @param ConsumerRepository       $repository
+     * @param ConsumerQrCodeService $consumerQrCodeService
      */
-    public function __construct(ConsumerRepository $repository)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService)
     {
-        $this->repository = $repository;
+        $this->repository    = $repository;
+        $this->qrCodeService = $consumerQrCodeService;
     }
 
     /**
@@ -86,6 +95,8 @@ class ConsumerService extends BaseModelService
 
         $model = $this->repository->add($data);
 
+        $this->generateCode($model->id);
+
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
                 $fileName = time() . '.pdf';
@@ -145,7 +156,9 @@ class ConsumerService extends BaseModelService
      */
     public function generateCode($id)
     {
-        return $this->repository->generateCode($id);
+        $codeHash = bin2hex(random_bytes(32));
+
+        return $this->repository->generateCode($id, $codeHash);
     }
 
     /**
@@ -154,7 +167,26 @@ class ConsumerService extends BaseModelService
      */
     public function downloadCode($id)
     {
-        return $this->repository->downloadCode($id);
+        $model = $this->getOne($id);
+
+        return QRService::codeToImage($model->qrCode->qr_code_hash);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function downloadManual($id)
+    {
+        $model = $this->repository->get($id);
+        $qrCodeImage = $this->getQrCodeImage($id);
+        $view = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($view);
+
+        return $mpdf->Output('', 'I');
     }
 
     /**
@@ -460,5 +492,30 @@ class ConsumerService extends BaseModelService
     public function getConsumersForPosTerminal()
     {
         return $this->repository->getConsumersForPosTerminal();
+    }
+
+
+    /**
+     * Generate base64 image from qr code hash
+     *
+     * @param $id
+     * @return string|null
+     */
+    public function getQrCodeImage($id)
+    {
+        if (!$qrCodeModel = $this->repository->get($id)->qrCode) return null;
+
+        $options = new QROptions([
+            'outputType'     => QRCode::OUTPUT_IMAGE_PNG,
+            'eccLevel'       => QRCode::ECC_H,
+            'pngCompression' => -1,
+            'scale'          => 10
+
+        ]);
+
+        $q        = new QRCode($options);
+        $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
+
+        return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
     }
 }

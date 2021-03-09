@@ -9,3 +9,8 @@ export const downloadCode = (url, type) => api
     .request(url)
     .withResponseType(type)
     .get();
+
+export const downloadManual = (url, type) => api
+    .request(url)
+    .withResponseType(type)
+    .get();

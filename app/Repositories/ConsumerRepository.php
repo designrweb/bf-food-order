@@ -84,36 +84,25 @@ class ConsumerRepository implements RepositoryInterface
 
     /**
      * @param $id
+     * @param $codeHash
      * @return mixed
      * @throws \Exception
      */
-    public function generateCode($id)
+    public function generateCode($id, $codeHash)
     {
-        $model    = $this->model->findOrFail($id);
-        $codeHash = bin2hex(random_bytes(32));
+        $model = $this->get($id);
 
-        if (empty($model->qrcode)) {
-            $model->qrcode()->create([
+        if (empty($model->qrCode)) {
+            $model->qrCode()->create([
                 'qr_code_hash' => $codeHash
             ]);
         } else {
-            $model->qrcode->update([
+            $model->qrCode->update([
                 'qr_code_hash' => $codeHash
             ]);
         }
 
-        return $model->load('qrcode');
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function downloadCode($id)
-    {
-        $model = $this->getModel($id);
-
-        return QRService::codeToImage($model->qrcode->qr_code_hash);
+        return $model->load('qrCode');
     }
 
     /**
@@ -131,7 +120,7 @@ class ConsumerRepository implements RepositoryInterface
      */
     public function getModel($id)
     {
-        return $this->model->with(['user.userInfo', 'locationGroup.location', 'qrcode', 'subsidization.subsidizationRule.subsidizationOrganization'])->findOrFail($id);
+        return $this->model->with(['user.userInfo', 'locationGroup.location', 'qrCode', 'subsidization.subsidizationRule.subsidizationOrganization'])->findOrFail($id);
     }
 
     /**

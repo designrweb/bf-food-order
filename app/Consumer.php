@@ -58,8 +58,7 @@ class Consumer extends Model
         return static::addGlobalScope('company', function (Builder $builder) {
             if (auth('web')->check()) {
                 $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id)
-                        ->orWhere('locations.id', auth()->user()->location_id);
+                    $query->where('locations.company_id', auth()->user()->company_id);
                 });
             }
         });
@@ -126,7 +125,7 @@ class Consumer extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function qrcode()
+    public function qrCode()
     {
         return $this->hasOne(ConsumerQrCode::class, 'consumer_id', 'id');
     }
@@ -276,5 +275,14 @@ class Consumer extends Model
     public function setBirthdayAttribute($value)
     {
         $this->attributes['birthday'] = date('Y-m-d', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getNameAbbrAttribute($value)
+    {
+        return substr($this->firstname, 0, 1) . substr($this->lastname, 0, 1);
     }
 }

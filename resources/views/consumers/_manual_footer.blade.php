@@ -1,0 +1,1 @@
+<img src="{{ asset('image/manual_footer.jpg') }}" alt="Footer">

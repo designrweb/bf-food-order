@@ -364,7 +364,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 //user role
 Route::prefix('user')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'getConsumer'])
     ->group(function () {
         Route::prefix('profile')->namespace('User')->group(function () {
             Route::get('/', 'ProfileController@index')->name('profile.index');
@@ -379,6 +379,7 @@ Route::prefix('user')
 
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/qr-code', 'ConsumerController@qrCode')->name('user.consumers.qr-code.index');
             Route::get('/', 'ConsumerController@index')->name('user.consumers.index');
             Route::get('/get-all', 'ConsumerController@getAll')->name('user.consumers.get-all');
             Route::get('/get-structure', 'ConsumerController@getIndexStructure')->name('user.consumers.index-structure');
@@ -394,6 +395,7 @@ Route::prefix('user')
             Route::post('/{id}/remove-image', "ConsumerController@removeImage")->name('user.consumers.remove-image');
             Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('user.consumers.generate-code');
             Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('user.consumers.download-code');
+            Route::get('/{id}/download-manual', "ConsumerController@downloadManual")->name('user.consumers.download-manual');
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });

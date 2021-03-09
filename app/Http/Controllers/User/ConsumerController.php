@@ -175,6 +175,16 @@ class ConsumerController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function downloadManual($id)
+    {
+        return response($this->service->downloadManual($id));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param $id
@@ -239,5 +249,17 @@ class ConsumerController extends Controller
     public function getLocationList($locationId, LocationService $locationService): array
     {
         return $locationService->getOne($locationId)->locationGroups->toArray();
+    }
+
+    /**
+     * @param Request         $request
+     * @param ConsumerService $consumerService
+     * @return Application|Factory|View
+     */
+    public function qrCode(Request $request, ConsumerService $consumerService)
+    {
+        $qrCodeResource = $request->consumer->qrCode;
+
+        return view('user.consumer.qr-code', compact('qrCodeResource'));
     }
 }

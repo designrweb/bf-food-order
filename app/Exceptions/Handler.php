@@ -67,7 +67,7 @@ class Handler extends ExceptionHandler
      * @param Exception $exception
      * @return mixed
      */
-    private function handleApiException($request, Exception $exception)
+    private function handleApiException($request, $exception)
     {
         $exception = $this->prepareException($exception);
 
