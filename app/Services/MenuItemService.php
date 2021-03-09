@@ -230,4 +230,12 @@ class MenuItemService extends BaseModelService
     {
         return $this->repository->getMenuItemsForPosTerminal();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMenuItemsByDate($startDate, $endDate)
+    {
+        return $this->repository->get();
+    }
 }

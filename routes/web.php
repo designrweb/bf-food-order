@@ -399,6 +399,22 @@ Route::prefix('user')
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
         });
+
+        /** consumers routes */
+        Route::prefix('order')->namespace('User')->group(function () {
+            Route::get('/', 'FoodOrderController@index')->name('user.food-order.index');
+        });
+
+
+        /** menu-categories routes */
+        Route::prefix('menu-items')->namespace('User')->group(function () {
+            Route::get('/get-by-date', 'FoodOrderController@getMenuItems')->name('user.food-order.menu-items');
+        });
+
+        /** menu-categories routes */
+        Route::prefix('menu-categories')->namespace('User')->group(function () {
+            Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
+        });
     });
 
 Auth::routes(['verify' => true]);

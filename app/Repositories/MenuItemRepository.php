@@ -124,4 +124,17 @@ class MenuItemRepository implements RepositoryInterface
             ->where('availability_date', Carbon::now()->format('Y-m-d'))
             ->get();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMenuItemsByDate()
+    {
+        return MenuItem::with('menuCategory')
+            ->whereHas('menuCategory', function ($query) {
+                $query->where('price', '>', 0);
+            })
+            ->where('availability_date', Carbon::now()->format('Y-m-d'))
+            ->get();
+    }
 }
