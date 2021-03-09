@@ -47,11 +47,11 @@
             </div>
             <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
               <b-form-group
-                  id="input-location_id"
                   label="Organization name"
                   label-for="input-location_id"
               >
                 <b-form-select
+                    id="input-location_id"
                     v-model="form.subsidization.subsidization_organization_id"
                     :options="subsidization_organization_list"
                     @change="getSubsidizationRulesBySubsidizationOrganizationId($event)"
@@ -138,7 +138,7 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-button type="submit" variant="primary">Submit</b-button>
+              <b-button id="consumers-subsidization-submit-btn" type="submit" variant="primary">Submit</b-button>
             </b-form>
           </div>
         </div>

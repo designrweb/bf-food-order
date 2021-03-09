@@ -86,6 +86,7 @@
               label-for="input-location_id"
           >
             <b-form-select
+                id="input-location_id"
                 v-model="form.location_id"
                 :options="locations_list"
                 @change="getLocationGroupsByLocationId($event)"
@@ -105,6 +106,7 @@
               label-for="input-location_id"
           >
             <b-form-select
+                id="input-location_id"
                 v-model="form.location_group_id"
                 :options="location_group_list"
                 class="mb-3"
@@ -118,7 +120,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button id="vacation-submit-btn" type="submit" variant="primary">Einreichen</b-button>
         </b-form>
 
 

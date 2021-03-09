@@ -82,6 +82,7 @@
                   label-for="input-report_type_id"
               >
                 <b-form-select
+                    id="input-report_type_id"
                     v-model="form.report_type"
                     :options="reportTypes"
                     class="mb-3 sl-report-type"
@@ -91,7 +92,7 @@
                 </b-form-invalid-feedback>
               </b-form-group>
 
-              <b-button type="submit" variant="primary">Bericht generieren</b-button>
+              <b-button id="report-submit-btn" type="submit" variant="primary">Bericht generieren</b-button>
 
             </b-form>
           </div>

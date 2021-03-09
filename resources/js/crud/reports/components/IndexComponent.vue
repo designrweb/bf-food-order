@@ -57,6 +57,7 @@
               label-for="input-location_id"
           >
             <b-form-select
+                id="input-location_id"
                 v-model="form.location_id"
                 :options="locations_list"
                 class="mb-3"

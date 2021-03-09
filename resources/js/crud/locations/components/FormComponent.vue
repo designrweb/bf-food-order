@@ -106,7 +106,7 @@
             </div>
           </div>
 
-          <b-button type="submit" variant="primary" class="float-right">Einreichen</b-button>
+          <b-button id="location-submit-btn" type="submit" variant="primary" class="float-right">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">

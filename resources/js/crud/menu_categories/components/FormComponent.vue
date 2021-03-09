@@ -37,6 +37,7 @@
               label-for="input-category_order"
           >
             <b-form-select
+                id="input-category_order"
                 v-model="form.category_order"
                 :options="category_order_list"
                 class="mb-3"
@@ -67,7 +68,11 @@
 
             <br>
 
-            <b-form-checkbox v-model="notAvailableForPos" switch @change="handlerNotAvailableForPos($event)">
+            <b-form-checkbox
+                id="input-not-available-for-pos"
+                v-model="notAvailableForPos"
+                switch
+                @change="handlerNotAvailableForPos($event)">
               nicht verfügbar für POS
             </b-form-checkbox>
 
@@ -99,6 +104,7 @@
               label-for="input-location_id"
           >
             <b-form-select
+                id="input-location_id"
                 v-model="form.location_id"
                 :options="locations_list"
                 class="mb-3"
@@ -111,7 +117,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Einreichen</b-button>
+          <b-button id="menu-categories-submit-btn" type="submit" variant="primary">Einreichen</b-button>
         </b-form>
       </div>
       <div class="card-header" v-if="!isPageBusy">
