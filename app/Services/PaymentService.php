@@ -202,6 +202,47 @@ class PaymentService extends BaseModelService
      * Creates payment for meal order
      *
      * @param Order $order
+     * @param Order $originalOrder
+     */
+    public function createPaymentBasedOnQuantity(Order $order, Order $originalOrder)
+    {
+        $orderQuantity = $order->quantity - $originalOrder->quantity;
+        $orderType     = $order->type;
+
+        //special workaround to prevent payment with zero quantity for created orders
+        // @TODO: check if it possible to create an order with zero quantity
+        if ($orderQuantity == 0) return;
+
+        $amount = $this->getPaymentAmount($orderType, $order->menuItem->menuCategory->price, $order->menuItem->menuCategory->presaleprice, $orderQuantity);
+
+        $paymentMessage = sprintf('Order %s (Quantity: %s)', $order->menuItem->name, $orderQuantity);
+
+        $canBeSubsidized = $this->canBeSubsidized($order, $originalOrder->quantity) && $amount != 0;
+
+        $payment = $this->repository->add([
+            'consumer_id' => $order->consumer_id,
+            'type'        => $this->getPaymentType($orderType, $amount, $canBeSubsidized),
+            'order_id'    => $order->id,
+            'amount'      => -$amount,
+            'comment'     => $paymentMessage
+        ]);
+
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+            $consumer->balance -= $amount;
+            $consumer->save();
+        }
+
+        if ($canBeSubsidized) {
+            $this->createReversePayment($payment, $order);
+        }
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
      */
     public function createCanceledPaymentBasedOnOrder(Order $order)
     {
@@ -214,14 +255,6 @@ class PaymentService extends BaseModelService
 
         $canBeSubsidized = $this->canBeSubsidized($order, $order->getOriginal('quantity')) && $amount != 0;
 
-//        $payment              = new Payment;
-//        $payment->consumer_id = $order->consumer_id;
-//        $payment->type        = $this->getPaymentType($orderType, $amount, $canBeSubsidized);
-//        $payment->order_id    = $order->id;
-//        $payment->amount      = $amount;
-//        $payment->comment     = $paymentMessage;
-//        $payment->save();
-
         $payment = $this->repository->add([
             'consumer_id' => $order->consumer_id,
             'type'        => $this->getPaymentType($orderType, $amount, $canBeSubsidized),
@@ -233,8 +266,8 @@ class PaymentService extends BaseModelService
         $consumer = $payment->consumer;
 
         if ($consumer) {
-//            $consumer->balance -= $amount;
-//            $consumer->save();
+            $consumer->balance -= $amount;
+            $consumer->save();
         }
 
         if ($canBeSubsidized) {
@@ -330,16 +363,16 @@ class PaymentService extends BaseModelService
     /**
      * @param int   $orderType
      * @param float $price
-     * @param float $presaleprice
+     * @param float $preSalePrice
      * @param int   $quantity
      * @return float|int
      */
     // todo make this function protected
-    public function getPaymentAmount(int $orderType, float $price, float $presaleprice, int $quantity)
+    public function getPaymentAmount(int $orderType, float $price, float $preSalePrice, int $quantity)
     {
         switch ($orderType) {
             case Order::TYPE_PRE_ORDER:
-                $amount = $presaleprice * $quantity;
+                $amount = $preSalePrice * $quantity;
                 break;
             case Order::TYPE_POS_ORDER:
                 $amount = $price * $quantity;

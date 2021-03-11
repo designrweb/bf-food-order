@@ -370,6 +370,12 @@ return [
             'icon'  => 'nav-icon fa fa-file',
             'can'   => ['menu-Payment'],
         ],
+        //user side menus
+        [
+            'text'  => 'Order Now',
+            'route' => 'user.food-order.index',
+            'icon'  => 'nav-icon fa fa-user',
+        ],
         [
             'text'  => 'Profile',
             'route' => 'profile.index',

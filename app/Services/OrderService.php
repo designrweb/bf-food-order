@@ -77,7 +77,11 @@ class OrderService extends BaseModelService
      */
     public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        $originalOrder = $this->getOne($id);
+        $order = $this->repository->update($data, $id);
+        $this->paymentService->createPaymentBasedOnQuantity($order, $originalOrder);
+
+        return $order;
     }
 
     /**
@@ -88,9 +92,7 @@ class OrderService extends BaseModelService
     {
         $this->paymentService->createCanceledPaymentBasedOnOrder($this->getOne($id));
 
-        $this->repository->delete($id);
-
-//        return ;
+        return $this->repository->delete($id);
     }
 
     /**

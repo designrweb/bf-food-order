@@ -494,7 +494,7 @@ export default {
                     response = await updateFoodOrder({'data': updatedItem});
                 }
 
-                if (response.data.success) {
+                if (response.data) {
                     let isAddItem            = this.weeklyList[selectedDayIndex][selectedItemIndex].quantity <
                         updatedItem.quantity;
                     // update handled item

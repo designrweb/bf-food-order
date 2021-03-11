@@ -60,7 +60,7 @@ class FoodOrderController extends Controller
 
         return [
             'order'   => $this->orderService->create($data),
-            'balance' => $consumer->balance
+            'balance' => $consumer->fresh()->balance
         ];
     }
 
@@ -82,8 +82,8 @@ class FoodOrderController extends Controller
         ];
 
         return [
-            'order'   => $this->orderService->update($data, $requestData['id']),
-            'balance' => $consumer->balance
+            'order'   => $this->orderService->update($data, $requestData['foodorder_id']),
+            'balance' => $consumer->fresh()->balance
         ];
     }
 

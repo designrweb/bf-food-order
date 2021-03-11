@@ -24,4 +24,5 @@ return [
     'Subsidization'     => 'Subventionierung',
     'Profile'           => 'Profil',
     'QR Code'           => 'QR Code',
+    'Order Now'         => 'Jetzt bestellen',
 ];
