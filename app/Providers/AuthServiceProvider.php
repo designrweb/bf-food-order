@@ -94,7 +94,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('menu-' . class_basename(Order::class), [OrderPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(ConsumerSubsidization::class), [ConsumerSubsidizationPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(ConsumerQrCode::class), [ConsumerQrCodePolicy::class, 'viewAny']);
-        Gate::define('menu-User-' . class_basename(ConsumerQrCode::class), [ConsumerQrCodePolicy::class, 'userViewAny']);
         Gate::define('menu-' . class_basename(ConsumerAutoOrder::class), [ConsumerAutoOrderPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(Company::class), [CompanyPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(VoucherLimit::class), [VoucherLimitPolicy::class, 'viewAny']);
@@ -114,5 +113,6 @@ class AuthServiceProvider extends ServiceProvider
         //User side gates
         Gate::define('menu-User-Profile', [UserPolicy::class, 'viewProfile']);
         Gate::define('menu-User-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'userViewAny']);
+        Gate::define('menu-User-' . class_basename(ConsumerQrCode::class), [ConsumerQrCodePolicy::class, 'userViewAny']);
     }
 }
