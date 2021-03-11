@@ -215,11 +215,17 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * @param $model
      * @return array
      */
-    public function getIndexStructureForUser(): array
+    public function getIndexStructureForUser($model): array
     {
-        return $this->getFullStructureForUser((new Consumer()));
+        return [
+            'filters'      => $this->getFilters($model),
+            'sort'         => $this->getSortFields($model),
+            'fields'       => $this->getIndexFieldsLabels($model),
+            'allowActions' => $this->getAllowActionsForUser(),
+        ];
     }
 
     /**
