@@ -60,11 +60,13 @@ class ProfileController extends Controller
     {
         $locationGroupList = $this->locationGroupService->getList();
         $locationList      = $this->locationService->getList();
+        $salutationsList   = $this->userService->getSalutationsList();
 
         return view('user.profile.index', [
             'locationGroupList' => $locationGroupList,
             'locationList'      => $locationList,
-            'userInfo'          => auth()->user()->load('userInfo')
+            'userInfo'          => auth()->user()->load('userInfo'),
+            'salutationsList'   => $salutationsList,
         ]);
     }
 
@@ -75,8 +77,11 @@ class ProfileController extends Controller
      */
     public function edit()
     {
+        $salutationsList = $this->userService->getSalutationsList();
+
         return view('user.profile._form', [
-            'userInfo' => auth()->user()->load('userInfo')
+            'userInfo'        => auth()->user()->load('userInfo'),
+            'salutationsList' => $salutationsList,
         ]);
     }
 

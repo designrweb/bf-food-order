@@ -7,6 +7,7 @@
                 :main_route="'/user/profile'"
                 :user="{{ json_encode($userInfo) }}"
                 title="@lang('user.Profile')"
+                :salutations_list="{{ json_encode($salutationsList) }}"
         ></grid-form>
     </div>
 

@@ -45,4 +45,16 @@ class UserFormRequest extends FormRequest
             'zip.regex' => 'Zip must have 5 digits',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'user_info.first_name' => __('user.First Name'),
+            'user_info.last_name'  => __('user.Last Name'),
+            'user_info.salutation' => __('user.Parent Salutation'),
+            'user_info.zip'        => __('user.Zip'),
+            'user_info.city'       => __('user.City'),
+            'user_info.street'     => __('user.Street'),
+        ];
+    }
 }
