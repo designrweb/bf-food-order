@@ -130,4 +130,16 @@ class MenuItem extends Model
             return $res + $item['quantity'];
         }, 0);
     }
+
+    /**
+     *
+     */
+    public function usersFoodOrders()
+    {
+        $consumerId = request()->consumer->id;
+
+        return $this->hasOne(Order::class, 'menuitem_id', 'id')
+            ->where('consumer_id', $consumerId);
+    }
+
 }

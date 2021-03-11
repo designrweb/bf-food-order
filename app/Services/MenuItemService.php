@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\MenuItemRepository;
+use App\Repositories\VacationRepository;
+use App\Vacation;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use App\MenuItem;
@@ -232,10 +234,19 @@ class MenuItemService extends BaseModelService
     }
 
     /**
+     * @param $startDate
+     * @param $endDate
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getMenuItemsByDate($startDate, $endDate)
     {
-        return $this->repository->get();
+        $menuItems = $this->repository->getMenuItemsByDate($startDate, $endDate);
+        $vacations = (new VacationRepository((new Vacation())))->getVacationByPeriod($startDate, $endDate);
+
+
+        return [
+            'menuItems' => $menuItems->toArray(),
+            'vacations' => $vacations->toArray(request())
+        ];
     }
 }

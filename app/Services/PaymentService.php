@@ -62,6 +62,8 @@ class PaymentService extends BaseModelService
      * Creates and returns the payments model. Updates consumer balance
      *
      * @param $data
+     * @return false|mixed
+     * @throws \Throwable
      */
     public function create($data)
     {
@@ -189,6 +191,50 @@ class PaymentService extends BaseModelService
         if ($consumer) {
             $consumer->balance -= $amount;
             $consumer->save();
+        }
+
+        if ($canBeSubsidized) {
+            $this->createReversePayment($payment, $order);
+        }
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
+     */
+    public function createCanceledPaymentBasedOnOrder(Order $order)
+    {
+        $orderQuantity = $order->quantity;
+        $orderType     = $order->type;
+
+        $amount = $this->getPaymentAmount($orderType, $order->menuItem->menuCategory->price, $order->menuItem->menuCategory->presaleprice, $orderQuantity);
+
+        $paymentMessage = sprintf('Canceled "%s"', $order->menuItem->name);
+
+        $canBeSubsidized = $this->canBeSubsidized($order, $order->getOriginal('quantity')) && $amount != 0;
+
+//        $payment              = new Payment;
+//        $payment->consumer_id = $order->consumer_id;
+//        $payment->type        = $this->getPaymentType($orderType, $amount, $canBeSubsidized);
+//        $payment->order_id    = $order->id;
+//        $payment->amount      = $amount;
+//        $payment->comment     = $paymentMessage;
+//        $payment->save();
+
+        $payment = $this->repository->add([
+            'consumer_id' => $order->consumer_id,
+            'type'        => $this->getPaymentType($orderType, $amount, $canBeSubsidized),
+            'order_id'    => $order->id,
+            'amount'      => $amount,
+            'comment'     => $paymentMessage
+        ]);
+
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+//            $consumer->balance -= $amount;
+//            $consumer->save();
         }
 
         if ($canBeSubsidized) {

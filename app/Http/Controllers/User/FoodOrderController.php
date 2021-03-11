@@ -3,52 +3,31 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderFormRequest;
 use App\Http\Requests\UserFormRequest;
+use App\Order;
 use App\Services\ConsumerService;
 use App\Services\LocationGroupService;
 use App\Services\LocationService;
+use App\Services\OrderService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class FoodOrderController extends Controller
 {
     /**
-     * @var LocationGroupService
+     * @var OrderService
      */
-    protected $locationGroupService;
-
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    /**
-     * @var ConsumerService
-     */
-    protected $consumerService;
-
-    /**
-     * @var LocationService
-     */
-    protected $locationService;
+    protected $orderService;
 
     /**
      * Create a new controller instance.
      *
-     * @param LocationGroupService $locationGroupService
-     * @param UserService          $userService
-     * @param ConsumerService      $consumerService
-     * @param LocationService      $locationService
+     * @param OrderService $orderService
      */
-    public function __construct(LocationGroupService $locationGroupService,
-                                UserService $userService,
-                                ConsumerService $consumerService,
-                                LocationService $locationService)
+    public function __construct(OrderService $orderService)
     {
-        $this->locationGroupService = $locationGroupService;
-        $this->userService          = $userService;
-        $this->consumerService      = $consumerService;
-        $this->locationService      = $locationService;
+        $this->orderService = $orderService;
     }
 
     /**
@@ -63,26 +42,61 @@ class FoodOrderController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param OrderFormRequest $request
+     * @return array
      */
-    public function getMenuItems(Request $request)
+    public function store(OrderFormRequest $request)
     {
-        dd($request->all());
+        $requestData = $request->get('data');
+        $consumer    = request()->consumer;
 
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        $consumerId                 = Yii::$app->user->identity->consumer->consumer_id;
-//
-//        return Foodorder::find()
-//            ->with('menuitem')
-//            ->where(['and',
-//                ['in', 'day', explode(',', Yii::$app->request->get('days_range'))],
-//                ['consumer_id' => $consumerId],
-//                ['type' => Foodorder::TYPE_PRE_ORDER],
-//            ])
-//            ->andWhere(['deleted_at' => null])
-//            ->asArray()
-//            ->all();
+        $data = [
+            'type'        => Order::TYPE_PRE_ORDER,
+            'menuitem_id' => $requestData['id'],
+            'consumer_id' => $consumer->id,
+            'day'         => $requestData['availability_date'],
+            'quantity'    => $requestData['quantity'],
+        ];
+
+        return [
+            'order'   => $this->orderService->create($data),
+            'balance' => $consumer->balance
+        ];
+    }
+
+    /**
+     * @param OrderFormRequest $request
+     * @return array
+     */
+    public function update(OrderFormRequest $request)
+    {
+        $requestData = $request->get('data');
+        $consumer    = request()->consumer;
+
+        $data = [
+            'type'        => Order::TYPE_PRE_ORDER,
+            'menuitem_id' => $requestData['id'],
+            'consumer_id' => $consumer->id,
+            'day'         => $requestData['availability_date'],
+            'quantity'    => $requestData['quantity'],
+        ];
+
+        return [
+            'order'   => $this->orderService->update($data, $requestData['id']),
+            'balance' => $consumer->balance
+        ];
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function destroy(Request $request)
+    {
+        $this->orderService->remove($request->get('foodorder_id'));
+
+        return [
+            'balance' => request()->consumer->fresh()->balance
+        ];
     }
 }

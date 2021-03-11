@@ -28,10 +28,13 @@ class MenuItemController extends Controller
 
     /**
      * @param Request $request
-     * @return MenuItemCollection
+     * @return MenuItemCollection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getByDate(Request $request)
+    public function getMenuItems(Request $request)
     {
-        return $this->service->get;
+        $startDate = $request->query('start_date', false);
+        $endDate = $request->query('end_date', false);
+
+        return $this->service->getMenuItemsByDate($startDate, $endDate);
     }
 }

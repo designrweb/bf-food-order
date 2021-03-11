@@ -48,7 +48,7 @@ class OrderService extends BaseModelService
      * Returns single product transformed to resource
      *
      * @param $id
-     * @return OrderResource
+     * @return Order
      * @throws ModelNotFoundException
      */
     public function getOne($id)
@@ -86,7 +86,11 @@ class OrderService extends BaseModelService
      */
     public function remove($id): bool
     {
-        return $this->repository->delete($id);
+        $this->paymentService->createCanceledPaymentBasedOnOrder($this->getOne($id));
+
+        $this->repository->delete($id);
+
+//        return ;
     }
 
     /**

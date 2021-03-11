@@ -11,21 +11,21 @@ export const getMenuItems = (params) => api
 
 /**
  * @param data
- * @returns {*|Promise<AxiosResponse<T>>}
+ * @returns {*|Promise }
  */
 export const storeFoodOrder = (data) => api
-    .request('/foodorder/store')
+    .request('/user/order')
     .withBody(data)
     .post();
 
 /**
  * @param data
- * @returns {*|Promise<AxiosResponse<T>>}
+ * @returns {*|Promise}
  */
 export const updateFoodOrder = (data) => api
-    .request('/foodorder/update')
+    .request('/user/order')
     .withBody(data)
-    .post();
+    .put();
 
 /**
  * TODO: remove after approving auto-ordering flow
@@ -42,9 +42,9 @@ export const storeFoodOrderItems = (data) => api
  * @returns {*|Promise<AxiosResponse<T>>}
  */
 export const removeFoodOrder = (data) => api
-    .request('/foodorder/remove')
+    .request('/user/order')
     .withBody(data)
-    .post();
+    .delete();
 
 /**
  * @returns {Promise}
@@ -54,10 +54,10 @@ export const getMenuCategories = () => api
     .get();
 
 /**
- * @returns {Promise<AxiosResponse<T>>}
+ * @returns {Promise}
  */
 export const getConsumerInformation = () => api
-    .request('/consumer/get-data')
+    .request('/user/consumers/get-data')
     .get();
 
 /**

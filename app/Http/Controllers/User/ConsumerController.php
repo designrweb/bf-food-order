@@ -104,10 +104,10 @@ class ConsumerController extends Controller
      */
     public function create(LocationService $locationService)
     {
-        $locationList      = $locationService->getList();
+        $locationList = $locationService->getList();
 
         return view('user.consumer._form', [
-            'locationList'      => $locationList
+            'locationList' => $locationList
         ]);
     }
 
@@ -139,8 +139,8 @@ class ConsumerController extends Controller
      */
     public function edit($id, LocationService $locationService)
     {
-        $resource          = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
-        $locationList      = $locationService->getList();
+        $resource     = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $locationList = $locationService->getList();
 
         return view('user.consumer._form', compact('resource', 'locationList'));
     }
@@ -261,5 +261,21 @@ class ConsumerController extends Controller
         $qrCodeResource = $request->consumer->qrCode;
 
         return view('user.consumer.qr-code', compact('qrCodeResource'));
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getData(Request $request)
+    {
+        $consumer = $request->consumer;
+
+        return [
+            'is_subsidized'       => !!$consumer->subsidization,
+            'balance'             => $consumer->balance,
+            'is_auto_ordering'    => $consumer->autoOrder ? $consumer->autoOrder->is_active : false,
+            'subsidization_rules' => $consumer->subsidized_menu_categories
+        ];
     }
 }

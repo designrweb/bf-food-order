@@ -110,6 +110,14 @@ class Consumer extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function autoOrder()
+    {
+        return $this->hasOne(ConsumerAutoOrder::class);
+    }
+
+    /**
      * @param $value
      * @return string
      */
@@ -158,6 +166,7 @@ class Consumer extends Model
     }
 
     /**
+     * @todo refactor this?
      * @return mixed
      */
     public function getSubsidizedMenuCategoriesAttribute()

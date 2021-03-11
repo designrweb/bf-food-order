@@ -480,6 +480,7 @@ export default {
          * @return void
          */
         updateOrderItem:          async function (updatedItem, selectedDayIndex) {
+            console.log(updatedItem);
             this.isLoading        = true;
             let selectedItemIndex = this.weeklyList[selectedDayIndex]
                 .findIndex(item => item.menuitem_id === updatedItem.menuitem_id);
@@ -497,7 +498,7 @@ export default {
                     let isAddItem            = this.weeklyList[selectedDayIndex][selectedItemIndex].quantity <
                         updatedItem.quantity;
                     // update handled item
-                    updatedItem.foodorder_id = response.data.foodorder_id;
+                    updatedItem.foodorder_id = response.data.order.id;
                     this.$set(this.weeklyList[selectedDayIndex], selectedItemIndex, updatedItem);
                     // updated balance value
                     this.balance                                       = parseFloat(response.data.balance);
@@ -585,9 +586,9 @@ export default {
                     self.weeklyList[key] = [];
                     menuItems.forEach(function (menuItem) {
                         if (menuItem['availability_date'] == self.weekTitles[key]) {
-                            if (menuItem['usersFoodorders'] !== null) {
-                                menuItem['quantity']     = parseInt(menuItem['usersFoodorders']['quantity']);
-                                menuItem['foodorder_id'] = menuItem['usersFoodorders']['foodorder_id'];
+                            if (menuItem['users_food_orders'] !== null) {
+                                menuItem['quantity']     = parseInt(menuItem['users_food_orders']['quantity']);
+                                menuItem['foodorder_id'] = menuItem['users_food_orders']['id'];
                             } else {
                                 menuItem['quantity'] = 0;
                             }
@@ -608,7 +609,7 @@ export default {
             try {
                 let response = await getMenuCategories();
 
-                this.menuCategories = Object.values(response['data']);
+                this.menuCategories = Object.values(response['data']['data']);
                 this.menuCategories
                     .sort(function (a, b) {
                         return a.category_order - b.category_order;
@@ -684,7 +685,7 @@ export default {
         await this.generateTitles(this.getFirstDay(_today));
         await this.generateList();
         await this._loadMenuCategories();
-        // await this._loadConsumerInfo();
+        await this._loadConsumerInfo();
         await this._loadMenuItems(this.weekTitles[0], this.weekTitles[4]);
         // await this._loadOrderedItems();
         this.isLoading = false;

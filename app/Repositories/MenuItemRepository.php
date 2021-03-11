@@ -126,15 +126,17 @@ class MenuItemRepository implements RepositoryInterface
     }
 
     /**
+     * @param $startDate
+     * @param $endDate
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getMenuItemsByDate()
+    public function getMenuItemsByDate($startDate, $endDate)
     {
-        return MenuItem::with('menuCategory')
+        return MenuItem::with(['menuCategory', 'usersFoodOrders'])
             ->whereHas('menuCategory', function ($query) {
                 $query->where('price', '>', 0);
             })
-            ->where('availability_date', Carbon::now()->format('Y-m-d'))
+            ->whereBetween('availability_date', [$startDate, $endDate])
             ->get();
     }
 }
