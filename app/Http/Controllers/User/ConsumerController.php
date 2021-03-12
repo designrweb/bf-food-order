@@ -267,6 +267,8 @@ class ConsumerController extends Controller
                 $consumer = $consumers->items()[0];
                 $qrCodeResource = $consumer->qrCode;
             }
+        } else {
+            $qrCodeResource = $request->consumer->qrCode;
         }
 
 
