@@ -95,7 +95,7 @@ class ConsumerController extends Controller
      */
     public function getViewStructure(Request $request)
     {
-        return $this->service->getViewStructureForUser();
+        return $this->service->getViewStructure();
     }
 
     /**
@@ -270,7 +270,6 @@ class ConsumerController extends Controller
         } else {
             $qrCodeResource = $request->consumer->qrCode;
         }
-
 
         return view('user.consumer.qr-code', compact('qrCodeResource'));
     }
