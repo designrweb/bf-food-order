@@ -65,7 +65,7 @@
                     <p>Senden Sie die Kopie des Bewilligungsbescheides per Email an <a :href="'mailto:' + subsidization_support_email">
                         {{ subsidization_support_email }}</a>, per Fax an 0228
                         850 261 24 oder per Post an Lehmanns Catering GmbH, Cäsariusweg 16, 53332 Bornheim unter der Angabe
-                        Ihrer myfoodorder Kundennummer pageData.account_id }}.</p>
+                        Ihrer myfoodorder Kundennummer {{ pageData.account_id.value }}.</p>
 
                     <p>Bitte beachten Sie die Laufzeit des Bewilligungsbescheides sowie den Hinweis dazu in dem Dokument
                         Allgemeine Informationen <a href="/pdf/MyFoodOrder_coolinary_AGBs.pdf" target="_blank">AGB</a></p>
