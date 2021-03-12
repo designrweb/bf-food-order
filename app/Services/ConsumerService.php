@@ -215,11 +215,17 @@ class ConsumerService extends BaseModelService
     }
 
     /**
+     * @param $model
      * @return array
      */
-    public function getIndexStructureForUser(): array
+    public function getIndexStructureForUser($model): array
     {
-        return $this->getFullStructureForUser((new Consumer()));
+        return [
+            'filters'      => $this->getFilters($model),
+            'sort'         => $this->getSortFields($model),
+            'fields'       => $this->getIndexFieldsLabels($model),
+            'allowActions' => $this->getAllowActionsForUser(),
+        ];
     }
 
     /**
@@ -517,5 +523,18 @@ class ConsumerService extends BaseModelService
         $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
 
         return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
+    }
+
+    /**
+     * Get support Subsidization email by consumer id
+     *
+     * @param $id
+     * @return string|null
+     */
+    public function getSubsidizationSupportEmail($id)
+    {
+        $setting = $this->repository->getSubsidizationSupportEmail($id);
+
+        return $setting ? $setting->value : null;
     }
 }

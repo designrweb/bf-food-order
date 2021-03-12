@@ -3,7 +3,7 @@
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
             <a class="btn btn-success float-right" :href="'/user/profile/edit'">
-                Edit
+                Aktualisieren
             </a>
         </div>
         <div class="card-body">
@@ -19,6 +19,10 @@
                 <b-tr>
                     <b-td>Vollständiger Name</b-td>
                     <b-td>{{ user.user_info.full_name }}</b-td>
+                </b-tr>
+                <b-tr>
+                    <b-td>Anrede</b-td>
+                    <b-td>{{ getSalutation(user.user_info.salutation) }}</b-td>
                 </b-tr>
                 <b-tr>
                     <b-td>Straße/Nr.</b-td>
@@ -42,14 +46,25 @@
 export default {
     components: {},
     props:      {
-        title: String,
-        user:  Object,
+        title:            String,
+        user:             Object,
+        salutations_list: Array
     },
     data() {
         return {
             isPageBusy: false,
         }
     },
+    methods: {
+        getSalutation(id) {
+            let item = _.find(this.salutations_list, salutation => id === salutation.id);
+
+            return item ? item.name : '---'
+        }
+    },
+    mounted() {
+        console.log(this.salutations_list);
+    }
 }
 </script>
 

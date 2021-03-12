@@ -14,7 +14,8 @@
                 </div>
 
             </div>
-            <div class="card-body" v-if="!isPageBusy">
+            <div class="card-body" v-if="!resource">No Consumers. Please create</div>
+            <div class="card-body" v-if="!isPageBusy && resource">
                 <qr-code-component
                     :entity-id="resource.consumer_id"
                     :initial="resource.qr_code_hash"
@@ -44,6 +45,9 @@ export default {
             isPageBusy: false,
         }
     },
+    mounted() {
+        console.log(this.resource);
+    }
 }
 </script>
 

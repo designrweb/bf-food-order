@@ -21,7 +21,12 @@ class GetConsumer
         if ($request->user()->isUser()) {
             $consumerId = session('consumerId') ?? 16;
 
-            $request->consumer = Consumer::find($consumerId);
+            if ($consumer = Consumer::find($consumerId)) {
+                $request->consumer = $consumer;
+            } else {
+                $request->consumer = Consumer::first();
+            }
+
         }
 
         return $next($request);

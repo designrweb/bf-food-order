@@ -29,6 +29,7 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a href="{{ route('profile.index') }}" class="dropdown-item mb-2">@lang('user.Profile')</a>
                 <a class="brand-color-second dropdown-item" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

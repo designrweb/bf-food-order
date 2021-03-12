@@ -18,9 +18,9 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <b-form-group
-                                id="input-group-firstname"
+                                id="input-group-first_name"
                                 label="Vorname"
-                                label-for="input-firstname"
+                                label-for="input-first_name"
                             >
                                 <b-form-input
                                     id="input-first_name"
@@ -50,14 +50,36 @@
                             </b-form-group>
 
                             <b-form-group
+                                id="input-group-salutation"
+                                label="Anrede"
+                                label-for="input-salutation"
+                            >
+                                <b-form-select
+                                    id="input-salutation"
+                                    v-model="form.user_info.salutation"
+                                    placeholder="Anrede"
+                                    autocomplete="off"
+                                >
+                                    <b-form-select-option v-for="salutation in salutations_list"
+                                                          v-bind:key="salutation.id"
+                                                          :value="salutation.id">
+                                        {{ salutation.name }}
+                                    </b-form-select-option>
+                                </b-form-select>
+                                <b-form-invalid-feedback :state="validation['user_info']['salutation']['state']">
+                                    {{ validation['user_info']['salutation']['message'] }}
+                                </b-form-invalid-feedback>
+                            </b-form-group>
+
+                            <b-form-group
                                 id="input-group-city"
-                                label="City"
+                                label="Stadt"
                                 label-for="input-city"
                             >
                                 <b-form-input
                                     id="input-city"
                                     v-model="form.user_info.city"
-                                    placeholder="City"
+                                    placeholder="Stadt"
                                     autocomplete="off"
                                 ></b-form-input>
                                 <b-form-invalid-feedback :state="validation['user_info']['city']['state']">
@@ -67,13 +89,13 @@
 
                             <b-form-group
                                 id="input-group-zip"
-                                label="Zip"
+                                label="Postleitzahl"
                                 label-for="input-zip"
                             >
                                 <b-form-input
                                     id="input-zip"
                                     v-model="form.user_info.zip"
-                                    placeholder="Zip"
+                                    placeholder="Postleitzahl"
                                     autocomplete="off"
                                 ></b-form-input>
                                 <b-form-invalid-feedback :state="validation['user_info']['zip']['state']">
@@ -83,13 +105,13 @@
 
                             <b-form-group
                                 id="input-group-street"
-                                label="Street"
+                                label="Straße"
                                 label-for="input-street"
                             >
                                 <b-form-input
                                     id="input-street"
                                     v-model="form.user_info.street"
-                                    placeholder="Street"
+                                    placeholder="Straße"
                                     autocomplete="off"
                                 ></b-form-input>
                                 <b-form-invalid-feedback :state="validation['user_info']['street']['state']">
@@ -132,10 +154,11 @@ export default {
         'image-upload-component': ImageUploadComponent,
     },
     props:      {
-        main_route:    String,
-        id:                 String | Number,
-        title:              String,
-        user:               Object,
+        main_route:       String,
+        id:               String | Number,
+        title:            String,
+        user:             Object,
+        salutations_list: Array
     },
     data() {
         return {
@@ -191,7 +214,6 @@ export default {
         async onSubmit(evt) {
             evt.preventDefault();
             const self      = this;
-            self.isPageBusy = true;
             try {
                 const formData = new FormData();
                 let headers    = {};
@@ -212,10 +234,8 @@ export default {
                     formData.append('_method', 'PUT');
                 }
 
-                let response = await storeFormData(self.main_route, self.id, formData, headers);
+                let response         = await storeFormData(self.main_route, self.id, formData, headers);
                 window.location.href = self.main_route;
-
-                self.isPageBusy = false;
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {
                     let errors = error.response.data.errors;

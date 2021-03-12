@@ -43,7 +43,7 @@ class MenuItem extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('menuCategory.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id)
                         ->orWhere('menu_categories.location_id', auth()->user()->location_id);

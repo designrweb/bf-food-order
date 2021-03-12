@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
@@ -122,7 +123,7 @@ class Handler extends ExceptionHandler
                 break;
         }
 
-        if (config('app.debug')) {
+        if (config('app.debug') && !$exception instanceof JsonResponse) {
             $response['message'] = $exception->getMessage();
             $response['trace'] = $exception->getTrace();
             $response['code']  = $exception->getCode();
