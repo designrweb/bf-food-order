@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Components\ImageComponent;
 use App\Setting;
 use App\QueryBuilders\SettingSearch;
+use App\User;
 use Illuminate\Pipeline\Pipeline;
 use bigfood\grid\RepositoryInterface;
 
@@ -160,6 +161,8 @@ class SettingRepository implements RepositoryInterface
      */
     public function getSubsidizationSupportEmail()
     {
+        if (auth()->user()->role === User::ROLE_USER) return null;
+
         return auth()->user()->company->settings->where('setting_name', '=', 'subsidization_support_email')->first();
     }
 }

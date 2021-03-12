@@ -3,7 +3,7 @@
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
             <a class="btn btn-success float-right" :href="'/user/profile/edit'">
-                Edit
+                Aktualisieren
             </a>
         </div>
         <div class="card-body">

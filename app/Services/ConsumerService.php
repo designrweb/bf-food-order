@@ -524,4 +524,17 @@ class ConsumerService extends BaseModelService
 
         return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
     }
+
+    /**
+     * Get support Subsidization email by consumer id
+     *
+     * @param $id
+     * @return string|null
+     */
+    public function getSubsidizationSupportEmail($id)
+    {
+        $setting = $this->repository->getSubsidizationSupportEmail($id);
+
+        return $setting ? $setting->value : null;
+    }
 }

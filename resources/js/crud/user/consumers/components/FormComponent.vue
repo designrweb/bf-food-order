@@ -91,22 +91,6 @@
                             </b-form-group>
 
                             <b-form-group
-                                id="input-group-balance"
-                                label="Guthaben"
-                                label-for="input-balance"
-                            >
-                                <b-form-input
-                                    id="input-balance"
-                                    v-model="form.balance"
-                                    placeholder="Guthaben"
-                                    autocomplete="off"
-                                ></b-form-input>
-                                <b-form-invalid-feedback :state="validation['balance']['state']">
-                                    {{ validation['balance']['message'] }}
-                                </b-form-invalid-feedback>
-                            </b-form-group>
-
-                            <b-form-group
                                 id="input-location_id"
                                 label="Location"
                                 label-for="input-location_id"
@@ -157,7 +141,7 @@
                             <div class="text-center" v-if="isPageBusy">
                                 <spinner-component></spinner-component>
                             </div>
-                            <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
+                            <b-form @submit="onSubmit" @reset="onReset" id="consumer-form-balance-limit" v-if="!isPageBusy">
                                 <b-form-group
                                     label="Mindest-Guthaben"
                                     label-for="consumerform-balance_limit">
@@ -165,11 +149,11 @@
                                         type="number"
                                         id="consumerform-balance_limit"
                                         v-model="form.balance_limit"
-                                        placeholder="Street"
+                                        placeholder="Mindest-Guthaben"
                                         autocomplete="off"
                                     ></b-form-input>
-                                    <b-form-invalid-feedback :state="validation['balance_limit']">
-                                        {{ validation['balance_limit'] }}
+                                    <b-form-invalid-feedback :state="validation['balance_limit']['state']">
+                                        {{ validation['balance_limit']['message'] }}
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
