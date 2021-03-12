@@ -27,7 +27,7 @@
                         <td v-if="index === 'imageurl'">
                             <b-img v-if="data.value" rounded left :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
                         </td>
-                        <td v-else> {{ data.value }}</td>
+                        <td v-else> {{ data.value ? data.value : '---' }}</td>
                     </tr>
                     <tr>
                         <th>Aktuelles Guthaben</th>
@@ -55,7 +55,7 @@
                     Mein Kind hat Anspruch auf ein vergünstigtes, subventioniertes Mittagessen.
                 </b-button>
 
-                <b-modal id="modal-1" title="BootstrapVue" ok-only>
+                <b-modal id="modal-1" title="Mein Kind hat Anspruch auf ein vergünstigtes, subventioniertes Mittagessen." ok-only>
                     <p>Sie haben die Möglichkeit für Ihr Kind ein subventioniertes Mittagessen zu bestellen, wenn Sie dazu
                         berechtigt sind.</p>
 
@@ -65,7 +65,7 @@
                     <p>Senden Sie die Kopie des Bewilligungsbescheides per Email an <a :href="'mailto:' + subsidization_support_email">
                         {{ subsidization_support_email }}</a>, per Fax an 0228
                         850 261 24 oder per Post an Lehmanns Catering GmbH, Cäsariusweg 16, 53332 Bornheim unter der Angabe
-                        Ihrer myfoodorder Kundennummer {{ pageData.account_id.value }}.</p>
+                        Ihrer myfoodorder Kundennummer pageData.account_id }}.</p>
 
                     <p>Bitte beachten Sie die Laufzeit des Bewilligungsbescheides sowie den Hinweis dazu in dem Dokument
                         Allgemeine Informationen <a href="/pdf/MyFoodOrder_coolinary_AGBs.pdf" target="_blank">AGB</a></p>
@@ -78,11 +78,14 @@
 </template>
 
 <script>
-import {EditButton, DeleteButton}  from "../../../shared/grid-buttons";
-import {getViewStructure, getItem} from "../../../api/crudRequests";
-import SpinnerComponent            from "../../../shared/SpinnerComponent";
-import BackButtonComponent         from "../../../shared/BackButtonComponent";
-import QrcodeComponent             from "../../../shared/QrcodeComponent";
+import {EditButton, DeleteButton} from "../../../shared/grid-buttons";
+import {
+    getViewStructure,
+    getItem,
+}                                 from "../../../api/crudRequests";
+import SpinnerComponent           from "../../../shared/SpinnerComponent";
+import BackButtonComponent        from "../../../shared/BackButtonComponent";
+import QrcodeComponent            from "../../../shared/QrcodeComponent";
 
 export default {
     components: {
@@ -93,19 +96,18 @@ export default {
         'qr-code-component':     QrcodeComponent
     },
     props:      {
-        main_route:                      String,
-        id:                              String | Number,
-        subsidization_organization_list: Array,
-        subsidization_support_email:     String
+        main_route:                  String,
+        id:                          String | Number,
+        subsidization_support_email: String
     },
     data() {
         return {
-            isTableBusy:             false,
-            isPageBusy:              false,
-            itemData:                [],
-            fields:                  [],
-            pageData:                {},
-            allowActions:            {
+            isTableBusy:  false,
+            isPageBusy:   false,
+            itemData:     [],
+            fields:       [],
+            pageData:     {},
+            allowActions: {
                 all:    true,
                 create: true,
                 view:   true,

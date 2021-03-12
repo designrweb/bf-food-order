@@ -243,4 +243,23 @@ class ConsumerRepository implements RepositoryInterface
             'pickedUpPosOrderedItems'
         )->get();
     }
+
+    /**
+     * Get support email
+     *
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|\Illuminate\Database\Eloquent\Model|mixed|object|null
+     */
+    public function getSubsidizationSupportEmail($id)
+    {
+        $consumer = $this->get($id);
+
+        if (!$consumer->location || !$consumer->location->company) return null;
+
+        $companySettings = $consumer->location->company->settings;
+
+        if (!$companySettings) return null;
+
+        return $companySettings->where('setting_name', '=', 'subsidization_support_email')->first();
+    }
 }

@@ -125,10 +125,10 @@ class ConsumerController extends Controller
      * @param                $id
      * @return Application|Factory|View
      */
-    public function show(SettingService $settingService, $id)
+    public function show($id)
     {
         $resource                  = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
-        $subsidizationSupportEmail = $settingService->getSubsidizationSupportEmail();
+        $subsidizationSupportEmail = $this->service->getSubsidizationSupportEmail($id);
 
         return view('user.consumer.view', compact('resource', 'subsidizationSupportEmail'));
     }
@@ -258,7 +258,17 @@ class ConsumerController extends Controller
      */
     public function qrCode(Request $request, ConsumerService $consumerService)
     {
-        $qrCodeResource = $request->consumer->qrCode;
+        //@todo - this is for testing only, remove once consumer switcher will be ready
+        if (!$consumer = $request->consumer) {
+            $consumers = $consumerService->all();
+            if (!count($consumers->items())) {
+                $qrCodeResource = null;
+            } else {
+                $consumer = $consumers->items()[0];
+                $qrCodeResource = $consumer->qrCode;
+            }
+        }
+
 
         return view('user.consumer.qr-code', compact('qrCodeResource'));
     }

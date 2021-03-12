@@ -41,7 +41,7 @@ class Setting extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check() && !in_array(auth()->user()->role, [User::ROLE_SUPER_ADMIN])) {
+            if (auth()->check() && !in_array(auth()->user()->role, [User::ROLE_SUPER_ADMIN, User::ROLE_USER])) {
                 $builder->where('settings.company_id', auth()->user()->company_id);
             }
         });
