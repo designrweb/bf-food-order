@@ -22,12 +22,30 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(
+                [
+                    'errors' =>
+                        [
+                            'user' =>
+                                [
+                                    'UNAUTHORIZED'
+                                ]
+                        ]
+                ], 401);
         }
 
         //if you reached here then user has been authenticated
         if (empty(auth('api')->user()->hasVerifiedEmail())) {
-            return response()->json(['error' => 'ERROR_EMAIL_NOT_VERIFIED'], 401);
+            return response()->json(
+                [
+                    'errors' =>
+                        [
+                            'email' =>
+                                [
+                                    'ERROR_EMAIL_NOT_VERIFIED'
+                                ]
+                        ]
+                ], 401);
         }
 
         return $this->respondWithToken($token);
@@ -110,9 +128,10 @@ class AuthController extends Controller
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $token = auth('api')->fromUser($user);
-
-        return $this->respondWithToken($token);
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user'    => $user
+        ], 201);
     }
 
     /**
