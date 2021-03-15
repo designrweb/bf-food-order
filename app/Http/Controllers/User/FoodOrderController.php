@@ -4,13 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderFormRequest;
-use App\Http\Requests\UserFormRequest;
 use App\Order;
-use App\Services\ConsumerService;
-use App\Services\LocationGroupService;
-use App\Services\LocationService;
 use App\Services\OrderService;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class FoodOrderController extends Controller
@@ -37,8 +32,7 @@ class FoodOrderController extends Controller
      */
     public function index()
     {
-        return view('user.food_order.index', [
-        ]);
+        return view('user.food_order.index');
     }
 
     /**

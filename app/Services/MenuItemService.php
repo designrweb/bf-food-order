@@ -243,7 +243,6 @@ class MenuItemService extends BaseModelService
         $menuItems = $this->repository->getMenuItemsByDate($startDate, $endDate);
         $vacations = (new VacationRepository((new Vacation())))->getVacationByPeriod($startDate, $endDate);
 
-
         return [
             'menuItems' => $menuItems->toArray(),
             'vacations' => $vacations->toArray(request())

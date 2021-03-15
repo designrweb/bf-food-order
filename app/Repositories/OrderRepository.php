@@ -80,18 +80,4 @@ class OrderRepository extends Repository
             ->orderBy('pickedup_at', 'desc')
             ->get();
     }
-
-    public function getOrdersByDate($startDate, $endDate)
-    {
-        return $this->model::find()
-            ->with('menuitem')
-            ->where(['and',
-                ['in', 'day', explode(',', Yii::$app->request->get('days_range'))],
-                ['consumer_id' => $consumerId],
-                ['type' => Foodorder::TYPE_PRE_ORDER],
-            ])
-            ->andWhere(['deleted_at' => null])
-            ->asArray()
-            ->all();
-    }
 }

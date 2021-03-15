@@ -132,7 +132,7 @@ class MenuItem extends Model
     }
 
     /**
-     *
+     * Get consumer orders
      */
     public function usersFoodOrders()
     {

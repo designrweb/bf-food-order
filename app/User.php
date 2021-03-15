@@ -147,6 +147,11 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return [];
     }
 
+    /**
+     * Get is user has user role
+     *
+     * @return bool
+     */
     public function isUser()
     {
         return $this->role === self::ROLE_USER;

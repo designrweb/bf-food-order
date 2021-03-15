@@ -5,6 +5,8 @@ window.Vue = require('vue');
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+import { ToastPlugin } from 'bootstrap-vue'
+Vue.use(ToastPlugin)
 
 function init() {
     let $page = document.querySelector('#grid-form-page');

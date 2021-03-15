@@ -191,7 +191,6 @@ import {
     getMenuItems,
     storeFoodOrder,
     updateFoodOrder,
-    storeFoodOrderItems,
     removeFoodOrder,
     getMenuCategories,
     toggleAutoorderStatus,
@@ -203,7 +202,6 @@ import moment from 'moment';
 import OrderedItemsComponent        from "./OrderedItemsComponent";
 import DayTitleComponent            from "./DayTitleComponent";
 import MenuCategoriesItemsComponent from "./MenuCategoriesItemsComponent";
-import _                            from "lodash";
 
 export default {
     name:       "Form",
@@ -263,7 +261,6 @@ export default {
             await self.generateList();
             await this._loadMenuCategories();
             await this._loadMenuItems(this.weekTitles[0], this.weekTitles[4]);
-            // await this._loadOrderedItems();
             self.isLoading = false;
         },
         /**
@@ -281,7 +278,6 @@ export default {
             await self.generateList();
             await this._loadMenuCategories();
             await this._loadMenuItems(this.weekTitles[0], this.weekTitles[4]);
-            // await this._loadOrderedItems();
             self.isLoading = false;
         },
         /**
@@ -504,11 +500,11 @@ export default {
                     this.balance                                       = parseFloat(response.data.balance);
                     document.getElementById('balance-value').innerHTML = response.data.balance;
 
-                    // if (isAddItem) {
-                    //     this._showItemOrderedMessage();
-                    // } else {
-                    //     this._showItemCanceledMessage();
-                    // }
+                    if (isAddItem) {
+                        this._showItemOrderedMessage();
+                    } else {
+                        this._showItemCanceledMessage();
+                    }
                 } else {
                     let message = '';
 
@@ -688,13 +684,15 @@ export default {
         await this._loadMenuCategories();
         await this._loadConsumerInfo();
         await this._loadMenuItems(this.weekTitles[0], this.weekTitles[4]);
-        // await this._loadOrderedItems();
         this.isLoading = false;
     },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap-vue/src/index.scss';
+
 table {
     border-spacing: 5px;
     border-collapse: separate;
