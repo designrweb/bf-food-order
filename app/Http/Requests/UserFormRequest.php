@@ -9,19 +9,19 @@ class UserFormRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
+     * @todo fix `|not_in:null`? js form sending null as string
      * @return array
      */
     public function rules()
     {
         return [
             'location_id'          => 'required_if:role,' . User::ROLE_POS_MANAGER,
-            'user_info.first_name' => 'required|string',
-            'user_info.last_name'  => 'required|string',
-            'user_info.salutation' => 'required|string',
-            'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/',
-            'user_info.city'       => 'required|string',
-            'user_info.street'     => 'required|string',
+            'user_info.first_name' => 'required|string|not_in:null',
+            'user_info.last_name'  => 'required|string|not_in:null',
+            'user_info.salutation' => 'required|string|not_in:null',
+            'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/|not_in:null',
+            'user_info.city'       => 'required|string|not_in:null',
+            'user_info.street'     => 'required|string|not_in:null',
         ];
     }
 
@@ -36,15 +36,6 @@ class UserFormRequest extends FormRequest
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    public function messages(): array
-    {
-        return [
-            'zip.regex' => 'Zip must have 5 digits',
-        ];
-    }
 
     public function attributes()
     {
