@@ -64,8 +64,15 @@ class OrderService extends BaseModelService
      */
     public function create($data)
     {
+        $originalOrder = new Order();
         $order = $this->repository->add($data);
-        $this->paymentService->createPaymentBasedOnOrder($order);
+        $this->paymentService->createPaymentBasedOnOrder($order, $originalOrder);
+
+        //update is order subsidized after order creations
+        $updateData = [
+            'is_subsidized' => $this->paymentService->canBeSubsidized($order, $originalOrder->quantity)
+        ];
+        $this->repository->update($updateData, $order->id);
 
         return $order;
     }

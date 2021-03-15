@@ -203,6 +203,7 @@ import moment from 'moment';
 import OrderedItemsComponent        from "./OrderedItemsComponent";
 import DayTitleComponent            from "./DayTitleComponent";
 import MenuCategoriesItemsComponent from "./MenuCategoriesItemsComponent";
+import _                            from "lodash";
 
 export default {
     name:       "Form",
@@ -480,10 +481,9 @@ export default {
          * @return void
          */
         updateOrderItem:          async function (updatedItem, selectedDayIndex) {
-            console.log(updatedItem);
             this.isLoading        = true;
             let selectedItemIndex = this.weeklyList[selectedDayIndex]
-                .findIndex(item => item.menuitem_id === updatedItem.menuitem_id);
+                .findIndex(item => item.id === updatedItem.id);
             let response;
             try {
                 if (updatedItem.quantity === 0) {
@@ -495,20 +495,20 @@ export default {
                 }
 
                 if (response.data) {
-                    let isAddItem            = this.weeklyList[selectedDayIndex][selectedItemIndex].quantity <
-                        updatedItem.quantity;
+                    let isAddItem = this.weeklyList[selectedDayIndex][selectedItemIndex].quantity < updatedItem.quantity;
+
                     // update handled item
-                    updatedItem.foodorder_id = response.data.order.id;
+                    updatedItem.foodorder_id = response.data.order ? response.data.order.id : null;
                     this.$set(this.weeklyList[selectedDayIndex], selectedItemIndex, updatedItem);
                     // updated balance value
                     this.balance                                       = parseFloat(response.data.balance);
                     document.getElementById('balance-value').innerHTML = response.data.balance;
 
-                    if (isAddItem) {
-                        this._showItemOrderedMessage();
-                    } else {
-                        this._showItemCanceledMessage();
-                    }
+                    // if (isAddItem) {
+                    //     this._showItemOrderedMessage();
+                    // } else {
+                    //     this._showItemCanceledMessage();
+                    // }
                 } else {
                     let message = '';
 
@@ -517,6 +517,7 @@ export default {
                     });
                     this._showToastWarning(message);
                 }
+
             } catch (e) {
                 this._showToastError(e.toString());
             }
