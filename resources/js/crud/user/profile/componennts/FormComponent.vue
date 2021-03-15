@@ -220,13 +220,18 @@ export default {
 
                 this.form.user_info.birthday = this.birthdayValue;
 
+                //@todo check !_.isNull(objectValue), mb make somewhere globally
                 _.each(this.form, (value, key) => {
                     if (_.isObject(value)) {
                         _.each(value, (objectValue, objectKey) => {
-                            formData.append(`${key}[${objectKey}]`, _.isNull(objectValue) ? null : objectValue)
+                            if (!_.isNull(objectValue)) {
+                                formData.append(`${key}[${objectKey}]`, objectValue)
+                            }
                         })
                     } else {
-                        formData.append(key, _.isNull(value) ? null : value)
+                        if (!_.isNull(value)) {
+                            formData.append(key, value)
+                        }
                     }
                 })
 
