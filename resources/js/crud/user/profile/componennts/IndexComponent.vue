@@ -59,7 +59,7 @@ export default {
         getSalutation(id) {
             let item = _.find(this.salutations_list, salutation => id === salutation.id);
 
-            return item ? item.name : '---'
+            return item ? item.name : ''
         }
     },
     mounted() {

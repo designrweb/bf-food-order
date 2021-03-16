@@ -155,13 +155,13 @@ export default {
     },
     props:      {
         main_route:       String,
-        id:               String | Number,
         title:            String,
         user:             Object,
         salutations_list: Array
     },
     data() {
         return {
+            id:                      undefined,
             birthdayValue:           '',
             location_group_list:     [],
             lang:                    {
@@ -213,20 +213,25 @@ export default {
         },
         async onSubmit(evt) {
             evt.preventDefault();
-            const self      = this;
+            const self = this;
             try {
                 const formData = new FormData();
                 let headers    = {};
 
                 this.form.user_info.birthday = this.birthdayValue;
 
+                //@todo check !_.isNull(objectValue), mb make somewhere globally
                 _.each(this.form, (value, key) => {
                     if (_.isObject(value)) {
                         _.each(value, (objectValue, objectKey) => {
-                            formData.append(`${key}[${objectKey}]`, objectValue)
+                            if (!_.isNull(objectValue)) {
+                                formData.append(`${key}[${objectKey}]`, objectValue)
+                            }
                         })
                     } else {
-                        formData.append(key, value)
+                        if (!_.isNull(value)) {
+                            formData.append(key, value)
+                        }
                     }
                 })
 
@@ -265,6 +270,8 @@ export default {
             for (const [key, fieldData] of Object.entries(this.user)) {
                 this.form[key] = fieldData;
             }
+
+            this.id = this.user.user_info.id;
         },
     },
     async mounted() {

@@ -62,6 +62,8 @@ class PaymentService extends BaseModelService
      * Creates and returns the payments model. Updates consumer balance
      *
      * @param $data
+     * @return false|mixed
+     * @throws \Throwable
      */
     public function create($data)
     {
@@ -160,8 +162,9 @@ class PaymentService extends BaseModelService
      * Creates payment for meal order
      *
      * @param Order $order
+     * @param Order $originalOrder
      */
-    public function createPaymentBasedOnOrder(Order $order)
+    public function createPaymentBasedOnOrder(Order $order, Order $originalOrder)
     {
         $orderQuantity = $order->quantity;
         $orderType     = $order->type;
@@ -174,7 +177,7 @@ class PaymentService extends BaseModelService
 
         $paymentMessage = sprintf('Order %s (Quantity: %s)', $order->menuItem->name, $orderQuantity);
 
-        $canBeSubsidized = $this->canBeSubsidized($order, $order->getOriginal('quantity')) && $amount != 0;
+        $canBeSubsidized = $this->canBeSubsidized($order, $originalOrder->quantity) && $amount != 0;
 
         $payment              = new Payment;
         $payment->consumer_id = $order->consumer_id;
@@ -192,6 +195,82 @@ class PaymentService extends BaseModelService
         }
 
         if ($canBeSubsidized) {
+            $this->createReversePayment($payment, $order);
+        }
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
+     * @param Order $originalOrder
+     */
+    public function createPaymentBasedOnQuantity(Order $order, Order $originalOrder)
+    {
+        $orderQuantity = $order->quantity - $originalOrder->quantity;
+        $orderType     = $order->type;
+
+        //special workaround to prevent payment with zero quantity for created orders
+        // @TODO: check if it possible to create an order with zero quantity
+        if ($orderQuantity == 0) return;
+
+        $amount = $this->getPaymentAmount($orderType, $order->menuItem->menuCategory->price, $order->menuItem->menuCategory->presaleprice, $orderQuantity);
+
+        $paymentMessage = sprintf('Order %s (Quantity: %s)', $order->menuItem->name, $orderQuantity);
+
+        $canBeSubsidized = $this->canBeSubsidized($order, $originalOrder->quantity) && $amount != 0;
+
+        $payment = $this->repository->add([
+            'consumer_id' => $order->consumer_id,
+            'type'        => $this->getPaymentType($orderType, $amount, $canBeSubsidized),
+            'order_id'    => $order->id,
+            'amount'      => -$amount,
+            'comment'     => $paymentMessage
+        ]);
+
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+            $consumer->balance -= $amount;
+            $consumer->save();
+        }
+
+        if ($canBeSubsidized) {
+            $this->createReversePayment($payment, $order);
+        }
+    }
+
+    /**
+     * Creates payment for meal order
+     *
+     * @param Order $order
+     */
+    public function createCanceledPaymentBasedOnOrder(Order $order)
+    {
+        $orderQuantity = $order->quantity;
+
+        $amount = $order->menuItem->menuCategory->presaleprice * $orderQuantity;
+        $paymentMessage = sprintf('Canceled "%s"', $order->menuItem->name);
+
+        $payment = $this->repository->add([
+            'consumer_id' => $order->consumer_id,
+            'type'        => $order->is_subsidized ? Payment::TYPE_PRE_ORDER_SUBSIDIZED_CANCELLATION : Payment::TYPE_PRE_ORDER_CANCELLATION,
+            'order_id'    => $order->id,
+            'amount'      => $amount,
+            'comment'     => $paymentMessage
+        ]);
+
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+            $consumer = $consumer->fresh();
+            $consumer->balance += $amount;
+            $consumer->save();
+        }
+
+        if ($order->is_subsidized == Order::IS_SUBSIDIZED && $amount != 0) {
+            // special workaround to create a reverse payment for 1 item
+            $payment->amount = $order->menuItem->menuCategory->presaleprice;
             $this->createReversePayment($payment, $order);
         }
     }
@@ -238,13 +317,20 @@ class PaymentService extends BaseModelService
         $subsidizationRule = $payment->consumer->subsidization->subsidizationRule;
 
         $subsidizedMenuCategory = $this->subsidizedMenuCategoriesService->getMenuCategoryWithSubsidization($order->menuItem->menuCategory->id, $subsidizationRule->id);
+        $amount = $this->getReversePaymentAmount($order->quantity, $payment->amount, $subsidizedMenuCategory->percent, $order->type);
 
         $reversePayment           = $payment->replicate();
-        $reversePayment->amount   = $this->getReversePaymentAmount($order->quantity, $payment->amount, $subsidizedMenuCategory->percent);
+        $reversePayment->amount   = $amount;
         $reversePayment->comment  = sprintf('Subsidization “%s”', $order->menuItem->name);
         $reversePayment->order_id = $order->id;
         $reversePayment->type     = $this->getReversePaymentType($order->type, $payment->type);
         $reversePayment->save();
+
+        if ($order->consumer) {
+            $consumer = $order->consumer->fresh();
+            $consumer->balance += $amount;
+            $consumer->save();
+        }
 
         // todo do we need this?
         // TempHelper::savePaymentJson($order, $reversePayment);
@@ -273,27 +359,42 @@ class PaymentService extends BaseModelService
      * @param $orderQuantity
      * @param $paymentAmount
      * @param $percent
+     * @param $orderType
      * @return float|int
      */
     // todo make this function protected
-    public function getReversePaymentAmount($orderQuantity, $paymentAmount, $percent)
+    public function getReversePaymentAmount($orderQuantity, $paymentAmount, $percent, $orderType)
     {
-        return ($paymentAmount / $orderQuantity) * $percent / -100;
+        switch ($orderType) {
+            case Order::TYPE_PRE_ORDER:
+                $amount = $paymentAmount * $percent / -100;
+                break;
+            case Order::TYPE_POS_ORDER:
+                $amount = ($paymentAmount / $orderQuantity) * $percent / -100;
+                break;
+            case Order::TYPE_VOUCHER_ORDER:
+                $amount = 0;
+                break;
+            default:
+                throw new WrongOrderTypeException('It was not possible to change the balance! Please check order type.');
+        }
+
+        return $amount;
     }
 
     /**
      * @param int   $orderType
      * @param float $price
-     * @param float $presaleprice
+     * @param float $preSalePrice
      * @param int   $quantity
      * @return float|int
      */
     // todo make this function protected
-    public function getPaymentAmount(int $orderType, float $price, float $presaleprice, int $quantity)
+    public function getPaymentAmount(int $orderType, float $price, float $preSalePrice, int $quantity)
     {
         switch ($orderType) {
             case Order::TYPE_PRE_ORDER:
-                $amount = $presaleprice * $quantity;
+                $amount = $preSalePrice * $quantity;
                 break;
             case Order::TYPE_POS_ORDER:
                 $amount = $price * $quantity;

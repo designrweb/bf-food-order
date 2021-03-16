@@ -49,8 +49,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     const SALUTATION_MRS = 'mrs';
 
     const SALUTATIONS = [
-        self::SALUTATION_MR  => 'Mr.',
-        self::SALUTATION_MRS => 'Mrs.',
+        self::SALUTATION_MR  => 'Herr',
+        self::SALUTATION_MRS => 'Frau',
     ];
 
     /**
@@ -154,5 +154,15 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Get is user has user role
+     *
+     * @return bool
+     */
+    public function isUser()
+    {
+        return $this->role === self::ROLE_USER;
     }
 }
