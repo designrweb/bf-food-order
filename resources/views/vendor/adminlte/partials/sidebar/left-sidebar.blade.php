@@ -19,10 +19,13 @@
                     data-accordion="false"
                 @endif>
 
-                {{--Consumer switcher--}}
-                @if(config('adminlte.switch_consumer'))
-                    @include('adminlte::partials.navbar.switch-consumer')
-                @endif
+                @can('menu-User-Consumer')
+                    {{--Consumer switcher--}}
+                    @if(config('adminlte.switch_consumer'))
+                        @include('adminlte::partials.navbar.switch-consumer')
+                    @endif
+                @endcan
+
                 {{-- Configured sidebar links --}}
                 @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
             </ul>

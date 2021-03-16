@@ -56,11 +56,11 @@ class Consumer extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth('web')->check() && auth()->user()->role !== User::ROLE_USER) {
-                $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id);
-                });
-            }
+//            if (auth('web')->check() && auth()->user()->role !== User::ROLE_USER) {
+//                $builder->whereHas('locationgroup.location', function ($query) {
+//                    $query->where('locations.company_id', auth()->user()->company_id);
+//                });
+//            }
         });
     }
 

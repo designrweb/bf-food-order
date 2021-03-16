@@ -80,6 +80,15 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['consumer'];
+
+//    protected static function booted()
+//    {
+//        if (request()->user() && request()->user()->role === self::ROLE_USER) {
+//            self::with('consumer');
+//        }
+//    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

@@ -23,17 +23,23 @@ class ConsumerService extends BaseModelService
      * @var ConsumerQrCodeService
      */
     public $qrCodeService;
+    /**
+     * @var UserService
+     */
+    public $userService;
 
     /**
      * ConsumerService constructor.
      *
-     * @param ConsumerRepository       $repository
+     * @param ConsumerRepository    $repository
      * @param ConsumerQrCodeService $consumerQrCodeService
+     * @param UserService           $userService
      */
-    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService, UserService $userService)
     {
         $this->repository    = $repository;
         $this->qrCodeService = $consumerQrCodeService;
+        $this->userService   = $userService;
     }
 
     /**
@@ -96,6 +102,11 @@ class ConsumerService extends BaseModelService
         $model = $this->repository->add($data);
 
         $this->generateCode($model->id);
+
+        //auto select first created consumer
+        if ($this->repository->allByUserId($request->user()->id)->count() === 1) {
+            $this->switchConsumer($model->id);
+        }
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
@@ -179,9 +190,9 @@ class ConsumerService extends BaseModelService
      */
     public function downloadManual($id)
     {
-        $model = $this->repository->get($id);
+        $model       = $this->repository->get($id);
         $qrCodeImage = $this->getQrCodeImage($id);
-        $view = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+        $view        = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($view);
@@ -195,6 +206,8 @@ class ConsumerService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->userService->switchConsumer();
+
         return $this->repository->delete($id);
     }
 
@@ -519,7 +532,7 @@ class ConsumerService extends BaseModelService
 
         ]);
 
-        $q        = new QRCode($options);
+        $q       = new QRCode($options);
         $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
 
         return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
@@ -546,6 +559,6 @@ class ConsumerService extends BaseModelService
      */
     public function switchConsumer($id = null)
     {
-        return $this->repository->switchConsumer($id);
+        return $this->userService->switchConsumer($id);
     }
 }

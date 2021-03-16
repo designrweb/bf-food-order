@@ -136,10 +136,10 @@ class MenuItem extends Model
      */
     public function usersFoodOrders()
     {
-        $consumerId = request()->consumer->id;
+        $consumer = optional(request()->user()->consumer);
 
         return $this->hasOne(Order::class, 'menuitem_id', 'id')
-            ->where('consumer_id', $consumerId);
+            ->where('consumer_id', $consumer->id);
     }
 
 }

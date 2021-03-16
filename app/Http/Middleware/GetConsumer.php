@@ -3,11 +3,20 @@
 namespace App\Http\Middleware;
 
 use App\Consumer;
+use App\Services\ConsumerService;
 use App\User;
 use Closure;
 
 class GetConsumer
 {
+
+    private $consumerService;
+
+    public function __construct(ConsumerService $consumerService)
+    {
+        $this->consumerService = $consumerService;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -18,15 +27,8 @@ class GetConsumer
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->isUser()) {
-            $consumerId = session('consumerId') ?? 16;
-
-            if ($consumer = Consumer::find($consumerId)) {
-                $request->consumer = $consumer;
-            } else {
-                $request->consumer = Consumer::first();
-            }
-
+        if ($request->user()->role === User::ROLE_USER) {
+//            $request->consumer = $request->user()->consumer;
         }
 
         return $next($request);

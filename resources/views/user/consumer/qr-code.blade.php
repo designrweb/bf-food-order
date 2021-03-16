@@ -5,6 +5,7 @@
         <qr-code-page
                 :resource="{{ json_encode($qrCodeResource) }}"
                 :main_route="'/user/consumers'"
+                v-bind:is_consumers_exits="{{ $isConsumersExists ? 'true' : 'false' }}"
                 title="@lang('Consumers')"
         ></qr-code-page>
     </div>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <back-button-component :route="main_route"></back-button-component>
-        <div class="card">
+        <div class="card" v-if="is_consumers_exits">
             <div class="text-center" v-if="isPageBusy">
                 <spinner-component></spinner-component>
             </div>
@@ -22,23 +22,28 @@
                     :route="main_route"/>
             </div>
         </div>
+
+        <no-consumers-component :main_route="main_route" v-else/>
     </div>
 </template>
 
 <script>
-import QrcodeComponent     from "../../../shared/QrcodeComponent";
-import BackButtonComponent from "../../../shared/BackButtonComponent";
-import SpinnerComponent    from "../../../shared/SpinnerComponent";
+import QrcodeComponent      from "../../../shared/QrcodeComponent";
+import BackButtonComponent  from "../../../shared/BackButtonComponent";
+import SpinnerComponent     from "../../../shared/SpinnerComponent";
+import NoConsumersComponent from "../../../shared/NoConsumersComponent";
 
 export default {
     components: {
-        'spinner-component':     SpinnerComponent,
-        'qr-code-component':     QrcodeComponent,
-        'back-button-component': BackButtonComponent,
+        'spinner-component':      SpinnerComponent,
+        'qr-code-component':      QrcodeComponent,
+        'back-button-component':  BackButtonComponent,
+        'no-consumers-component': NoConsumersComponent,
     },
     props:      {
-        main_route: String,
-        resource:   Object
+        main_route:         String,
+        resource:           Object,
+        is_consumers_exits: Boolean
     },
     data() {
         return {

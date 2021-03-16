@@ -8,6 +8,12 @@ class ConsumerCompose
 {
     public function compose(View $view)
     {
-         $view->with('consumer', request()->consumer);
+        $consumer = null;
+
+        if (request()->user() && request()->user()->consumer) {
+            $consumer = request()->user()->consumer;
+        }
+
+        $view->with('consumer', $consumer);
     }
 }

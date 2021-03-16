@@ -1,4 +1,4 @@
-<li class="nav-item" id="consumer-switcher-page">
+<li class="nav-item d-flex align-items-center" id="consumer-switcher-page" style="min-height: 70px">
     <consumer-switcher
             main_route="/user/consumers"
             :consumers="{{ json_encode($consumersList) }}"

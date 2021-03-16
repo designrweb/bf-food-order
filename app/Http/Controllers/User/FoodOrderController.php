@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderFormRequest;
 use App\Order;
 use App\Services\OrderService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class FoodOrderController extends Controller
@@ -28,11 +29,15 @@ class FoodOrderController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param Request     $request
+     * @param UserService $userService
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request, UserService $userService)
     {
-        return view('user.food_order.index');
+        return view('user.food_order.index', [
+            'userConsumerExists' => $userService->isConsumersExists($request->user())
+        ]);
     }
 
     /**
@@ -42,7 +47,7 @@ class FoodOrderController extends Controller
     public function store(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = request()->consumer;
+        $consumer    = $request->user()->consumer;
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,
@@ -65,7 +70,7 @@ class FoodOrderController extends Controller
     public function update(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = request()->consumer;
+        $consumer    = $request->user()->consumer;
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,
@@ -90,7 +95,7 @@ class FoodOrderController extends Controller
         $this->orderService->remove($request->get('foodorder_id'));
 
         return [
-            'balance' => request()->consumer->fresh()->balance
+            'balance' => $request->user()->consumer->fresh()->balance
         ];
     }
 }
