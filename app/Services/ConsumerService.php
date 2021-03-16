@@ -537,4 +537,15 @@ class ConsumerService extends BaseModelService
 
         return $setting ? $setting->value : null;
     }
+
+    /**
+     * Switch current consumer
+     *
+     * @param $id
+     * @return bool
+     */
+    public function switchConsumer($id = null)
+    {
+        return $this->repository->switchConsumer($id);
+    }
 }

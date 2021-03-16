@@ -273,4 +273,14 @@ class ConsumerController extends Controller
 
         return view('user.consumer.qr-code', compact('qrCodeResource'));
     }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     * @return bool
+     */
+    public function switchConsumer(Request $request, $id)
+    {
+        return $this->service->switchConsumer($id);
+    }
 }

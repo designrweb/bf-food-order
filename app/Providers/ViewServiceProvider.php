@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\CompanySettingCompose;
+use App\Http\ViewComposers\ConsumerListCompose;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,5 +34,6 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
             'layouts.*', CompanySettingCompose::class
         );
+        View::composer('layouts.*', ConsumerListCompose::class);
     }
 }

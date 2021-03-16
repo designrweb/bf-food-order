@@ -18,6 +18,11 @@
                 @if(!config('adminlte.sidebar_nav_accordion'))
                     data-accordion="false"
                 @endif>
+
+                {{--Consumer switcher--}}
+                @if(config('adminlte.switch_consumer'))
+                    @include('adminlte::partials.navbar.switch-consumer')
+                @endif
                 {{-- Configured sidebar links --}}
                 @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
             </ul>

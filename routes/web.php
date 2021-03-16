@@ -398,6 +398,7 @@ Route::prefix('user')
             Route::get('/{id}/download-manual', "ConsumerController@downloadManual")->name('user.consumers.download-manual');
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
+            Route::get('/{id}/switch-consumer', 'ConsumerController@switchConsumer')->name('user.consumers.switch-consumer');
         });
     });
 

@@ -73,6 +73,7 @@ return [
     'usermenu_desc'         => false,
     'usermenu_profile_url'  => false,
     'switch_company'        => true,
+    'switch_consumer'       => true,
 
     /*
     |--------------------------------------------------------------------------

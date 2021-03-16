@@ -7,6 +7,7 @@
     "/js/crud/consumer_auto_orders.js": "/js/crud/consumer_auto_orders.js",
     "/js/crud/consumer_qr_codes.js": "/js/crud/consumer_qr_codes.js",
     "/js/crud/consumer_subsidizations.js": "/js/crud/consumer_subsidizations.js",
+    "/js/crud/consumer_switcher.js": "/js/crud/consumer_switcher.js",
     "/js/crud/consumers.js": "/js/crud/consumers.js",
     "/js/crud/delivery_planning.js": "/js/crud/delivery_planning.js",
     "/js/crud/location_group.js": "/js/crud/location_group.js",
