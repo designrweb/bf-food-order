@@ -76,7 +76,9 @@ class ConsumerController extends Controller
      */
     public function generateCode($id)
     {
-        return $this->service->generateCode($id);
+        $code = $this->service->generateCode($id);
+
+        return $code->qrCode->qr_code_hash;
     }
 
     /**

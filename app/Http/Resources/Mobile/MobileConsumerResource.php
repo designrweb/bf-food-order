@@ -19,7 +19,7 @@ class MobileConsumerResource extends JsonResource
         // TODO: uncomment if needed
         // $data['subsidization']['subsidization_organization_id'] = !empty($this->subsidization) ?
         // $this->subsidization->subsidizationRule->subsidizationOrganization->id : null;
-        $data['birthday'] = !empty($this->birthday) ? date('d.m.Y', strtotime($this->birthday)) : null;
+        $data['birthday']          = !empty($this->birthday) ? date('d.m.Y', strtotime($this->birthday)) : null;
         $data['id']                = $this->id;
         $data['location_group_id'] = $this->location_group_id;
         $data['location_id']       = $this->location->id;
@@ -34,6 +34,7 @@ class MobileConsumerResource extends JsonResource
         $data['created_at']        = $this->created_at;
         $data['updated_at']        = $this->updated_at;
         $data['deleted_at']        = $this->deleted_at;
+        $data['qr_code']           = !empty($this->qrCode) ? $this->qrCode->qr_code_hash : null;
 
         return $data;
     }
