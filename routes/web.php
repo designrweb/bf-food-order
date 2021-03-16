@@ -379,6 +379,7 @@ Route::prefix('user')
 
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/get-data', "ConsumerController@getData")->name('user.consumers.get-data');
             Route::get('/qr-code', 'ConsumerController@qrCode')->name('user.consumers.qr-code.index');
             Route::get('/', 'ConsumerController@index')->name('user.consumers.index');
             Route::get('/get-all', 'ConsumerController@getAll')->name('user.consumers.get-all');
@@ -398,6 +399,25 @@ Route::prefix('user')
             Route::get('/{id}/download-manual', "ConsumerController@downloadManual")->name('user.consumers.download-manual');
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
+        });
+
+        /** consumers routes */
+        Route::prefix('order')->namespace('User')->group(function () {
+            Route::get('/', 'FoodOrderController@index')->name('user.food-order.index');
+            Route::post('/', 'FoodOrderController@store')->name('user.food-order.store');
+            Route::put('/', 'FoodOrderController@update')->name('user.food-order.update');
+            Route::delete('/', 'FoodOrderController@destroy')->name('user.food-order.delete');
+        });
+
+
+        /** menu-categories routes */
+        Route::prefix('menu-items')->namespace('User')->group(function () {
+            Route::get('/get-by-date', 'MenuItemController@getMenuItems')->name('user.food-order.menu-items');
+        });
+
+        /** menu-categories routes */
+        Route::prefix('menu-categories')->namespace('User')->group(function () {
+            Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
         });
     });
 

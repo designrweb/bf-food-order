@@ -392,6 +392,12 @@ return [
             'can'     => ['menu-Payment'],
             'classes' => 'admin-financial-report-menu',
         ],
+        //user side menus
+        [
+            'text'  => 'Order Now',
+            'route' => 'user.food-order.index',
+            'icon'  => 'nav-icon fa fa-user',
+        ],
         [
             'text'    => 'Profile',
             'route'   => 'profile.index',

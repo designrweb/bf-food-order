@@ -13,6 +13,11 @@
     @php( $logout_url = $logout_url ? url($logout_url) : '' )
 @endif
 
+@if (Auth::user()->isUser() && $consumer)
+    <li class="d-inline-flex align-items-center">
+    <span>GUTHABEN: € <span id="balance-value">{{ $consumer->balance }}</span></span>
+    </li>
+@endif
 <li class="nav-item dropdown user-menu">
 
     {{-- User menu toggler --}}

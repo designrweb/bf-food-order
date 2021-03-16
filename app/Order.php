@@ -66,7 +66,7 @@ class Order extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('menuItem.menuCategory.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id)
                         ->orWhere('locations.id', auth()->user()->location_id);

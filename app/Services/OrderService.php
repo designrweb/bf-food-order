@@ -48,7 +48,7 @@ class OrderService extends BaseModelService
      * Returns single product transformed to resource
      *
      * @param $id
-     * @return OrderResource
+     * @return Order
      * @throws ModelNotFoundException
      */
     public function getOne($id)
@@ -64,8 +64,15 @@ class OrderService extends BaseModelService
      */
     public function create($data)
     {
+        $originalOrder = new Order();
         $order = $this->repository->add($data);
-        $this->paymentService->createPaymentBasedOnOrder($order);
+        $this->paymentService->createPaymentBasedOnOrder($order, $originalOrder);
+
+        //update is order subsidized after order creations
+        $updateData = [
+            'is_subsidized' => $this->paymentService->canBeSubsidized($order, $originalOrder->quantity)
+        ];
+        $this->repository->update($updateData, $order->id);
 
         return $order;
     }
@@ -77,7 +84,11 @@ class OrderService extends BaseModelService
      */
     public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        $originalOrder = $this->getOne($id);
+        $order = $this->repository->update($data, $id);
+        $this->paymentService->createPaymentBasedOnQuantity($order, $originalOrder);
+
+        return $order;
     }
 
     /**
@@ -86,6 +97,8 @@ class OrderService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->paymentService->createCanceledPaymentBasedOnOrder($this->getOne($id));
+
         return $this->repository->delete($id);
     }
 
