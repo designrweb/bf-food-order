@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserFormRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class UserFormRequest extends FormRequest
             'location_id'          => 'required_if:role,' . User::ROLE_POS_MANAGER,
             'user_info.first_name' => 'required|string',
             'user_info.last_name'  => 'required|string',
-            'user_info.salutation' => 'required|string',
+            'user_info.salutation' => ['required', 'string', Rule::in(array_keys(User::SALUTATIONS))],
             'user_info.zip'        => 'required|numeric|regex:/\b\d{5}\b/',
             'user_info.city'       => 'required|string',
             'user_info.street'     => 'required|string',
@@ -36,15 +37,6 @@ class UserFormRequest extends FormRequest
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    public function messages(): array
-    {
-        return [
-            'zip.regex' => 'Zip must have 5 digits',
-        ];
-    }
 
     public function attributes()
     {

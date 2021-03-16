@@ -133,6 +133,12 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'user_info.zip' => [
+            'regex' => 'Die Postleitzahl muss 5 Ziffern haben'
+        ],
+        'zip' => [
+            'regex' => 'Die Postleitzahl muss 5 Ziffern haben'
+        ],
     ],
 
     /*

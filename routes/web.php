@@ -370,8 +370,8 @@ Route::prefix('user')
             Route::get('/', 'ProfileController@index')->name('profile.index');
             Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
             Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
-            Route::post('/', 'ProfileController@update')->name('profile.update');
             Route::get('/balance-limit', 'ProfileController@update')->name('profile.update');
+            Route::put('/{id}', 'ProfileController@update')->name('profile.update');
         });
 
         Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
