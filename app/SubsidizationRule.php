@@ -41,7 +41,7 @@ class SubsidizationRule extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('subsidizationOrganization', function ($query) {
                     $query->where('subsidization_organizations.company_id', auth()->user()->company_id);
                 });

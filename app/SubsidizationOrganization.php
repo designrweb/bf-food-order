@@ -35,7 +35,7 @@ class SubsidizationOrganization extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->where('subsidization_organizations.company_id', auth()->user()->company_id);
             }
         });
