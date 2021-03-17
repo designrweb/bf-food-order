@@ -262,4 +262,21 @@ class ConsumerRepository implements RepositoryInterface
 
         return $companySettings->where('setting_name', '=', 'subsidization_support_email')->first();
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getByConsumerId($id)
+    {
+        $query = $this->model->newQuery();
+
+        if ($id) {
+            $query->where('id', $id);
+        } else {
+            $query->where('user_id', optional(request()->user())->id);
+        }
+
+        return $query->first();
+    }
 }

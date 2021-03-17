@@ -18,10 +18,7 @@ class GetConsumer
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->role === User::ROLE_USER) {
-            //load consumer relation
-            $request->user()->load('consumer');
-        }
+
 
         return $next($request);
     }

@@ -14,7 +14,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property integer  $id
  * @property string   $email
  * @property integer  $company_id
- * @property integer  $consumer_id
  * @property integer  $location_id
  * @property string   $email_verified_at
  * @property string   $password
@@ -59,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'role', 'location_id', 'company_id', 'consumer_id'
+        'email', 'password', 'role', 'location_id', 'company_id'
     ];
 
     /**
@@ -94,14 +93,6 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function consumers()
     {
         return $this->hasMany(Consumer::class, 'user_id', 'id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function consumer()
-    {
-        return $this->hasOne(Consumer::class, 'id', 'consumer_id');
     }
 
     /**

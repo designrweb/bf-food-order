@@ -18,15 +18,21 @@ class MenuItemService extends BaseModelService
 {
 
     protected $repository;
+    /**
+     * @var ConsumerService
+     */
+    private $consumerService;
 
     /**
      * MenuItemService constructor.
      *
      * @param MenuItemRepository $repository
+     * @param ConsumerService    $consumerService
      */
-    public function __construct(MenuItemRepository $repository)
+    public function __construct(MenuItemRepository $repository, ConsumerService $consumerService)
     {
         $this->repository = $repository;
+        $this->consumerService = $consumerService;
     }
 
     /**
@@ -241,11 +247,19 @@ class MenuItemService extends BaseModelService
     public function getMenuItemsByDate($startDate, $endDate)
     {
         $menuItems = $this->repository->getMenuItemsByDate($startDate, $endDate);
+        foreach ($menuItems as &$menuItem) {
+            $menuItem->users_food_orders = $this->usersFoodOrdersByConsumerId($this->consumerService);
+        }
         $vacations = (new VacationRepository((new Vacation())))->getVacationByPeriod($startDate, $endDate);
 
         return [
             'menuItems' => $menuItems->toArray(),
             'vacations' => $vacations->toArray(request())
         ];
+    }
+
+    public function usersFoodOrdersByConsumerId($consumerId)
+    {
+//        return $this->->usersFoodOrders($consumerId);
     }
 }

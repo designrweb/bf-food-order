@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Consumer;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\GetConsumer;
 use App\Http\Requests\OrderFormRequest;
 use App\Order;
+use App\Services\ConsumerService;
 use App\Services\OrderService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -15,15 +18,24 @@ class FoodOrderController extends Controller
      * @var OrderService
      */
     protected $orderService;
+    /**
+     * @var Consumer|null
+     */
+    private $consumer;
+    /**
+     * @var bool|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    private $consumerService;
 
     /**
      * Create a new controller instance.
      *
      * @param OrderService $orderService
      */
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, ConsumerService $consumerService)
     {
-        $this->orderService = $orderService;
+        $this->orderService    = $orderService;
+        $this->consumerService = $consumerService;
     }
 
     /**
@@ -47,7 +59,7 @@ class FoodOrderController extends Controller
     public function store(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = $request->user()->consumer;
+        $consumer    = $this->consumerService->getCurrentConsumer();
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,

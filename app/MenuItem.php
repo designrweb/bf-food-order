@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\ConsumerService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -134,12 +135,10 @@ class MenuItem extends Model
     /**
      * Get consumer orders
      */
-    public function usersFoodOrders()
+    public function usersFoodOrders($consumerId)
     {
-        $consumer = optional(request()->user()->consumer);
-
         return $this->hasOne(Order::class, 'menuitem_id', 'id')
-            ->where('consumer_id', $consumer->id);
+            ->where('consumer_id', $consumerId);
     }
 
 }

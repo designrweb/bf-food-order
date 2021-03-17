@@ -21,6 +21,7 @@ class ConsumerListCompose
         if (!auth()->check() || auth()->user()->role !== User::ROLE_USER) return;
 
         $consumers = $this->consumerService->allByUserId(auth()->user()->id)->toArray(request());
+
         $view->with('consumersList', $consumers);
         $view->with('selectedConsumer', count($consumers) ? auth()->user()->consumer : null);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\GetConsumer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,6 +66,5 @@ class Kernel extends HttpKernel
         'role'             => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'checkRole'        => \App\Http\Middleware\checkRole::class,
         'isAdmin'          => \App\Http\Middleware\isAdmin::class,
-        'getConsumer'      => \App\Http\Middleware\GetConsumer::class,
     ];
 }

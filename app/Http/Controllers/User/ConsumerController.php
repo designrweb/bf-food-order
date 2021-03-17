@@ -273,7 +273,7 @@ class ConsumerController extends Controller
      */
     public function getData(Request $request)
     {
-        $consumer = optional($request->user()->consumer);
+        $consumer = optional($this->service->getCurrentConsumer());
 
         return [
             'is_subsidized'       => !!$consumer->subsidization,

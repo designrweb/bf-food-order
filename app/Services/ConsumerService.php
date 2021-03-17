@@ -554,11 +554,12 @@ class ConsumerService extends BaseModelService
     /**
      * Switch current consumer
      *
-     * @param $id
-     * @return bool
+     * @return bool|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
      */
-    public function switchConsumer($id = null)
+    public function getCurrentConsumer()
     {
-        return $this->userService->switchConsumer($id);
+        $consumerId = session('consumerId');
+
+        return $this->repository->getByConsumerId($consumerId);
     }
 }

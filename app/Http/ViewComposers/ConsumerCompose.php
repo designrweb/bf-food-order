@@ -2,18 +2,23 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Services\ConsumerService;
 use Illuminate\View\View;
 
 class ConsumerCompose
 {
+    /**
+     * @var ConsumerService
+     */
+    private $service;
+
+    public function __construct(ConsumerService $consumerService)
+    {
+        $this->service = $consumerService;
+    }
+
     public function compose(View $view)
     {
-        $consumer = null;
-
-        if (request()->user() && request()->user()->consumer) {
-            $consumer = request()->user()->consumer;
-        }
-
-        $view->with('consumer', $consumer);
+        $view->with('consumer', $this->service->getCurrentConsumer());
     }
 }
