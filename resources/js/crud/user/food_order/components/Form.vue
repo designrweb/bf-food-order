@@ -530,15 +530,17 @@ export default {
                     ' ',
                     h('a', {
                         attrs: {
-                            href:  '/uploads/files/ENTWURF%20AGBs%20MyFoodOrder%20V-1.0.pdf',
-                            class: 'brand-color'
+                            href:   '/pdf/MyFoodOrder_coolinary_AGBs.pdf',
+                            class:  'brand-color',
+                            target: '_blank'
                         }
                     }, 'AGB'),
                     ' ',
                     h('a', {
                         attrs: {
-                            href:  'https://lehmanns-gastronomie.de/datenschutzerklaerung/',
-                            class: 'brand-color'
+                            href:   'https://lehmanns-gastronomie.de/datenschutzerklaerung/',
+                            class:  'brand-color',
+                            target: '_blank'
                         }
                     }, 'Datenschutz'),
                 ]
@@ -557,15 +559,17 @@ export default {
                     ' ',
                     h('a', {
                         attrs: {
-                            href:  '/uploads/files/ENTWURF%20AGBs%20MyFoodOrder%20V-1.0.pdf',
-                            class: 'brand-color'
+                            href:   '/pdf/MyFoodOrder_coolinary_AGBs.pdf',
+                            class:  'brand-color',
+                            target: '_blank'
                         }
                     }, 'AGB'),
                     ' ',
                     h('a', {
                         attrs: {
-                            href:  'https://lehmanns-gastronomie.de/datenschutzerklaerung/',
-                            class: 'brand-color'
+                            href:   'https://lehmanns-gastronomie.de/datenschutzerklaerung/',
+                            class:  'brand-color',
+                            target: '_blank'
                         }
                     }, 'Datenschutz'),
                 ]
@@ -590,8 +594,13 @@ export default {
                                 menuItem['quantity'] = 0;
                             }
 
-                            menuItem['is_subsidized'] =
-                                self.menuCategories.find(menuCategory => menuCategory.id == menuItem['menu_category_id'])['is_allow_for_subsidization'];
+                            let menuCategory = self.menuCategories.find(menuCategory => menuCategory.id == menuItem['menu_category_id']);
+                            if (menuCategory) {
+                                menuItem['is_subsidized'] = menuCategory['is_allow_for_subsidization'];
+                            } else {
+                                menuItem['is_subsidized'] = false;
+                            }
+
 
                             self.weeklyList[key].push(menuItem);
                         }
@@ -606,7 +615,7 @@ export default {
             try {
                 let response = await getMenuCategories();
 
-                this.menuCategories = Object.values(response['data']['data']);
+                this.menuCategories = Object.values(response['data']);
                 this.menuCategories
                     .sort(function (a, b) {
                         return a.category_order - b.category_order;
