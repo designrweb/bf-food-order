@@ -121,7 +121,8 @@
                                     text-field="name"
                                     disabled-field="notEnabled"
                                 ></b-form-select>
-                                <b-form-invalid-feedback :state="validation['location_group_id']['state']">
+                                <b-form-invalid-feedback
+                                    :state="validation['location_group_id']['state']">
                                     {{ validation['location_group_id']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -149,7 +150,8 @@
                                     placeholder="Guthaben Grenze"
                                     autocomplete="off"
                                 ></b-form-input>
-                                <b-form-invalid-feedback :state="validation['balance_limit']['state']">
+                                <b-form-invalid-feedback
+                                    :state="validation['balance_limit']['state']">
                                     {{ validation['balance_limit']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -171,7 +173,9 @@
                                 ></b-form-select>
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_organization_id']['state']">
-                                    {{ validation['subsidization.subsidization_organization_id']['message'] }}
+                                    {{
+                                        validation['subsidization.subsidization_organization_id']['message']
+                                    }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
 
@@ -181,7 +185,8 @@
                                 label-for="input-subsidization_rule_id"
                             >
                                 <b-form-select
-                                    id="input-subsidization_rule_id" v-model="form.subsidization.subsidization_rule_id"
+                                    id="input-subsidization_rule_id"
+                                    v-model="form.subsidization.subsidization_rule_id"
                                     :options="subsidization_rule_list"
                                     class="mb-3"
                                     value-field="id"
@@ -190,7 +195,9 @@
                                 ></b-form-select>
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_rule_id']['state']">
-                                    {{ validation['subsidization.subsidization_rule_id']['message'] }}
+                                    {{
+                                        validation['subsidization.subsidization_rule_id']['message']
+                                    }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
 
@@ -248,13 +255,16 @@
                                 ></b-form-file>
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_document']['state']">
-                                    {{ validation['subsidization.subsidization_document']['message'] }}
+                                    {{
+                                        validation['subsidization.subsidization_document']['message']
+                                    }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
                         </div>
                     </div>
 
-                    <b-button id="consumers-submit-btn" type="submit" variant="primary">Einreichen</b-button>
+                    <b-button id="consumers-submit-btn" type="submit" variant="primary">Einreichen
+                    </b-button>
                 </b-form>
             </div>
             <div class="card-header" v-if="!isPageBusy">
@@ -269,15 +279,16 @@
 </template>
 
 <script>
-import {getItem, getSubsidizationRulesBySubsidizationOrganizationId, storeFormData} from "../../api/crudRequests";
-import SpinnerComponent
-                                                                                    from "../../shared/SpinnerComponent";
-import BackButtonComponent
-                                                                                    from "../../shared/BackButtonComponent";
-import ImageUploadComponent
-                                                                                    from "../../shared/ImageUploadComponent";
-import _                                                                            from 'lodash'
-import DatePicker                                                                   from 'vue2-datepicker';
+import {
+    getItem,
+    getSubsidizationRulesBySubsidizationOrganizationId,
+    storeFormData
+}                           from "../../api/crudRequests";
+import SpinnerComponent     from "../../shared/SpinnerComponent";
+import BackButtonComponent  from "../../shared/BackButtonComponent";
+import ImageUploadComponent from "../../shared/ImageUploadComponent";
+import _                    from 'lodash'
+import DatePicker           from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/de';
 
