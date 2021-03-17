@@ -17,7 +17,7 @@ use App\MenuCategory;
  */
 class MenuCategoryService extends BaseModelService
 {
-
+    /** @var MenuCategoryRepository */
     protected $repository;
 
     public function __construct(MenuCategoryRepository $repository)
@@ -92,6 +92,21 @@ class MenuCategoryService extends BaseModelService
     public function getModelList()
     {
         return $this->repository->getModelList();
+    }
+
+    /**
+     * @param $id
+     * @return MenuCategoryResource
+     */
+    public function getByLocationId($id)
+    {
+        $categories = $this->repository->getByLocationId($id);
+
+        foreach ($categories as &$category) {
+            $category->is_allow_for_subsidization = $category->isAllowSubsidization(request()->consumer);
+        }
+
+        return $categories;
     }
 
     /**
