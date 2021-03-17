@@ -140,6 +140,10 @@ class OrderService extends BaseModelService
         return $this->getSimpleStructure((new Order()));
     }
 
+    /**
+     * @param $consumerId
+     * @return mixed
+     */
     public function getOrdersForConsumer($consumerId)
     {
         return $this->repository->getOrdersForConsumers($consumerId);

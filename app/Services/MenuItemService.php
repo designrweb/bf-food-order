@@ -264,6 +264,13 @@ class MenuItemService extends BaseModelService
         ];
     }
 
+    /**
+     * Get consumer orders
+     *
+     * @param $consumerId
+     * @param $menuItems
+     * @return mixed
+     */
     public function usersFoodOrdersByConsumerId($consumerId, $menuItems)
     {
         $orders = $this->orderService->getOrdersForConsumer($consumerId);
