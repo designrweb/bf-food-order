@@ -434,9 +434,6 @@ export default {
             this.birthdayValue      = this.form.birthday;
             this.subsidizationStart = this.form.subsidization.subsidization_start;
             this.subsidizationEnd   = this.form.subsidization.subsidization_end;
-            
-            console.log(this.subsidizationStart);
-            console.log(this.subsidizationEnd);
         },
     },
     async mounted() {
