@@ -102,6 +102,7 @@ class MenuCategoryService extends BaseModelService
     {
         $categories = $this->repository->getByLocationId($id);
 
+        //@todo - change this to avoid query db in loop
         foreach ($categories as &$category) {
             $category->is_allow_for_subsidization = $category->isAllowSubsidization(request()->consumer);
         }
