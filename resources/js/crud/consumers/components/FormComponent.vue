@@ -13,7 +13,7 @@
                 <div class="text-center" v-if="isPageBusy">
                     <spinner-component></spinner-component>
                 </div>
-
+                
                 <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-4">
@@ -57,7 +57,7 @@
                                     {{ validation['firstname']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-lastname"
                                 label="Nachname"
@@ -73,14 +73,15 @@
                                     {{ validation['lastname']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-birthday"
                                 label="Geburtstag"
                                 label-for="input-birthday"
                             >
                                 <date-picker
-                                    :input-attr="{id: 'input-birthday'}"v-model="birthdayValue"
+                                    :input-attr="{id: 'input-birthday'}"
+                                    v-model="birthdayValue"
                                     valueType="format"
                                     format="DD.MM.YYYY"
                                     :lang="lang"
@@ -90,7 +91,7 @@
                                     {{ validation['birthday']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-balance"
                                 label="Guthaben"
@@ -106,14 +107,14 @@
                                     {{ validation['balance']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-location_id"
                                 label="Klasse"
                                 label-for="input-location_id"
                             >
                                 <b-form-select
-                                    id="input-location_id"v-model="form.location_group_id"
+                                    id="input-location_id" v-model="form.location_group_id"
                                     :options="location_group_list"
                                     class="mb-3"
                                     value-field="id"
@@ -124,10 +125,10 @@
                                     {{ validation['location_group_id']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                        
                         </div>
                     </div>
-
+                    
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -152,14 +153,14 @@
                                     {{ validation['balance_limit']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-location_id"
                                 label="Name der Organisation"
                                 label-for="input-subsidization-organization-id"
                             >
                                 <b-form-select
-                    id="input-subsidization-organization-id"
+                                    id="input-subsidization-organization-id"
                                     v-model="form.subsidization.subsidization_organization_id"
                                     :options="subsidization_organization_list"
                                     @change="getSubsidizationRulesBySubsidizationOrganizationId($event)"
@@ -172,14 +173,14 @@
                                     {{ validation['subsidization.subsidization_organization_id']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-subsidization_rule_id"
                                 label="Subventionierungsregel"
                                 label-for="input-subsidization_rule_id"
                             >
                                 <b-form-select
-                                    id="input-subsidization_rule_id"v-model="form.subsidization.subsidization_rule_id"
+                                    id="input-subsidization_rule_id" v-model="form.subsidization.subsidization_rule_id"
                                     :options="subsidization_rule_list"
                                     class="mb-3"
                                     value-field="id"
@@ -190,52 +191,52 @@
                                     {{ validation['subsidization.subsidization_rule_id']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-subsidization_start_date"
                                 label="Beginn Subventionsdatum"
                                 label-for="input-subsidization_start_date"
                             >
-                                <b-form-datepicker
-                                    id="input-subsidization_start_date"
-                                    v-model="form.subsidization.subsidization_start"
-                                    reset-button
-                                    class="sl-tiny-text-datepicker"
-                                    start-weekday="1"
-                                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                                    locale="de"
-                                ></b-form-datepicker>
+                                <date-picker
+                                    :input-attr="{id: 'input-subsidization_start_date'}"
+                                    v-model="subsidizationStart"
+                                    valueType="format"
+                                    format="DD.MM.YYYY"
+                                    :lang="lang"
+                                    input-class="form-control b-day">
+                                </date-picker>
+                                
                                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_start']['state']">
                                     {{ validation['subsidization.subsidization_start']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-subsidization_end_date"
                                 label="Ende Subventionsdatum"
                                 label-for="input-subsidization_end_date"
                             >
-                                <b-form-datepicker
-                                    id="input-subsidization_end_date"
-                                    v-model="form.subsidization.subsidization_end"
-                                    reset-button
-                                    class="sl-tiny-text-datepicker"
-                                    start-weekday="1"
-                                    :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                                    locale="de"
-                                ></b-form-datepicker>
+                                
+                                <date-picker
+                                    :input-attr="{id: 'input-subsidization_end_date'}"
+                                    v-model="subsidizationEnd"
+                                    valueType="format"
+                                    format="DD.MM.YYYY"
+                                    :lang="lang"
+                                    input-class="form-control b-day">
+                                </date-picker>
                                 <b-form-invalid-feedback :state="validation['subsidization.subsidization_end']['state']">
                                     {{ validation['subsidization.subsidization_end']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
+                            
                             <b-form-group
                                 id="input-group-subsidization_document"
                                 label="Subventionsnachweis"
                                 label-for="input-subsidization_document"
                             >
                                 <b-form-file
-                                    id="input-subsidization_document"accept=".pdf"
+                                    id="input-subsidization_document" accept=".pdf"
                                     v-model="form.subsidization.subsidization_document"
                                     :placeholder="(form.subsidization.subsidization_document ? form.subsidization.subsidization_document : 'Wählen Sie eine Datei oder legen Sie sie hier ab ...')"
                                     @change="change"
@@ -247,7 +248,7 @@
                             </b-form-group>
                         </div>
                     </div>
-
+                    
                     <b-button id="consumers-submit-btn" type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
@@ -290,6 +291,8 @@ export default {
     data() {
         return {
             birthdayValue:           '',
+            subsidizationStart:      '',
+            subsidizationEnd:        '',
             lang:                    {
                 formatLocale:    {
                     firstDayOfWeek: 1,
@@ -341,7 +344,7 @@ export default {
         },
         async getSubsidizationRulesBySubsidizationOrganizationId() {
             if (this.form.subsidization.subsidization_organization_id === null) return;
-
+            
             try {
                 let response                 = await getSubsidizationRulesBySubsidizationOrganizationId('/admin/subsidization-rules/get-list-by-organization/' + this.form.subsidization.subsidization_organization_id);
                 this.subsidization_rule_list = response['data'];
@@ -361,44 +364,46 @@ export default {
             try {
                 const formData = new FormData();
                 let headers    = {};
-
-                this.form.birthday = this.birthdayValue;
-
+                
+                this.form.birthday                          = this.birthdayValue;
+                self.form.subsidization.subsidization_start = this.subsidizationStart;
+                self.form.subsidization.subsidization_end   = this.subsidizationEnd;
+                
                 _.each(this.form, (value, key) => {
                     if (value) {
                         formData.append(key, value)
                     }
                 })
-
+                
                 if (self.selectedFile) {
                     headers = {
                         "Content-type": "multipart/form-data"
                     };
                     formData.append('subsidization[subsidization_document]', self.selectedFile, self.selectedFile.name);
                 }
-
+                
                 if (typeof self.form.subsidization.subsidization_start !== "undefined") {
                     formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
                 } else {
                     formData.append('subsidization[subsidization_start]', '');
                 }
-
+                
                 if (typeof self.form.subsidization.subsidization_end !== "undefined") {
                     formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
                 } else {
                     formData.append('subsidization[subsidization_end]', '');
                 }
-
+                
                 if (typeof self.form.subsidization.subsidization_rule_id !== "undefined") {
                     formData.append('subsidization[subsidization_rule_id]', self.form.subsidization.subsidization_rule_id);
                 } else {
                     formData.append('subsidization[subsidization_rule_id]', '');
                 }
-
+                
                 if (self.id) {
                     formData.append('_method', 'PUT');
                 }
-
+                
                 let response         = await storeFormData(self.main_route, self.id, formData, headers);
                 window.location.href = self.main_route + '/' + response['data'].id;
             } catch (error) {
@@ -418,15 +423,20 @@ export default {
         },
         async _loadData() {
             if (this.id == null) return;
-
+            
             let response  = await getItem(this.main_route, this.id);
             this.itemData = response['data'];
-
+            
             for (const [key, fieldData] of Object.entries(this.itemData)) {
                 this.form[key] = fieldData;
             }
-
-            this.birthdayValue = this.form.birthday;
+            
+            this.birthdayValue      = this.form.birthday;
+            this.subsidizationStart = this.form.subsidization.subsidization_start;
+            this.subsidizationEnd   = this.form.subsidization.subsidization_end;
+            
+            console.log(this.subsidizationStart);
+            console.log(this.subsidizationEnd);
         },
     },
     async mounted() {

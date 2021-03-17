@@ -44,4 +44,20 @@ class ConsumerSubsidization extends Model
     {
         return $this->belongsTo(Consumer::class);
     }
+
+    /**
+     * @param $value
+     */
+    public function setSubsidizationStartAttribute($value)
+    {
+        $this->attributes['subsidization_start'] = date('Y-m-d', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     */
+    public function setSubsidizationEndAttribute($value)
+    {
+        $this->attributes['subsidization_end'] = date('Y-m-d', strtotime($value));
+    }
 }
