@@ -21,7 +21,8 @@ class MobileConsumerCollection extends JsonResource
     public function toArray($request)
     {
         return $this->resource->transform(function (Consumer $item) {
-            $companyEmail = !empty($item->company->settings) && !empty($item->company->settings()->where('setting_name', 'email')->first()) ? $item->company->settings()->where('setting_name', 'email')->first()->value : null;
+            $companyEmail = !empty($item->company->settings) && !empty($item->company->settings()->where('setting_name', 'email')->first())
+                ? $item->company->settings()->where('setting_name', 'email')->first()->value : null;
 
             return [
                 'id'                  => $item->id,

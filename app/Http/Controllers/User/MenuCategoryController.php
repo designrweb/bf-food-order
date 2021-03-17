@@ -23,10 +23,10 @@ class MenuCategoryController extends Controller
      *
      * @param Request             $request
      * @param MenuCategoryService $categoryService
-     * @return \App\Http\Resources\MenuCategoryCollection
+     * @return \App\Http\Resources\MenuCategoryResource
      */
     public function getAll(Request $request, MenuCategoryService $categoryService)
     {
-       return $categoryService->all();
+       return $categoryService->getByLocationId($request->consumer->location->id);
     }
 }

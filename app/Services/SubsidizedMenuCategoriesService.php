@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Resources\SubsidizedMenuCategoriesCollection;
-use App\Http\Resources\SubsidizedMenuCategoriesResource;
 use App\Repositories\SubsidizedMenuCategoriesRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

@@ -133,9 +133,6 @@ class MenuItemRepository implements RepositoryInterface
     public function getMenuItemsByDate($startDate, $endDate)
     {
         return MenuItem::with(['menuCategory'])
-            ->whereHas('menuCategory', function ($query) {
-                $query->where('price', '>', 0);
-            })
             ->whereBetween('availability_date', [$startDate, $endDate])
             ->get();
     }

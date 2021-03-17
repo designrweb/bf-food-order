@@ -99,4 +99,13 @@ class MenuCategoryRepository implements RepositoryInterface
     {
         return new MenuCategoryResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getByLocationId($id)
+    {
+        return $this->model->where('location_id', $id)->get();
+    }
 }
