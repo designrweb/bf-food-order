@@ -80,4 +80,20 @@ class SubsidizationRule extends Model
     {
         return $this->hasMany(SubsidizedMenuCategories::class, 'subsidization_rule_id', 'id');
     }
+
+    /**
+     * @param $value
+     */
+    public function setStartDateAttribute($value)
+    {
+        $this->attributes['start_date'] = date('Y-m-d', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     */
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = date('Y-m-d', strtotime($value));
+    }
 }
