@@ -271,13 +271,6 @@ return [
             'classes' => 'admin-consumers-menu'
         ],
         [
-            'text'    => 'Consumers',
-            'route'   => 'user.consumers.index',
-            'icon'    => 'nav-icon fa fa-users',
-            'can'     => ['menu-User-Consumer'],
-            'classes' => 'user-consumers-menu'
-        ],
-        [
             'text'    => 'Payments',
             'icon'    => 'fas fa-fw fa-euro-sign',
             'can'     => ['menu-Payment'],
@@ -397,14 +390,14 @@ return [
         [
             'text'  => 'Order Now',
             'route' => 'user.food-order.index',
-            'icon'  => 'nav-icon fa fa-user',
+            'icon'  => 'nav-icon fa fa-calendar-check',
         ],
         [
-            'text'    => 'Profile',
-            'route'   => 'profile.index',
-            'icon'    => 'nav-icon fa fa-user',
-            'can'     => ['menu-User-Profile'],
-            'classes' => 'user-profile-menu',
+            'text'    => 'Consumers',
+            'route'   => 'user.consumers.index',
+            'icon'    => 'nav-icon fa fa-users',
+            'can'     => ['menu-User-Consumer'],
+            'classes' => 'user-consumers-menu'
         ],
         [
             'text'    => 'QR Code',
@@ -412,6 +405,16 @@ return [
             'icon'    => 'nav-icon fa fa-qrcode',
             'can'     => ['menu-User-ConsumerQrCode'],
             'classes' => 'user-qr-code-menu',
+        ],
+        [
+            'header' => ''
+        ],
+        [
+            'text'    => 'Profile',
+            'route'   => 'profile.index',
+            'icon'    => 'nav-icon fa fa-user',
+            'can'     => ['menu-User-Profile'],
+            'classes' => 'user-profile-menu',
         ],
 
 //        [

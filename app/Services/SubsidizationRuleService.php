@@ -126,11 +126,11 @@ class SubsidizationRuleService extends BaseModelService
                 'label' => __('subsidization.Subsidization Organization')
             ],
             [
-                'key'   => 'start_date',
+                'key'   => 'start_date_human',
                 'label' => __('app.Start Date')
             ],
             [
-                'key'   => 'end_date',
+                'key'   => 'end_date_human',
                 'label' => __('app.End Date')
             ],
         ];

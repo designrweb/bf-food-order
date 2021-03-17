@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        
         <back-button-component :route="main_route"></back-button-component>
         <div class="card">
             <div class="card-header" v-if="!isPageBusy">
@@ -14,7 +14,7 @@
                 <div class="text-center" v-if="isPageBusy">
                     <spinner-component></spinner-component>
                 </div>
-
+                
                 <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
                     <b-form-group
                         id="input-group-rule_name"
@@ -54,15 +54,14 @@
                         label="Startdatum"
                         label-for="input-start_date"
                     >
-                        <b-form-datepicker
-                            id="input-start_date"
-                            v-model="form.start_date"
-                            reset-button
-                            class="sl-tiny-text-datepicker"
-                            start-weekday="1"
-                            :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                            locale="de"
-                        ></b-form-datepicker>
+                        <date-picker
+                            :input-attr="{id: 'input-start_date'}"
+                            v-model="startDate"
+                            valueType="format"
+                            format="DD.MM.YYYY"
+                            :lang="lang"
+                            input-class="form-control b-day">
+                        </date-picker>
                         <b-form-invalid-feedback :state="validation['start_date']['state']">
                             {{ validation['start_date']['message'] }}
                         </b-form-invalid-feedback>
@@ -72,20 +71,19 @@
                         label="Enddatum"
                         label-for="input-end_date"
                     >
-                        <b-form-datepicker
-                            id="input-end_date"
-                            v-model="form.end_date"
-                            reset-button
-                            class="sl-tiny-text-datepicker"
-                            start-weekday="1"
-                            :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                            locale="de"
-                        ></b-form-datepicker>
+                        <date-picker
+                            :input-attr="{id: 'input-end_date'}"
+                            v-model="endDate"
+                            valueType="format"
+                            format="DD.MM.YYYY"
+                            :lang="lang"
+                            input-class="form-control b-day">
+                        </date-picker>
                         <b-form-invalid-feedback :state="validation['end_date']['state']">
                             {{ validation['end_date']['message'] }}
                         </b-form-invalid-feedback>
                     </b-form-group>
-
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card mt-5">
@@ -118,7 +116,7 @@
                                                     @change="handleSubsidizationPercentage($event, menu_category.id)"
                                                 ></b-form-spinbutton>
                                             </td>
-
+                                            
                                             <td>
                                                 <b-input-group style="width: 40% !important;">
                                                     <template #append>
@@ -135,7 +133,7 @@
                                                     ></b-form-input>
                                                 </b-input-group>
                                             </td>
-
+                                            
                                             <td>
                                                 <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price.toString().replace(".", ",") }}</span><span> €</span>
                                             </td>
@@ -146,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <b-button id="subsidization-rules-submit-btn" type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
@@ -165,12 +163,14 @@
 import {getItem, store}    from "../../api/crudRequests";
 import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
+import DatePicker                                                                   from 'vue2-datepicker';
 import moment              from "moment";
 
 export default {
     components: {
         'spinner-component':     SpinnerComponent,
         'back-button-component': BackButtonComponent,
+        DatePicker
     },
     props:      {
         main_route:                         String,
@@ -182,6 +182,8 @@ export default {
     data() {
         return {
             isPageBusy: false,
+            startDate:  '',
+            endDate:    '',
             itemData:   [],
             form:       {
                 subsidization_menu_categories_list: {}
@@ -196,11 +198,6 @@ export default {
                 'created_at':                    {'state': true, 'message': ''},
                 'updated_at':                    {'state': true, 'message': ''},
             },
-        }
-    },
-    computed: {
-        endDateForPicker() {
-            return moment(this.form.end_date, 'dddd, DD.MM.YYYY').format('DD.MM.YYYY')
         }
     },
     methods:  {
@@ -218,7 +215,7 @@ export default {
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
             let value                    = (presaleprice * (val / 100)).toFixed(2);
-
+            
             this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");
         },
@@ -226,7 +223,7 @@ export default {
             let percentFull              = 'percent_full_' + id;
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
-
+            
             if (this.$refs[percentFull][0].value < 100) {
                 let value                                         = parseInt((val / presaleprice) * 100);
                 this.$refs[percentFull][0].value                  = value.replace(".", ",");
@@ -237,6 +234,10 @@ export default {
             evt.preventDefault();
             const self      = this;
             self.isPageBusy = true;
+            
+            self.form.start_date = self.startDate;
+            self.form.end_date   = self.endDate;
+            
             try {
                 let response         = await store(self.main_route, self.id, self.form);
                 window.location.href = self.main_route + '/' + response['data'].id;
@@ -258,16 +259,16 @@ export default {
         async _loadData() {
             this.form.subsidization_menu_categories_list = this.subsidization_menu_categories_list
             if (this.id == null) return;
-
+            
             let response  = await getItem(this.main_route, this.id);
             this.itemData = response['data'];
-
+            
             for (const [key, fieldData] of Object.entries(this.itemData)) {
                 this.form[key] = fieldData;
             }
-
-            this.form.start_date = moment(this.form.start_date, 'dddd, DD.MM.YYYY').format('YYYY-MM-DD')
-            this.form.end_date = moment(this.form.end_date, 'dddd, DD.MM.YYYY').format('YYYY-MM-DD')
+            
+            this.startDate = this.form.start_date
+            this.endDate   = this.form.end_date;
         },
     },
     async mounted() {
@@ -296,6 +297,10 @@ export default {
 
 .card-title {
     font-size: 1.75rem;
+}
+
+.mx-datepicker {
+    width: 100% !important;
 }
 
 </style>

@@ -46,6 +46,8 @@ Route::group([
             Route::post('consumers', 'ConsumerController@store');
             Route::put('consumers/{id}', 'ConsumerController@update');
             Route::delete('consumers/{id}', 'ConsumerController@destroy');
+            Route::post('/{id}/generate-code', "ConsumerController@generateCode");
+            Route::get('/{id}/download-code', "ConsumerController@downloadCode");
 
             // locations routes
             Route::get('locations/{id}', 'LocationController@getOne');
