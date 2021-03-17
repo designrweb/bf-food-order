@@ -742,19 +742,19 @@ table {
     box-shadow: 2px 2px 5px 0px rgba(135, 135, 135, 1);
 }
 
-> > > .spinner-grow {
+>>> .spinner-grow {
     color: #96c11f !important;
 }
 
-> > > .flex-3 {
+>>> .flex-3 {
     flex: 3;
 }
 
-> > > .flex-1 {
+>>> .flex-1 {
     flex: 1;
 }
 
-> > > td.auto-ordered {
+>>> td.auto-ordered {
     background: #5cb48e47;
 }
 
