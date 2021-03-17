@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Services\ConsumerService;
 use App\Services\MenuCategoryService;
 use Illuminate\Http\Request;
 
@@ -21,12 +22,12 @@ class MenuCategoryController extends Controller
     /**
      * Get all categories.
      *
-     * @param Request             $request
      * @param MenuCategoryService $categoryService
+     * @param ConsumerService     $consumerService
      * @return \App\Http\Resources\MenuCategoryResource
      */
-    public function getAll(Request $request, MenuCategoryService $categoryService)
+    public function getAll(MenuCategoryService $categoryService, ConsumerService $consumerService)
     {
-       return $categoryService->getByLocationId($request->consumer->location->id);
+       return $categoryService->getByLocationId($consumerService->getCurrentConsumer()->location->id);
     }
 }

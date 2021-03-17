@@ -2,7 +2,7 @@
     <consumer-switcher
             main_route="/user/consumers"
             :consumers="{{ json_encode($consumersList) }}"
-            :selected_consumer="{{ json_encode($selectedConsumer) }}"
+            :selected_consumer="{{ json_encode($currentConsumer) }}"
     ></consumer-switcher>
 </li>
 

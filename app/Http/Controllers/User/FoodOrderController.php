@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Consumer;
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\GetConsumer;
 use App\Http\Requests\OrderFormRequest;
 use App\Order;
 use App\Services\ConsumerService;
@@ -19,18 +17,15 @@ class FoodOrderController extends Controller
      */
     protected $orderService;
     /**
-     * @var Consumer|null
-     */
-    private $consumer;
-    /**
-     * @var bool|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @var ConsumerService
      */
     private $consumerService;
 
     /**
      * Create a new controller instance.
      *
-     * @param OrderService $orderService
+     * @param OrderService    $orderService
+     * @param ConsumerService $consumerService
      */
     public function __construct(OrderService $orderService, ConsumerService $consumerService)
     {
