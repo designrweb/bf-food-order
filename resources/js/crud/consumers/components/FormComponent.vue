@@ -174,7 +174,7 @@
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_organization_id']['state']">
                                     {{
-                                        validation['subsidization.subsidization_organization_id']['message']
+                                    validation['subsidization.subsidization_organization_id']['message']
                                     }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -196,7 +196,7 @@
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_rule_id']['state']">
                                     {{
-                                        validation['subsidization.subsidization_rule_id']['message']
+                                    validation['subsidization.subsidization_rule_id']['message']
                                     }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -256,7 +256,7 @@
                                 <b-form-invalid-feedback
                                     :state="validation['subsidization.subsidization_document']['state']">
                                     {{
-                                        validation['subsidization.subsidization_document']['message']
+                                    validation['subsidization.subsidization_document']['message']
                                     }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -310,8 +310,8 @@ export default {
     data() {
         return {
             birthdayValue:           '',
-            subsidizationStart:      '',
-            subsidizationEnd:        '',
+            subsidizationStart:      null,
+            subsidizationEnd:        null,
             lang:                    {
                 formatLocale:    {
                     firstDayOfWeek: 1,
@@ -401,13 +401,13 @@ export default {
                     formData.append('subsidization[subsidization_document]', self.selectedFile, self.selectedFile.name);
                 }
 
-                if (typeof self.form.subsidization.subsidization_start !== "undefined") {
+                if (self.form.subsidization.subsidization_start !== null) {
                     formData.append('subsidization[subsidization_start]', self.form.subsidization.subsidization_start);
                 } else {
                     formData.append('subsidization[subsidization_start]', '');
                 }
 
-                if (typeof self.form.subsidization.subsidization_end !== "undefined") {
+                if (self.form.subsidization.subsidization_end !== null) {
                     formData.append('subsidization[subsidization_end]', self.form.subsidization.subsidization_end);
                 } else {
                     formData.append('subsidization[subsidization_end]', '');
