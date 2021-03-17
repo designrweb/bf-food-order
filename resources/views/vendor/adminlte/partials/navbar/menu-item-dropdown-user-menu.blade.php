@@ -18,6 +18,7 @@
     <span>GUTHABEN: € <span id="balance-value">{{ $consumer->balance }}</span></span>
     </li>
 @endif
+
 <li class="nav-item dropdown user-menu">
 
     {{-- User menu toggler --}}

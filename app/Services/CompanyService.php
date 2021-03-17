@@ -15,10 +15,15 @@ class CompanyService extends BaseModelService
 {
 
     protected $repository;
+    /**
+     * @var UserService
+     */
+    private $userService;
 
-    public function __construct(CompanyRepository $repository)
+    public function __construct(CompanyRepository $repository, UserService $userService)
     {
-        $this->repository = $repository;
+        $this->repository  = $repository;
+        $this->userService = $userService;
     }
 
     /**
@@ -106,7 +111,9 @@ class CompanyService extends BaseModelService
      */
     public function switchCompany($id = null): bool
     {
-        return $this->repository->switchCompany($id);
+        if (!$id) $id = $this->repository->getFirst()->id;
+
+        return $this->userService->switchCompany($id);
     }
 
     /**

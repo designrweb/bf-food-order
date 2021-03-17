@@ -88,6 +88,7 @@ class ConsumerService extends BaseModelService
     /**
      * @param $request
      * @return mixed
+     * @throws \Exception
      */
     public function create($request)
     {
@@ -98,6 +99,7 @@ class ConsumerService extends BaseModelService
         }
 
         $data['account_id'] = $this->generateAccountId();
+        $data['user_id']    = $request->user()->id;
 
         $model = $this->repository->add($data);
 
@@ -206,7 +208,7 @@ class ConsumerService extends BaseModelService
      */
     public function remove($id): bool
     {
-        $this->userService->switchConsumer();
+        $this->switchConsumer($id);
 
         return $this->repository->delete($id);
     }
@@ -558,8 +560,15 @@ class ConsumerService extends BaseModelService
      */
     public function getCurrentConsumer()
     {
-        $consumerId = session('consumerId');
+        $consumerId = session(config('adminlte.session_consumer_key'));
 
         return $this->repository->getByConsumerId($consumerId);
+    }
+
+    public function switchConsumer($id)
+    {
+        $consumer = $this->repository->getByConsumerId($id);
+
+        return session([config('adminlte.session_consumer_key') => optional($consumer)->id]);
     }
 }

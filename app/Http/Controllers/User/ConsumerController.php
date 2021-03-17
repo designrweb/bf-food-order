@@ -115,6 +115,7 @@ class ConsumerController extends Controller
     /**
      * @param ConsumerFormRequest $request
      * @return array
+     * @throws Exception
      */
     public function store(ConsumerFormRequest $request)
     {
@@ -259,7 +260,7 @@ class ConsumerController extends Controller
      */
     public function qrCode(Request $request, UserService $userService)
     {
-        $consumer       = optional($request->user()->consumer);
+        $consumer       = $this->service->getCurrentConsumer();
         $qrCodeResource = $consumer->qrCode;
 
         $isConsumersExists = $userService->isConsumersExists($request->user());
@@ -273,7 +274,7 @@ class ConsumerController extends Controller
      */
     public function getData(Request $request)
     {
-        $consumer = optional($this->service->getCurrentConsumer());
+        $consumer = $this->service->getCurrentConsumer();
 
         return [
             'is_subsidized'       => !!$consumer->subsidization,

@@ -40,16 +40,6 @@ class ConsumerFormRequest extends FormRequest
     }
 
     /**
-     * @todo do we need this? this overriding user id
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-//            'user_id' => auth()->user()->id,
-        ]);
-    }
-
-    /**
      * @return string[]
      */
     public function attributes()

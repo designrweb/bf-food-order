@@ -104,20 +104,9 @@ class UserService extends BaseModelService
      * @param $id
      * @return bool
      */
-    public function switchConsumer($id = null): bool
+    public function switchCompany($id): bool
     {
-        $user = auth()->user();
-
-        if (empty($id)) {
-            $id = auth()->user()->consumers->first()->id;
-        }
-
-        if (!empty($id)) {
-            $user->consumer_id = $id;
-            $user->save();
-        }
-
-        return true;
+        return $this->repository->switchCompany($id);
     }
 
     /**

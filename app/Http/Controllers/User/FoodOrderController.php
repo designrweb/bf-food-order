@@ -82,7 +82,7 @@ class FoodOrderController extends Controller
     public function update(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = $request->user()->consumer;
+        $consumer    = $this->consumerService->getCurrentConsumer();
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,
@@ -107,7 +107,7 @@ class FoodOrderController extends Controller
         $this->orderService->remove($request->get('foodorder_id'));
 
         return [
-            'balance' => $request->user()->consumer->fresh()->balance
+            'balance' => $this->consumerService->getCurrentConsumer()->fresh()->balance
         ];
     }
 }

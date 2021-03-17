@@ -23,6 +23,6 @@ class ConsumerListCompose
         $consumers = $this->consumerService->allByUserId(auth()->user()->id)->toArray(request());
 
         $view->with('consumersList', $consumers);
-        $view->with('selectedConsumer', count($consumers) ? auth()->user()->consumer : null);
+        $view->with('selectedConsumer', $this->consumerService->getCurrentConsumer());
     }
 }
