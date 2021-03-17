@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+
         <back-button-component :route="main_route"></back-button-component>
         <div class="card">
             <div class="card-header" v-if="!isPageBusy">
@@ -14,7 +14,7 @@
                 <div class="text-center" v-if="isPageBusy">
                     <spinner-component></spinner-component>
                 </div>
-                
+
                 <b-form @submit="onSubmit" @reset="onReset" v-if="!isPageBusy">
                     <b-form-group
                         id="input-group-rule_name"
@@ -83,7 +83,7 @@
                             {{ validation['end_date']['message'] }}
                         </b-form-invalid-feedback>
                     </b-form-group>
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card mt-5">
@@ -102,7 +102,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list" :key="menu_category.id">
+                                        <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list"
+                                            :key="menu_category.id">
                                             <td class="text-left">{{ menu_category.name }}</td>
                                             <td>{{ menu_category.presaleprice.replace(".", ",") }} €</td>
                                             <td>
@@ -116,7 +117,7 @@
                                                     @change="handleSubsidizationPercentage($event, menu_category.id)"
                                                 ></b-form-spinbutton>
                                             </td>
-                                            
+
                                             <td>
                                                 <b-input-group style="width: 40% !important;">
                                                     <template #append>
@@ -133,9 +134,11 @@
                                                     ></b-form-input>
                                                 </b-input-group>
                                             </td>
-                                            
+
                                             <td>
-                                                <span :ref="`result_subsidization_price_`+ menu_category.id">{{ menu_category.resulted_price.toString().replace(".", ",") }}</span><span> €</span>
+                                                <span :ref="`result_subsidization_price_`+ menu_category.id">{{
+                                                        menu_category.resulted_price.toString().replace(".", ",")
+                                                    }}</span><span> €</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -144,7 +147,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <b-button id="subsidization-rules-submit-btn" type="submit" variant="primary">Einreichen</b-button>
                 </b-form>
             </div>
@@ -163,7 +166,7 @@
 import {getItem, store}    from "../../api/crudRequests";
 import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
-import DatePicker                                                                   from 'vue2-datepicker';
+import DatePicker          from 'vue2-datepicker';
 import moment              from "moment";
 
 export default {
@@ -200,7 +203,7 @@ export default {
             },
         }
     },
-    methods:  {
+    methods: {
         isNumber: function (evt) {
             evt          = (evt) ? evt : window.event;
             let charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -215,7 +218,7 @@ export default {
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
             let value                    = (presaleprice * (val / 100)).toFixed(2);
-            
+
             this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");
         },
@@ -223,7 +226,7 @@ export default {
             let percentFull              = 'percent_full_' + id;
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
-            
+
             if (this.$refs[percentFull][0].value < 100) {
                 let value                                         = parseInt((val / presaleprice) * 100);
                 this.$refs[percentFull][0].value                  = value.replace(".", ",");
@@ -234,10 +237,10 @@ export default {
             evt.preventDefault();
             const self      = this;
             self.isPageBusy = true;
-            
+
             self.form.start_date = self.startDate;
             self.form.end_date   = self.endDate;
-            
+
             try {
                 let response         = await store(self.main_route, self.id, self.form);
                 window.location.href = self.main_route + '/' + response['data'].id;
@@ -259,14 +262,14 @@ export default {
         async _loadData() {
             this.form.subsidization_menu_categories_list = this.subsidization_menu_categories_list
             if (this.id == null) return;
-            
+
             let response  = await getItem(this.main_route, this.id);
             this.itemData = response['data'];
-            
+
             for (const [key, fieldData] of Object.entries(this.itemData)) {
                 this.form[key] = fieldData;
             }
-            
+
             this.startDate = this.form.start_date
             this.endDate   = this.form.end_date;
         },
