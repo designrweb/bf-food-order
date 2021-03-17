@@ -24,7 +24,7 @@ class MobileConsumerResource extends JsonResource
         $data['location_group_id']   = $this->location_group_id;
         $data['location_group_name'] = $this->locationgroup->name;
         $data['company_name']        = !empty($this->company) ? $this->company->name : null;
-        $data['company_email']       = !empty($this->company->settings) && !empty($this->company->settings()->where('setting_name', 'email')->first()) ? $this->company->settings()->where('setting_name', 'email')->first()->value : null;
+        $data['company_email']       = !empty($this->company) && !empty($this->company->settings()->where('setting_name', 'email')->first()) ? $this->company->settings()->where('setting_name', 'email')->first()->value : null;
         $data['location_id']         = $this->location->id;
         $data['user_id']             = $this->user_id;
         $data['account_id']          = $this->account_id;
