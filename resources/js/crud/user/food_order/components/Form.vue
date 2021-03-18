@@ -134,8 +134,6 @@
                         </table>
                     </b-col>
                 </b-row>
-                <p class="text-left p-1 m-0 color-grey">* klicken Sie auf den Kategorienamen, um die automatische
-                    Bestellung zu aktivieren</p>
                 <hr>
                 <div>
                     <b-row>
