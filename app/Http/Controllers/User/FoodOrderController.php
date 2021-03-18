@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderFormRequest;
 use App\Order;
+use App\Services\ConsumerService;
 use App\Services\OrderService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class FoodOrderController extends Controller
@@ -14,25 +16,35 @@ class FoodOrderController extends Controller
      * @var OrderService
      */
     protected $orderService;
+    /**
+     * @var ConsumerService
+     */
+    private $consumerService;
 
     /**
      * Create a new controller instance.
      *
-     * @param OrderService $orderService
+     * @param OrderService    $orderService
+     * @param ConsumerService $consumerService
      */
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, ConsumerService $consumerService)
     {
-        $this->orderService = $orderService;
+        $this->orderService    = $orderService;
+        $this->consumerService = $consumerService;
     }
 
     /**
      * Show the application dashboard.
      *
+     * @param Request     $request
+     * @param UserService $userService
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request, UserService $userService)
     {
-        return view('user.food_order.index');
+        return view('user.food_order.index', [
+            'userConsumerExists' => $userService->isConsumersExists($request->user())
+        ]);
     }
 
     /**
@@ -42,7 +54,7 @@ class FoodOrderController extends Controller
     public function store(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = request()->consumer;
+        $consumer    = $this->consumerService->getCurrentConsumer();
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,
@@ -65,7 +77,7 @@ class FoodOrderController extends Controller
     public function update(OrderFormRequest $request)
     {
         $requestData = $request->get('data');
-        $consumer    = request()->consumer;
+        $consumer    = $this->consumerService->getCurrentConsumer();
 
         $data = [
             'type'        => Order::TYPE_PRE_ORDER,
@@ -90,7 +102,7 @@ class FoodOrderController extends Controller
         $this->orderService->remove($request->get('foodorder_id'));
 
         return [
-            'balance' => request()->consumer->fresh()->balance
+            'balance' => $this->consumerService->getCurrentConsumer()->fresh()->balance
         ];
     }
 }

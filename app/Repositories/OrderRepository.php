@@ -80,4 +80,9 @@ class OrderRepository extends Repository
             ->orderBy('pickedup_at', 'desc')
             ->get();
     }
+
+    public function getOrdersForConsumers($consumerId)
+    {
+        return $this->model->where('consumer_id', $consumerId)->get();
+    }
 }

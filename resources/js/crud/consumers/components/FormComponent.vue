@@ -337,7 +337,6 @@ export default {
                 'balance':                                     {'state': true, 'message': ''},
                 'balance_limit':                               {'state': true, 'message': ''},
                 'location_group_id':                           {'state': true, 'message': ''},
-                'user_id':                                     {'state': true, 'message': ''},
                 'created_at':                                  {'state': true, 'message': ''},
                 'updated_at':                                  {'state': true, 'message': ''},
                 'deleted_at':                                  {'state': true, 'message': ''},

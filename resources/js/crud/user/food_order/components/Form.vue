@@ -3,7 +3,7 @@
         <div class="card-spinner-container" v-if="isLoading">
             <b-spinner class="" variant="warning" type="grow" label="Spinning"></b-spinner>
         </div>
-        <div class="card">
+        <div class="card" v-if="user_consumer_exists">
             <div class="card-header">
                 <b-row class="menu-underlined-block pt-12">
                     <!--                    <b-col cols="12" md="6">-->
@@ -183,6 +183,8 @@
                 </div>
             </div>
         </div>
+
+        <no-consumers-component :main_route="main_route" v-else/>
     </div>
 </template>
 
@@ -202,6 +204,7 @@ import moment from 'moment';
 import OrderedItemsComponent        from "./OrderedItemsComponent";
 import DayTitleComponent            from "./DayTitleComponent";
 import MenuCategoriesItemsComponent from "./MenuCategoriesItemsComponent";
+import NoConsumersComponent         from "../../../shared/NoConsumersComponent";
 
 export default {
     name:       "Form",
@@ -209,6 +212,11 @@ export default {
         'ordered-items-component':   OrderedItemsComponent,
         'day-title-component':       DayTitleComponent,
         'menu-categories-component': MenuCategoriesItemsComponent,
+        'no-consumers-component':    NoConsumersComponent,
+    },
+    props:      {
+        main_route:           String,
+        user_consumer_exists: Boolean
     },
     computed:   {
         firstWeekDay: function () {

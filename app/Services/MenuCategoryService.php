@@ -19,10 +19,15 @@ class MenuCategoryService extends BaseModelService
 {
     /** @var MenuCategoryRepository */
     protected $repository;
+    /**
+     * @var ConsumerService
+     */
+    private $consumerService;
 
-    public function __construct(MenuCategoryRepository $repository)
+    public function __construct(MenuCategoryRepository $repository, ConsumerService $consumerService)
     {
-        $this->repository = $repository;
+        $this->repository      = $repository;
+        $this->consumerService = $consumerService;
     }
 
     /**
@@ -103,8 +108,8 @@ class MenuCategoryService extends BaseModelService
         $categories = $this->repository->getByLocationId($id);
 
         //@todo - change this to avoid query db in loop
-        foreach ($categories as &$category) {
-            $category->is_allow_for_subsidization = $category->isAllowSubsidization(request()->consumer);
+        foreach ($categories as $category) {
+            $category->is_allow_for_subsidization = $category->isAllowSubsidization($this->consumerService->getCurrentConsumer());
         }
 
         return $categories;

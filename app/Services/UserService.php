@@ -99,6 +99,28 @@ class UserService extends BaseModelService
     }
 
     /**
+     * Switch current consumer
+     *
+     * @param $id
+     * @return bool
+     */
+    public function switchCompany($id): bool
+    {
+        return $this->repository->switchCompany($id);
+    }
+
+    /**
+     * Get if user has consumers
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isConsumersExists(User $user): bool
+    {
+        return $user->consumers()->exists();
+    }
+
+    /**
      * @param Model $model
      * @return \string[][]
      */

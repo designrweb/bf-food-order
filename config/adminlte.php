@@ -73,6 +73,8 @@ return [
     'usermenu_desc'         => false,
     'usermenu_profile_url'  => false,
     'switch_company'        => true,
+    'switch_consumer'       => true,
+    'session_consumer_key'  => 'consumerId',
 
     /*
     |--------------------------------------------------------------------------
@@ -392,13 +394,6 @@ return [
             'icon'  => 'nav-icon fa fa-calendar-check',
         ],
         [
-            'text'    => 'Consumers',
-            'route'   => 'user.consumers.index',
-            'icon'    => 'nav-icon fa fa-users',
-            'can'     => ['menu-User-Consumer'],
-            'classes' => 'user-consumers-menu'
-        ],
-        [
             'text'    => 'QR Code',
             'route'   => 'user.consumers.qr-code.index',
             'icon'    => 'nav-icon fa fa-qrcode',
@@ -406,7 +401,8 @@ return [
             'classes' => 'user-qr-code-menu',
         ],
         [
-            'header' => ''
+            'header' => '',
+            'line' => true
         ],
         [
             'text'    => 'Profile',
@@ -414,6 +410,13 @@ return [
             'icon'    => 'nav-icon fa fa-user',
             'can'     => ['menu-User-Profile'],
             'classes' => 'user-profile-menu',
+        ],
+        [
+            'text'    => 'Consumers',
+            'route'   => 'user.consumers.index',
+            'icon'    => 'nav-icon fa fa-users',
+            'can'     => ['menu-User-Consumer'],
+            'classes' => 'user-consumers-menu'
         ],
 
 //        [

@@ -18,15 +18,27 @@ class MenuItemService extends BaseModelService
 {
 
     protected $repository;
+    /**
+     * @var ConsumerService
+     */
+    private $consumerService;
+    /**
+     * @var OrderService
+     */
+    private $orderService;
 
     /**
      * MenuItemService constructor.
      *
      * @param MenuItemRepository $repository
+     * @param ConsumerService    $consumerService
+     * @param OrderService       $orderService
      */
-    public function __construct(MenuItemRepository $repository)
+    public function __construct(MenuItemRepository $repository, ConsumerService $consumerService, OrderService $orderService)
     {
-        $this->repository = $repository;
+        $this->repository      = $repository;
+        $this->consumerService = $consumerService;
+        $this->orderService    = $orderService;
     }
 
     /**
@@ -241,11 +253,33 @@ class MenuItemService extends BaseModelService
     public function getMenuItemsByDate($startDate, $endDate)
     {
         $menuItems = $this->repository->getMenuItemsByDate($startDate, $endDate);
+
+        $menuItems = $this->usersFoodOrdersByConsumerId($this->consumerService->getCurrentConsumer()->id, $menuItems);
+
         $vacations = (new VacationRepository((new Vacation())))->getVacationByPeriod($startDate, $endDate);
 
         return [
             'menuItems' => $menuItems->toArray(),
             'vacations' => $vacations->toArray(request())
         ];
+    }
+
+    /**
+     * Get consumer orders
+     *
+     * @param $consumerId
+     * @param $menuItems
+     * @return mixed
+     */
+    public function usersFoodOrdersByConsumerId($consumerId, $menuItems)
+    {
+        $orders = $this->orderService->getOrdersForConsumer($consumerId);
+
+        foreach ($menuItems as $menuItem) {
+            $order = $orders->where('menuitem_id', $menuItem->id)->first();
+            $menuItem->setAttribute('users_food_orders', $order);
+        }
+
+        return $menuItems;
     }
 }

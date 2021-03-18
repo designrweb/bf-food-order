@@ -13,6 +13,7 @@ use App\Services\LocationGroupService;
 use App\Services\LocationService;
 use App\Services\SettingService;
 use App\Services\SubsidizationOrganizationService;
+use App\Services\UserService;
 use App\Setting;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -114,6 +115,7 @@ class ConsumerController extends Controller
     /**
      * @param ConsumerFormRequest $request
      * @return array
+     * @throws Exception
      */
     public function store(ConsumerFormRequest $request)
     {
@@ -252,26 +254,18 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param Request         $request
-     * @param ConsumerService $consumerService
+     * @param Request     $request
+     * @param UserService $userService
      * @return Application|Factory|View
      */
-    public function qrCode(Request $request, ConsumerService $consumerService)
+    public function qrCode(Request $request, UserService $userService)
     {
-        //@todo - this is for testing only, remove once consumer switcher will be ready
-        if (!$consumer = $request->consumer) {
-            $consumers = $consumerService->all();
-            if (!count($consumers->items())) {
-                $qrCodeResource = null;
-            } else {
-                $consumer = $consumers->items()[0];
-                $qrCodeResource = $consumer->qrCode;
-            }
-        } else {
-            $qrCodeResource = $request->consumer->qrCode;
-        }
+        $consumer       = $this->service->getCurrentConsumer();
+        $qrCodeResource = $consumer->qrCode;
 
-        return view('user.consumer.qr-code', compact('qrCodeResource'));
+        $isConsumersExists = $userService->isConsumersExists($request->user());
+
+        return view('user.consumer.qr-code', compact('qrCodeResource', 'isConsumersExists'));
     }
 
     /**
@@ -280,7 +274,7 @@ class ConsumerController extends Controller
      */
     public function getData(Request $request)
     {
-        $consumer = $request->consumer;
+        $consumer = $this->service->getCurrentConsumer();
 
         return [
             'is_subsidized'       => !!$consumer->subsidization,
@@ -288,5 +282,15 @@ class ConsumerController extends Controller
             'is_auto_ordering'    => $consumer->autoOrder ? $consumer->autoOrder->is_active : false,
             'subsidization_rules' => $consumer->subsidized_menu_categories
         ];
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     * @return bool
+     */
+    public function switchConsumer(Request $request, $id)
+    {
+        return $this->service->switchConsumer($id);
     }
 }

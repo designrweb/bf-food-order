@@ -141,6 +141,15 @@ class OrderService extends BaseModelService
     }
 
     /**
+     * @param $consumerId
+     * @return mixed
+     */
+    public function getOrdersForConsumer($consumerId)
+    {
+        return $this->repository->getOrdersForConsumers($consumerId);
+    }
+
+    /**
      * Returns allowed actions for the front-end part
      *
      * @return array

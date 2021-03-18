@@ -23,17 +23,23 @@ class ConsumerService extends BaseModelService
      * @var ConsumerQrCodeService
      */
     public $qrCodeService;
+    /**
+     * @var UserService
+     */
+    public $userService;
 
     /**
      * ConsumerService constructor.
      *
-     * @param ConsumerRepository       $repository
+     * @param ConsumerRepository    $repository
      * @param ConsumerQrCodeService $consumerQrCodeService
+     * @param UserService           $userService
      */
-    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService, UserService $userService)
     {
         $this->repository    = $repository;
         $this->qrCodeService = $consumerQrCodeService;
+        $this->userService   = $userService;
     }
 
     /**
@@ -82,6 +88,7 @@ class ConsumerService extends BaseModelService
     /**
      * @param $request
      * @return mixed
+     * @throws \Exception
      */
     public function create($request)
     {
@@ -92,10 +99,16 @@ class ConsumerService extends BaseModelService
         }
 
         $data['account_id'] = $this->generateAccountId();
+        $data['user_id']    = $request->user()->id;
 
         $model = $this->repository->add($data);
 
         $this->generateCode($model->id);
+
+        //auto select first created consumer
+        if ($this->repository->allByUserId($request->user()->id)->count() === 1) {
+            $this->switchConsumer($model->id);
+        }
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
@@ -179,9 +192,9 @@ class ConsumerService extends BaseModelService
      */
     public function downloadManual($id)
     {
-        $model = $this->repository->get($id);
+        $model       = $this->repository->get($id);
         $qrCodeImage = $this->getQrCodeImage($id);
-        $view = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+        $view        = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($view);
@@ -195,6 +208,8 @@ class ConsumerService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->switchConsumer($id);
+
         return $this->repository->delete($id);
     }
 
@@ -519,7 +534,7 @@ class ConsumerService extends BaseModelService
 
         ]);
 
-        $q        = new QRCode($options);
+        $q       = new QRCode($options);
         $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
 
         return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
@@ -536,5 +551,24 @@ class ConsumerService extends BaseModelService
         $setting = $this->repository->getSubsidizationSupportEmail($id);
 
         return $setting ? $setting->value : null;
+    }
+
+    /**
+     * Switch current consumer
+     *
+     * @return bool|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
+     */
+    public function getCurrentConsumer()
+    {
+        $consumerId = session(config('adminlte.session_consumer_key'));
+
+        return $this->repository->getByConsumerId($consumerId);
+    }
+
+    public function switchConsumer($id)
+    {
+        $consumer = $this->repository->getByConsumerId($id);
+
+        return session([config('adminlte.session_consumer_key') => optional($consumer)->id]);
     }
 }

@@ -31,9 +31,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(
-            'layouts.*', CompanySettingCompose::class
-        );
+        View::composer('layouts.*', CompanySettingCompose::class);
         View::composer('layouts.*', ConsumerCompose::class);
     }
 }
