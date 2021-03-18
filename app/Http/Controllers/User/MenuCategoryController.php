@@ -28,6 +28,6 @@ class MenuCategoryController extends Controller
      */
     public function getAll(MenuCategoryService $categoryService, ConsumerService $consumerService)
     {
-       return $categoryService->getByLocationId($consumerService->getCurrentConsumer()->location->id);
+       return $categoryService->getByLocationId(optional($consumerService->getCurrentConsumer()->location)->id);
     }
 }
