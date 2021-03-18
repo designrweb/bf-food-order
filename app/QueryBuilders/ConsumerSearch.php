@@ -53,17 +53,23 @@ class ConsumerSearch extends BaseSearch
             $q->where('users.email', 'like', '%' . request('filters.user.email') . '%');
         });
 
-        $this->builder->whereHas('locationGroup.location', function (Builder $q) {
-            $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
-        });
+        if (request('filters.location_group.name')) {
+            $this->builder->whereHas('locationGroup.location', function (Builder $q) {
+                $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
+            });
+        }
 
-        $this->builder->whereHas('locationGroup', function (Builder $q) {
-            $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
-        });
+        if (request('filters.location_group.name')) {
+            $this->builder->whereHas('locationGroup', function (Builder $q) {
+                $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
+            });
+        }
 
-        $this->builder->whereHas('user.userInfo', function (Builder $q) {
-            $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
-        });
+        if (request('filters.user.user_info.first_name')) {
+            $this->builder->whereHas('user.userInfo', function (Builder $q) {
+                $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
+            });
+        }
 
         if (request('filters.subsidization.subsidization_rule.rule_name')) {
             $this->builder->whereHas('subsidization.subsidizationRule', function (Builder $q) {

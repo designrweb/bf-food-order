@@ -562,7 +562,7 @@ class ConsumerService extends BaseModelService
     {
         $consumerId = session(config('adminlte.session_consumer_key'));
 
-        return $this->repository->getByConsumerId($consumerId);
+        return optional($this->repository->getByConsumerId($consumerId));
     }
 
     public function switchConsumer($id)
