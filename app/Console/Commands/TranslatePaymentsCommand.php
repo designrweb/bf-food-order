@@ -11,6 +11,9 @@ class TranslatePaymentsCommand extends Command
 
     protected $description = 'Translate payment comment to German';
 
+    /**
+     * Single time action
+     */
     public function handle()
     {
         foreach (Payment::all() as $payment) {
