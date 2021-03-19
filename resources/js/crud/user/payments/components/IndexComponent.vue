@@ -89,7 +89,7 @@
             </b-row>
         </div>
     </div>
-    <no-consumers-component v-else/>
+    <no-consumers-component main_route="/user/consumers" v-else/>
 </template>
 
 <script>
