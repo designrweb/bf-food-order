@@ -17,16 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 class PaymentSearch extends BaseSearch
 {
     /**
-     * @var ConsumerService
-     */
-    private $consumerService;
-
-    public function __construct(ConsumerService $consumerService)
-    {
-        $this->consumerService = $consumerService;
-    }
-
-    /**
      * @param         $request
      * @param Closure $next
      * @return mixed
@@ -79,7 +69,6 @@ class PaymentSearch extends BaseSearch
         $this->builder->when(request('sort.user_email'), function (Builder $q) {
             return $q->orderBy('users.email', request('sort.user_email'));
         });
-
 
         return $this->builder;
     }

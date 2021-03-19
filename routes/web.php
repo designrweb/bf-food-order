@@ -402,7 +402,7 @@ Route::prefix('user')
             Route::get('/{id}/switch-consumer', 'ConsumerController@switchConsumer')->name('user.consumers.switch-consumer');
         });
 
-        /** consumers routes */
+        /** order routes */
         Route::prefix('order')->namespace('User')->group(function () {
             Route::get('/', 'FoodOrderController@index')->name('user.food-order.index');
             Route::post('/', 'FoodOrderController@store')->name('user.food-order.store');
@@ -421,7 +421,7 @@ Route::prefix('user')
             Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
         });
 
-        /** menu-categories routes */
+        /** payments routes */
         Route::prefix('payments')->namespace('User')->group(function () {
             Route::get('/bank-transactions', "PaymentController@bankTransactions")->name('user.payments.bank-transactions');
             Route::get('/bank-transactions/get-structure', 'PaymentController@getBankTransactionsIndexStructure')->name('user.payments.bank-transactions-index-structure');

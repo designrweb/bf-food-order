@@ -25,6 +25,7 @@ class PaymentCollection extends PaginatableCollection
         return [
             'data'       => $this->collection->transform(function (Payment $item) {
                 $item->order_day = Carbon::parse($item->order_day)->translatedFormat('l, d.m.Y');
+
                 return $item->toArray();
             }),
             'pagination' => $this->pagination

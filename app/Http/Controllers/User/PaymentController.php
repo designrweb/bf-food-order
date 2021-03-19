@@ -18,7 +18,7 @@ use Illuminate\Http\Response;
 /**
  * Class PaymentController
  *
- * @package App\Http\Controllers
+ * @package App\Http\Controllers\User
  */
 class PaymentController extends Controller
 {
