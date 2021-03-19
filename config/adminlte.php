@@ -401,24 +401,6 @@ return [
             'classes' => 'user-qr-code-menu',
         ],
         [
-            'header' => '',
-            'line' => true
-        ],
-        [
-            'text'    => 'Profile',
-            'route'   => 'profile.index',
-            'icon'    => 'nav-icon fa fa-user',
-            'can'     => ['menu-User-Profile'],
-            'classes' => 'user-profile-menu',
-        ],
-        [
-            'text'    => 'Consumers',
-            'route'   => 'user.consumers.index',
-            'icon'    => 'nav-icon fa fa-users',
-            'can'     => ['menu-User-Consumer'],
-            'classes' => 'user-consumers-menu'
-        ],
-        [
             'text'    => 'Payments',
             'icon'    => 'fas fa-fw fa-euro-sign',
             'can'     => ['menu-User-Payment'],
@@ -439,6 +421,24 @@ return [
                     'classes' => 'admin-meal-orders-menu',
                 ],
             ],
+        ],
+        [
+            'header' => '',
+            'line' => true
+        ],
+        [
+            'text'    => 'Profile',
+            'route'   => 'profile.index',
+            'icon'    => 'nav-icon fa fa-user',
+            'can'     => ['menu-User-Profile'],
+            'classes' => 'user-profile-menu',
+        ],
+        [
+            'text'    => 'Consumers',
+            'route'   => 'user.consumers.index',
+            'icon'    => 'nav-icon fa fa-users',
+            'can'     => ['menu-User-Consumer'],
+            'classes' => 'user-consumers-menu'
         ],
 
 //        [

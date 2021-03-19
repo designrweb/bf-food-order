@@ -132,7 +132,7 @@ class BankTransactionService extends BaseModelService
         return [
             'all'    => true,
             'create' => false,
-            'view'   => true,
+            'view'   => false,
             'edit'   => false,
             'delete' => false,
         ];

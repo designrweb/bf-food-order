@@ -2,6 +2,8 @@
 
 namespace App\QueryBuilders;
 
+use App\Payment;
+use App\Services\ConsumerService;
 use App\User;
 use bigfood\grid\BaseSearch;
 use Closure;
@@ -15,6 +17,16 @@ use Illuminate\Database\Eloquent\Builder;
 class PaymentSearch extends BaseSearch
 {
     /**
+     * @var ConsumerService
+     */
+    private $consumerService;
+
+    public function __construct(ConsumerService $consumerService)
+    {
+        $this->consumerService = $consumerService;
+    }
+
+    /**
      * @param         $request
      * @param Closure $next
      * @return mixed
@@ -27,10 +39,13 @@ class PaymentSearch extends BaseSearch
         $this->builder->select([
             'payments.*',
             'consumers.account_id as consumer_account',
-            'users.email as user_email'
+            'users.email as user_email',
+            'orders.is_subsidized as is_subsidized',
+            'orders.day as order_day'
         ])
             ->leftJoin('consumers', 'payments.consumer_id', '=', 'consumers.id')
-            ->leftJoin('users', 'users.id', '=', 'consumers.user_id');
+            ->leftJoin('users', 'users.id', '=', 'consumers.user_id')
+            ->leftJoin('orders', 'payments.order_id', '=', 'orders.id');
 
         // filters
         $this->builder->when(request('filters.consumer_account'), function (Builder $q) {
@@ -57,14 +72,14 @@ class PaymentSearch extends BaseSearch
             return $q->orderBy('consumers.account_id', request('sort.consumer_account'));
         });
 
+        $this->builder->when(request('sort.order_day'), function (Builder $q) {
+            return $q->orderBy('orders.day', request('sort.order_day'));
+        });
+
         $this->builder->when(request('sort.user_email'), function (Builder $q) {
             return $q->orderBy('users.email', request('sort.user_email'));
         });
 
-        //@todo - find better place for this
-        $this->builder->when(request()->user()->role === User::ROLE_USER, function (Builder $q) {
-           return $q->whereIn('consumer_id', request()->user()->consumers->pluck('id')->toArray());
-        });
 
         return $this->builder;
     }

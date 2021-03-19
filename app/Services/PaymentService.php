@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\WrongOrderTypeException;
 use App\Order;
 use App\Repositories\PaymentRepository;
+use App\User;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use App\Payment;

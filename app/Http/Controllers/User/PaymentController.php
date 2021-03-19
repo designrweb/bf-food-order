@@ -11,6 +11,7 @@ use App\Services\Payments\BankTransactionService;
 use App\Services\Payments\MealOrderService;
 use App\Services\PaymentService;
 use App\Http\Requests\PaymentFormRequest;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -21,12 +22,6 @@ use Illuminate\Http\Response;
  */
 class PaymentController extends Controller
 {
-    /** @var PaymentService $service */
-    protected $service;
-
-    /** @var ConsumerService */
-    private $consumerService;
-
     /** @var BankTransactionService */
     private $bankTransactionService;
 
@@ -36,30 +31,25 @@ class PaymentController extends Controller
     /**
      * PaymentController constructor.
      *
-     * @param PaymentService         $service
-     * @param ConsumerService        $consumerService
      * @param BankTransactionService $bankTransactionService
      * @param MealOrderService       $mealOrderService
      */
-    public function __construct(
-        PaymentService $service,
-        ConsumerService $consumerService,
-        BankTransactionService $bankTransactionService,
-        MealOrderService $mealOrderService
-    )
+    public function __construct(BankTransactionService $bankTransactionService, MealOrderService $mealOrderService)
     {
-        $this->service                = $service;
-        $this->consumerService        = $consumerService;
         $this->bankTransactionService = $bankTransactionService;
         $this->mealOrderService       = $mealOrderService;
     }
 
     /**
+     * @param Request     $request
+     * @param UserService $userService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function bankTransactions()
+    public function bankTransactions(Request $request, UserService $userService)
     {
-        return view('user.payments.bank-transactions');
+        return view('user.payments.bank-transactions', [
+            'userConsumerExists' => $userService->isConsumersExists($request->user())
+        ]);
     }
 
     /**
@@ -85,11 +75,15 @@ class PaymentController extends Controller
     /**
      * Lists all payments by Meal Orders.
      *
+     * @param Request     $request
+     * @param UserService $userService
      * @return \Illuminate\View\View
      */
-    public function mealOrders()
+    public function mealOrders(Request $request, UserService $userService)
     {
-        return view('user.payments.meal-orders');
+        return view('user.payments.meal-orders', [
+            'userConsumerExists' => $userService->isConsumersExists($request->user())
+        ]);
     }
 
     /**
@@ -109,99 +103,5 @@ class PaymentController extends Controller
     public function getAllMealOrders(Request $request): array
     {
         return (new PaymentCollection($this->mealOrderService->all()))->toArray($request);
-    }
-
-    /**
-     * @param Request $request
-     * @param         $id
-     * @return array
-     */
-    public function getOne(Request $request, $id)
-    {
-        return (new PaymentResource($this->service->getOne($id)))->toArray($request);
-    }
-
-    /**
-     * @param Request $request
-     * @return array
-     */
-    public function getViewStructure(Request $request)
-    {
-        return $this->service->getViewStructure();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function create()
-    {
-        $consumersList = $this->consumerService->getList();
-
-        return view('user.payments._form', compact('consumersList'));
-    }
-
-    /**
-     * @param PaymentFormRequest $request
-     * @return array
-     */
-    public function store(PaymentFormRequest $request)
-    {
-        $data         = $request->all();
-        $data['type'] = Payment::TYPE_MANUAL_TRANSACTION;
-
-        // todo use mutators for amount_locale
-        $data['amount'] = str_replace(',', '.', $data['amount_locale']);
-
-        return (new PaymentResource($this->service->create($data)))->toArray($request);
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function show($id)
-    {
-        /** @var array $resource */
-        $resource = (new PaymentResource($this->service->getOne($id)))->toArray(request());
-
-        return view('user.payments.view', compact('resource'));
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        /** @var array $resource */
-        $resource                  = (new PaymentResource($this->service->getOne($id)))->toArray(request());
-        $resource['consumersList'] = $this->consumerService->getList();
-
-        return view('user.payments._form', compact('resource'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param PaymentFormRequest $request
-     * @param int                $id
-     * @return array
-     */
-    public function update(PaymentFormRequest $request, $id)
-    {
-        return $this->service->update($request->all(), $id);
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy($id)
-    {
-        $this->service->remove($id);
-
-        return response()->json(['redirect_url' => action('PaymentController@index')]);
     }
 }

@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Order;
 use App\Payment;
+use App\QueryBuilders\MealOrderSearch;
 use App\QueryBuilders\PaymentSearch;
+use App\QueryBuilders\UserPaymentSearch;
 use Illuminate\Pipeline\Pipeline;
 
 class PaymentRepository extends Repository
@@ -28,6 +30,23 @@ class PaymentRepository extends Repository
             ->send($this->model->newQuery())
             ->through([
                 PaymentSearch::class,
+                UserPaymentSearch::class
+            ])
+            ->thenReturn()
+            ->with('consumer.user')
+            ->paginate(request('itemsPerPage') ?? 10));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function allMealOrders()
+    {
+        return (app(Pipeline::class)
+            ->send($this->model->newQuery())
+            ->through([
+                PaymentSearch::class,
+                MealOrderSearch::class
             ])
             ->thenReturn()
             ->with('consumer.user')

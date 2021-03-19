@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" v-if="user_consumer_exists">
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
         </div>
@@ -64,15 +64,7 @@
                     </b-th>
                 </template>
                 <template v-slot:cell()="data">
-                    <div v-if="data.field.key ==='actions'" class="d-flex">
-                        <view-button v-if="allowActions.view" :mainRoute="main_route"
-                                     :id="data.item.id"></view-button>
-                        <edit-button v-if="allowActions.edit" :mainRoute="main_route"
-                                     :id="data.item.id"></edit-button>
-                        <delete-button v-if="allowActions.delete" :mainRoute="main_route"
-                                       :id="data.item.id"></delete-button>
-                    </div>
-                    <div v-else>
+                    <div>
                         {{ data.value }}
                     </div>
                 </template>
@@ -97,6 +89,7 @@
             </b-row>
         </div>
     </div>
+    <no-consumers-component v-else/>
 </template>
 
 <script>
@@ -109,6 +102,7 @@ import FilterFloatInput                                     from "../../../share
 import PaginationInfoComponent                              from "../../../shared/PaginationInfoComponent";
 import NoDataComponent                                      from "../../../shared/NoDataComponent";
 import {actionColumnMixin}                                  from "../../../mixins/actionColumnMixin";
+import NoConsumersComponent                                 from "../../../shared/NoConsumersComponent";
 
 export default {
     components: {
@@ -121,11 +115,13 @@ export default {
         'spinner-component':         SpinnerComponent,
         'filter-form-date-picker':   FormDatePickerFilterComponent,
         'pagination-into-component': PaginationInfoComponent,
-        'no-data-component':         NoDataComponent
+        'no-data-component':         NoDataComponent,
+        'no-consumers-component':    NoConsumersComponent,
     },
     props:      {
-        main_route: String,
-        title:      String,
+        main_route:           String,
+        title:                String,
+        user_consumer_exists: Boolean
     },
     mixins:     [actionColumnMixin],
     data() {

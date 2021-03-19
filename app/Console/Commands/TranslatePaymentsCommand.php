@@ -14,9 +14,9 @@ class TranslatePaymentsCommand extends Command
     public function handle()
     {
         foreach (Payment::all() as $payment) {
-            $comment          = str_replace('Canceled', 'Abgebrochen', $payment->comment);
+            $comment          = str_replace(['Canceled', 'Order', 'Quantity', 'Subsidization'], ['Abgebrochen', 'Bestellen', 'Menge', 'Subventionierung'], $payment->comment);
             $payment->comment = $comment;
-//            $payment->save();
+            $payment->save();
         }
     }
 }
