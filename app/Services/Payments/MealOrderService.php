@@ -24,7 +24,7 @@ class MealOrderService extends BaseModelService
      */
     public function all()
     {
-        return $this->paymentRepository->all();
+        return $this->paymentRepository->allMealOrders();
     }
 
     /**
@@ -84,7 +84,7 @@ class MealOrderService extends BaseModelService
                 'label' => __('app.Created At')
             ],
             [
-                'key'   => 'day_human',
+                'key'   => 'order_day',
                 'label' => __('app.Day')
             ],
         ];
@@ -103,7 +103,7 @@ class MealOrderService extends BaseModelService
             'comment'          => '',
             'is_subsidized'    => '',
             'created_at_human' => '',
-            'day_human'        => '',
+            'order_day'        => '',
         ];
     }
 
@@ -120,7 +120,7 @@ class MealOrderService extends BaseModelService
             'comment'          => '',
             'is_subsidized'    => '',
             'created_at_human' => '',
-            'day_human'        => '',
+            'order_day'        => '',
         ];
     }
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\WrongOrderTypeException;
 use App\Order;
 use App\Repositories\PaymentRepository;
+use App\User;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use App\Payment;
@@ -175,7 +176,7 @@ class PaymentService extends BaseModelService
 
         $amount = $this->getPaymentAmount($orderType, $order->menuItem->menuCategory->price, $order->menuItem->menuCategory->presaleprice, $orderQuantity);
 
-        $paymentMessage = sprintf('Order %s (Quantity: %s)', $order->menuItem->name, $orderQuantity);
+        $paymentMessage = sprintf('Bestellen %s (Menge: %s)', $order->menuItem->name, $orderQuantity);
 
         $canBeSubsidized = $this->canBeSubsidized($order, $originalOrder->quantity) && $amount != 0;
 
@@ -216,7 +217,7 @@ class PaymentService extends BaseModelService
 
         $amount = $this->getPaymentAmount($orderType, $order->menuItem->menuCategory->price, $order->menuItem->menuCategory->presaleprice, $orderQuantity);
 
-        $paymentMessage = sprintf('Order %s (Quantity: %s)', $order->menuItem->name, $orderQuantity);
+        $paymentMessage = sprintf('Bestellen %s (Menge: %s)', $order->menuItem->name, $orderQuantity);
 
         $canBeSubsidized = $this->canBeSubsidized($order, $originalOrder->quantity) && $amount != 0;
 
@@ -250,7 +251,7 @@ class PaymentService extends BaseModelService
         $orderQuantity = $order->quantity;
 
         $amount = $order->menuItem->menuCategory->presaleprice * $orderQuantity;
-        $paymentMessage = sprintf('Canceled "%s"', $order->menuItem->name);
+        $paymentMessage = sprintf('Abgebrochen "%s"', $order->menuItem->name);
 
         $payment = $this->repository->add([
             'consumer_id' => $order->consumer_id,
@@ -321,7 +322,7 @@ class PaymentService extends BaseModelService
 
         $reversePayment           = $payment->replicate();
         $reversePayment->amount   = $amount;
-        $reversePayment->comment  = sprintf('Subsidization “%s”', $order->menuItem->name);
+        $reversePayment->comment  = sprintf('Subventionierung “%s”', $order->menuItem->name);
         $reversePayment->order_id = $order->id;
         $reversePayment->type     = $this->getReversePaymentType($order->type, $payment->type);
         $reversePayment->save();

@@ -114,5 +114,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('menu-User-Profile', [UserPolicy::class, 'viewProfile']);
         Gate::define('menu-User-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'userViewAny']);
         Gate::define('menu-User-' . class_basename(ConsumerQrCode::class), [ConsumerQrCodePolicy::class, 'userViewAny']);
+        Gate::define('menu-User-' . class_basename(Payment::class), [PaymentPolicy::class, 'userViewAny']);
     }
 }

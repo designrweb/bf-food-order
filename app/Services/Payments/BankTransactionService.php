@@ -118,7 +118,7 @@ class BankTransactionService extends BaseModelService
     protected function getAllowActions(): array
     {
         return [
-            'all'    => false,
+            'all'    => true,
             'create' => false,
             'view'   => false,
             'edit'   => false,

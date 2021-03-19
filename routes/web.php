@@ -402,7 +402,7 @@ Route::prefix('user')
             Route::get('/{id}/switch-consumer', 'ConsumerController@switchConsumer')->name('user.consumers.switch-consumer');
         });
 
-        /** consumers routes */
+        /** order routes */
         Route::prefix('order')->namespace('User')->group(function () {
             Route::get('/', 'FoodOrderController@index')->name('user.food-order.index');
             Route::post('/', 'FoodOrderController@store')->name('user.food-order.store');
@@ -419,6 +419,16 @@ Route::prefix('user')
         /** menu-categories routes */
         Route::prefix('menu-categories')->namespace('User')->group(function () {
             Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
+        });
+
+        /** payments routes */
+        Route::prefix('payments')->namespace('User')->group(function () {
+            Route::get('/bank-transactions', "PaymentController@bankTransactions")->name('user.payments.bank-transactions');
+            Route::get('/bank-transactions/get-structure', 'PaymentController@getBankTransactionsIndexStructure')->name('user.payments.bank-transactions-index-structure');
+            Route::get('/bank-transactions/get-all', 'PaymentController@getAllBankTransactions')->name('user.payments.get-all-bank-transactions');
+            Route::get('/meal-orders', 'PaymentController@mealOrders')->name('user.payments.meal-orders');
+            Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('user.payments.meal-orders-index-structure');
+            Route::get('/meal-orders/get-all', 'PaymentController@getAllMealOrders')->name('user.payments.get-all-meal-orders');
         });
     });
 

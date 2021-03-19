@@ -26,6 +26,21 @@ class PaymentPolicy
     }
 
     /**
+     * Determine whether the user can view any models.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function userViewAny(User $user)
+    {
+        if (in_array($user->role, [User::ROLE_USER])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
