@@ -25,13 +25,13 @@ class ConsumerFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_id'                           => 'nullable|numeric|unique:consumers,account_id,' . $this->id,
-            'firstname'                            => 'required|string',
-            'lastname'                             => 'required|string',
-            'birthday'                             => 'required|string',
-            'location_group_id'                    => 'required|numeric',
+            'account_id'                           => 'required_without:type|nullable|numeric|unique:consumers,account_id,' . $this->id,
+            'firstname'                            => 'required_without:type|string',
+            'lastname'                             => 'required_without:type|string',
+            'birthday'                             => 'required_without:type|string',
+            'location_group_id'                    => 'required_without:type|numeric',
             'imageurl'                             => 'nullable|string',
-            'balance_limit'                        => 'required|numeric',
+            'balance_limit'                        => 'required_without:type|numeric',
             'subsidization.subsidization_document' => 'nullable|file',
             'subsidization.subsidization_rule_id'  => 'nullable|numeric',
             'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_rule_id|nullable|date',

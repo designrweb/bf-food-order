@@ -113,13 +113,15 @@ class ConsumerController extends Controller
     }
 
     /**
-     * @param $id
+     * @param                                  $id
+     * @param SubsidizationOrganizationService $subsidizationOrganizationService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($id, SubsidizationOrganizationService $subsidizationOrganizationService)
     {
         /** @var array $resource */
         $resource = (new ConsumerResource($this->service->getOne($id)))->toArray(request());
+        $resource['subsidizationOrganizationList'] = $subsidizationOrganizationService->getList();
 
         return view('consumers.view', compact('resource'));
     }
