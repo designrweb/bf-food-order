@@ -55,4 +55,17 @@ class PaymentRepository extends Repository
             ->where('id', '<>', $order->id)
             ->count();
     }
+
+    public function allByUsersConsumers(array $consumersIds)
+    {
+        return (app(Pipeline::class)
+            ->send($this->model->newQuery())
+            ->through([
+                PaymentSearch::class,
+            ])
+            ->thenReturn()
+            ->with('consumer.user')
+            ->paginate(request('itemsPerPage') ?? 10));
+        return $this->model->whereIn('consumer_id', $consumersIds)->get();
+    }
 }

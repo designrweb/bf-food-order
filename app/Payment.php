@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,7 +59,7 @@ class Payment extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('order.menuItem.menuCategory.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id);
                 })->orWhereHas('consumer.locationgroup.location', function ($query) {
@@ -89,7 +90,7 @@ class Payment extends Model
      */
     public function getCreatedAtHumanAttribute()
     {
-        return date('l, d.m.Y', strtotime($this->attributes['created_at']));
+        return $this->created_at->translatedFormat('l, d.m.Y');
     }
 
     /**

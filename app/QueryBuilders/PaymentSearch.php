@@ -2,6 +2,7 @@
 
 namespace App\QueryBuilders;
 
+use App\User;
 use bigfood\grid\BaseSearch;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,6 +59,11 @@ class PaymentSearch extends BaseSearch
 
         $this->builder->when(request('sort.user_email'), function (Builder $q) {
             return $q->orderBy('users.email', request('sort.user_email'));
+        });
+
+        //@todo - find better place for this
+        $this->builder->when(request()->user()->role === User::ROLE_USER, function (Builder $q) {
+           return $q->whereIn('consumer_id', request()->user()->consumers->pluck('id')->toArray());
         });
 
         return $this->builder;

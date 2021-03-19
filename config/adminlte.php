@@ -418,6 +418,28 @@ return [
             'can'     => ['menu-User-Consumer'],
             'classes' => 'user-consumers-menu'
         ],
+        [
+            'text'    => 'Payments',
+            'icon'    => 'fas fa-fw fa-euro-sign',
+            'can'     => ['menu-User-Payment'],
+            'classes' => 'admin-payments-menu',
+            'submenu' => [
+                [
+                    'text'    => 'Bank Transactions',
+                    'route'   => 'user.payments.bank-transactions',
+                    'icon'    => 'fa fa-exchange-alt',
+                    'active'  => ['*payments/bank-transactions'],
+                    'classes' => 'admin-bank-transactions-menu',
+                ],
+                [
+                    'text'    => 'Meal Orders',
+                    'route'   => 'user.payments.meal-orders',
+                    'icon'    => 'fa fa-hamburger',
+                    'active'  => ['*payments/meal-orders'],
+                    'classes' => 'admin-meal-orders-menu',
+                ],
+            ],
+        ],
 
 //        [
 //            'text' => 'Vacation Location Group',

@@ -28,6 +28,18 @@ class BankTransactionService extends BaseModelService
     }
 
     /**
+     * Returns all payments
+     *
+     * @return mixed
+     */
+    public function allByUsersConsumers()
+    {
+        $consumersIds = auth()->user()->consumers->pluck('id')->toArray();
+
+        return $this->paymentRepository->allByUsersConsumers($consumersIds);
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -118,9 +130,9 @@ class BankTransactionService extends BaseModelService
     protected function getAllowActions(): array
     {
         return [
-            'all'    => false,
+            'all'    => true,
             'create' => false,
-            'view'   => false,
+            'view'   => true,
             'edit'   => false,
             'delete' => false,
         ];
