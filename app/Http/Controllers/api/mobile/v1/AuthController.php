@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api\mobile\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\api\mobile\AuthChangeEmailFormRequest;
+use App\Http\Requests\api\mobile\AuthChangePasswordFormRequest;
 use App\Http\Requests\api\mobile\AuthRegisterFormRequest;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -84,6 +86,44 @@ class AuthController extends Controller
     }
 
     /**
+     * @param AuthChangeEmailFormRequest $request
+     * @return JsonResponse
+     */
+    public function changeEmail(AuthChangeEmailFormRequest $request)
+    {
+        try {
+            auth('api')->user()->update($request->validated());
+        } catch (\Throwable $t) {
+            return response()->json([
+                'message' => $t->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->refresh();
+    }
+
+    /**
+     * @param AuthChangePasswordFormRequest $request
+     * @return JsonResponse
+     */
+    public function changePassword(AuthChangePasswordFormRequest $request)
+    {
+        try {
+            $validated = $request->validated();
+
+            auth('api')->user()->update([
+                'password' => bcrypt($validated['password']),
+            ]);
+        } catch (\Throwable $t) {
+            return response()->json([
+                'message' => $t->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->refresh();
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param string $token
@@ -95,6 +135,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
+            'user'         => auth('api')->user()->load('userInfo')->toArray(),
             'expires_in'   => auth('api')->factory()->getTTL() * 60
         ]);
     }
@@ -107,7 +148,6 @@ class AuthController extends Controller
      */
     public function register(AuthRegisterFormRequest $request)
     {
-
         try {
             $user = User::create(array_merge(
                 $request->validated(),
@@ -118,7 +158,8 @@ class AuthController extends Controller
             ));
 
             $user->userInfo()->create([
-                'first_name' => $request->get('name')
+                'first_name' => $request->get('first_name'),
+                'last_name'  => $request->get('last_name'),
             ]);
 
             $user->sendEmailVerificationNotification();;
