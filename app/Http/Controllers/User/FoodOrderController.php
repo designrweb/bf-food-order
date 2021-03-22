@@ -105,4 +105,34 @@ class FoodOrderController extends Controller
             'balance' => $this->consumerService->getCurrentConsumer()->fresh()->balance
         ];
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function foodOrders(Request $request, ConsumerService $consumerService, UserService $userService)
+    {
+        $orders = $this->orderService->getOrdersForConsumer($consumerService->getCurrentConsumer()->id);
+        $userConsumerExists = $userService->isConsumersExists($request->user());
+
+        return view('user.food_order.orders', compact('orders', 'userConsumerExists'));
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getIndexStructure(Request $request)
+    {
+        return $this->orderService->getIndexStructure();
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getAll(Request $request)
+    {
+        return $this->orderService->all();
+    }
 }

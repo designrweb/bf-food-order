@@ -396,6 +396,12 @@ return [
             'can'   => ['menu-User-Order']
         ],
         [
+            'text'  => 'Orders',
+            'route' => 'user.food-order.food-orders',
+            'icon'  => 'nav-icon fa fa-list-ol',
+            'can'   => ['menu-User-Order']
+        ],
+        [
             'text'    => 'QR Code',
             'route'   => 'user.consumers.qr-code.index',
             'icon'    => 'nav-icon fa fa-qrcode',

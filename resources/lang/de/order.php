@@ -31,5 +31,6 @@ return [
     'Your order costs:'                                            => 'Ihre Bestellung kostet:',
     'Child Full Name'                                              => 'Vollständiger Name des Kindes',
     'Location'                                                     => 'Einrichtung',
+    'Orders'                                                       => 'Aufträge',
 
 ];
