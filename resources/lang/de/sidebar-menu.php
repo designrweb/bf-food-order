@@ -25,4 +25,5 @@ return [
     'Profile'           => 'Profil',
     'QR Code'           => 'QR Code',
     'Order Now'         => 'Jetzt bestellen',
+    'Children'          => 'Kinder',
 ];

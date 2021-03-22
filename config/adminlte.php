@@ -265,7 +265,7 @@ return [
             'classes' => 'admin-administrators-menu'
         ],
         [
-            'text'    => 'Consumers',
+            'text'    => 'Children',
             'route'   => 'consumers.index',
             'icon'    => 'nav-icon fa fa-users',
             'can'     => ['menu-Consumer'],
@@ -436,7 +436,7 @@ return [
             'classes' => 'user-profile-menu',
         ],
         [
-            'text'    => 'Consumers',
+            'text'    => 'Children',
             'route'   => 'user.consumers.index',
             'icon'    => 'nav-icon fa fa-users',
             'can'     => ['menu-User-Consumer'],

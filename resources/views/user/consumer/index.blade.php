@@ -4,7 +4,7 @@
     <div id="grid-index-page">
         <grid-index
             :main_route="'/user/consumers'"
-            title="@lang('consumer.Consumers')"
+            title="@lang('consumer.Children')"
         ></grid-index>
     </div>
 @endsection
