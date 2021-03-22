@@ -2,9 +2,9 @@
     <div class="card">
         <div class="card-header"></div>
         <div class="card-body">
-            <div>Keine Verbraucher. Bitte erstellen</div>
+            <div>Bislang sind keine Kinder angelegt.</div>
 
-            <a :href="main_route + '/create'" class="btn btn-success mt-2">+ Kunde Erstellen</a>
+            <a :href="main_route + '/create'" class="btn btn-success mt-2">+ Kind anlegen</a>
         </div>
     </div>
 </template>

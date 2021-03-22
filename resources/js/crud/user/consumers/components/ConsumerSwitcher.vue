@@ -13,11 +13,11 @@
                 <span>{{ consumer.full_name }}</span>
             </b-dropdown-item>
             <b-dropdown-item :href="main_route + '/create'">
-                <span class="add-consumer-btn">+ Kunde Erstellen</span>
+                <span class="add-consumer-btn">+ Kind anlegen</span>
             </b-dropdown-item>
         </b-dropdown>
         <b-dropdown-item :href="main_route + '/create'" v-else>
-            <span class="add-consumer-btn">+ Kunde Erstellen</span>
+            <span class="add-consumer-btn">+ Kind anlegen</span>
         </b-dropdown-item>
     </div>
 </template>
