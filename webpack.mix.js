@@ -39,6 +39,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/user_consumers.js', 'public/js/crud')
     .js('resources/js/crud/consumer_switcher.js', 'public/js/crud')
     .js('resources/js/crud/user_food_order.js', 'public/js/crud')
+    .js('resources/js/crud/user_food_order_overview.js', 'public/js/crud')
     .js('resources/js/crud/user_payments.js', 'public/js/crud')
     .sass('resources/sass/app.scss', 'public/css');
 

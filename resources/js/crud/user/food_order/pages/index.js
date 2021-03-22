@@ -1,12 +1,10 @@
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
-import Orders                    from '../components/Orders';
+import Orders                            from '../components/Orders';
 
 window.Vue = require('vue');
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
-import { ToastPlugin } from 'bootstrap-vue'
-Vue.use(ToastPlugin)
 
 function init() {
     let $page = document.querySelector('#index-form-page');
