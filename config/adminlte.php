@@ -388,10 +388,12 @@ return [
             'classes' => 'admin-financial-report-menu',
         ],
         //user side menus
+        //@todo - create middleware for checking user role
         [
             'text'  => 'Order Now',
             'route' => 'user.food-order.index',
             'icon'  => 'nav-icon fa fa-calendar-check',
+            'can'   => ['menu-User-Order']
         ],
         [
             'text'    => 'QR Code',
@@ -424,7 +426,7 @@ return [
         ],
         [
             'header' => '',
-            'line' => true
+            'line'   => true
         ],
         [
             'text'    => 'Profile',
