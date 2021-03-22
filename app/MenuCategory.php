@@ -86,7 +86,7 @@ class MenuCategory extends Model
      */
     public function getCreatedAtHumanAttribute()
     {
-        return $this->attributes['created_at'] = date('M d, Y, H:i:s A', strtotime($this->created_at));
+        return date('M d, Y, H:i:s A', strtotime($this->created_at));
     }
 
     /**
@@ -94,7 +94,7 @@ class MenuCategory extends Model
      */
     public function getUpdatedAtHumanAttribute()
     {
-        return $this->attributes['updated_at'] = date('M d, Y, H:i:s A', strtotime($this->updated_at));
+        return date('M d, Y, H:i:s A', strtotime($this->updated_at));
     }
 
     /**
