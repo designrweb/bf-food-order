@@ -9,7 +9,7 @@
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">
                     <div class="col-12 col-sm-8">
-                        <h3 class="card-title"></h3>
+                        <h3 class="card-title">{{ title }}</h3>
                     </div>
                 </div>
 
@@ -43,7 +43,8 @@ export default {
     props:      {
         main_route:         String,
         resource:           Object,
-        is_consumers_exits: Boolean
+        is_consumers_exits: Boolean,
+        title:              String
     },
     data() {
         return {
