@@ -6,7 +6,7 @@
                 :resource="{{ json_encode($qrCodeResource) }}"
                 :main_route="'/user/consumers'"
                 v-bind:is_consumers_exits="{{ $isConsumersExists ? 'true' : 'false' }}"
-                title="@lang('consumer.QR Code'): {{ optional($qrCodeResource['consumer'])['full_name'] }}"
+                title="@lang('consumer.QR Code'): {{ $qrCodeResource ? $qrCodeResource['consumer']['full_name'] : '' }}"
         ></qr-code-page>
     </div>
 @endsection
