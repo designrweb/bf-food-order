@@ -48,5 +48,6 @@ return [
     'Please set your `minimum credit` in order to receive a message as soon as your credit falls below this value. You will be informed in good time and you can top up your credit in good time.' => 'Bitte stellen Sie Ihr `Mindest-Guthaben` ein, um eine Nachricht zu erhalten sobald Ihr Guthaben diesen Wert unterschreitet. So werden Sie frühzeitig informiert und können Ihr Guthaben rechtzeitig aufladen.',
     'Consumer ID'                                                                                                                                                                                  => 'Essensteilnehmer',
     'Consumer Email'                                                                                                                                                                               => 'Essensteilnehmer-E-Mail',
+    'Children'                                                                                                                                                                                     => 'Kinder'
 
 ];
