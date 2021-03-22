@@ -24,12 +24,17 @@ class MobileConsumerCollection extends JsonResource
             $companyEmail = !empty($item->company->settings) && !empty($item->company->settings()->where('setting_name', 'email')->first())
                 ? $item->company->settings()->where('setting_name', 'email')->first()->value : null;
 
+            $companyLogo = !empty($item->company->settings) && !empty($item->company->settings()
+                ->where('setting_name', 'logo')->first())
+                ? $item->company->settings()->where('setting_name', 'logo')->first()->value : '';
+
             return [
                 'id'                  => $item->id,
                 'location_group_id'   => $item->location_group_id,
                 'location_group_name' => !empty($item->locationgroup) ? $item->locationgroup->name : null,
                 'company_name'        => !empty($item->company) ? $item->company->name : null,
                 'company_email'       => $companyEmail,
+                'company_logo'        => $companyLogo,
                 'location_id'         => $item->location->id,
                 'user_id'             => $item->user_id,
                 'account_id'          => $item->account_id,
