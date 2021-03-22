@@ -316,4 +316,15 @@ class OrderService extends BaseModelService
     {
         return $this->repository->getOrdersForToday();
     }
+
+    /**
+     * Returns all orders for current day
+     *
+     * @param $consumerId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getOrdersOverviewForConsumers($consumerId)
+    {
+        return $this->repository->getOrdersOverviewForConsumers($consumerId);
+    }
 }

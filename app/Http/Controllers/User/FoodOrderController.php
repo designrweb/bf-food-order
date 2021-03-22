@@ -109,7 +109,9 @@ class FoodOrderController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
+     * @param ConsumerService $consumerService
+     * @param UserService     $userService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function foodOrders(Request $request, ConsumerService $consumerService, UserService $userService)
@@ -130,11 +132,12 @@ class FoodOrderController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
+     * @param ConsumerService $consumerService
      * @return array
      */
-    public function getAll(Request $request)
+    public function getAll(Request $request, ConsumerService $consumerService)
     {
-        return (new OrderCollection($this->orderService->all()))->toArray($request);
+        return (new OrderCollection($this->orderService->getOrdersOverviewForConsumers($consumerService->getCurrentConsumer()->id)))->toArray($request);
     }
 }
