@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,7 +52,7 @@ class Order extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['date'];
+    protected $appends = ['date', 'translated_day'];
 
     /**
      * @var array
@@ -127,6 +128,18 @@ class Order extends Model
     public function getDateAttribute()
     {
         return date('l, d.m.Y', strtotime($this->day));
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getTranslatedDayAttribute()
+    {
+        try {
+            return Carbon::parse($this->day)->translatedFormat('l, d.m.Y');
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

@@ -37,7 +37,15 @@
                 <template v-slot:top-row="scope" :columns="4">
                     <b-th v-for="field in scope.fields" v-bind:key="field.key">
                         <div v-if="field.key in filters">
+                            <filter-form-date-picker
+                                v-if="field.key === 'translated_day'"
+                                @changeFilter="applyFilter"
+                                :filterName="field.key"
+                                :filterLabel="field.label"
+                                :appliedFilterValue="filters[field.key]"
+                            ></filter-form-date-picker>
                             <filter-text
+                                v-else
                                 @changeFilter="applyFilter"
                                 :filterName="field.key"
                                 :filterLabel="field.label"

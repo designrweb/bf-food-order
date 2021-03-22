@@ -65,7 +65,7 @@ class OrderService extends BaseModelService
     public function create($data)
     {
         $originalOrder = new Order();
-        $order = $this->repository->add($data);
+        $order         = $this->repository->add($data);
         $this->paymentService->createPaymentBasedOnOrder($order, $originalOrder);
 
         //update is order subsidized after order creations
@@ -85,7 +85,7 @@ class OrderService extends BaseModelService
     public function update($data, $id)
     {
         $originalOrder = $this->getOne($id);
-        $order = $this->repository->update($data, $id);
+        $order         = $this->repository->update($data, $id);
         $this->paymentService->createPaymentBasedOnQuantity($order, $originalOrder);
 
         return $order;
@@ -130,6 +130,14 @@ class OrderService extends BaseModelService
     public function getIndexStructure(): array
     {
         return $this->getFullStructure((new Order()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getIndexStructureForUser(): array
+    {
+        return $this->getFullStructureForUser((new Order()));
     }
 
     /**
@@ -199,6 +207,32 @@ class OrderService extends BaseModelService
      * @param Model $model
      * @return array
      */
+    public function getIndexFieldsForUser(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'consumer.full_name',
+                'label' => __('order.Child Full Name')
+            ],
+            [
+                'key'   => 'menu_item.name',
+                'label' => __('menu-item.Menuitem')
+            ],
+            [
+                'key'   => 'quantity',
+                'label' => __('order.Quantity')
+            ],
+            [
+                'key'   => 'translated_day',
+                'label' => __('app.Day')
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
     protected function getSortFields(Model $model): array
     {
         return [
@@ -207,6 +241,20 @@ class OrderService extends BaseModelService
             'quantity'                              => '',
             'day'                                   => '',
             'menu_item.menu_category.location.name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFieldsForUser(Model $model): array
+    {
+        return [
+            'consumer.full_name' => '',
+            'menu_item.name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
         ];
     }
 
@@ -226,6 +274,36 @@ class OrderService extends BaseModelService
                 'filter' => '',
                 'type'   => 'select',
             ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFiltersForUser(Model $model): array
+    {
+        return [
+            'consumer.full_name' => '',
+            'menu_item.name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
+        ];
+    }
+
+    /**
+     * Returns main model full structure
+     *
+     * @param Model $model
+     * @return array
+     */
+    public function getFullStructureForUser(Model $model): array
+    {
+        return [
+            'filters'      => $this->getFiltersForUser($model),
+            'sort'         => $this->getSortFieldsForUser($model),
+            'fields'       => $this->getIndexFieldsForUser($model),
+            'allowActions' => $this->getAllowActions(),
         ];
     }
 

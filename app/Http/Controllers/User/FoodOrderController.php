@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\OrderController;
 use App\Http\Requests\OrderFormRequest;
+use App\Http\Resources\OrderCollection;
 use App\Order;
 use App\Services\ConsumerService;
 use App\Services\OrderService;
@@ -124,7 +126,7 @@ class FoodOrderController extends Controller
      */
     public function getIndexStructure(Request $request)
     {
-        return $this->orderService->getIndexStructure();
+        return $this->orderService->getIndexStructureForUser();
     }
 
     /**
@@ -133,6 +135,6 @@ class FoodOrderController extends Controller
      */
     public function getAll(Request $request)
     {
-        return $this->orderService->all();
+        return (new OrderCollection($this->orderService->all()))->toArray($request);
     }
 }
