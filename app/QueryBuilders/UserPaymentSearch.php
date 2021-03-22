@@ -33,11 +33,12 @@ class UserPaymentSearch extends BaseSearch
      */
     public function handle($request, Closure $next)
     {
-        if (request()->user()->role !== User::ROLE_USER) return $next($request);
-
         $this->builder = $next($request);
 
-        $this->builder->where('payments.consumer_id', $this->consumerService->getCurrentConsumer()->id);
+        if (request()->user()->role === User::ROLE_USER) {
+            $this->builder->where('payments.consumer_id', $this->consumerService->getCurrentConsumer()->id);
+        }
+
         $this->builder->whereIn('payments.type', [Payment::TYPE_BANK_TRANSACTION, Payment::TYPE_MANUAL_TRANSACTION]);
 
         return $this->builder;
