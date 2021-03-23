@@ -187,6 +187,10 @@ class MenuCategoryService extends BaseModelService
             [
                 'key'   => 'price_locale',
                 'label' => __('menu-category.Price')
+            ],
+            [
+                'key'   => 'location.name',
+                'label' => __('menu-category.Location')
             ]
         ];
     }
@@ -202,6 +206,7 @@ class MenuCategoryService extends BaseModelService
             'category_order'      => '',
             'presaleprice_locale' => '',
             'price_locale'        => '',
+            'location.name'       => '',
         ];
     }
 

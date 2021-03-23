@@ -39,6 +39,12 @@ class MenuCategorySearch extends BaseSearch
             $this->applySort('menu_categories.category_order', 'asc');
         }
 
+        if (request('filters.location.name')) {
+            $this->builder->whereHas('location', function (Builder $q) {
+                $q->where('locations.name', 'like', '%' . request('filters.location.name') . '%');
+            });
+        }
+
         $this->applySort('menu_categories.price', request('sort.price_locale'));
         $this->applySort('menu_categories.presaleprice', request('sort.presaleprice_locale'));
 
