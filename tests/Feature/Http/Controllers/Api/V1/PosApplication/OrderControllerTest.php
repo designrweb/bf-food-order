@@ -149,12 +149,6 @@ class OrderControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_spontaneous_orders_with_subsidization_from_pos_terminal()
-    {
-        $this->markAsRisky();
-    }
-
-    /** @test */
     public function it_updates_pre_orders_from_pos_terminal()
     {
         $posManager = $this->actingAsPosManager();

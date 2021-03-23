@@ -93,22 +93,10 @@ class CompanyRepository implements RepositoryInterface
     }
 
     /**
-     * @param null $id
-     * @return bool
+     * Get first company
      */
-    public function switchCompany($id = null): bool
+    public function getFirst()
     {
-        $user = auth()->user();
-
-        if (empty($id)) {
-            $id = Company::first()->id;
-        }
-
-        if (!empty($id)) {
-            $user->company_id = $id;
-            $user->save();
-        }
-
-        return true;
+        return $this->model->first();
     }
 }

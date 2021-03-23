@@ -20,7 +20,8 @@ class HistoryControllerTest extends TestCase
 
         $response->assertUnauthorized();
         $response->assertExactJson([
-            'message' => 'Unauthenticated.'
+            "message" => "Unauthorized",
+            "status"  => 401
         ]);
     }
 

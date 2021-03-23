@@ -41,7 +41,7 @@ class SubsidizationRule extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('subsidizationOrganization', function ($query) {
                     $query->where('subsidization_organizations.company_id', auth()->user()->company_id);
                 });
@@ -79,5 +79,21 @@ class SubsidizationRule extends Model
     public function subsidizedMenuCategories()
     {
         return $this->hasMany(SubsidizedMenuCategories::class, 'subsidization_rule_id', 'id');
+    }
+
+    /**
+     * @param $value
+     */
+    public function setStartDateAttribute($value)
+    {
+        $this->attributes['start_date'] = date('Y-m-d', strtotime($value));
+    }
+
+    /**
+     * @param $value
+     */
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = date('Y-m-d', strtotime($value));
     }
 }

@@ -10,7 +10,6 @@ use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Consumer;
 use Mpdf\Mpdf;
-use PDF;
 
 
 class ConsumerService extends BaseModelService
@@ -23,17 +22,23 @@ class ConsumerService extends BaseModelService
      * @var ConsumerQrCodeService
      */
     public $qrCodeService;
+    /**
+     * @var UserService
+     */
+    public $userService;
 
     /**
      * ConsumerService constructor.
      *
-     * @param ConsumerRepository       $repository
+     * @param ConsumerRepository    $repository
      * @param ConsumerQrCodeService $consumerQrCodeService
+     * @param UserService           $userService
      */
-    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService)
+    public function __construct(ConsumerRepository $repository, ConsumerQrCodeService $consumerQrCodeService, UserService $userService)
     {
         $this->repository    = $repository;
         $this->qrCodeService = $consumerQrCodeService;
+        $this->userService   = $userService;
     }
 
     /**
@@ -82,6 +87,7 @@ class ConsumerService extends BaseModelService
     /**
      * @param $request
      * @return mixed
+     * @throws \Exception
      */
     public function create($request)
     {
@@ -92,10 +98,16 @@ class ConsumerService extends BaseModelService
         }
 
         $data['account_id'] = $this->generateAccountId();
+        $data['user_id']    = $request->user()->id;
 
         $model = $this->repository->add($data);
 
         $this->generateCode($model->id);
+
+        //auto select first created consumer
+        if ($this->repository->allByUserId($request->user()->id)->count() === 1) {
+            $this->switchConsumer($model->id);
+        }
 
         if (empty($model->subsidization)) {
             if ($request->hasFile('subsidization.subsidization_document')) {
@@ -179,12 +191,18 @@ class ConsumerService extends BaseModelService
      */
     public function downloadManual($id)
     {
-        $model = $this->repository->get($id);
+        $model       = $this->repository->get($id);
         $qrCodeImage = $this->getQrCodeImage($id);
-        $view = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+        $view        = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+        $footer        = view('consumers._manual_footer')->render();
 
-        $mpdf = new Mpdf();
+        $mpdf                 = new Mpdf();
+        $mpdf->title          = config('app.name') . ' Handbuch';
+        $mpdf->margin_footer = 0;
+        $mpdf->margin_header = 0;
+        $mpdf->defaultCssFile = public_path('css/kv-mpdf-bootstrap.min.css');
         $mpdf->WriteHTML($view);
+        $mpdf->SetHTMLFooter($footer);
 
         return $mpdf->Output('', 'I');
     }
@@ -195,6 +213,8 @@ class ConsumerService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->switchConsumer($id);
+
         return $this->repository->delete($id);
     }
 
@@ -221,9 +241,9 @@ class ConsumerService extends BaseModelService
     public function getIndexStructureForUser($model): array
     {
         return [
-            'filters'      => $this->getFilters($model),
-            'sort'         => $this->getSortFields($model),
-            'fields'       => $this->getIndexFieldsLabels($model),
+            'filters'      => $this->getFiltersForUser($model),
+            'sort'         => $this->getSortFieldsForUser($model),
+            'fields'       => $this->getIndexFieldsLabelsForUser($model),
             'allowActions' => $this->getAllowActionsForUser(),
         ];
     }
@@ -389,6 +409,40 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabelsForUser(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'full_name',
+                'label' => __('consumer.Child')
+            ],
+            [
+                'key'   => 'account_id',
+                'label' => __('consumer.Account')
+            ],
+            [
+                'key'   => 'location_group.location.name',
+                'label' => __('location.Location')
+            ],
+            [
+                'key'   => 'location_group.name',
+                'label' => __('location-group.Group')
+            ],
+            [
+                'key'   => 'user.user_info.full_name',
+                'label' => __('consumer.Parent')
+            ],
+            [
+                'key'   => 'subsidization.subsidization_rule.rule_name',
+                'label' => __('subsidization.Subsidization Rule')
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
      * @return string[]
      */
     protected function getFilters(Model $model): array
@@ -406,6 +460,22 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param Model $model
+     * @return string[]
+     */
+    protected function getFiltersForUser(Model $model): array
+    {
+        return [
+            'account_id'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.full_name'                   => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
      * @return array
      */
     protected function getSortFields(Model $model): array
@@ -416,6 +486,22 @@ class ConsumerService extends BaseModelService
             'location_group.location.name'               => '',
             'location_group.name'                        => '',
             'user.user_info.first_name'                  => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFieldsForUser(Model $model): array
+    {
+        return [
+            'account_id'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.full_name'                   => '',
             'full_name'                                  => '',
             'subsidization.subsidization_rule.rule_name' => '',
         ];
@@ -519,7 +605,7 @@ class ConsumerService extends BaseModelService
 
         ]);
 
-        $q        = new QRCode($options);
+        $q       = new QRCode($options);
         $tmpFile = tempnam(sys_get_temp_dir(), 'qr');
 
         return $q->render($qrCodeModel->qr_code_hash, $tmpFile);
@@ -536,5 +622,24 @@ class ConsumerService extends BaseModelService
         $setting = $this->repository->getSubsidizationSupportEmail($id);
 
         return $setting ? $setting->value : null;
+    }
+
+    /**
+     * Switch current consumer
+     *
+     * @return bool|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
+     */
+    public function getCurrentConsumer()
+    {
+        $consumerId = session(config('adminlte.session_consumer_key'));
+
+        return optional($this->repository->getByConsumerId($consumerId));
+    }
+
+    public function switchConsumer($id)
+    {
+        $consumer = $this->repository->getByConsumerId($id);
+
+        return session([config('adminlte.session_consumer_key') => optional($consumer)->id]);
     }
 }

@@ -25,7 +25,10 @@ class UserSearch extends BaseSearch
             ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
             ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
             ->whereIn('users.role', [User::ROLE_ADMIN, User::ROLE_POS_MANAGER])
-            ->whereCompany();
+            ->where(function ($q) {
+                $q->orWhere('users.company_id', request()->user()->company_id);
+                $q->orWhere('locations.company_id', request()->user()->company_id);
+            });
 
         // filters
         $this->applyFilter('users.id', request('filters.id'));

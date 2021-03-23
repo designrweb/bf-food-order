@@ -131,4 +131,16 @@ class VacationRepository implements RepositoryInterface
     {
         return new VacationResource($this->model->with(['locationGroups.locationGroup.location'])->findOrFail($id));
     }
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @return VacationResource
+     */
+    public function getVacationByPeriod($startDate, $endDate)
+    {
+        return $this->model::whereBetween('start_date', [$startDate, $endDate])
+            ->orWhereBetween('end_date', [$startDate, $endDate])
+            ->get();
+    }
 }

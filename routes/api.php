@@ -36,6 +36,8 @@ Route::group([
             Route::post('logout', 'AuthController@logout');
             Route::post('refresh', 'AuthController@refresh');
             Route::post('me', 'AuthController@me');
+            Route::post('change-email', 'AuthController@changeEmail');
+            Route::post('change-password', 'AuthController@changePassword');
 
             // user routes
             Route::post('user/update', 'UserController@update');
@@ -46,6 +48,8 @@ Route::group([
             Route::post('consumers', 'ConsumerController@store');
             Route::put('consumers/{id}', 'ConsumerController@update');
             Route::delete('consumers/{id}', 'ConsumerController@destroy');
+            Route::post('/{id}/generate-code', "ConsumerController@generateCode");
+            Route::get('/{id}/download-code', "ConsumerController@downloadCode");
 
             // locations routes
             Route::get('locations/{id}', 'LocationController@getOne');

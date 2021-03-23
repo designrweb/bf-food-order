@@ -73,6 +73,8 @@ return [
     'usermenu_desc'         => false,
     'usermenu_profile_url'  => false,
     'switch_company'        => true,
+    'switch_consumer'       => true,
+    'session_consumer_key'  => 'consumerId',
 
     /*
     |--------------------------------------------------------------------------
@@ -263,18 +265,11 @@ return [
             'classes' => 'admin-administrators-menu'
         ],
         [
-            'text'    => 'Consumers',
+            'text'    => 'Children',
             'route'   => 'consumers.index',
             'icon'    => 'nav-icon fa fa-users',
             'can'     => ['menu-Consumer'],
             'classes' => 'admin-consumers-menu'
-        ],
-        [
-            'text'    => 'Consumers',
-            'route'   => 'user.consumers.index',
-            'icon'    => 'nav-icon fa fa-users',
-            'can'     => ['menu-User-Consumer'],
-            'classes' => 'user-consumers-menu'
         ],
         [
             'text'    => 'Payments',
@@ -392,6 +387,53 @@ return [
             'can'     => ['menu-Payment'],
             'classes' => 'admin-financial-report-menu',
         ],
+        //user side menus
+        //@todo - create middleware for checking user role
+        [
+            'text'  => 'Order Now',
+            'route' => 'user.food-order.index',
+            'icon'  => 'nav-icon fa fa-calendar-check',
+            'can'   => ['menu-User-Order']
+        ],
+        [
+            'text'  => 'Orders',
+            'route' => 'user.food-order.food-orders',
+            'icon'  => 'nav-icon fa fa-list-ol',
+            'can'   => ['menu-User-Order']
+        ],
+        [
+            'text'    => 'QR Code',
+            'route'   => 'user.consumers.qr-code.index',
+            'icon'    => 'nav-icon fa fa-qrcode',
+            'can'     => ['menu-User-ConsumerQrCode'],
+            'classes' => 'user-qr-code-menu',
+        ],
+        [
+            'text'    => 'Payments',
+            'icon'    => 'fas fa-fw fa-euro-sign',
+            'can'     => ['menu-User-Payment'],
+            'classes' => 'admin-payments-menu',
+            'submenu' => [
+                [
+                    'text'    => 'Bank Transactions',
+                    'route'   => 'user.payments.bank-transactions',
+                    'icon'    => 'fa fa-exchange-alt',
+                    'active'  => ['*payments/bank-transactions'],
+                    'classes' => 'admin-bank-transactions-menu',
+                ],
+                [
+                    'text'    => 'Meal Orders',
+                    'route'   => 'user.payments.meal-orders',
+                    'icon'    => 'fa fa-hamburger',
+                    'active'  => ['*payments/meal-orders'],
+                    'classes' => 'admin-meal-orders-menu',
+                ],
+            ],
+        ],
+        [
+            'header' => '',
+            'line'   => true
+        ],
         [
             'text'    => 'Profile',
             'route'   => 'profile.index',
@@ -400,11 +442,11 @@ return [
             'classes' => 'user-profile-menu',
         ],
         [
-            'text'    => 'QR Code',
-            'route'   => 'user.consumers.qr-code.index',
-            'icon'    => 'nav-icon fa fa-qrcode',
-            'can'     => ['menu-User-ConsumerQrCode'],
-            'classes' => 'user-qr-code-menu',
+            'text'    => 'Children',
+            'route'   => 'user.consumers.index',
+            'icon'    => 'nav-icon fa fa-users',
+            'can'     => ['menu-User-Consumer'],
+            'classes' => 'user-consumers-menu'
         ],
 
 //        [

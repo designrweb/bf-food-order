@@ -37,6 +37,7 @@ class LocationController
      */
     public function getAll(Request $request)
     {
+        request()->merge(['itemsPerPage' => 0]);
         return (new MobileLocationCollection($this->service->all()))->toArray($request);
     }
 

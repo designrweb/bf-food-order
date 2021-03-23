@@ -43,7 +43,7 @@ export default {
     },
     data() {
         return {
-            size:  150,
+            size:  350,
             value: '',
             isPageBusy: false
         }

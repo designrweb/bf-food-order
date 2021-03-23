@@ -25,6 +25,7 @@ class ConsumerSearch extends BaseSearch
             'locations.name as location_name',
             'users.email',
             'user_info.first_name',
+            'user_info.last_name',
             'subsidization_rules.rule_name as subsidization_rules_rule_name'
         ])
             ->leftJoin('consumer_subsidizations', 'consumers.id', '=', 'consumer_subsidizations.consumer_id')
@@ -35,7 +36,7 @@ class ConsumerSearch extends BaseSearch
             ->join('user_info', 'user_info.user_id', '=', 'users.id');
 
         if (auth()->user()->role === User::ROLE_USER) {
-            $this->applyFilter('consumers.user_id', auth()->user()->id);
+            $this->builder->where('consumers.user_id', auth()->user()->id);
         }
 
         // filters
@@ -53,17 +54,32 @@ class ConsumerSearch extends BaseSearch
             $q->where('users.email', 'like', '%' . request('filters.user.email') . '%');
         });
 
-        $this->builder->whereHas('locationGroup.location', function (Builder $q) {
-            $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
-        });
+        if (request('filters.location_group.name')) {
+            $this->builder->whereHas('locationGroup.location', function (Builder $q) {
+                $q->where('locations.name', 'like', '%' . request('filters.location_group.location.name') . '%');
+            });
+        }
 
-        $this->builder->whereHas('locationGroup', function (Builder $q) {
-            $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
-        });
+        if (request('filters.location_group.name')) {
+            $this->builder->whereHas('locationGroup', function (Builder $q) {
+                $q->where('location_groups.name', 'like', '%' . request('filters.location_group.name') . '%');
+            });
+        }
 
-        $this->builder->whereHas('user.userInfo', function (Builder $q) {
-            $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
-        });
+        if (request('filters.user.user_info.first_name')) {
+            $this->builder->whereHas('user.userInfo', function (Builder $q) {
+                $q->where('user_info.first_name', 'like', '%' . request('filters.user.user_info.first_name') . '%');
+            });
+        }
+
+        if (request('filters.user.user_info.full_name')) {
+            $this->builder->whereHas('user.userInfo', function (Builder $q) {
+                $q->where(function ($q) {
+                    $q->orWhere('user_info.first_name', 'like', '%' . request('filters.user.user_info.full_name') . '%')
+                        ->orWhere('user_info.last_name', 'like', '%' . request('filters.user.user_info.full_name') . '%');
+                });
+            });
+        }
 
         if (request('filters.subsidization.subsidization_rule.rule_name')) {
             $this->builder->whereHas('subsidization.subsidizationRule', function (Builder $q) {
@@ -94,6 +110,11 @@ class ConsumerSearch extends BaseSearch
 
         $this->builder->when(request('sort.user.user_info.first_name'), function (Builder $q) {
             return $q->orderBy('first_name', request('sort.user.user_info.first_name'));
+        });
+
+        $this->builder->when(request('sort.user.user_info.full_name'), function (Builder $q) {
+            return $q->orderBy('first_name', request('sort.user.user_info.full_name'))
+                ->orderBy('last_name', request('sort.user.user_info.full_name'));
         });
 
         $this->builder->when(request('sort.subsidization.subsidization_rule.rule_name'), function (Builder $q) {

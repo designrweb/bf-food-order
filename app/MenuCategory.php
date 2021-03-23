@@ -48,7 +48,7 @@ class MenuCategory extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->check()) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id)
                         ->orWhere('locations.id', auth()->user()->location_id);
@@ -86,7 +86,7 @@ class MenuCategory extends Model
      */
     public function getCreatedAtHumanAttribute()
     {
-        return $this->attributes['created_at'] = date('M d, Y, H:i:s A', strtotime($this->created_at));
+        return date('M d, Y, H:i:s A', strtotime($this->created_at));
     }
 
     /**
@@ -94,7 +94,7 @@ class MenuCategory extends Model
      */
     public function getUpdatedAtHumanAttribute()
     {
-        return $this->attributes['updated_at'] = date('M d, Y, H:i:s A', strtotime($this->updated_at));
+        return date('M d, Y, H:i:s A', strtotime($this->updated_at));
     }
 
     /**
@@ -128,7 +128,7 @@ class MenuCategory extends Model
     // todo move to repository
     public function isAllowSubsidization($consumer): bool
     {
-        return (bool)SubsidizedMenuCategories::where('subsidization_rule_id', $consumer->subsidization->subsidization_rule_id)
+        return (bool)SubsidizedMenuCategories::where('subsidization_rule_id', optional($consumer->subsidization)->subsidization_rule_id)
             ->where('menu_category_id', $this->id)
             ->where('percent', '>', 0)
             ->count();

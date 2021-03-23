@@ -40,6 +40,15 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="cols-sm-10">
+                                    <select name="" id="" class="form-control">
+                                        <option value="">I want to Order a meal for myself</option>
+                                        <option value="">I want to Order meal for my kid(s)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

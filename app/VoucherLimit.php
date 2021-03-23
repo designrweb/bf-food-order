@@ -41,7 +41,7 @@ class VoucherLimit extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->user()) {
+            if (auth()->user() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('menuCategory.location', function ($q) {
                     $q->where('locations.company_id', auth()->user()->company_id);
                 });

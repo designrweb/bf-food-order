@@ -24,7 +24,7 @@ class MealOrderService extends BaseModelService
      */
     public function all()
     {
-        return $this->paymentRepository->all();
+        return $this->paymentRepository->allMealOrders();
     }
 
     /**
@@ -42,6 +42,14 @@ class MealOrderService extends BaseModelService
     public function getIndexStructure(): array
     {
         return $this->getFullStructure((new Payment()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getIndexStructureForUser(): array
+    {
+        return $this->getFullStructureForUser((new Payment()));
     }
 
     /**
@@ -84,7 +92,37 @@ class MealOrderService extends BaseModelService
                 'label' => __('app.Created At')
             ],
             [
-                'key'   => 'day_human',
+                'key'   => 'order_day',
+                'label' => __('app.Day')
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array[]
+     */
+    protected function getIndexFieldsForUser(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'amount_locale',
+                'label' => __('app.Amount')
+            ],
+            [
+                'key'   => 'comment',
+                'label' => __('app.Comment')
+            ],
+            [
+                'key'   => 'is_subsidized',
+                'label' => __('subsidization.Is Subsidized')
+            ],
+            [
+                'key'   => 'created_at_human',
+                'label' => __('app.Created At')
+            ],
+            [
+                'key'   => 'order_day',
                 'label' => __('app.Day')
             ],
         ];
@@ -103,7 +141,22 @@ class MealOrderService extends BaseModelService
             'comment'          => '',
             'is_subsidized'    => '',
             'created_at_human' => '',
-            'day_human'        => '',
+            'order_day'        => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return string[]
+     */
+    protected function getFiltersForUser(Model $model): array
+    {
+        return [
+            'amount_locale'    => '',
+            'comment'          => '',
+            'is_subsidized'    => '',
+            'created_at_human' => '',
+            'order_day'        => '',
         ];
     }
 
@@ -120,7 +173,22 @@ class MealOrderService extends BaseModelService
             'comment'          => '',
             'is_subsidized'    => '',
             'created_at_human' => '',
-            'day_human'        => '',
+            'order_day'        => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFieldsForUser(Model $model): array
+    {
+        return [
+            'amount_locale'    => '',
+            'comment'          => '',
+            'is_subsidized'    => '',
+            'created_at_human' => '',
+            'order_day'        => '',
         ];
     }
 
@@ -135,6 +203,24 @@ class MealOrderService extends BaseModelService
             'view'   => false,
             'edit'   => false,
             'delete' => false,
+        ];
+    }
+
+
+
+    /**
+     * Returns main model full structure
+     *
+     * @param Model $model
+     * @return array
+     */
+    public function getFullStructureForUser(Model $model): array
+    {
+        return [
+            'filters'      => $this->getFiltersForUser($model),
+            'sort'         => $this->getSortFieldsForUser($model),
+            'fields'       => $this->getIndexFieldsForUser($model),
+            'allowActions' => $this->getAllowActions(),
         ];
     }
 }

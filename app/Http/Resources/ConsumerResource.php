@@ -16,6 +16,8 @@ class ConsumerResource extends JsonResource
     {
         $data                                                   = parent::toArray($request);
         $data['subsidization']['subsidization_organization_id'] = !empty($this->subsidization) ? $this->subsidization->subsidizationRule->subsidizationOrganization->id : null;
+        $data['subsidization']['subsidization_start']           = !empty($this->subsidization) ? date('d.m.Y', strtotime($this->subsidization->subsidization_start)) : null;
+        $data['subsidization']['subsidization_end']             = !empty($this->subsidization) ? date('d.m.Y', strtotime($this->subsidization->subsidization_end)) : null;
         $data['birthday']                                       = !empty($this->birthday) ? date('d.m.Y', strtotime($this->birthday)) : null;
 
         return $data;

@@ -6,6 +6,7 @@
             <grid-form
                     :location_list="{{ json_encode($locationList) }}"
                     :main_route="'/user/consumers'"
+                    title="{{ __('consumer.Update Consumer', ['name' => $resource['full_name']]) }}"
                     :id="{{ $resource['id'] }}">
             </grid-form>
         @else

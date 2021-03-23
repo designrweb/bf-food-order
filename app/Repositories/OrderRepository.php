@@ -80,4 +80,30 @@ class OrderRepository extends Repository
             ->orderBy('pickedup_at', 'desc')
             ->get();
     }
+
+    /**
+     * @param $consumerId
+     * @return mixed
+     */
+    public function getOrdersForConsumers($consumerId)
+    {
+        return $this->model->where('consumer_id', $consumerId)->get();
+    }
+
+    /**
+     * @param $consumerId
+     * @return mixed
+     */
+    public function getOrdersOverviewForConsumers($consumerId)
+    {
+        return app(Pipeline::class)
+            ->send($this->model->newQuery())
+            ->through([
+                OrderSearch::class,
+            ])
+            ->thenReturn()
+            ->with(['menuItem.menuCategory', 'consumer'])
+            ->where('consumer_id', $consumerId)
+            ->paginate(request('itemsPerPage') ?? 10);
+    }
 }

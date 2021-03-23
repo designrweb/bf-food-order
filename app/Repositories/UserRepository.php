@@ -138,4 +138,17 @@ class UserRepository implements RepositoryInterface
 
         return $rolesArray;
     }
+
+    /**
+     * @param null $id
+     * @return bool
+     */
+    public function switchCompany($id): bool
+    {
+        $user = auth()->user();
+        $user->company_id = $id;
+        $user->save();
+
+        return true;
+    }
 }

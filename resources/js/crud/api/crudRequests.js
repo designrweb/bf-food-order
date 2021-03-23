@@ -58,3 +58,7 @@ export const getSubsidizationRulesBySubsidizationOrganizationId = (url) => api
 export const switchCompany = (url) => api
     .request(url)
     .get();
+
+export const switchConsumer = (url) => api
+    .request(url)
+    .get();

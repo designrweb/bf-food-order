@@ -364,14 +364,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 //user role
 Route::prefix('user')
-    ->middleware(['auth', 'verified', 'getConsumer'])
+    ->middleware(['auth', 'verified'])
     ->group(function () {
         Route::prefix('profile')->namespace('User')->group(function () {
             Route::get('/', 'ProfileController@index')->name('profile.index');
             Route::get('/get-one', 'ProfileController@getOne')->name('profile.get-one');
             Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
-            Route::post('/', 'ProfileController@update')->name('profile.update');
             Route::get('/balance-limit', 'ProfileController@update')->name('profile.update');
+            Route::put('/{id}', 'ProfileController@update')->name('profile.update');
         });
 
         Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
@@ -379,6 +379,7 @@ Route::prefix('user')
 
         /** consumers routes */
         Route::prefix('consumers')->namespace('User')->group(function () {
+            Route::get('/get-data', "ConsumerController@getData")->name('user.consumers.get-data');
             Route::get('/qr-code', 'ConsumerController@qrCode')->name('user.consumers.qr-code.index');
             Route::get('/', 'ConsumerController@index')->name('user.consumers.index');
             Route::get('/get-all', 'ConsumerController@getAll')->name('user.consumers.get-all');
@@ -398,6 +399,39 @@ Route::prefix('user')
             Route::get('/{id}/download-manual', "ConsumerController@downloadManual")->name('user.consumers.download-manual');
             Route::get('/export/run', "ConsumerController@export")->name('user.consumers.export');
             Route::get('/get-location-list/{groupId}', "ConsumerController@getLocationList")->name('locations.get-list-by-group-id');
+            Route::get('/{id}/switch-consumer', 'ConsumerController@switchConsumer')->name('user.consumers.switch-consumer');
+        });
+
+        /** order routes */
+        Route::prefix('order')->namespace('User')->group(function () {
+            Route::get('/', 'FoodOrderController@index')->name('user.food-order.index');
+            Route::post('/', 'FoodOrderController@store')->name('user.food-order.store');
+            Route::put('/', 'FoodOrderController@update')->name('user.food-order.update');
+            Route::delete('/', 'FoodOrderController@destroy')->name('user.food-order.delete');
+            Route::get('/food-orders', 'FoodOrderController@foodOrders')->name('user.food-order.food-orders');
+            Route::get('/get-structure', 'FoodOrderController@getIndexStructure')->name('user.food-order.index-structure');
+            Route::get('/get-all', 'FoodOrderController@getAll')->name('user.food-order.get-all');
+        });
+
+
+        /** menu-categories routes */
+        Route::prefix('menu-items')->namespace('User')->group(function () {
+            Route::get('/get-by-date', 'MenuItemController@getMenuItems')->name('user.food-order.menu-items');
+        });
+
+        /** menu-categories routes */
+        Route::prefix('menu-categories')->namespace('User')->group(function () {
+            Route::get('/get-all', 'MenuCategoryController@getAll')->name('menu-categories.get-all');
+        });
+
+        /** payments routes */
+        Route::prefix('payments')->namespace('User')->group(function () {
+            Route::get('/bank-transactions', "PaymentController@bankTransactions")->name('user.payments.bank-transactions');
+            Route::get('/bank-transactions/get-structure', 'PaymentController@getBankTransactionsIndexStructure')->name('user.payments.bank-transactions-index-structure');
+            Route::get('/bank-transactions/get-all', 'PaymentController@getAllBankTransactions')->name('user.payments.get-all-bank-transactions');
+            Route::get('/meal-orders', 'PaymentController@mealOrders')->name('user.payments.meal-orders');
+            Route::get('/meal-orders/get-structure', 'PaymentController@getMealOrdersStructure')->name('user.payments.meal-orders-index-structure');
+            Route::get('/meal-orders/get-all', 'PaymentController@getAllMealOrders')->name('user.payments.get-all-meal-orders');
         });
     });
 

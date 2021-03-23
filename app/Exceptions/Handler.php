@@ -124,6 +124,7 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug') && !$exception instanceof JsonResponse) {
+            $response['message'] = $exception->getMessage();
             $response['trace'] = $exception->getTrace();
             $response['code']  = $exception->getCode();
         }

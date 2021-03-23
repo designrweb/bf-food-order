@@ -56,9 +56,10 @@ class Consumer extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth('web')->check() && auth()->user()->role !== User::ROLE_USER) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
                 $builder->whereHas('locationgroup.location', function ($query) {
-                    $query->where('locations.company_id', auth()->user()->company_id);
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('locations.id', auth()->user()->location_id);
                 });
             }
         });
@@ -107,6 +108,14 @@ class Consumer extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function autoOrder()
+    {
+        return $this->hasOne(ConsumerAutoOrder::class);
     }
 
     /**
@@ -159,6 +168,7 @@ class Consumer extends Model
 
     /**
      * @return mixed
+     * @todo refactor this?
      */
     public function getSubsidizedMenuCategoriesAttribute()
     {

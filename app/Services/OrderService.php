@@ -48,7 +48,7 @@ class OrderService extends BaseModelService
      * Returns single product transformed to resource
      *
      * @param $id
-     * @return OrderResource
+     * @return Order
      * @throws ModelNotFoundException
      */
     public function getOne($id)
@@ -64,8 +64,15 @@ class OrderService extends BaseModelService
      */
     public function create($data)
     {
-        $order = $this->repository->add($data);
-        $this->paymentService->createPaymentBasedOnOrder($order);
+        $originalOrder = new Order();
+        $order         = $this->repository->add($data);
+        $this->paymentService->createPaymentBasedOnOrder($order, $originalOrder);
+
+        //update is order subsidized after order creations
+        $updateData = [
+            'is_subsidized' => $this->paymentService->canBeSubsidized($order, $originalOrder->quantity)
+        ];
+        $this->repository->update($updateData, $order->id);
 
         return $order;
     }
@@ -77,7 +84,11 @@ class OrderService extends BaseModelService
      */
     public function update($data, $id)
     {
-        return $this->repository->update($data, $id);
+        $originalOrder = $this->getOne($id);
+        $order         = $this->repository->update($data, $id);
+        $this->paymentService->createPaymentBasedOnQuantity($order, $originalOrder);
+
+        return $order;
     }
 
     /**
@@ -86,6 +97,8 @@ class OrderService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->paymentService->createCanceledPaymentBasedOnOrder($this->getOne($id));
+
         return $this->repository->delete($id);
     }
 
@@ -122,9 +135,26 @@ class OrderService extends BaseModelService
     /**
      * @return array
      */
+    public function getIndexStructureForUser(): array
+    {
+        return $this->getFullStructureForUser((new Order()));
+    }
+
+    /**
+     * @return array
+     */
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new Order()));
+    }
+
+    /**
+     * @param $consumerId
+     * @return mixed
+     */
+    public function getOrdersForConsumer($consumerId)
+    {
+        return $this->repository->getOrdersForConsumers($consumerId);
     }
 
     /**
@@ -177,6 +207,28 @@ class OrderService extends BaseModelService
      * @param Model $model
      * @return array
      */
+    public function getIndexFieldsForUser(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'menu_item.name',
+                'label' => __('menu-item.Menuitem')
+            ],
+            [
+                'key'   => 'quantity',
+                'label' => __('order.Quantity')
+            ],
+            [
+                'key'   => 'translated_day',
+                'label' => __('app.Day')
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
     protected function getSortFields(Model $model): array
     {
         return [
@@ -185,6 +237,19 @@ class OrderService extends BaseModelService
             'quantity'                              => '',
             'day'                                   => '',
             'menu_item.menu_category.location.name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFieldsForUser(Model $model): array
+    {
+        return [
+            'menu_item.name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
         ];
     }
 
@@ -208,6 +273,35 @@ class OrderService extends BaseModelService
     }
 
     /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getFiltersForUser(Model $model): array
+    {
+        return [
+            'menu_item.name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
+        ];
+    }
+
+    /**
+     * Returns main model full structure
+     *
+     * @param Model $model
+     * @return array
+     */
+    public function getFullStructureForUser(Model $model): array
+    {
+        return [
+            'filters'      => $this->getFiltersForUser($model),
+            'sort'         => $this->getSortFieldsForUser($model),
+            'fields'       => $this->getIndexFieldsForUser($model),
+            'allowActions' => $this->getAllowActions(),
+        ];
+    }
+
+    /**
      * Returns all orders for current day
      *
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
@@ -215,5 +309,16 @@ class OrderService extends BaseModelService
     public function getOrdersForToday()
     {
         return $this->repository->getOrdersForToday();
+    }
+
+    /**
+     * Returns all orders for current day
+     *
+     * @param $consumerId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getOrdersOverviewForConsumers($consumerId)
+    {
+        return $this->repository->getOrdersOverviewForConsumers($consumerId);
     }
 }
