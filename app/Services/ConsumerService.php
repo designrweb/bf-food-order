@@ -10,7 +10,6 @@ use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Consumer;
 use Mpdf\Mpdf;
-use PDF;
 
 
 class ConsumerService extends BaseModelService
@@ -195,9 +194,15 @@ class ConsumerService extends BaseModelService
         $model       = $this->repository->get($id);
         $qrCodeImage = $this->getQrCodeImage($id);
         $view        = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
+        $footer        = view('consumers._manual_footer')->render();
 
-        $mpdf = new Mpdf();
+        $mpdf                 = new Mpdf();
+        $mpdf->title          = config('app.name') . ' Handbuch';
+        $mpdf->margin_footer = 0;
+        $mpdf->margin_header = 0;
+        $mpdf->defaultCssFile = public_path('css/kv-mpdf-bootstrap.min.css');
         $mpdf->WriteHTML($view);
+        $mpdf->SetHTMLFooter($footer);
 
         return $mpdf->Output('', 'I');
     }

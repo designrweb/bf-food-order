@@ -41,7 +41,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/crud/user_food_order.js', 'public/js/crud')
     .js('resources/js/crud/user_food_order_overview.js', 'public/js/crud')
     .js('resources/js/crud/user_payments.js', 'public/js/crud')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .copy('resources/sass/kv-mpdf-bootstrap.min.css', 'public/css');
 
 //user part
 mix.js('resources/js/app.js', 'public/js_frontend')
