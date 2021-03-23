@@ -33,6 +33,10 @@ class OrderSearch extends BaseSearch
             $query->where('orders.day', date('Y-m-d', strtotime(request('filters.day'))));
         });
 
+        $this->builder->when(request('filters.translated_day'), function (Builder $query) {
+            $query->where('orders.day', date('Y-m-d', strtotime(request('filters.translated_day'))));
+        });
+
         if (!empty(request('filters.menu_item.menu_category.location.name'))) {
             $this->applyFilter('menu_categories.location_id', request('filters.menu_item.menu_category.location.name'));
         }
@@ -51,6 +55,10 @@ class OrderSearch extends BaseSearch
 
         $this->builder->when(request('sort.menu_item.name'), function (Builder $query) {
             return $query->orderBy('menu_items.name', request('sort.menu_item.name'));
+        });
+
+        $this->builder->when(request('sort.translated_day'), function (Builder $query) {
+            return $query->orderBy('orders.day', request('sort.translated_day'));
         });
 
         $this->builder->when(request('sort.consumer.full_name'), function (Builder $query) {

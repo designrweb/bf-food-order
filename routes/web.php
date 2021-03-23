@@ -408,6 +408,9 @@ Route::prefix('user')
             Route::post('/', 'FoodOrderController@store')->name('user.food-order.store');
             Route::put('/', 'FoodOrderController@update')->name('user.food-order.update');
             Route::delete('/', 'FoodOrderController@destroy')->name('user.food-order.delete');
+            Route::get('/food-orders', 'FoodOrderController@foodOrders')->name('user.food-order.food-orders');
+            Route::get('/get-structure', 'FoodOrderController@getIndexStructure')->name('user.food-order.index-structure');
+            Route::get('/get-all', 'FoodOrderController@getAll')->name('user.food-order.get-all');
         });
 
 
