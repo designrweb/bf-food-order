@@ -40,7 +40,7 @@ class MobileConsumerCollection extends JsonResource
                 'account_id'          => $item->account_id,
                 'firstname'           => $item->firstname,
                 'lastname'            => $item->lastname,
-                'birthday'            => $item->birthday,
+                'birthday'            => date('d-m-Y', strtotime($item->birthday)),
                 'image'               => $item->imageurl,
                 'balance'             => $item->balance,
                 'balance_limit'       => $item->balance_limit,
