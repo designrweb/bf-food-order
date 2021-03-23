@@ -463,7 +463,7 @@ class ConsumerService extends BaseModelService
             'account_id'                                 => '',
             'location_group.location.name'               => '',
             'location_group.name'                        => '',
-            'user.user_info.full_name'                  => '',
+            'user.user_info.full_name'                   => '',
             'full_name'                                  => '',
             'subsidization.subsidization_rule.rule_name' => '',
         ];
