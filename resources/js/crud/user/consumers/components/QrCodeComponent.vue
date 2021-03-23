@@ -50,9 +50,6 @@ export default {
             isPageBusy: false,
         }
     },
-    mounted() {
-        console.log(this.resource);
-    }
 }
 </script>
 
