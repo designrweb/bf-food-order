@@ -343,7 +343,7 @@ class ConsumerService extends BaseModelService
                 'label' => __('location-group.Group')
             ],
             [
-                'key'   => 'user.user_info.first_name',
+                'key'   => 'user.user_info.full_name',
                 'label' => __('consumer.Parent')
             ],
             [
