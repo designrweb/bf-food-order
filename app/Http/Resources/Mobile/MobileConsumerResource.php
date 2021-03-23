@@ -38,7 +38,7 @@ class MobileConsumerResource extends JsonResource
         $data['account_id']          = $this->account_id;
         $data['firstname']           = $this->firstname;
         $data['lastname']            = $this->lastname;
-        $data['birthday']            = $this->birthday;
+        $data['birthday']            = date('d-m-Y', strtotime($this->birthday));
         $data['image']               = $this->imageurl;
         $data['balance']             = $this->balance;
         $data['balance_limit']       = $this->balance_limit;
