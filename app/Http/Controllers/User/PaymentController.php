@@ -60,7 +60,7 @@ class PaymentController extends Controller
      */
     public function getBankTransactionsIndexStructure(Request $request): array
     {
-        return $this->bankTransactionService->getIndexStructure();
+        return $this->bankTransactionService->getIndexStructureForUser();
     }
 
     /**
@@ -93,7 +93,7 @@ class PaymentController extends Controller
      */
     public function getMealOrdersStructure(): array
     {
-        return $this->mealOrderService->getIndexStructure();
+        return $this->mealOrderService->getIndexStructureForUser();
     }
 
     /**

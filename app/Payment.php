@@ -98,6 +98,6 @@ class Payment extends Model
      */
     public function getAmountLocaleAttribute()
     {
-        return str_replace('.', ',', $this->amount);
+        return str_replace('.', ',', $this->amount) . ' €';
     }
 }

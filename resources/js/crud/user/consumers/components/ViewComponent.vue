@@ -25,7 +25,7 @@
                     <tr v-for="(data, index) in pageData" v-bind:key="data.key">
                         <th>{{ data.label }}</th>
                         <td v-if="index === 'imageurl'">
-                            <b-img v-if="data.value" rounded left :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
+                            <b-img v-if="data.value" rounded left :src="data.value" v-bind="{ width: 250, height: 250}" alt="Fluid image"></b-img>
                         </td>
                         <td v-else> {{ data.value ? data.value : '---' }}</td>
                     </tr>

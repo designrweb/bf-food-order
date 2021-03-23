@@ -211,10 +211,6 @@ class OrderService extends BaseModelService
     {
         return [
             [
-                'key'   => 'consumer.full_name',
-                'label' => __('order.Child Full Name')
-            ],
-            [
                 'key'   => 'menu_item.name',
                 'label' => __('menu-item.Menuitem')
             ],
@@ -251,7 +247,6 @@ class OrderService extends BaseModelService
     protected function getSortFieldsForUser(Model $model): array
     {
         return [
-            'consumer.full_name' => '',
             'menu_item.name'     => '',
             'quantity'           => '',
             'translated_day'     => '',
@@ -284,7 +279,6 @@ class OrderService extends BaseModelService
     protected function getFiltersForUser(Model $model): array
     {
         return [
-            'consumer.full_name' => '',
             'menu_item.name'     => '',
             'quantity'           => '',
             'translated_day'     => '',
