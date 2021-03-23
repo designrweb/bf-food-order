@@ -236,9 +236,9 @@ class ConsumerService extends BaseModelService
     public function getIndexStructureForUser($model): array
     {
         return [
-            'filters'      => $this->getFilters($model),
-            'sort'         => $this->getSortFields($model),
-            'fields'       => $this->getIndexFieldsLabels($model),
+            'filters'      => $this->getFiltersForUser($model),
+            'sort'         => $this->getSortFieldsForUser($model),
+            'fields'       => $this->getIndexFieldsLabelsForUser($model),
             'allowActions' => $this->getAllowActionsForUser(),
         ];
     }
@@ -404,6 +404,40 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param Model $model
+     * @return \string[][]
+     */
+    public function getIndexFieldsLabelsForUser(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'full_name',
+                'label' => __('consumer.Child')
+            ],
+            [
+                'key'   => 'account_id',
+                'label' => __('consumer.Account')
+            ],
+            [
+                'key'   => 'location_group.location.name',
+                'label' => __('location.Location')
+            ],
+            [
+                'key'   => 'location_group.name',
+                'label' => __('location-group.Group')
+            ],
+            [
+                'key'   => 'user.user_info.full_name',
+                'label' => __('consumer.Parent')
+            ],
+            [
+                'key'   => 'subsidization.subsidization_rule.rule_name',
+                'label' => __('subsidization.Subsidization Rule')
+            ],
+        ];
+    }
+
+    /**
+     * @param Model $model
      * @return string[]
      */
     protected function getFilters(Model $model): array
@@ -421,6 +455,22 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param Model $model
+     * @return string[]
+     */
+    protected function getFiltersForUser(Model $model): array
+    {
+        return [
+            'account_id'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.full_name'                   => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
      * @return array
      */
     protected function getSortFields(Model $model): array
@@ -431,6 +481,22 @@ class ConsumerService extends BaseModelService
             'location_group.location.name'               => '',
             'location_group.name'                        => '',
             'user.user_info.first_name'                  => '',
+            'full_name'                                  => '',
+            'subsidization.subsidization_rule.rule_name' => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getSortFieldsForUser(Model $model): array
+    {
+        return [
+            'account_id'                                 => '',
+            'location_group.location.name'               => '',
+            'location_group.name'                        => '',
+            'user.user_info.full_name'                   => '',
             'full_name'                                  => '',
             'subsidization.subsidization_rule.rule_name' => '',
         ];
