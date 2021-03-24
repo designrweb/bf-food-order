@@ -24,10 +24,10 @@ class MobileOrderCollection extends JsonResource
 
             $data = $item->toArray();
 
-            $data['menu_category_name'] = $item->menuItem->menuCategory->name;
+            $data['menu_category_name']    = $item->menuItem->menuCategory->name;
             $data['menu_item_description'] = $item->menuItem->description;
-            $data['menu_item_name'] = $item->menuItem->name;
-            $data['price'] = $item->menuItem->menuCategory->price * $item->quantity;
+            $data['menu_item_name']        = $item->menuItem->name;
+            $data['price']                 = $item->menuItem->menuCategory->price * $item->quantity;
 
             return $data;
         });

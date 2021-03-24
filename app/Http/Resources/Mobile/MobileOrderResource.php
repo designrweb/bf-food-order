@@ -22,10 +22,10 @@ class MobileOrderResource extends JsonResource
     {
         $data = parent::toArray($request);
 
-        $data['menu_category_name'] = $this->menuItem->menuCategory->name;
+        $data['menu_category_name']    = $this->menuItem->menuCategory->name;
         $data['menu_item_description'] = $this->menuItem->description;
-        $data['menu_item_name'] = $this->menuItem->name;
-        $data['price'] = $this->menuItem->menuCategory->price * $this->quantity;
+        $data['menu_item_name']        = $this->menuItem->name;
+        $data['price']                 = $this->menuItem->menuCategory->price * $this->quantity;
 
         return $data;
     }
