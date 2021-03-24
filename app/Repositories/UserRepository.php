@@ -151,4 +151,13 @@ class UserRepository implements RepositoryInterface
 
         return true;
     }
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function getByEmail(string $email)
+    {
+        return $this->model->where('email', $email)->first();
+    }
 }

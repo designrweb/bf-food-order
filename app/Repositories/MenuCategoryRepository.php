@@ -30,6 +30,7 @@ class MenuCategoryRepository implements RepositoryInterface
                 MenuCategorySearch::class,
             ])
             ->thenReturn()
+            ->with('location')
             ->paginate(request('itemsPerPage') ?? 10);
     }
 

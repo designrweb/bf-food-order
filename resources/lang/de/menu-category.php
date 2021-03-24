@@ -13,5 +13,6 @@ return [
     'Create Menu Category'  => 'Menülinie erstellen',
     'Update Menu Category'  => 'Menülinie :name bearbeiten',
     'Not Available for POS' => 'nicht verfügbar für POS',
+    'Location'              => 'Einrichtung',
 
 ];
