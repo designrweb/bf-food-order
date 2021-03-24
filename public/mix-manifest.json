@@ -25,9 +25,12 @@
     "/js/crud/subsidized_menu_categories.js": "/js/crud/subsidized_menu_categories.js",
     "/js/crud/user_consumers.js": "/js/crud/user_consumers.js",
     "/js/crud/user_food_order.js": "/js/crud/user_food_order.js",
+    "/js/crud/user_food_order_overview.js": "/js/crud/user_food_order_overview.js",
+    "/js/crud/user_payments.js": "/js/crud/user_payments.js",
     "/js/crud/users.js": "/js/crud/users.js",
     "/js/crud/vacation.js": "/js/crud/vacation.js",
     "/js/crud/vacation_location_group.js": "/js/crud/vacation_location_group.js",
     "/js/crud/voucher_limits.js": "/js/crud/voucher_limits.js",
-    "/js_frontend/app.js": "/js_frontend/app.js"
+    "/js_frontend/app.js": "/js_frontend/app.js",
+    "/css/kv-mpdf-bootstrap.min.css": "/css/kv-mpdf-bootstrap.min.css"
 }
