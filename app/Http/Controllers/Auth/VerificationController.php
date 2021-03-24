@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
+use App\Services\UserService;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
@@ -42,7 +44,7 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('verify');
+        $this->middleware('auth')->except('verify', 'resend');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
@@ -89,9 +91,10 @@ class VerificationController extends Controller
             event(new Verified($user));
         }
 
-        if ($response = $this->verified($request)) {
-            return $response;
-        }
+        //autologin user after email verify
+        auth()->login($user);
+
+        $this->verified($request);
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
@@ -109,5 +112,27 @@ class VerificationController extends Controller
         if (!$request->user()) return;
 
         $request->user()->notify(new WelcomeNotification());
+    }
+
+    /**
+     * Resend the email verification notification.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param UserService              $userService
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function resend(Request $request, UserService $userService)
+    {
+        if ($request->user() && $request->user()->hasVerifiedEmail()) {
+            return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : redirect($this->redirectPath());
+        }
+
+        event(new Registered($userService->getByEmail($request->get('email'))));
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 202)
+            : back()->with('resent', true);
     }
 }

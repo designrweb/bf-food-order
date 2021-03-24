@@ -21,7 +21,7 @@
             </a>
         </div>
         @guest
-            <a class="auth-link brand-color-second" href="{{ route('login') }}">Login</a>
+            <a class="auth-link brand-color-second" href="{{ route('login') }}">{{ __('user.Login') }}</a>
         @else
 
             <a id="navbarDropdown" class="auth-link brand-color-second nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -33,7 +33,7 @@
                 <a class="brand-color-second dropdown-item" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
+                    {{ __('user.Logout') }}
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

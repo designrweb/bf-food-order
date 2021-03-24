@@ -121,6 +121,18 @@ class UserService extends BaseModelService
     }
 
     /**
+     * Get if user has consumers
+     *
+     * @param string $email
+     *
+     * @return mixed
+     */
+    public function getByEmail(string $email)
+    {
+        return $this->repository->getByEmail($email);
+    }
+
+    /**
      * @param Model $model
      * @return \string[][]
      */
