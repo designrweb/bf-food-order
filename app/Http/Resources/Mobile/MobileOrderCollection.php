@@ -21,7 +21,15 @@ class MobileOrderCollection extends JsonResource
     public function toArray($request)
     {
         return $this->resource->transform(function (Order $item) {
-            return $item->toArray();
+
+            $data = $item->toArray();
+
+            $data['menu_category_name'] = $item->menuItem->menuCategory->name;
+            $data['menu_item_description'] = $item->menuItem->description;
+            $data['menu_item_name'] = $item->menuItem->name;
+            $data['price'] = $item->menuItem->menuCategory->price * $item->quantity;
+
+            return $data;
         });
     }
 }
