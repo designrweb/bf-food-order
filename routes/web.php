@@ -364,7 +364,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 //user role
 Route::prefix('user')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified:login'])
     ->group(function () {
         Route::prefix('profile')->namespace('User')->group(function () {
             Route::get('/', 'ProfileController@index')->name('profile.index');

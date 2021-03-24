@@ -8,6 +8,9 @@
                     <h5 class="card-header">{{ __('user.Login') }}</h5>
 
                     <div class="card-body">
+                        @if (session('successfullyRegistered'))
+
+                        @endif
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
@@ -70,16 +73,32 @@
                         </form>
                     </div>
                     <div class="card-footer">
-{{--                        <p class="text-center">--}}
-{{--                            <a href="{{ route('verification.resend') }}" class="brand-color">{{ __('Didn\'t receive confirmation message?') }}</a>--}}
-{{--                        </p>--}}
                         <p class="text-center">
-                            <a href="{{route('register')}}" class="brand-color">{{ __('user.Don\'t have an account? Sign up!') }}</a>
+                            <a href="{{ route('register') }}" class="brand-color">{{ __('user.Don\'t have an account? Sign up!') }}</a>
                         </p>
                         <p class="text-center">
                             <a href="{{ route('password.request') }}" class="brand-color">{{ __('user.Forgot password?') }}</a>
                         </p>
-
+                        @error('hasNoVerifiedEmail')
+                            <div class="text-center">
+                                <div class="alert alert-success">
+                                    {{ __('user.Before proceeding, please check your email for a verification link.') }}
+                                    {{ __('user.If you did not receive the email') }},
+                                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                                        @csrf
+                                        <input type="hidden" name="email" value="{{ $message }}">
+                                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="color: #96c11f;">
+                                            {{ __('user.click here to request another') }}.
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @enderror
+                        @if (session('resent'))
+                            <div class="alert alert-success" role="alert">
+                                {{ __('user.A fresh verification link has been sent to your email address.') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
