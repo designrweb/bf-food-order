@@ -22,7 +22,7 @@ class ConsumerOrdersPosTerminalResource extends JsonResource
             'categoryName'     => $this->menuItem->menuCategory->name,
             'description'      => $this->menuItem->description,
             'price'            => $this->menuItem->menuCategory->price,
-            'type'             => Order::TYPES[$this->type],
+            'type'             => $this->type,
             'quantity'         => $this->quantity,
             'consumer_id'      => $this->consumer_id,
             'pickedup_at'      => $this->pickedup_at ? date('d.m.Y H:i', strtotime($this->pickedup_at)) : null,

@@ -30,8 +30,9 @@ class OrderController extends Controller
      */
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
-        $data   = $request->all();
-        $errors = [];
+        $data    = $request->all();
+        $errors  = [];
+        $message = 'Order is successfully created';
 
         DB::beginTransaction();
         try {
@@ -62,6 +63,8 @@ class OrderController extends Controller
                         'pickedup'    => 1,
                         'pickedup_at' => date('Y-m-d H:i:s')
                     ], $order->id);
+
+                    $message = 'Order is successfully picked up';
                 }
 
                 // create spontaneous order
@@ -84,10 +87,12 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
+            $errors[] = env('APP_DEBUG') == true ? $e->getMessage() : 'Something went wrong!';
+
             return response()->json(['errors' => $errors], 422);
         }
 
-        return response()->json(['message' => 'Order is successfully created']);
+        return response()->json(['message' => $message, 'success' => true]);
     }
 
     /**
