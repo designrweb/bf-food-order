@@ -21,7 +21,7 @@ class ConsumerPosTerminalResource extends JsonResource
             "lastname"                 => $this->lastname,
             "coefficient"              => $this->balance,
             "locationGroup"            => $this->locationgroup->name,
-            "image"                    => $this->imageurl ? sprintf('uploads/%s', $this->imageurl) : null,
+            "image"                    => $this->imageurl,
             "preOrderedItems"          => ConsumerOrdersPosTerminalResource::collection($this->preOrderedItems),
             "pickedUpPreOrderedItems"  => ConsumerOrdersPosTerminalResource::collection($this->pickedUpPreOrderedItems),
             "pickedUpPosOrderedItems"  => ConsumerOrdersPosTerminalResource::collection($this->pickedUpPosOrderedItems),
