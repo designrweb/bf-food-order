@@ -26,7 +26,7 @@ class Vacation extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'start_date', 'end_date', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'start_date', 'end_date'];
 
     /**
      * @return \Closure|mixed|void

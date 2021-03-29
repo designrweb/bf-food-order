@@ -150,7 +150,7 @@ return [
     */
 
     'sidebar_mini'                            => true,
-    'sidebar_collapse'                        => false,
+    'sidebar_collapse'                        => true,
     'sidebar_collapse_auto_size'              => true,
     'sidebar_collapse_remember'               => true,
     'sidebar_collapse_remember_no_transition' => true,
@@ -371,6 +371,7 @@ return [
             'route'   => 'vacations.index',
             'icon'    => 'nav-icon fa fa-calendar',
             'can'     => ['menu-Vacation'],
+            'active'  => ['*vacations*'],
             'classes' => 'admin-vacations-menu',
         ],
         [

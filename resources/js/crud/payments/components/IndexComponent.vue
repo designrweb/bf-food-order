@@ -6,7 +6,7 @@
         Manuelle Zahlungsbuchung
       </a>
     </div>
-    <div class="card-body">
+    <div class="card-body overflow-auto">
       <div class="card-header bg-light">
         <div class="float-right">
           <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>

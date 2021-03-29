@@ -150,10 +150,6 @@ class SettingService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'setting_name',
                 'label' => __('setting.Setting Name')
             ],
