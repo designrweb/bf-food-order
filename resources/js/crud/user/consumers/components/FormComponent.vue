@@ -205,7 +205,9 @@ export default {
             isPageBusy:          false,
             selectedFile:        null,
             itemData:            [],
-            form:                {},
+            form:                {
+                balance_limit: 25,
+            },
             location_group_list: [],
             validation:          {
                 'id':                {'state': true, 'message': ''},

@@ -323,6 +323,7 @@ export default {
             itemData:                [],
             subsidization_rule_list: [],
             form:                    {
+                balance_limit: 25,
                 subsidization: {
                     subsidization_document: null
                 }
