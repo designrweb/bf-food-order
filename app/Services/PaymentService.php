@@ -315,9 +315,9 @@ class PaymentService extends BaseModelService
     // todo make this function protected
     public function createReversePayment(Payment $payment, Order $order)
     {
-        $subsidizationRule = $payment->consumer->subsidization->subsidizationRule;
+        $subsidization = $payment->consumer->subsidization;
 
-        $subsidizedMenuCategory = $this->subsidizedMenuCategoriesService->getMenuCategoryWithSubsidization($order->menuItem->menuCategory->id, $subsidizationRule->id);
+        $subsidizedMenuCategory = $this->subsidizedMenuCategoriesService->getMenuCategoryWithSubsidization($order->menuItem->menuCategory->id, $subsidization->subsidization_rule_id);
         $amount = $this->getReversePaymentAmount($order->quantity, $payment->amount, $subsidizedMenuCategory->percent, $order->type);
 
         $reversePayment           = $payment->replicate();
