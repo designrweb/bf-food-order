@@ -205,7 +205,9 @@ export default {
             isPageBusy:          false,
             selectedFile:        null,
             itemData:            [],
-            form:                {},
+            form:                {
+                balance_limit: 25,
+            },
             location_group_list: [],
             validation:          {
                 'id':                {'state': true, 'message': ''},
@@ -277,8 +279,6 @@ export default {
         onReset() {
         },
         async _loadData() {
-            this.form['balance_limit'] = 25;
-
             if (this.id == null) return;
 
             let response = await getItem(this.main_route, this.id);

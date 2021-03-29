@@ -323,6 +323,7 @@ export default {
             itemData:                [],
             subsidization_rule_list: [],
             form:                    {
+                balance_limit: 25,
                 subsidization: {
                     subsidization_document: null
                 }
@@ -440,8 +441,6 @@ export default {
         onReset() {
         },
         async _loadData() {
-            this.form['balance_limit'] = 25;
-
             if (this.id == null) return;
 
             let response  = await getItem(this.main_route, this.id);
