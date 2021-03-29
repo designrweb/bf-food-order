@@ -83,18 +83,9 @@ class VacationRepository implements RepositoryInterface
 
     /**
      * @param       $id
-     * @return VacationResource
-     */
-    public function get($id)
-    {
-        return new VacationResource($this->model->with(['locationGroups.locationGroup.location'])->findOrFail($id));
-    }
-
-    /**
-     * @param       $id
      * @return Vacation|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
-    public function getTest($id)
+    public function get($id)
     {
         return $this->model->with(['locationGroups.locationGroup.location'])->findOrFail($id);
     }

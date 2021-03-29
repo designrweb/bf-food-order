@@ -58,7 +58,7 @@ class VacationService extends BaseModelService
      */
     public function getOne($id): VacationFormResource
     {
-        return new VacationFormResource($this->repository->getTest($id));
+        return new VacationFormResource($this->repository->get($id));
     }
 
     /**
@@ -235,32 +235,5 @@ class VacationService extends BaseModelService
             'location_name'       => '',
             'location_group_name' => '',
         ];
-    }
-
-
-    /**
-     * @param        $start
-     * @param        $end
-     * @param string $format
-     * @return array
-     * @throws \Exception
-     */
-    protected function getDatesFromRange($start, $end, $format = 'Y-m-d')
-    {
-        $periodOfDates = [];
-
-        // period 1 day
-        $interval = new DateInterval('P1D');
-
-        $realEnd = new DateTime($end);
-        $realEnd->add($interval);
-
-        $period = new DatePeriod(new DateTime($start), $interval, $realEnd);
-
-        foreach ($period as $date) {
-            $periodOfDates[] = $date->format($format);
-        }
-
-        return $periodOfDates;
     }
 }
