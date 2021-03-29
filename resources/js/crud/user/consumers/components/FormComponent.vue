@@ -277,6 +277,8 @@ export default {
         onReset() {
         },
         async _loadData() {
+            this.form['balance_limit'] = 25;
+
             if (this.id == null) return;
 
             let response = await getItem(this.main_route, this.id);

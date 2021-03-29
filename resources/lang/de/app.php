@@ -51,4 +51,5 @@ return [
     'Upload'                                     => 'Hochladen',
     'Vouchers Limit'                             => 'Aufschlagsfaktor Essen',
     'Zip'                                        => 'PLZ',
+    'Please increase your balance'               => 'Bitte erhöhen Sie Ihr Guthaben',
 ];

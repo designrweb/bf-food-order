@@ -37,6 +37,8 @@
 
             {{-- Content Header --}}
             <div class="content-header">
+                @includeWhen($currentConsumer && empty($currentConsumer->subsidization) && $currentConsumer->balance <
+                 $currentConsumer->balance_limit , 'adminlte::partials.balance_limit_bar')
                 <div class="{{ config('adminlte.classes_content_header') ?: $def_container_class }}">
                     @yield('content_header')
                 </div>
