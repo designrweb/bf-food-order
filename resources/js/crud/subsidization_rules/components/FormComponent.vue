@@ -107,15 +107,15 @@
                                             <td class="text-left">{{ menu_category.name }}</td>
                                             <td>{{ menu_category.presaleprice.replace(".", ",") }} €</td>
                                             <td>
-                                                <b-form-spinbutton
+                                                <spin-button
                                                     :ref="`percent_full_`+ menu_category.id"
-                                                    v-model="menu_category.percent_full"
+                                                    :value="menu_category.percent_full"
                                                     :name="`menu_category[${menu_category.id}]`"
                                                     min="0"
                                                     max="100"
                                                     inline
-                                                    @change="handleSubsidizationPercentage($event, menu_category.id)"
-                                                ></b-form-spinbutton>
+                                                    @keypress="isNumber"
+                                                    @change="handleSubsidizationPercentage($event, menu_category.id)"/>
                                             </td>
 
                                             <td>
@@ -136,9 +136,10 @@
                                             </td>
 
                                             <td>
-                                                <span :ref="`result_subsidization_price_`+ menu_category.id">{{
-                                                        menu_category.resulted_price.toString().replace(".", ",")
-                                                    }}</span><span> €</span>
+                                                <span :ref="`result_subsidization_price_`+ menu_category.id">
+                                                    {{ menu_category.resulted_price.toString().replace(".", ",") }}
+                                                </span>
+                                                <span> €</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -168,11 +169,13 @@ import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
 import DatePicker          from 'vue2-datepicker';
 import moment              from "moment";
+import SpinButton          from "../../shared/SpinButton";
 
 export default {
     components: {
         'spinner-component':     SpinnerComponent,
         'back-button-component': BackButtonComponent,
+        'spin-button': SpinButton,
         DatePicker
     },
     props:      {
@@ -190,6 +193,12 @@ export default {
             itemData:   [],
             form:       {
                 subsidization_menu_categories_list: {}
+            },
+            lang:                    {
+                formatLocale:    {
+                    firstDayOfWeek: 1,
+                },
+                monthBeforeYear: false,
             },
             validation: {
                 'id':                            {'state': true, 'message': ''},
@@ -218,6 +227,7 @@ export default {
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
             let value                    = (presaleprice * (val / 100)).toFixed(2);
+            console.log(val);
 
             this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");

@@ -144,10 +144,6 @@ class SubsidizationRuleService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'rule_name',
                 'label' => __('subsidization.Rule Name')
             ],

@@ -4,7 +4,7 @@
       <h3 class="card-title">{{ title }}</h3>
       <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
     </div>
-    <div class="card-body">
+    <div class="card-body overflow-auto">
       <b-form @submit="onSubmit">
         <b-form-group>
           <b-form-file

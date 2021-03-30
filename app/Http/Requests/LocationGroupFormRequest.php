@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LocationGroupFormRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class LocationGroupFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'        => 'required|string|max:255',
+            'name'        => ['required', 'string', 'max:255', Rule::unique('location_groups')->where(function ($query) {
+                return $query->where('location_id', $this->location_id);
+            })],
             'location_id' => 'required|numeric',
         ];
     }

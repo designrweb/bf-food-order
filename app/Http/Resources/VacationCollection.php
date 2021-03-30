@@ -27,8 +27,8 @@ class VacationCollection extends PaginatableCollection
                 return [
                     'id'                  => $item->id,
                     'name'                => $item->name,
-                    'start_date'          => date('l, d.m.Y', strtotime($item->start_date)),
-                    'end_date'            => date('l, d.m.Y', strtotime($item->end_date)),
+                    'start_date'          => Carbon::parse($item->start_date)->translatedFormat('l, d.m.Y'),
+                    'end_date'            => Carbon::parse($item->end_date)->translatedFormat('l, d.m.Y'),
                     'location_name'       => $item->locationGroups->first()->locationGroup->location->name,
                     'location_id'         => $item->locationGroups->first()->locationGroup->location->id,
                     'location_group_id'   => $item->locationGroups->pluck('locationGroup.id')->toArray(),

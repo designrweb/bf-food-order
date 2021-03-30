@@ -16,7 +16,7 @@
                 </div>
 
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <div class="text-center" v-if="isPageBusy">
                     <spinner-component></spinner-component>
                 </div>

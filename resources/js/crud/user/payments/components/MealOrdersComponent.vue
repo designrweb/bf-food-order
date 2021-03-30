@@ -38,7 +38,15 @@
                 <template v-slot:top-row="scope" :columns="4">
                     <b-th v-for="field in scope.fields" v-bind:key="field.key">
                         <div v-if="field.key in filters">
-                            <filter-text @changeFilter="applyFilter"
+                            <filter-form-date-picker
+                                v-if="field.key === 'created_at_human' || field.key === 'order_day'"
+                                @changeFilter="applyFilter"
+                                :filterName="field.key"
+                                :filterLabel="field.label"
+                                :appliedFilterValue="filters[field.key]"
+                            ></filter-form-date-picker>
+
+                            <filter-text v-else @changeFilter="applyFilter"
                                          :filterName="field.key"
                                          :filterLabel="field.label"
                                          :appliedFilterValue="filters[field.key]"
@@ -85,6 +93,7 @@ import PaginationInfoComponent                              from "../../../share
 import NoDataComponent                                      from "../../../shared/NoDataComponent";
 import {actionColumnMixin}                                  from "../../../mixins/actionColumnMixin";
 import NoConsumersComponent                                 from "../../../shared/NoConsumersComponent";
+import FormDatePickerFilterComponent                        from "../../../shared/filters/FormDatePickerFilterComponent";
 
 export default {
     components: {
@@ -94,6 +103,7 @@ export default {
         'edit-button':               EditButton,
         'delete-button':             DeleteButton,
         'spinner-component':         SpinnerComponent,
+        'filter-form-date-picker':   FormDatePickerFilterComponent,
         'pagination-into-component': PaginationInfoComponent,
         'no-data-component':         NoDataComponent,
         'no-consumers-component':    NoConsumersComponent,

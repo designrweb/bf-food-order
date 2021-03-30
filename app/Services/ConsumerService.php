@@ -373,10 +373,6 @@ class ConsumerService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'account_id',
                 'label' => __('consumer.Account')
             ],

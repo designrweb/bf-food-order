@@ -56,7 +56,7 @@ class PaymentSearch extends BaseSearch
         // sort
         $this->applySort('payments.amount', request('sort.amount_locale'));
         $this->applySort('payments.comment', request('sort.comment'));
-        $this->applySort('payments.created_at', request('sort.created_at_human'));
+        $this->applySort('payments.created_at', request('sort.created_at_human', 'desc'));
 
         $this->builder->when(request('sort.consumer_account'), function (Builder $q) {
             return $q->orderBy('consumers.account_id', request('sort.consumer_account'));

@@ -38,6 +38,10 @@ class MealOrderSearch extends BaseSearch
             $this->builder->where('payments.consumer_id', $this->consumerService->getCurrentConsumer()->id);
         }
 
+        $this->builder->when(request('filters.order_day'), function (Builder $q) {
+            $q->where('orders.day', 'like', date('Y-m-d', strtotime(request('filters.order_day'))) . '%');
+        });
+
         $this->builder->whereNotIn('payments.type', [Payment::TYPE_BANK_TRANSACTION, Payment::TYPE_MANUAL_TRANSACTION]);
 
         return $this->builder;

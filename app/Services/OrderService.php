@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
+use App\Notifications\CancelOrderNotification;
 use App\Repositories\OrderRepository;
+use App\User;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -108,9 +110,9 @@ class OrderService extends BaseModelService
      * @param $locationGroup
      * @return mixed
      */
-    public static function getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup)
+    public function getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup)
     {
-        return OrderRepository::getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
+        return $this->repository->getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
     }
 
     /**
@@ -119,9 +121,32 @@ class OrderService extends BaseModelService
      * @param $locationGroup
      * @return bool
      */
-    public static function cancelOrders($startDate, $endDate, $locationGroup)
+    public function cancelOrders($startDate, $endDate, $locationGroup)
     {
-        return OrderRepository::cancelOrders($startDate, $endDate, $locationGroup);
+        $canceledOrders = $this->repository->getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
+
+        $users = collect();
+        $dates = collect();
+        foreach ($canceledOrders as $canceledOrder) {
+            $users->push($canceledOrder->consumer->user);
+            $dates->push($canceledOrder->day);
+
+            //create payment and refund money
+            $this->remove($canceledOrder->id);
+        }
+
+        $dates = $dates->sort();
+        if ($dates->count() === 1) {
+            $vacationPeriod = date('d.m.Y', strtotime($dates[0]));
+        } else {
+            $vacationPeriod = sprintf('%s - %s', date('d.m.Y', strtotime($dates[0])), date('d.m.Y', strtotime($dates[$dates->count() - 1])));
+        }
+
+        //send cancel order email to each user
+        foreach ($users->unique() as $user) {
+            /** @var User $user */
+            $user->notify(new CancelOrderNotification($vacationPeriod));
+        }
     }
 
     /**

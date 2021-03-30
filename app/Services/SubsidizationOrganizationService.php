@@ -135,10 +135,6 @@ class SubsidizationOrganizationService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'name',
                 'label' => __('app.Name')
             ],
