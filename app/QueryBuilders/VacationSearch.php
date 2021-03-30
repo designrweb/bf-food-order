@@ -22,11 +22,16 @@ class VacationSearch extends BaseSearch
             ->leftJoin('vacation_location_group', 'vacation_location_group.vacation_id', '=', 'vacations.id')
             ->leftJoin('location_groups', 'location_groups.id', '=', 'vacation_location_group.location_group_id')
             ->join('locations', 'locations.id', '=', 'location_groups.location_id')
-            ->groupBy('locations.id');
+            ->groupBy('vacations.id');
 
         // filters
-        $this->applyFilter('vacations.id', request('filters.id'));
-        $this->applyFilter('vacations.name', request('filters.name'));
+        if (request('filters.name')) {
+            $this->applyFilter('vacations.name', request('filters.name'));
+        }
+
+        if (request('filters.start_date')) {
+            $this->builder->where('vacations.start_date', '>=', date('Y-m-d', strtotime(request('filters.start_date'))));
+        }
 
         if (request('filters.start_date')) {
             $this->builder->where('vacations.start_date', '>=', date('Y-m-d', strtotime(request('filters.start_date'))));

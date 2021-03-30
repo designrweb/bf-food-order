@@ -142,8 +142,9 @@ class ConsumerRepository implements RepositoryInterface
 
         foreach ($allConsumers as $consumer) {
             $consumersArray[] = [
-                'id'   => $consumer->id,
-                'name' => sprintf('%s-%s %s', $consumer->account_id, $consumer->lastname, $consumer->firstname)
+                'id'      => $consumer->id,
+                'name'    => sprintf('%s-%s %s', $consumer->account_id, $consumer->lastname, $consumer->firstname),
+                'balance' => $consumer->balance
             ];
         }
 

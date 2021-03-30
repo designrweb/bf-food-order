@@ -371,6 +371,7 @@ return [
             'route'   => 'vacations.index',
             'icon'    => 'nav-icon fa fa-calendar',
             'can'     => ['menu-Vacation'],
+            'active'  => ['*vacations*'],
             'classes' => 'admin-vacations-menu',
         ],
         [

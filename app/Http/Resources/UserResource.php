@@ -18,7 +18,7 @@ class UserResource extends JsonResource
         $data = parent::toArray($request);
 
         $data['role_name']       = User::ROLES[$this->role];
-        $data['salutation_name'] = User::SALUTATIONS[$this->userInfo->salutation];
+        $data['salutation_name'] = $this->userInfo ? User::SALUTATIONS[$this->userInfo->salutation] : '';
 
         return $data;
     }

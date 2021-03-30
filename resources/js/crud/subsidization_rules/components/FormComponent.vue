@@ -112,15 +112,15 @@
                                                 €
                                             </td>
                                             <td>
-                                                <b-form-spinbutton
+                                                <spin-button
                                                     :ref="`percent_full_`+ menu_category.id"
-                                                    v-model="menu_category.percent_full"
+                                                    :value="menu_category.percent_full"
                                                     :name="`menu_category[${menu_category.id}]`"
                                                     min="0"
                                                     max="100"
                                                     inline
-                                                    @change="handleSubsidizationPercentage($event, menu_category.id)"
-                                                ></b-form-spinbutton>
+                                                    @keypress="isNumber"
+                                                    @change="handleSubsidizationPercentage($event, menu_category.id)"/>
                                             </td>
 
                                             <td>
@@ -141,10 +141,10 @@
                                             </td>
 
                                             <td>
-                                                <span
-                                                    :ref="`result_subsidization_price_`+ menu_category.id">{{
-                                                        menu_category.resulted_price.toString().replace(".", ",")
-                                                    }}</span><span> €</span>
+                                                <span :ref="`result_subsidization_price_`+ menu_category.id">
+                                                    {{ menu_category.resulted_price.toString().replace(".", ",") }}
+                                                </span>
+                                                <span> €</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -176,11 +176,13 @@ import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
 import DatePicker          from 'vue2-datepicker';
 import moment              from "moment";
+import SpinButton          from "../../shared/SpinButton";
 
 export default {
     components: {
         'spinner-component':     SpinnerComponent,
         'back-button-component': BackButtonComponent,
+        'spin-button': SpinButton,
         DatePicker
     },
     props:      {

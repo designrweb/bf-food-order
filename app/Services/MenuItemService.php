@@ -181,10 +181,6 @@ class MenuItemService extends BaseModelService
     {
         return [
             [
-                'key'   => 'id',
-                'label' => '#'
-            ],
-            [
                 'key'   => 'name',
                 'label' => __('app.Name')
             ],

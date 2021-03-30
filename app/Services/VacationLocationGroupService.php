@@ -75,6 +75,24 @@ class VacationLocationGroupService extends BaseModelService
     }
 
     /**
+     * @param $vacationId
+     * @return bool
+     */
+    public function removeByVacationId($vacationId): bool
+    {
+        return $this->repository->removeByVacationId($vacationId);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function createMany(array $data)
+    {
+        return $this->repository->createMany($data);
+    }
+
+    /**
      * @return array
      */
     public function getIndexStructure(): array

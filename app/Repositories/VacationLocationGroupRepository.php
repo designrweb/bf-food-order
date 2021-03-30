@@ -72,4 +72,24 @@ class VacationLocationGroupRepository implements RepositoryInterface
     {
         return new VacationLocationGroupResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @param $vacationId
+     * @return mixed
+     */
+    public function removeByVacationId($vacationId)
+    {
+        return $this->model->where('vacation_id', $vacationId)->delete();
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function createMany($data)
+    {
+        $this->removeByVacationId(collect($data)->first()['vacation_id']);
+
+        return $this->model->insert($data);
+    }
 }

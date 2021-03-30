@@ -161,7 +161,7 @@ class UserService extends BaseModelService
             ],
             [
                 'key'   => 'salutation_name',
-                'label' => __('user.Salutation')
+                'label' => __('user.Parent Salutation')
             ],
             [
                 'key'   => 'role_name',
@@ -189,10 +189,6 @@ class UserService extends BaseModelService
     public function getIndexFieldsLabels(Model $model): array
     {
         return [
-            [
-                'key'   => 'id',
-                'label' => '#'
-            ],
             [
                 'key'   => 'email',
                 'label' => __('app.Email')

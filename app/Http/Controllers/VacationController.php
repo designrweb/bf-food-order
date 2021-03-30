@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VacationResource;
 use App\Services\LocationService;
 use App\Services\VacationService;
 use App\Http\Requests\VacationFormRequest;
@@ -26,7 +27,7 @@ class VacationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -43,7 +44,6 @@ class VacationController extends Controller
     {
         return $this->service->all()->toArray($request);
     }
-
 
     /**
      * Returns a listing of the resource.
@@ -95,6 +95,7 @@ class VacationController extends Controller
      *
      * @param VacationFormRequest $request
      * @return array
+     * @throws \Throwable
      */
     public function store(VacationFormRequest $request)
     {
@@ -105,7 +106,7 @@ class VacationController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -138,14 +139,14 @@ class VacationController extends Controller
      */
     public function update(VacationFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new VacationResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

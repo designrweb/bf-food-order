@@ -4,7 +4,7 @@
             <div class="d-block align-items-center" v-if="isHoliday">
               <span class="holiday-marker">Schulfreie Zeit</span>
             </div>
-            <div class="d-block align-items-center" v-if="dayItem !== null">
+            <div class="d-block align-items-center" v-if="dayItem !== null && !isHoliday">
                 <div class="flex-3">
                     <i class="fas fa-info-circle info-button" @click="showItemDescription(dayItem)"></i>
                     <span>{{dayItem.name}}</span>

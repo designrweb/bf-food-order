@@ -16,7 +16,7 @@
                 </div>
 
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <div class="text-center" v-if="isPageBusy">
                     <spinner-component></spinner-component>
                 </div>
@@ -152,7 +152,7 @@ export default {
                 });
                 self.pageData[value.key]['value'] = fieldValue;
             }
-console.log(self.pageData);
+
             this.isPageBusy = false;
         },
         onReset() {

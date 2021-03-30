@@ -3,7 +3,7 @@
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body overflow-auto">
             <div class="card-header bg-light">
                 <div class="float-right">
                     <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
@@ -38,7 +38,7 @@
                     <b-th v-for="field in scope.fields" v-bind:key="field.key">
                         <div v-if="field.key in filters">
                             <filter-form-date-picker
-                                v-if="field.key === 'created_at_human'"
+                                v-if="field.key === 'created_at_human' || field.key === 'order_day'"
                                 @changeFilter="applyFilter"
                                 :filterName="field.key"
                                 :filterLabel="field.label"
