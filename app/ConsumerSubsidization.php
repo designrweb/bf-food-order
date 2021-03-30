@@ -50,7 +50,8 @@ class ConsumerSubsidization extends Model
      */
     public function setSubsidizationStartAttribute($value)
     {
-        $this->attributes['subsidization_start'] = date('Y-m-d', strtotime($value));
+        $this->attributes['subsidization_start'] = !empty($value) ? date('Y-m-d', strtotime
+        ($value)) : null;
     }
 
     /**
@@ -58,6 +59,7 @@ class ConsumerSubsidization extends Model
      */
     public function setSubsidizationEndAttribute($value)
     {
-        $this->attributes['subsidization_end'] = date('Y-m-d', strtotime($value));
+        $this->attributes['subsidization_end'] = !empty($value) ? date('Y-m-d', strtotime($value)
+        ) : null;
     }
 }

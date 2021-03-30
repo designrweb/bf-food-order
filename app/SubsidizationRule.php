@@ -86,7 +86,7 @@ class SubsidizationRule extends Model
      */
     public function setStartDateAttribute($value)
     {
-        $this->attributes['start_date'] = date('Y-m-d', strtotime($value));
+        $this->attributes['start_date'] = !empty($value) ? date('Y-m-d', strtotime($value)) : null;
     }
 
     /**
@@ -94,6 +94,6 @@ class SubsidizationRule extends Model
      */
     public function setEndDateAttribute($value)
     {
-        $this->attributes['end_date'] = date('Y-m-d', strtotime($value));
+        $this->attributes['end_date'] = !empty($value) ? date('Y-m-d', strtotime($value)) : null;
     }
 }

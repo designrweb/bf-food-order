@@ -45,7 +45,8 @@
                             text-field="name"
                             disabled-field="notEnabled"
                         ></b-form-select>
-                        <b-form-invalid-feedback :state="validation['subsidization_organization_id']['state']">
+                        <b-form-invalid-feedback
+                            :state="validation['subsidization_organization_id']['state']">
                             {{ validation['subsidization_organization_id']['message'] }}
                         </b-form-invalid-feedback>
                     </b-form-group>
@@ -57,10 +58,11 @@
                         <date-picker
                             :input-attr="{id: 'input-start_date'}"
                             v-model="startDate"
+                            @clear="clearStartDate"
                             valueType="format"
                             format="DD.MM.YYYY"
                             :lang="lang"
-                            input-class="form-control b-day">
+                            input-class="form-control input-start_date">
                         </date-picker>
                         <b-form-invalid-feedback :state="validation['start_date']['state']">
                             {{ validation['start_date']['message'] }}
@@ -74,10 +76,11 @@
                         <date-picker
                             :input-attr="{id: 'input-end_date'}"
                             v-model="endDate"
+                            @clear="clearEndDate"
                             valueType="format"
                             format="DD.MM.YYYY"
                             :lang="lang"
-                            input-class="form-control b-day">
+                            input-class="form-control input-end_date">
                         </date-picker>
                         <b-form-invalid-feedback :state="validation['end_date']['state']">
                             {{ validation['end_date']['message'] }}
@@ -105,7 +108,9 @@
                                         <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list"
                                             :key="menu_category.id">
                                             <td class="text-left">{{ menu_category.name }}</td>
-                                            <td>{{ menu_category.presaleprice.replace(".", ",") }} €</td>
+                                            <td>{{ menu_category.presaleprice.replace(".", ",") }}
+                                                €
+                                            </td>
                                             <td>
                                                 <b-form-spinbutton
                                                     :ref="`percent_full_`+ menu_category.id"
@@ -136,7 +141,8 @@
                                             </td>
 
                                             <td>
-                                                <span :ref="`result_subsidization_price_`+ menu_category.id">{{
+                                                <span
+                                                    :ref="`result_subsidization_price_`+ menu_category.id">{{
                                                         menu_category.resulted_price.toString().replace(".", ",")
                                                     }}</span><span> €</span>
                                             </td>
@@ -148,7 +154,9 @@
                         </div>
                     </div>
 
-                    <b-button id="subsidization-rules-submit-btn" type="submit" variant="primary">Einreichen</b-button>
+                    <b-button id="subsidization-rules-submit-btn" type="submit" variant="primary">
+                        Einreichen
+                    </b-button>
                 </b-form>
             </div>
             <div class="card-header" v-if="!isPageBusy">
@@ -191,6 +199,12 @@ export default {
             form:       {
                 subsidization_menu_categories_list: {}
             },
+            lang:                    {
+                formatLocale:    {
+                    firstDayOfWeek: 1,
+                },
+                monthBeforeYear: false,
+            },
             validation: {
                 'id':                            {'state': true, 'message': ''},
                 'rule_name':                     {'state': true, 'message': ''},
@@ -204,6 +218,12 @@ export default {
         }
     },
     methods: {
+        clearStartDate() {
+            this.startDate = '';
+        },
+        clearEndDate() {
+            this.endDate = '';
+        },
         isNumber: function (evt) {
             evt          = (evt) ? evt : window.event;
             let charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -242,7 +262,7 @@ export default {
             self.form.end_date   = self.endDate;
 
             try {
-                let response         = await store(self.main_route, self.id, self.form);
+                let response         = await store(self.main_route, self.id, self.form, true);
                 window.location.href = self.main_route + '/' + response['data'].id;
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {

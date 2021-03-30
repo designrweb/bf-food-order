@@ -152,7 +152,7 @@ export default {
                 });
                 self.pageData[value.key]['value'] = fieldValue;
             }
-
+console.log(self.pageData);
             this.isPageBusy = false;
         },
         onReset() {

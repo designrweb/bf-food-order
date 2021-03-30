@@ -76,7 +76,11 @@ class ConsumerController extends Controller
      */
     public function getOne(Request $request, $id)
     {
-        return (new ConsumerResource($this->service->getOne($id)))->toArray($request);
+        $resource                            = (new ConsumerResource($this->service->getOne($id)))->toArray($request);
+        $subsidizationSupportEmail           = $this->service->getSubsidizationSupportEmail($id);
+        $resource['subsidization']['status'] = $this->service->getSubsidizationStatus($subsidizationSupportEmail);
+
+        return $resource;
     }
 
     /**

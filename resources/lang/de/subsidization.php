@@ -44,6 +44,6 @@ return [
     'Subsidized menu categories'                                => 'Subventionierte Menükategorien',
     'Update Subsidization Organization'                         => 'Aktualisiere Subventionierungsstelle: :name',
     'Update Subsidization Rule'                                 => 'Aktualisiere Subventionierungsregel: :name',
-    'Your subsidy has expired. Please contact support {email}'  => 'Ihre Subventionierung ist abgelaufen. Bitte wenden Sie sich an den Support {email}',
+    'Your subsidy has expired. Please contact support'          => 'Ihre Subventionierung ist abgelaufen. Bitte wenden Sie sich an den Support :email',
 
 ];

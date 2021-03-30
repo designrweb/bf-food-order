@@ -91,6 +91,7 @@
                                 <date-picker
                                     :input-attr="{id: 'input-subsidization_start_date'}"
                                     v-model="subsidizationStart"
+                                    @clear="clearStartDate"
                                     valueType="format"
                                     format="DD.MM.YYYY"
                                     :lang="lang"
@@ -109,6 +110,7 @@
                                 <date-picker
                                     :input-attr="{id: 'input-subsidization_end_date'}"
                                     v-model="subsidizationEnd"
+                                    @clear="clearEndDate"
                                     valueType="format"
                                     format="DD.MM.YYYY"
                                     :lang="lang"
@@ -208,6 +210,12 @@ export default {
         }
     },
     methods: {
+        clearStartDate() {
+            this.subsidizationStart = null;
+        },
+        clearEndDate() {
+            this.subsidizationEnd = null;
+        },
         async _loadStructure() {
             this.isPageBusy   = true;
             let data          = await getViewStructure(this.main_route);
