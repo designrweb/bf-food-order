@@ -65,7 +65,7 @@ class RegisterController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 201)
-            : redirect()->route('login')->with('resent', true);
+            : redirect()->route('login')->with('resentUserEmail', $user->email);
     }
 
     /**
