@@ -246,9 +246,6 @@ export default {
 
             this.$refs[percentFull][0].value = percentValue;
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2).replace(".", ",");
-
-            // if (this.$refs[percentFull][0].value < 100) {
-            // }
         },
         async onSubmit(evt) {
             evt.preventDefault();

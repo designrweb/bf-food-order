@@ -14,6 +14,6 @@ return [
     'Update Menu Category'  => 'Menülinie :name bearbeiten',
     'Not Available for POS' => 'nicht verfügbar für POS',
     'Location'              => 'Einrichtung',
-    'Tax'              => 'MwSt. %',
+    'Tax'                   => 'MwSt. %',
 
 ];
