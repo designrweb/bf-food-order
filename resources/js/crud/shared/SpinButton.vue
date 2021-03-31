@@ -9,14 +9,15 @@
         <b-form-input
             :size="size"
             type="number"
-            v-model="value"
+            v-model="newValue"
             :value="value"
             min="0"
             :max="max"
-            :step="1"
+            :step="step"
             class="border-secondary text-center"
             number
-            @input="valueChange"
+            :placeholder="min"
+            @focusout="valueChange($event.target.value)"
         />
 
         <b-input-group-append>
@@ -65,31 +66,60 @@ export default {
         }
     },
 
+    data() {
+        return {
+            newValue: null
+        }
+    },
+
     methods: {
         valueChange(newValue) {
-            if (!this.validate(newValue)) return;
+            newValue = parseInt(newValue)
+            if (!this.validate(newValue)) {
+                if (newValue > this.max) newValue = this.max;
+                if (newValue < this.min) newValue = this.min;
+                this.newValue = parseInt(newValue);
+            } else {
+                this.newValue = parseInt(newValue);
+            }
 
-            this.$emit('change', newValue)
+            this.$emit('change', this.newValue)
         },
         increment() {
-            let value = parseInt(this.value) + parseInt(this.step);
-
-            if (!this.validate(value)) this.value = this.max; return
-
-            this.value = value;
-            this.$emit('change', this.value)
+            let value = parseInt(this.newValue) + parseInt(this.step);
+            if (!this.validate(value)) {
+                this.newValue = parseInt(this.max);
+                return
+            }
+            this.newValue = value;
+            //
+            this.$emit('change', this.newValue)
         },
         decrement() {
-            let value = parseInt(this.value) - parseInt(this.step);
+            let value = parseInt(this.newValue) - parseInt(this.step);
 
-            if (!this.validate(value)) return;
+            if (!this.validate(value))  {
+                this.newValue = this.min;
+                return
+            }
 
-            this.value -= value;
-            this.validate(this.value)
+            this.newValue = value;
+            this.$emit('change', this.newValue)
+
         },
         validate(value) {
             value = parseInt(value);
             return value >= parseInt(this.min) && value <= parseInt(this.max);
+        }
+    },
+    mounted() {
+        this.newValue = this.value;
+    },
+    watch: {
+        value: {
+            handler(val) {
+                this.newValue = val;
+            }
         }
     }
 }

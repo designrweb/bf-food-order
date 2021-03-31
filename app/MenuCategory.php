@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,11 @@ class MenuCategory extends Model
     const AVAILABLE_POS     = 0;
     const NOT_AVAILABLE_POS = 1;
 
+    const TAX_RATES = [
+        7  => '7%',
+        19 => '19%'
+    ];
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -38,7 +44,7 @@ class MenuCategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'not_available_for_pos', 'location_id', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'category_order', 'price', 'presaleprice', 'not_available_for_pos', 'tax_rate', 'location_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Closure|mixed|void
@@ -86,7 +92,7 @@ class MenuCategory extends Model
      */
     public function getCreatedAtHumanAttribute()
     {
-        return date('M d, Y, H:i:s A', strtotime($this->created_at));
+        return Carbon::parse($this->created_at)->translatedFormat('l, d.m.Y H:i:s');
     }
 
     /**
@@ -94,7 +100,7 @@ class MenuCategory extends Model
      */
     public function getUpdatedAtHumanAttribute()
     {
-        return date('M d, Y, H:i:s A', strtotime($this->updated_at));
+        return Carbon::parse($this->updated_at)->translatedFormat('l, d.m.Y H:i:s');
     }
 
     /**

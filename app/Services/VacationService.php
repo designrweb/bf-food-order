@@ -128,7 +128,10 @@ class VacationService extends BaseModelService
      */
     public function remove($id): bool
     {
-        return $this->groupService->removeByVacationId($id) && $this->repository->delete($id);
+        $this->groupService->removeByVacationId($id);
+        $this->repository->delete($id);
+
+        return true;
     }
 
     /**

@@ -168,14 +168,13 @@ import {getItem, store}    from "../../api/crudRequests";
 import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
 import DatePicker          from 'vue2-datepicker';
-import moment              from "moment";
 import SpinButton          from "../../shared/SpinButton";
 
 export default {
     components: {
         'spinner-component':     SpinnerComponent,
         'back-button-component': BackButtonComponent,
-        'spin-button': SpinButton,
+        'spin-button':           SpinButton,
         DatePicker
     },
     props:      {
@@ -194,7 +193,7 @@ export default {
             form:       {
                 subsidization_menu_categories_list: {}
             },
-            lang:                    {
+            lang:       {
                 formatLocale:    {
                     firstDayOfWeek: 1,
                 },
@@ -227,21 +226,26 @@ export default {
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
             let value                    = (presaleprice * (val / 100)).toFixed(2);
-            console.log(val);
 
             this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");
         },
         handleSubsidizationPrice(val, id) {
+            val                          = val.replace(",", ".");
             let percentFull              = 'percent_full_' + id;
             let resultSubsidizationPrice = 'result_subsidization_price_' + id;
-            let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
-
-            if (this.$refs[percentFull][0].value < 100) {
-                let value                                         = parseInt((val / presaleprice) * 100);
-                this.$refs[percentFull][0].value                  = value.replace(".", ",");
-                this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2).replace(".", ",");
+            let presaleprice             = +this.form.subsidization_menu_categories_list[id].presaleprice;
+            let percentValue             = 0;
+            if (+val > presaleprice) {
+                val                                              = presaleprice;
+                percentValue                                     = 100;
+                this.$refs['subsidization_price_' + id][0].value = val;
+            } else {
+                percentValue = parseInt((val / presaleprice) * 100)
             }
+
+            this.$refs[percentFull][0].value = percentValue;
+            this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2).replace(".", ",");
         },
         async onSubmit(evt) {
             evt.preventDefault();

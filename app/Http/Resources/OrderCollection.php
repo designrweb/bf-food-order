@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Helpers\DateFormatter;
 use App\Order;
-use Carbon\Carbon;
 use bigfood\grid\PaginatableCollection;
+use Carbon\Carbon;
 
 /**
  * Class OrderCollection
@@ -26,7 +25,8 @@ class OrderCollection extends PaginatableCollection
             'data'       => $this->collection->transform(function (Order $item) {
                 $data = $item->toArray();
 
-                $data['day'] = date('l, d.m.Y', strtotime($item->day));
+                $data['day']         = date('l, d.m.Y', strtotime($item->day));
+                $data['day_machine'] = Carbon::parse($item->day)->toDateString();
 
                 return $data;
             }),

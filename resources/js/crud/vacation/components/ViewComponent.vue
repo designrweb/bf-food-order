@@ -100,7 +100,7 @@ export default {
                     }
                 });
                 if (typeof fieldValue === 'object') {
-                    fieldValue = Object.values(fieldValue).join(', ')
+                    fieldValue = Object.values(fieldValue).map(location => location.name).join(', ')
                 }
                 self.pageData[value.key]['value'] = fieldValue;
             }

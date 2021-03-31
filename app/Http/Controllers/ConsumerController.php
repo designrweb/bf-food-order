@@ -7,6 +7,7 @@ use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
+use App\Services\ConsumerSubsidizationService;
 use App\Services\ExportService;
 use App\Services\LocationGroupService;
 use App\Services\SubsidizationOrganizationService;
@@ -225,5 +226,23 @@ class ConsumerController extends Controller
     public function export(Request $request, ExportService $exportService)
     {
         return $exportService->export($request, $this->service, ConsumerCollection::class, Consumer::class);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param                              $id
+     * @param ConsumerSubsidizationService $consumerSubsidizationService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeSubsidization($id, ConsumerSubsidizationService $consumerSubsidizationService)
+    {
+        try {
+            $consumerSubsidizationService->removeByConsumerId($id);
+        } catch (\Throwable $t) {
+            return response()->json(['error' => $t->getMessage()]);
+        }
+
+        return response()->json(['redirect_url' => action('ConsumerController@show', ['id' => $id])]);
     }
 }

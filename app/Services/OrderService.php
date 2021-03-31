@@ -190,11 +190,11 @@ class OrderService extends BaseModelService
     protected function getAllowActions(): array
     {
         return [
-            'all'    => false,
+            'all'    => true,
             'create' => false,
             'view'   => false,
             'edit'   => false,
-            'delete' => false,
+            'delete' => true,
         ];
     }
 
@@ -218,7 +218,7 @@ class OrderService extends BaseModelService
                 'label' => __('order.Quantity')
             ],
             [
-                'key'   => 'day',
+                'key'   => 'translated_day',
                 'label' => __('app.Day')
             ],
             [
@@ -260,7 +260,7 @@ class OrderService extends BaseModelService
             'consumer.full_name'                    => '',
             'menu_item.name'                        => '',
             'quantity'                              => '',
-            'day'                                   => '',
+            'translated_day'                        => '',
             'menu_item.menu_category.location.name' => '',
         ];
     }
@@ -272,9 +272,9 @@ class OrderService extends BaseModelService
     protected function getSortFieldsForUser(Model $model): array
     {
         return [
-            'menu_item.name'     => '',
-            'quantity'           => '',
-            'translated_day'     => '',
+            'menu_item.name' => '',
+            'quantity'       => '',
+            'translated_day' => '',
         ];
     }
 
@@ -288,7 +288,7 @@ class OrderService extends BaseModelService
             'consumer.full_name'                    => '',
             'menu_item.name'                        => '',
             'quantity'                              => '',
-            'day'                                   => '',
+            'translated_day'                        => '',
             'menu_item.menu_category.location.name' => [
                 'values' => $this->locationService->getList(),
                 'filter' => '',
@@ -304,9 +304,9 @@ class OrderService extends BaseModelService
     protected function getFiltersForUser(Model $model): array
     {
         return [
-            'menu_item.name'     => '',
-            'quantity'           => '',
-            'translated_day'     => '',
+            'menu_item.name' => '',
+            'quantity'       => '',
+            'translated_day' => '',
         ];
     }
 
