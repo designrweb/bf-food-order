@@ -45,6 +45,14 @@ class MenuCategorySearch extends BaseSearch
             });
         }
 
+        if (request('filters.tax_rate')) {
+            $this->builder->where('tax_rate', request('filters.tax_rate'));
+        }
+
+        if (request('sort.tax_rate')) {
+            $this->applySort('tax_rate', request('sort.tax_rate'));
+        }
+
         $this->applySort('menu_categories.price', request('sort.price_locale'));
         $this->applySort('menu_categories.presaleprice', request('sort.presaleprice_locale'));
 

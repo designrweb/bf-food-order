@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\MenuCategoryCollection;
 use App\Http\Resources\MenuCategoryResource;
+use App\MenuCategory;
 use App\Services\LocationService;
 use App\Services\MenuCategoryService;
 use App\Http\Requests\MenuCategoryFormRequest;
@@ -28,7 +29,7 @@ class MenuCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|Response|\Illuminate\View\View
      */
     public function index()
     {
@@ -91,6 +92,7 @@ class MenuCategoryController extends Controller
         return view('menu_categories._form', [
             'locationsList'  => $locationsList,
             'existingOrders' => $existingOrders,
+            'taxRates'       => $this->service->getTaxRates()
         ]);
     }
 
@@ -132,7 +134,8 @@ class MenuCategoryController extends Controller
         /** @var array $resource */
         $resource                   = $this->service->getOne($id)->toArray(request());
         $resource['locationsList']  = $locationService->getList();
-        $resource['existingOrders'] = $this->service->all()->pluck('category_order', 'category_order')->toArray();
+        $resource['existingOrders'] = $this->service->getByLocationId($resource['location_id'])->pluck('category_order', 'category_order')->toArray();
+        $resource['taxRates']       = $this->service->getTaxRates();
 
         return view('menu_categories._form', compact('resource'));
     }

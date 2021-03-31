@@ -155,6 +155,10 @@ class MenuCategoryService extends BaseModelService
                 'label' => __('menu-category.Price')
             ],
             [
+                'key'   => 'tax_rate',
+                'label' => __('menu-category.Tax')
+            ],
+            [
                 'key'   => 'created_at_human',
                 'label' => __('app.Created At')
             ],
@@ -191,6 +195,10 @@ class MenuCategoryService extends BaseModelService
             [
                 'key'   => 'location.name',
                 'label' => __('menu-category.Location')
+            ],
+            [
+                'key'   => 'tax_rate',
+                'label' => __('menu-category.Tax')
             ]
         ];
     }
@@ -207,6 +215,11 @@ class MenuCategoryService extends BaseModelService
             'presaleprice_locale' => '',
             'price_locale'        => '',
             'location.name'       => '',
+            'tax_rate'            => [
+                'values' => $this->getTaxRates(),
+                'filter' => '',
+                'type'   => 'select',
+            ],
         ];
     }
 
@@ -221,6 +234,15 @@ class MenuCategoryService extends BaseModelService
             'category_order'      => '',
             'presaleprice_locale' => '',
             'price_locale'        => '',
+            'tax_rate'            => '',
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTaxRates()
+    {
+        return $this->repository->getTaxRates();
     }
 }

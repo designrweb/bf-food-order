@@ -194,6 +194,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('/{id}/generate-code', "ConsumerController@generateCode")->name('consumers.generate-code');
         Route::get('/{id}/download-code', "ConsumerController@downloadCode")->name('consumers.download-code');
         Route::get('/export/run', "ConsumerController@export")->name('consumers.export');
+        Route::delete('/remove-subsidization/{id}', "ConsumerController@removeSubsidization")->name('consumers.remove-subsidization');
     });
 
     /** consumer-subsidizations routes */

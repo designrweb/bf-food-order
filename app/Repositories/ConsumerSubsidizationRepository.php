@@ -72,4 +72,13 @@ class ConsumerSubsidizationRepository implements RepositoryInterface
     {
         return new ConsumerSubsidizationResource($this->model->findOrFail($id));
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function removeByConsumerId($id)
+    {
+        return $this->model->where('consumer_id', $id)->delete();
+    }
 }

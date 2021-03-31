@@ -36,7 +36,7 @@ class Vacation extends Model
         parent::boot();
 
         return static::addGlobalScope('company', function (Builder $builder) {
-            if (auth()->user() && auth()->user()->role !== User::ROLE_USER) {
+            if (auth()->user() && auth()->user()->role === User::ROLE_SUPER_ADMIN) {
                 $builder->whereHas('locationGroups.locationGroup.location', function ($q) {
                     $q->where('locations.company_id', auth()->user()->company_id);
                 });

@@ -109,4 +109,12 @@ class MenuCategoryRepository implements RepositoryInterface
     {
         return $this->model->where('location_id', $id)->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTaxRates()
+    {
+        return $this->model::TAX_RATES;
+    }
 }

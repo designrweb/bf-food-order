@@ -1,6 +1,5 @@
 <template>
     <div>
-        <back-button-component :route="main_route"></back-button-component>
         <div class="card">
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">

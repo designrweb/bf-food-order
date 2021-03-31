@@ -45,7 +45,7 @@
                         <div class="text-center" v-if="isPageBusy">
                             <spinner-component></spinner-component>
                         </div>
-                        <b-form @submit="onSubmit" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
+                        <b-form @submit="$event.preventDefault()" @reset="onReset" id="consumer-form" v-if="!isPageBusy">
                             <b-form-group
                                 label="Organization name"
                                 label-for="input-location_id"
@@ -136,8 +136,10 @@
                                 </b-form-invalid-feedback>
                             </b-form-group>
 
-                            <b-button id="consumers-subsidization-submit-btn" type="submit" variant="primary">Submit</b-button>
+                            <b-button id="consumers-subsidization-submit-btn" type="submit" variant="primary" @click="onSubmit">Erstellen</b-button>
+                            <delete-button :main-route="main_route + '/remove-subsidization'" @click="$event.preventDefault()" :id="id" :is-icon="false"/>
                         </b-form>
+
                     </div>
                 </div>
 
