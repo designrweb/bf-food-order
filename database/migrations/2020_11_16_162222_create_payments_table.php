@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->string('comment', 250)->nullable();
             $table->unsignedBigInteger('order_id')->nullable()->index();
             $table->unsignedBigInteger('consumer_id')->nullable()->index();
+            $table->unsignedBigInteger('payment_dump_id')->nullable()->index();
             $table->timestamps();
             $table->date('transacted_at')->nullable();
         });

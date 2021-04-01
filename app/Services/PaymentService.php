@@ -98,15 +98,13 @@ class PaymentService extends BaseModelService
     {
         DB::beginTransaction();
         try {
-            $data['amount'] = str_replace(',', '.', $data['amount_locale']);
-
             //current state
             $paymentData = $this->repository->get($id);
 
             //updated state
             $payment = $this->repository->update($data, $id);
 
-            if ($data['consumer_id'] !== $paymentData->consumer->id) {
+            if (empty($paymentData->consumer) || $data['consumer_id'] !== $paymentData->consumer->id) {
                 //subtract amount for new consumer
                 $consumer = $payment->consumer;
 

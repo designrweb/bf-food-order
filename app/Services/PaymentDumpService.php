@@ -135,14 +135,15 @@ class PaymentDumpService extends BaseModelService
         $header            = array_flip($csv[0]);
         unset($csv[0]);
 
-        return array_map(function ($payment) use ($header) {
+        return array_map(function ($payment) use ($header, $id) {
             return [
-                'account_id'    => $payment[$header[self::COL_ACCOUNT_ID]],
-                'type'          => $payment[$header[self::COL_TYPE]],
-                'date'          => $payment[$header[self::COL_DATE]],
-                'amount'        => $payment[$header[self::COL_AMOUNT]] ? floatval(str_replace(',', '.', $payment[$header[self::COL_AMOUNT]])) : null,
-                'comment'       => $payment[$header[self::COL_COMMENT]],
-                'transacted_at' => $payment[$header[self::COL_DATE]]
+                'account_id'      => $payment[$header[self::COL_ACCOUNT_ID]],
+                'type'            => $payment[$header[self::COL_TYPE]],
+                'date'            => $payment[$header[self::COL_DATE]],
+                'amount'          => $payment[$header[self::COL_AMOUNT]] ? floatval(str_replace(',', '.', $payment[$header[self::COL_AMOUNT]])) : null,
+                'comment'         => $payment[$header[self::COL_COMMENT]],
+                'payment_dump_id' => $id,
+                'transacted_at'   => $payment[$header[self::COL_DATE]]
                     ? (DateTime::createFromFormat('d.m.y', $payment[$header[self::COL_DATE]]))->format('Y-m-d')
                     : null,
             ];
@@ -166,25 +167,28 @@ class PaymentDumpService extends BaseModelService
 
             if ($consumer) {
                 $payment_record = Payment::where([
-                    'transacted_at' => $payment['transacted_at'],
-                    'consumer_id'   => $consumer->consumer_id,
-                    'amount'        => $payment['amount']
+                    'transacted_at'   => $payment['transacted_at'],
+                    'consumer_id'     => $consumer->consumer_id,
+                    'amount'          => $payment['amount'],
+                    'payment_dump_id' => $payment['payment_dump_id'],
                 ])->first();
             } else {
                 $payment_record = Payment::where([
-                    'transacted_at' => $payment['transacted_at'],
-                    'comment'       => $payment['comment'],
-                    'amount'        => $payment['amount']
+                    'transacted_at'   => $payment['transacted_at'],
+                    'comment'         => $payment['comment'],
+                    'amount'          => $payment['amount'],
+                    'payment_dump_id' => $payment['payment_dump_id'],
                 ])->first();
             }
             if ($payment_record) continue;
 
             $payment_record = [
-                'amount'        => $payment['amount'],
-                'type'          => Payment::TYPE_BANK_TRANSACTION,
-                'comment'       => $payment['comment'],
-                'consumer_id'   => $consumer ? $consumer->consumer_id : null,
-                'transacted_at' => $payment['transacted_at'],
+                'amount'          => $payment['amount'],
+                'type'            => Payment::TYPE_BANK_TRANSACTION,
+                'comment'         => $payment['comment'],
+                'consumer_id'     => $consumer ? $consumer->consumer_id : null,
+                'transacted_at'   => $payment['transacted_at'],
+                'payment_dump_id' => $payment['payment_dump_id'],
             ];
 
             $this->paymentService->create($payment_record);
@@ -295,11 +299,12 @@ class PaymentDumpService extends BaseModelService
     protected function getAllowActions(): array
     {
         return [
-            'all'    => false,
-            'create' => false,
-            'view'   => false,
-            'edit'   => false,
-            'delete' => false,
+            'all'     => true,
+            'create'  => false,
+            'view'    => false,
+            'edit'    => false,
+            'delete'  => false,
+            'process' => true,
         ];
     }
 }
