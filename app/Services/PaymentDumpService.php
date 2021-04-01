@@ -168,7 +168,7 @@ class PaymentDumpService extends BaseModelService
             if ($consumer) {
                 $payment_record = Payment::where([
                     'transacted_at'   => $payment['transacted_at'],
-                    'consumer_id'     => $consumer->consumer_id,
+                    'consumer_id'     => $consumer->id,
                     'amount'          => $payment['amount'],
                     'payment_dump_id' => $payment['payment_dump_id'],
                 ])->first();
@@ -186,7 +186,7 @@ class PaymentDumpService extends BaseModelService
                 'amount'          => $payment['amount'],
                 'type'            => Payment::TYPE_BANK_TRANSACTION,
                 'comment'         => $payment['comment'],
-                'consumer_id'     => $consumer ? $consumer->consumer_id : null,
+                'consumer_id'     => $consumer ? $consumer->id : null,
                 'transacted_at'   => $payment['transacted_at'],
                 'payment_dump_id' => $payment['payment_dump_id'],
             ];
