@@ -34,8 +34,8 @@ class ConsumerFormRequest extends FormRequest
             'balance_limit'                        => 'required_without:type|numeric',
             'subsidization.subsidization_document' => 'nullable|file',
             'subsidization.subsidization_rule_id'  => 'nullable|numeric',
-            'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_rule_id|nullable|date',
-            'subsidization.subsidization_end'      => 'required_with:subsidization.subsidization_rule_id|nullable|date|after_or_equal:subsidization.subsidization_start',
+            'subsidization.subsidization_start'    => 'required_with:subsidization.subsidization_end|nullable|date',
+            'subsidization.subsidization_end'      => 'required_with:subsidization.subsidization_start|nullable|date|after_or_equal:subsidization.subsidization_start',
         ];
     }
 

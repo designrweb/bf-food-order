@@ -110,6 +110,14 @@ class UserService extends BaseModelService
     }
 
     /**
+     * @return bool
+     */
+    public function isAdminOrSuperAdmin(): bool
+    {
+        return in_array(auth()->user()->role, [User::ROLE_ADMIN, User::ROLE_SUPER_ADMIN]);
+    }
+
+    /**
      * Get if user has consumers
      *
      * @param User $user

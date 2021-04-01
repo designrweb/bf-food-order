@@ -26,8 +26,10 @@ class SubsidizationRuleCollection extends PaginatableCollection
             'data'       => $this->collection->transform(function (SubsidizationRule $item) {
                 $data = $item->toArray();
 
-                $data['start_date'] = date('l, d.m.Y', strtotime($item->start_date));
-                $data['end_date'] = date('l, d.m.Y', strtotime($item->end_date));
+                $data['start_date'] = !empty($item->start_date) ? date('l, d.m.Y', strtotime
+                ($item->start_date)) : null;
+                $data['end_date']   = !empty($item->start_date) ? date('l, d.m.Y', strtotime
+                ($item->end_date)) : null;
 
                 return $data;
             }),

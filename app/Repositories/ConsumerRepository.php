@@ -280,4 +280,13 @@ class ConsumerRepository implements RepositoryInterface
 
         return $query->first();
     }
+
+    /**
+     * @param $date
+     * @return bool
+     */
+    public function isSubsidized($date): bool
+    {
+        return $this->model->isSubsidized($date);
+    }
 }

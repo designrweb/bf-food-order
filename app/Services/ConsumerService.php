@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Components\ImageComponent;
 use App\Repositories\ConsumerRepository;
+use App\User;
 use bigfood\grid\BaseModelService;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
@@ -194,12 +195,12 @@ class ConsumerService extends BaseModelService
         $model       = $this->repository->get($id);
         $qrCodeImage = $this->getQrCodeImage($id);
         $view        = view('consumers.manual', compact('model', 'qrCodeImage'))->render();
-        $footer        = view('consumers._manual_footer')->render();
+        $footer      = view('consumers._manual_footer')->render();
 
         $mpdf                 = new Mpdf();
         $mpdf->title          = config('app.name') . ' Handbuch';
-        $mpdf->margin_footer = 0;
-        $mpdf->margin_header = 0;
+        $mpdf->margin_footer  = 0;
+        $mpdf->margin_header  = 0;
         $mpdf->defaultCssFile = public_path('css/kv-mpdf-bootstrap.min.css');
         $mpdf->WriteHTML($view);
         $mpdf->SetHTMLFooter($footer);
@@ -317,7 +318,7 @@ class ConsumerService extends BaseModelService
      */
     protected function getViewFieldsLabels(Model $model): array
     {
-        return [
+        $fields = [
             [
                 'key'   => 'account_id',
                 'label' => __('consumer.Account')
@@ -358,11 +359,61 @@ class ConsumerService extends BaseModelService
                 'key'   => 'full_name',
                 'label' => __('consumer.Child')
             ],
-            [
+        ];
+
+        if ($this->userService->isAdminOrSuperAdmin()) {
+            $fields[] = [
                 'key'   => 'subsidization.subsidization_rule.rule_name',
                 'label' => __('subsidization.Subsidization Rule')
-            ],
-        ];
+            ];
+
+            $fields[] = [
+                'key'   => 'subsidization.subsidization_rule.start_date',
+                'label' => __('subsidization.Subsidization Rule start')
+            ];
+            $fields[] = [
+                'key'   => 'subsidization.subsidization_rule.end_date',
+                'label' => __('subsidization.Subsidization Rule end')
+            ];
+
+            $fields[] = [
+                'key'   => 'subsidization.subsidization_start',
+                'label' => __('subsidization.Subsidization Date start')
+            ];
+            $fields[] = [
+                'key'   => 'subsidization.subsidization_end',
+                'label' => __('subsidization.Subsidization Date end')
+            ];
+        } else {
+            $fields[] = [
+                'key'   => 'subsidization.status',
+                'label' => __('subsidization.Subsidization status')
+            ];
+            $fields[] = [
+                'key'   => 'subsidization.subsidization_end',
+                'label' => __('subsidization.Subsidization Date end')
+            ];
+        }
+
+        return $fields;
+    }
+
+
+    /**
+     * @param $email
+     * @return string
+     */
+    public function getSubsidizationStatus($email)
+    {
+        if ($this->repository->isSubsidized(date('Y-m-d'))) {
+            return __('subsidization.Subsidization granted');
+        } elseif ($this->userService->isAdminOrSuperAdmin()) {
+            return __('subsidization.Subsidization not granted');
+        } else {
+            return __('subsidization.Your subsidy has expired. Please contact support', [
+                'email' => $email
+            ]);
+        }
     }
 
     /**

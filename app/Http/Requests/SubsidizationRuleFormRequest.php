@@ -15,8 +15,8 @@ class SubsidizationRuleFormRequest extends FormRequest
     {
         return [
             'rule_name'                     => 'required|string',
-            'start_date'                    => 'required|date',
-            'end_date'                      => 'required|date|after_or_equal:start_date',
+            'start_date'                    => 'nullable|required_with:end_date|date',
+            'end_date'                      => 'nullable|required_with:start_date|date|after_or_equal:start_date',
             'subsidization_organization_id' => 'required|numeric',
         ];
     }
