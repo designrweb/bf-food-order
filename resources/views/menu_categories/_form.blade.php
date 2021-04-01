@@ -20,7 +20,6 @@
             <grid-form
                     :main_route="'/admin/menu-categories'"
                     :locations_list="{{json_encode($locationsList)}}"
-                    :existing_orders="{{json_encode($existingOrders)}}"
                     :tax_rates="{{ json_encode($taxRates) }}"
                     title="@lang('menu-category.Create Menu Category')"
             ></grid-form>

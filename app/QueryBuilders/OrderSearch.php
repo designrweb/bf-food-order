@@ -50,6 +50,7 @@ class OrderSearch extends BaseSearch
         }
 
         // sort
+        $this->applySort('orders.created_at', 'desc');
         $this->applySort('orders.quantity', request('sort.quantity'));
         $this->applySort('orders.day', request('sort.day'));
 

@@ -67,7 +67,9 @@ class OrderService extends BaseModelService
     public function create($data)
     {
         $originalOrder = new Order();
-        $order         = $this->repository->add($data);
+        //add created_by current user
+        $data['created_by'] = request()->user()->id;
+        $order              = $this->repository->add($data);
         $this->paymentService->createPaymentBasedOnOrder($order, $originalOrder);
 
         //update is order subsidized after order creations
@@ -87,7 +89,9 @@ class OrderService extends BaseModelService
     public function update($data, $id)
     {
         $originalOrder = $this->getOne($id);
-        $order         = $this->repository->update($data, $id);
+        //add updated_by current user
+        $data['updated_by'] = request()->user()->id;
+        $order              = $this->repository->update($data, $id);
         $this->paymentService->createPaymentBasedOnQuantity($order, $originalOrder);
 
         return $order;
@@ -200,6 +204,7 @@ class OrderService extends BaseModelService
 
     /**
      * @param Model $model
+     * @todo - need to think how to add condition by order type here
      * @return array
      */
     public function getIndexFieldsLabels(Model $model): array
