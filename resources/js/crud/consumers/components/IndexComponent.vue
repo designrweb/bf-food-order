@@ -57,7 +57,7 @@
         </template>
         <template v-slot:cell()="data">
           <div v-if="data.field.key ==='actions'" class="d-flex">
-            <view-button v-if="allowActions.view" :mainRoute="main_route"
+            <view-button v-if="allowActions.view" :mainRoute="main_route" class="view-btn"
                          :id="data.item.id"></view-button>
             <edit-button v-if="allowActions.edit" :mainRoute="main_route"
                          :id="data.item.id"></edit-button>
@@ -67,7 +67,7 @@
           <div v-else-if="data.field.key ==='imageurl'">
             <b-img rounded center :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
           </div>
-          <div v-else>
+          <div v-else :data-info="'kinder-data-' + data.field.key">
             {{ data.value }}
           </div>
         </template>

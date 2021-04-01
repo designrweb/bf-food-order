@@ -27,7 +27,7 @@
                         <td v-if="index === 'imageurl'">
                             <b-img v-if="data.value" rounded left :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
                         </td>
-                        <td v-else> {{ data.value }}</td>
+                        <td v-else :data-info="'kinder-data-' + data.label"> {{ data.value }}</td>
                     </tr>
                     </tbody>
                 </table>
