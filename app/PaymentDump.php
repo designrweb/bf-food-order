@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -31,5 +32,19 @@ class PaymentDump extends Model
      * @var array
      */
     protected $fillable = ['file_name', 'status', 'company_id', 'created_at', 'updated_at', 'requested_at'];
+
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
+                $builder->where('company_id', auth()->user()->company_id);
+            }
+        });
+    }
 
 }
