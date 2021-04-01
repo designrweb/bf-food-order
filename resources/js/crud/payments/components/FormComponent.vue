@@ -74,7 +74,8 @@
                         <b>Guthaben: {{ currentConsumer.balance }} €</b>
                     </b-form-group>
 
-                    <b-button id="payments-submit-btn" type="submit" variant="primary">Einreichen</b-button>
+                    <b-button id="payments-submit-btn" type="submit" variant="primary">Einreichen
+                    </b-button>
                 </b-form>
             </div>
         </div>

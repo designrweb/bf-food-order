@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string   $comment
  * @property string   $created_at
  * @property string   $updated_at
+ * @property integer  $payment_dump_id
  * @property string   $transacted_at
  * @property Consumer $consumer
  * @property Order    $order
@@ -44,7 +45,7 @@ class Payment extends Model
     /**
      * @var array
      */
-    protected $fillable = ['order_id', 'consumer_id', 'amount', 'type', 'comment', 'created_at', 'updated_at', 'transacted_at'];
+    protected $fillable = ['order_id', 'consumer_id', 'amount', 'type', 'comment', 'payment_dump_id', 'created_at', 'updated_at', 'transacted_at'];
 
     /**
      * @var string[]
@@ -64,6 +65,8 @@ class Payment extends Model
                     $query->where('locations.company_id', auth()->user()->company_id);
                 })->orWhereHas('consumer.locationgroup.location', function ($query) {
                     $query->where('locations.company_id', auth()->user()->company_id);
+                })->orWhereHas('paymentDump', function ($query) {
+                    $query->where('payment_dumps.company_id', auth()->user()->company_id);
                 });
             }
         });
@@ -75,6 +78,14 @@ class Payment extends Model
     public function consumer()
     {
         return $this->belongsTo('App\Consumer');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentDump()
+    {
+        return $this->belongsTo(PaymentDump::class, 'payment_dump_id', 'id');
     }
 
     /**

@@ -17,9 +17,15 @@ class CreatePaymentDumpTable extends Migration
             $table->bigIncrements('id');
             $table->string('file_name')->nullable();
             $table->tinyInteger('status')->nullable()->default(0);
+            $table->unsignedBigInteger('company_id')->index();
             $table->timestamps();
             $table->date('requested_at')->nullable();
 
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 

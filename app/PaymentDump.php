@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int         $id
  * @property string|null $file_name
  * @property int         $status
+ * @property int         $company_id
  * @property string|null $requested_at
  * @property string      $created_at
  * @property string      $updated_at
@@ -29,5 +30,6 @@ class PaymentDump extends Model
     /**
      * @var array
      */
-    protected $fillable = ['file_name', 'status', 'created_at', 'updated_at', 'requested_at'];
+    protected $fillable = ['file_name', 'status', 'company_id', 'created_at', 'updated_at', 'requested_at'];
+
 }

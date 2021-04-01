@@ -75,7 +75,8 @@ class PaymentDumpController extends Controller
 
         if ($upload['status'] === 'success') {
             $data = [
-                'file_name' => $upload['fileName'],
+                'file_name'  => $upload['fileName'],
+                'company_id' => auth()->user()->company_id,
             ];
 
             $date     = explode('-', $upload['fileName'])[0];

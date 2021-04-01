@@ -177,7 +177,7 @@ class BankTransactionService extends BaseModelService
             'all'    => true,
             'create' => false,
             'view'   => false,
-            'edit'   => false,
+            'edit'   => true,
             'delete' => false,
         ];
     }

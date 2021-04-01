@@ -266,7 +266,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/', "PaymentDumpController@index")->name('payment-dumps.index');
         Route::get('/get-structure', 'PaymentDumpController@getIndexStructure')->name('payment-dumps.index-structure');
         Route::get('/get-all', 'PaymentDumpController@getAll')->name('payment-dumps.get-all');
-        Route::get('/process/{id}', 'PaymentDumpController@process')->name('payment-dumps.process');
+        Route::get('/{id}/process', 'PaymentDumpController@process')->name('payment-dumps.process');
         Route::post('/upload', 'PaymentDumpController@upload')->name('payment-dumps.upload');
     });
 
