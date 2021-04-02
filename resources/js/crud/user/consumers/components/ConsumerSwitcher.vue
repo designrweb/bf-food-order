@@ -1,12 +1,14 @@
 <template>
     <div>
         <b-dropdown
+            id="consumer-switcher-btn"
             v-if="consumers.length !== 0"
             split-variant="outline-success"
             variant="success"
             :text="selected_consumer ? selectedConsumerFullName : 'Verbraucher wählen'"
             class="m-3">
             <b-dropdown-item
+                class="consumer-switcher-list"
                 v-if="selected_consumer && selected_consumer.id !== consumer.id"
                 @click="switchCompany(consumer.id)"
                 href="#" v-for="consumer in consumers" :key="consumer.id">
