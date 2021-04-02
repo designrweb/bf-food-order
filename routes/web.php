@@ -66,6 +66,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/{id}', 'MenuCategoryController@show')->name('menu-categories.show');
         Route::put('/{id}', 'MenuCategoryController@update')->name('menu-categories.update');
         Route::delete('/{id}', "MenuCategoryController@destroy")->name('menu-categories.destroy');
+        Route::get('/get-order/{locationId}', "MenuCategoryController@getCategoryOrder")->name('menu-categories.get-order');
     });
 
     /** vacations routes */

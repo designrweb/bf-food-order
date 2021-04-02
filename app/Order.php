@@ -57,7 +57,21 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['menuitem_id', 'consumer_id', 'subsidization_organization_id', 'type', 'day', 'pickedup', 'pickedup_at', 'quantity', 'is_subsidized', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['menuitem_id',
+        'consumer_id',
+        'subsidization_organization_id',
+        'type',
+        'day',
+        'pickedup',
+        'pickedup_at',
+        'quantity',
+        'is_subsidized',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'created_by',
+        'updated_by',
+    ];
 
     /**
      * @return \Closure|mixed|void
@@ -120,6 +134,14 @@ class Order extends Model
     public function subsidizationOrganization()
     {
         return $this->belongsTo('App\SubsidizationOrganization');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'created_by', 'id');
     }
 
     /**

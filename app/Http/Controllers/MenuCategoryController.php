@@ -177,4 +177,13 @@ class MenuCategoryController extends Controller
     {
         return $this->service->getList();
     }
+
+    /**
+     * @param $locationId
+     * @return mixed
+     */
+    public function getCategoryOrder($locationId)
+    {
+        return $this->service->getByLocationId($locationId)->pluck('category_order', 'category_order')->toArray();
+    }
 }

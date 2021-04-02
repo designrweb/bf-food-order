@@ -28,6 +28,10 @@ class OrderCollection extends PaginatableCollection
                 $data['day']         = date('l, d.m.Y', strtotime($item->day));
                 $data['day_machine'] = Carbon::parse($item->day)->toDateString();
 
+                if ($item->type === Order::TYPE_VOUCHER_ORDER && $item->creator) {
+                    $data['consumer']['full_name'] = $item->creator->userInfo->full_name;
+                }
+
                 return $data;
             }),
             'pagination' => $this->pagination

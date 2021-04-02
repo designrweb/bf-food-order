@@ -31,6 +31,27 @@
                             {{ validation['name']['message'] }}
                         </b-form-invalid-feedback>
                     </b-form-group>
+
+                    <b-form-group
+                        id="input-group-location_id"
+                        label="Einrichtung"
+                        label-for="input-location_id"
+                    >
+                        <b-form-select
+                            id="input-location_id"
+                            v-model="form.location_id"
+                            :options="locations_list"
+                            class="mb-3"
+                            value-field="id"
+                            text-field="name"
+                            disabled-field="notEnabled"
+                            @change="handleLocationChange"
+                        ></b-form-select>
+                        <b-form-invalid-feedback :state="validation['location_id']['state']">
+                            {{ validation['location_id']['message'] }}
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+
                     <b-form-group
                         id="input-group-category_order"
                         label="Kategorie Reihenfolge"
@@ -99,25 +120,6 @@
                     </b-form-group>
 
                     <b-form-group
-                        id="input-group-location_id"
-                        label="Einrichtung"
-                        label-for="input-location_id"
-                    >
-                        <b-form-select
-                            id="input-location_id"
-                            v-model="form.location_id"
-                            :options="locations_list"
-                            class="mb-3"
-                            value-field="id"
-                            text-field="name"
-                            disabled-field="notEnabled"
-                        ></b-form-select>
-                        <b-form-invalid-feedback :state="validation['location_id']['state']">
-                            {{ validation['location_id']['message'] }}
-                        </b-form-invalid-feedback>
-                    </b-form-group>
-
-                    <b-form-group
                         id="input-group-tax_rate"
                         label="MwSt. %"
                         label-for="input-tax_rate"
@@ -151,7 +153,7 @@
 </template>
 
 <script>
-import {getItem, store}    from "../../api/crudRequests";
+import {getItem, store, getCategoryOrderByLocationId}    from "../../api/crudRequests";
 import SpinnerComponent    from "../../shared/SpinnerComponent";
 import BackButtonComponent from "../../shared/BackButtonComponent";
 
@@ -163,7 +165,10 @@ export default {
     props:      {
         main_route:      String,
         locations_list:  Array,
-        existing_orders: Array | Object,
+        existing_orders: {
+            type: Array | Object,
+            default: []
+        },
         id:              String | Number,
         title:           String,
         tax_rates:       Array | Object
@@ -196,7 +201,7 @@ export default {
                 ordersList.push({
                     value:    i,
                     text:     i,
-                    disabled: (i in this.existing_orders) ? true : false
+                    disabled: (i in this.existing_orders)
                 });
             }
 
@@ -264,10 +269,17 @@ export default {
 
             this.notAvailableForPos = parseInt(this.form.not_available_for_pos) === 0 ? false : true;
         },
+        async handleLocationChange() {
+            if (this.form.location_id == null) return;
+
+            let response  = await getCategoryOrderByLocationId(this.main_route, this.form.location_id);
+            this.existing_orders = response['data'];
+        },
     },
     async mounted() {
         this.isPageBusy = true;
         await this._loadData();
+        await this.handleLocationChange();
         this.isPageBusy = false;
     },
     watch: {
