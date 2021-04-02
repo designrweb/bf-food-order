@@ -248,11 +248,13 @@ class MenuItemService extends BaseModelService
      */
     public function getMenuItemsByDate($startDate, $endDate)
     {
+        $consumer = $this->consumerService->getCurrentConsumer();
+
         $menuItems = $this->repository->getMenuItemsByDate($startDate, $endDate);
+        $menuItems = $this->usersFoodOrdersByConsumerId($consumer->id, $menuItems);
 
-        $menuItems = $this->usersFoodOrdersByConsumerId($this->consumerService->getCurrentConsumer()->id, $menuItems);
-
-        $vacations = (new VacationRepository((new Vacation())))->getVacationByPeriod($startDate, $endDate);
+        $vacations = (new VacationRepository((new Vacation())))
+            ->getVacationByPeriod($startDate, $endDate, $consumer->location_group_id);
 
         return [
             'menuItems' => $menuItems->toArray(),

@@ -1,7 +1,5 @@
 <template>
     <div>
-        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-
         <back-button-component :route="main_route"></back-button-component>
         <div class="card">
 
@@ -109,21 +107,24 @@
                         <multiselect
                             v-model="location_group_ids"
                             :options="location_group_list"
-                            multiple
-                            :close-on-select="false"
-                            :clear-on-select="false"
-                            :preserve-search="true"
+                            mode="tags"
                             placeholder="Nimm welche"
-                            label="name"
-                            track-by="name"
-                            :preselect-first="true"
+                            noResultsText="Liste ist leer."
+                            noOptionsText="Liste ist leer."
                         >
-                            <template slot="singleLabel" slot-scope="{ option }">
-                                {{ option.name }}
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag is-user">
+                                    {{ option.name }}
+                                    <i
+                                        v-if="!disabled"
+                                        @click.prevent
+                                        @mousedown.prevent.stop="handleTagRemove(option, $event)"
+                                    />
+                                </div>
                             </template>
 
-                            <template slot="noOptions" slot-scope="{ option }">
-                                Liste ist leer.
+                            <template v-slot:option="{ option }">
+                                {{ option.name }}
                             </template>
                         </multiselect>
                         <b-form-invalid-feedback :state="validation['location_group_id']['state']">
@@ -152,9 +153,8 @@ import {getItem, store, getLocationGroupsByLocationId} from "../../api/crudReque
 import SpinnerComponent                                from "../../shared/SpinnerComponent";
 import BackButtonComponent                             from "../../shared/BackButtonComponent";
 import DatePicker                                      from 'vue2-datepicker'
-import Multiselect                                     from 'vue-multiselect'
+import Multiselect                                     from '@vueform/multiselect/dist/multiselect.vue2.js'
 import _                                               from 'lodash'
-import moment                                          from 'moment'
 
 export default {
     components: {
@@ -204,11 +204,14 @@ export default {
         async getLocationGroupsByLocationId(event) {
             if (this.form.location_id == null) return;
 
+            this.location_group_ids  = [];
+            this.location_group_list = [];
+
             try {
                 let response             = await getLocationGroupsByLocationId('/admin/location-groups/get-list-by-location/' + this.form.location_id);
-                this.location_group_list = response['data'];
+                this.location_group_list = _.map(response['data'], location => ({value: location.id, name: location.name}))
 
-                this.location_group_ids = this.form.location_group_id;
+                this.location_group_ids = _.map(this.form.location_group_id, 'id');
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {
                     let errors = error.response.data.errors;
@@ -221,11 +224,11 @@ export default {
             self.isPageBusy = true;
 
             //prepare data
-            self.form.location_group_id = _.map(self.location_group_ids, 'id')
+            self.form.location_group_id = self.location_group_ids;
             self.form.start_date        = this.startDate;
             self.form.end_date          = this.endDate;
             try {
-                let response = await store(self.main_route, self.id, self.form);
+                let response         = await store(self.main_route, self.id, self.form);
                 window.location.href = self.main_route + '/' + response['data'].id;
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {
@@ -282,6 +285,7 @@ export default {
     }
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>
 
 <style lang="scss">
 @import './node_modules/bootstrap/scss/bootstrap.scss';
