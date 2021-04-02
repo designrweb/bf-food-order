@@ -144,7 +144,7 @@ class SubsidizationRuleController extends Controller
      */
     public function update(SubsidizationRuleFormRequest $request, $id)
     {
-        return (new  SubsidizationRuleResource($this->service->update($request->all(), $id)))->toArray($request);
+        return (new SubsidizationRuleResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**

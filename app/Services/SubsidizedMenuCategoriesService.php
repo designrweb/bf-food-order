@@ -116,4 +116,15 @@ class SubsidizedMenuCategoriesService extends BaseModelService
     {
         return $this->repository->getMenuCategoryWithSubsidization($menuCategoryId, $subsidizationRuleId);
     }
+
+    /**
+     * Remove by rule ID
+     *
+     * @param $subsidizationRuleId
+     * @return mixed
+     */
+    public function removeBySubsidizationRuleId($subsidizationRuleId)
+    {
+        return $this->repository->removeBySubsidizationRuleId($subsidizationRuleId);
+    }
 }

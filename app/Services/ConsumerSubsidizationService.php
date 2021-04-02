@@ -98,4 +98,13 @@ class ConsumerSubsidizationService extends BaseModelService
     {
         return $this->repository->removeByConsumerId($id);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function removeBySubsidizationRuleId($id)
+    {
+        return $this->repository->removeBySubsidizationRuleId($id);
+    }
 }
