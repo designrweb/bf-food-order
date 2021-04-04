@@ -146,7 +146,7 @@ class LocationService extends BaseModelService
     /**
      * @return array
      */
-    public function getList()
+    public function getList(): array
     {
         return $this->repository->getList();
     }

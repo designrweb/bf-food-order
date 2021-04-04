@@ -80,7 +80,7 @@ class LocationRepository implements RepositoryInterface
     /**
      * @return array
      */
-    public function getList()
+    public function getList(): array
     {
         $locationsArray = [];
         $allLocations   = $this->model::all();

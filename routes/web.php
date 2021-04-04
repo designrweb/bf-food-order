@@ -360,6 +360,36 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 //        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
 
     });
+
+    /** catering_categories routes */
+    Route::prefix('catering-categories')->group(function () {
+        Route::get('/get-all', 'CateringCategoryController@getAll')->name('catering-categories.get-all');
+        Route::get('/get-structure', 'CateringCategoryController@getIndexStructure')->name('catering-categories.index-structure');
+        Route::get('/get-view-structure', 'CateringCategoryController@getViewStructure')->name('catering-categories.view-structure');
+        Route::get('/get-one/{id}', 'CateringCategoryController@getOne')->name('catering-categories.get-one');
+        Route::get('/', "CateringCategoryController@index")->name('catering-categories.index');
+        Route::get('/create', 'CateringCategoryController@create')->name('catering-categories.create');
+        Route::post('/', "CateringCategoryController@store")->name('catering-categories.store');
+        Route::get('/{id}/edit', 'CateringCategoryController@edit')->name('catering-categories.edit');
+        Route::get('/{id}', 'CateringCategoryController@show')->name('catering-categories.show');
+        Route::put('/{id}', 'CateringCategoryController@update')->name('catering-categories.update');
+        Route::delete('/{id}', "CateringCategoryController@destroy")->name('catering-categories.destroy');
+    });
+
+    /** catering_items routes */
+    Route::prefix('catering-items')->group(function () {
+        Route::get('/get-all', 'CateringItemController@getAll')->name('catering-items.get-all');
+        Route::get('/get-structure', 'CateringItemController@getIndexStructure')->name('catering-items.index-structure');
+        Route::get('/get-view-structure', 'CateringItemController@getViewStructure')->name('catering-items.view-structure');
+        Route::get('/get-one/{id}', 'CateringItemController@getOne')->name('catering-items.get-one');
+        Route::get('/', "CateringItemController@index")->name('catering-items.index');
+        Route::get('/create', 'CateringItemController@create')->name('catering-items.create');
+        Route::post('/', "CateringItemController@store")->name('catering-items.store');
+        Route::get('/{id}/edit', 'CateringItemController@edit')->name('catering-items.edit');
+        Route::get('/{id}', 'CateringItemController@show')->name('catering-items.show');
+        Route::put('/{id}', 'CateringItemController@update')->name('catering-items.update');
+        Route::delete('/{id}', "CateringItemController@destroy")->name('catering-items.destroy');
+    });
 });
 
 

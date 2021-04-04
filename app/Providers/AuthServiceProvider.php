@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\CateringCategory;
+use App\CateringItem;
 use App\Company;
 use App\Consumer;
 use App\ConsumerAutoOrder;
@@ -13,6 +15,8 @@ use App\MenuCategory;
 use App\MenuItem;
 use App\Order;
 use App\Payment;
+use App\Policies\CateringCategoryPolicy;
+use App\Policies\CateringItemPolicy;
 use App\Policies\CompanyPolicy;
 use App\Policies\ConsumerAutoOrderPolicy;
 use App\Policies\ConsumerQrCodePolicy;
@@ -70,6 +74,8 @@ class AuthServiceProvider extends ServiceProvider
         Location::class                  => LocationPolicy::class,
         LocationGroup::class             => LocationGroupPolicy::class,
         Consumer::class                  => ConsumerPolicy::class,
+        CateringCategory::class          => CateringCategoryPolicy::class,
+        CateringItem::class              => CateringItemPolicy::class,
     ];
 
     /**
@@ -109,6 +115,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('menu-' . class_basename(Location::class), [LocationPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(LocationGroup::class), [LocationGroupPolicy::class, 'viewAny']);
         Gate::define('menu-' . class_basename(Consumer::class), [ConsumerPolicy::class, 'viewAny']);
+        Gate::define('menu-' . class_basename(CateringCategory::class), [CateringCategoryPolicy::class, 'viewAny']);
+        Gate::define('menu-' . class_basename(CateringItem::class), [CateringItemPolicy::class, 'viewAny']);
 
         //User side gates
         Gate::define('menu-User-Profile', [UserPolicy::class, 'viewProfile']);
