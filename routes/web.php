@@ -29,13 +29,28 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/get-view-structure', 'UserController@getViewStructure')->name('users.view-structure');
         Route::get('/get-one/{id}', 'UserController@getOne')->name('users.get-one');
         Route::get('/', "UserController@index")->name('users.index')->middleware('checkRole:viewAny,App\User');
-        Route::get('/create', 'UserController@create')->name('users.create')->middleware('checkRole:create,App\User');
         Route::post('/', "UserController@store")->name('users.store')->middleware('checkRole:create,App\User');
         Route::get('/{id}/edit', 'UserController@edit')->name('users.edit')->middleware('checkRole:update,App\User,id');
         Route::get('/{id}', 'UserController@show')->name('users.show')->middleware('checkRole:view,App\User,id');
         Route::put('/{id}', 'UserController@update')->name('users.update')->middleware('checkRole:update,App\User,id');
         Route::delete('/{id}', "UserController@destroy")->name('users.destroy')->middleware('checkRole:delete,App\User,id');
         Route::get('/export/run', "UserController@export")->name('users.export');
+    });
+
+    /** users(administrators) routes */
+    Route::prefix('administrators')->middleware(['auth'])->group(function () {
+        Route::get('/get-all', 'AdministratorController@getAll')->name('administrators.get-all');
+        Route::get('/get-structure', 'AdministratorController@getIndexStructure')->name('administrators.index-structure');
+        Route::get('/get-view-structure', 'AdministratorController@getViewStructure')->name('administrators.view-structure');
+        Route::get('/get-one/{id}', 'AdministratorController@getOne')->name('administrators.get-one');
+        Route::get('/', "AdministratorController@index")->name('administrators.index')->middleware('checkRole:viewAny,App\User');
+        Route::get('/create', 'AdministratorController@create')->name('administrators.create')->middleware('checkRole:create,App\User');
+        Route::post('/', "AdministratorController@store")->name('administrators.store')->middleware('checkRole:create,App\User');
+        Route::get('/{id}/edit', 'AdministratorController@edit')->name('administrators.edit')->middleware('checkRole:update,App\User,id');
+        Route::get('/{id}', 'AdministratorController@show')->name('administrators.show')->middleware('checkRole:view,App\User,id');
+        Route::put('/{id}', 'AdministratorController@update')->name('administrators.update')->middleware('checkRole:update,App\User,id');
+        Route::delete('/{id}', "AdministratorController@destroy")->name('administrators.destroy')->middleware('checkRole:delete,App\User,id');
+        Route::get('/export/run', "AdministratorController@export")->name('administrators.export');
     });
 
     /** subsidization-organizations routes */
@@ -358,7 +373,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('/', "ReportController@financialReport")->name('financial-report.store');
         Route::post('/subsidization-report', "ReportController@subsidizationReport")->name('subsidization-report.store');
 
-//        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
+        //        Route::get('/financial', 'ReportController@financial')->name('financial-report.index');
 
     });
 });

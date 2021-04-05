@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\QueryBuilders\AdministratorSearch;
 use App\User;
 use App\QueryBuilders\UserSearch;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -30,6 +31,21 @@ class UserRepository implements RepositoryInterface
             ->send($this->model->newQuery())
             ->through([
                 UserSearch::class,
+            ])
+            ->thenReturn()
+            ->with(['userInfo', 'location', 'company'])
+            ->paginate(request('itemsPerPage') ?? 10);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function allAdministrators()
+    {
+        return app(Pipeline::class)
+            ->send($this->model->newQuery())
+            ->through([
+                AdministratorSearch::class,
             ])
             ->thenReturn()
             ->with(['userInfo', 'location', 'company'])

@@ -5,6 +5,7 @@ return [
     'Locations'         => 'Einrichtung',
     'Groups'            => 'Klassen',
     'Administrators'    => 'Administratoren',
+    'Users'             => 'Benutzer',
     'Consumers'         => 'Kunde/Essensteilnehmer',
     'Menu Categories'   => 'Menülinien',
     'Menu Items'        => 'Menüs',
