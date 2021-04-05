@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CateringCategoryCollection;
 use App\Http\Resources\CateringCategoryResource;
 use App\Services\CateringCategoryService;
 use App\Http\Requests\CateringCategoryFormRequest;
@@ -35,27 +36,23 @@ class CateringCategoryController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new CateringCategoryCollection($this->service->all()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new CateringCategoryResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -99,7 +96,8 @@ class CateringCategoryController extends Controller
      */
     public function store(CateringCategoryFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new CateringCategoryResource($this->service->create($request->all())))->toArray
+        ($request);
     }
 
     /**
@@ -111,37 +109,35 @@ class CateringCategoryController extends Controller
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new CateringCategoryResource($this->service->getOne($id)))->toArray(request());
 
         return view('catering_categories.view', compact('resource'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param LocationService $locationService
-     * @param int             $id
-     * @return Response
+     * @param                 $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(LocationService $locationService, $id)
     {
         /** @var array $resource */
-        $resource                  = $this->service->getOne($id)->toArray(request());
+        $resource                  = (new CateringCategoryResource($this->service->getOne($id)))
+            ->toArray(request());
         $resource['locationsList'] = $locationService->getList();
 
         return view('catering_categories._form', compact('resource'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param CateringCategoryFormRequest $request
-     * @param int                         $id
+     * @param                             $id
      * @return array
      */
     public function update(CateringCategoryFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new CateringCategoryResource($this->service->update($request->all(), $id)))
+            ->toArray($request);
     }
 
     /**

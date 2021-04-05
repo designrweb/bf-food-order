@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\CateringCategoryCollection;
-use App\Http\Resources\CateringCategoryResource;
 use App\CateringCategory;
 use App\QueryBuilders\CateringCategorySearch;
 use Illuminate\Pipeline\Pipeline;
@@ -20,40 +18,40 @@ class CateringCategoryRepository implements RepositoryInterface
     }
 
     /**
-     * @return CateringCategoryCollection
+     * @return mixed
      */
     public function all()
     {
-        return new CateringCategoryCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 CateringCategorySearch::class,
             ])
             ->thenReturn()
             ->with('location')
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return CateringCategoryResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new CateringCategoryResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return CateringCategoryResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new CateringCategoryResource($model);
+        return $model;
     }
 
     /**
@@ -66,12 +64,12 @@ class CateringCategoryRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return CateringCategoryResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        return new CateringCategoryResource($this->model->with('location')->findOrFail($id));
+        return $this->model->with('location')->findOrFail($id);
     }
 
     /**

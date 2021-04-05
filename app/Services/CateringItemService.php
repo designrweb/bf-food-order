@@ -41,47 +41,37 @@ class CateringItemService extends BaseModelService
     }
 
     /**
-     * Returns all catering_items transformed to resource
-     *
-     * @return CateringItemCollection
+     * @return mixed
      */
-    public function all(): CateringItemCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return CateringItemResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): CateringItemResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the catering_items model
-     *
      * @param $data
-     * @return CateringItemResource
+     * @return mixed
      */
-    public function create($data): CateringItemResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the catering_items model
-     *
      * @param $data
      * @param $id
-     * @return CateringItemResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): CateringItemResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }

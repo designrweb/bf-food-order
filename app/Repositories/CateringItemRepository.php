@@ -20,40 +20,40 @@ class CateringItemRepository implements RepositoryInterface
     }
 
     /**
-     * @return CateringItemCollection
+     * @return mixed
      */
     public function all()
     {
-        return new CateringItemCollection(app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($this->model->newQuery())
             ->through([
                 CateringItemSearch::class,
             ])
             ->thenReturn()
             ->with('cateringCategory')
-            ->paginate(request('itemsPerPage') ?? 10));
+            ->paginate(request('itemsPerPage') ?? 10);
     }
 
     /**
      * @param array $data
-     * @return CateringItemResource
+     * @return mixed
      */
     public function add(array $data)
     {
-        return new CateringItemResource($this->model->create($data));
+        return $this->model->create($data);
     }
 
     /**
      * @param array $data
      * @param       $id
-     * @return CateringItemResource
+     * @return mixed
      */
     public function update(array $data, $id)
     {
         $model = $this->model->findOrFail($id);
         $model->update($data);
 
-        return new CateringItemResource($model);
+        return $model;
     }
 
     /**
@@ -66,12 +66,12 @@ class CateringItemRepository implements RepositoryInterface
     }
 
     /**
-     * @param       $id
-     * @return CateringItemResource
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function get($id)
     {
-        return new CateringItemResource($this->model->with('cateringCategory')->findOrFail($id));
+        return $this->model->with('cateringCategory')->findOrFail($id);
     }
 
     /**

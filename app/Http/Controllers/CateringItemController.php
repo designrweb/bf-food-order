@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CateringItemCollection;
 use App\Http\Resources\CateringItemResource;
 use App\Services\CateringCategoryService;
 use App\Services\CateringItemService;
@@ -35,27 +36,23 @@ class CateringItemController extends Controller
     }
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @return array
      */
     public function getAll(Request $request)
     {
-        return $this->service->all()->toArray($request);
+        return (new CateringItemCollection($this->service->all()))->toArray($request);
     }
 
 
     /**
-     * Returns a listing of the resource.
-     *
      * @param Request $request
      * @param         $id
      * @return array
      */
     public function getOne(Request $request, $id)
     {
-        return $this->service->getOne($id)->toArray($request);
+        return (new CateringItemResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -94,14 +91,13 @@ class CateringItemController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param CateringItemFormRequest $request
      * @return array
      */
     public function store(CateringItemFormRequest $request)
     {
-        return $this->service->create($request->all())->toArray($request);
+        return (new CateringItemResource($this->service->create($request->all())))->toArray
+        ($request);
     }
 
     /**
@@ -111,7 +107,7 @@ class CateringItemController extends Controller
     public function show($id)
     {
         /** @var array $resource */
-        $resource = $this->service->getOne($id)->toArray(request());
+        $resource = (new CateringItemResource($this->service->getOne($id)))->toArray(request());
 
         return view('catering_items.view', compact('resource'));
     }
@@ -124,7 +120,8 @@ class CateringItemController extends Controller
     public function edit(CateringCategoryService $cateringCategoryService, $id)
     {
         /** @var array $resource */
-        $resource                           = $this->service->getOne($id)->toArray(request());
+        $resource                           = (new CateringItemResource($this->service->getOne
+        ($id)))->toArray(request());
         $resource['cateringCategoriesList'] = $cateringCategoryService->getList();
         $resource['statusesList']           = $this->service->getStatusList();
 
@@ -132,15 +129,14 @@ class CateringItemController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param CateringItemFormRequest $request
-     * @param int                     $id
+     * @param                         $id
      * @return array
      */
     public function update(CateringItemFormRequest $request, $id)
     {
-        return $this->service->update($request->all(), $id)->toArray($request);
+        return (new CateringItemResource($this->service->update($request->all(), $id)))->toArray
+        ($request);
     }
 
     /**

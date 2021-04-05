@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Resources\CateringCategoryCollection;
-use App\Http\Resources\CateringCategoryResource;
 use App\Repositories\CateringCategoryRepository;
 use bigfood\grid\BaseModelService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\CateringCategory;
 
 
@@ -37,47 +34,37 @@ class CateringCategoryService extends BaseModelService
     }
 
     /**
-     * Returns all catering_categories transformed to resource
-     *
-     * @return CateringCategoryCollection
+     * @return mixed
      */
-    public function all(): CateringCategoryCollection
+    public function all()
     {
         return $this->repository->all();
     }
 
     /**
-     * Returns single product transformed to resource
-     *
      * @param $id
-     * @return CateringCategoryResource
-     * @throws ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function getOne($id): CateringCategoryResource
+    public function getOne($id)
     {
         return $this->repository->get($id);
     }
 
     /**
-     * Creates and returns the catering_categories model
-     *
      * @param $data
-     * @return CateringCategoryResource
+     * @return mixed
      */
-    public function create($data): CateringCategoryResource
+    public function create($data)
     {
         return $this->repository->add($data);
     }
 
     /**
-     * Updates and returns the catering_categories model
-     *
      * @param $data
      * @param $id
-     * @return CateringCategoryResource
-     * @throws ModelNotFoundException
+     * @return mixed
      */
-    public function update($data, $id): CateringCategoryResource
+    public function update($data, $id)
     {
         return $this->repository->update($data, $id);
     }
