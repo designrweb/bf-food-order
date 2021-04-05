@@ -25,6 +25,7 @@
                             v-model="form.name"
                             required
                             placeholder="Name"
+                            autocomplete="off"
                         ></b-form-input>
                         <b-form-invalid-feedback :state="validation['name']['state']">
                             {{ validation['name']['message'] }}

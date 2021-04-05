@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCateringCategoriesTable extends Migration
+class CreateCateringOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCateringCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('catering_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->unsignedBigInteger('location_id')->index();
+        Schema::create('catering_orders', function (Blueprint $table) {
+            $table->id();
+            $table->dateTime('delivery_date')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateCateringCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catering_categories');
+        Schema::dropIfExists('catering_orders');
     }
 }

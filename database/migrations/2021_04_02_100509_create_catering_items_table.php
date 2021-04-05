@@ -19,7 +19,7 @@ class CreateCateringItemsTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('catering_category_id')->index();
             $table->string('imageurl')->nullable();
-            $table->enum('status', [2, 1])->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
 
             $table->foreign('catering_category_id')

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string           $name
  * @property string           $description
  * @property string           $imageurl
- * @property string           $status
+ * @property integer          $status
  * @property mixed            $created_at
  * @property mixed            $updated_at
  * @property CateringCategory $cateringCategory
@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
 class CateringItem extends Model
 {
 
-    const STATUS_ACTIVE   = 2;
-    const STATUS_DISABLED = 1;
+    const STATUS_ACTIVE   = 1;
+    const STATUS_DISABLED = 0;
 
     const STATUSES = [
         self::STATUS_ACTIVE   => 'Active',
