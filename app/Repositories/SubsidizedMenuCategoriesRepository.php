@@ -81,4 +81,13 @@ class SubsidizedMenuCategoriesRepository extends Repository
             ->where('subsidization_rule_id', $subsidizationRuleId)
             ->first();
     }
+
+    /**
+     * @param $subsidizationRuleId
+     * @return mixed
+     */
+    public function removeBySubsidizationRuleId($subsidizationRuleId)
+    {
+        return $this->model::where('subsidization_rule_id', $subsidizationRuleId)->delete();
+    }
 }
