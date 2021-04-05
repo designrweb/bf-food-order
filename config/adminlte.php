@@ -259,6 +259,13 @@ return [
         ],
         [
             'text'    => 'Administrators',
+            'route'   => 'administrators.index',
+            'icon'    => 'nav-icon fa fa-user-shield',
+            'can'     => ['menu-User'],
+            'classes' => 'admin-administrators-menu'
+        ],
+        [
+            'text'    => 'Users',
             'route'   => 'users.index',
             'icon'    => 'nav-icon fa fa-user-friends',
             'can'     => ['menu-User'],
@@ -450,34 +457,34 @@ return [
             'classes' => 'user-consumers-menu'
         ],
 
-//        [
-//            'text' => 'Vacation Location Group',
-//            'url'  => 'admin/vacation-location-group',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
-//        [
-//            'text' => 'Subsidized Menu Categories',
-//            'url'  => 'admin/subsidized-menu-categories',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
-//
-//        [
-//            'text' => 'Consumer Subsidizations',
-//            'url'  => 'admin/consumer-subsidizations',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
+        //        [
+        //            'text' => 'Vacation Location Group',
+        //            'url'  => 'admin/vacation-location-group',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
+        //        [
+        //            'text' => 'Subsidized Menu Categories',
+        //            'url'  => 'admin/subsidized-menu-categories',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
+        //
+        //        [
+        //            'text' => 'Consumer Subsidizations',
+        //            'url'  => 'admin/consumer-subsidizations',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
 
-//        [
-//            'text'  => 'Auto Orders',
-//            'route' => 'consumer-auto-orders.index',
-//            'icon'  => 'far fa-fw fa-file',
-//        ],
-//        [
-//            'text'  => 'Consumer QR Codes',
-//            'route' => 'consumer-qr-codes.index',
-//            'icon'  => 'far fa-fw fa-file',
-//            'can'   => 'menu-ConsumerQrCode',
-//        ],
+        //        [
+        //            'text'  => 'Auto Orders',
+        //            'route' => 'consumer-auto-orders.index',
+        //            'icon'  => 'far fa-fw fa-file',
+        //        ],
+        //        [
+        //            'text'  => 'Consumer QR Codes',
+        //            'route' => 'consumer-qr-codes.index',
+        //            'icon'  => 'far fa-fw fa-file',
+        //            'can'   => 'menu-ConsumerQrCode',
+        //        ],
     ],
 
     /*

@@ -30,6 +30,14 @@ class UserService extends BaseModelService
     }
 
     /**
+     * @return mixed
+     */
+    public function allAdministrators()
+    {
+        return $this->repository->allAdministrators();
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
@@ -96,6 +104,84 @@ class UserService extends BaseModelService
     public function getViewStructure(): array
     {
         return $this->getSimpleStructure((new User()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdministratorIndexStructure(): array
+    {
+        return $this->getAdministratorFullStructure((new User()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdministratorViewStructure(): array
+    {
+        return $this->getAdministratorSimpleStructure((new User()));
+    }
+
+    /**
+     * Returns main model full structure
+     *
+     * @param Model $model
+     * @return array
+     */
+    public function getAdministratorFullStructure(Model $model): array
+    {
+        return [
+            'filters'      => $this->getFilters($model),
+            'sort'         => $this->getSortFields($model),
+            'fields'       => $this->getIndexFieldsLabels($model),
+            'allowActions' => $this->getAdministratorAllowActions(),
+        ];
+    }
+
+    /**
+     * Returns main model partly structure (main target is view page)
+     *
+     * @param Model $model
+     * @return array
+     */
+    public function getAdministratorSimpleStructure(Model $model): array
+    {
+        return [
+            'fields'       => $this->getViewFieldsLabels($model),
+            'allowActions' => $this->getAdministratorAllowActions(),
+        ];
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAdministratorAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
+            'view'   => true,
+            'edit'   => true,
+            'delete' => true,
+        ];
+    }
+
+    /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => false,
+            'view'   => true,
+            'edit'   => true,
+            'delete' => true,
+        ];
     }
 
     /**
