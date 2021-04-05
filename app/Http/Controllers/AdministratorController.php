@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AdministratorCollection;
+use App\Http\Resources\AdministratorResource;
 use App\Services\ExportService;
 use App\Services\LocationService;
 use App\Services\UserService;
-use App\Http\Requests\UserFormRequest;
+use App\Http\Requests\AdministratorFormRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -57,7 +57,7 @@ class AdministratorController extends Controller
      */
     public function getAll(Request $request)
     {
-        return (new UserCollection($this->service->allAdministrators()))->toArray($request);
+        return (new AdministratorCollection($this->service->allAdministrators()))->toArray($request);
     }
 
 
@@ -68,7 +68,7 @@ class AdministratorController extends Controller
      */
     public function getOne(Request $request, $id)
     {
-        return (new UserResource($this->service->getOne($id)))->toArray($request);
+        return (new AdministratorResource($this->service->getOne($id)))->toArray($request);
     }
 
     /**
@@ -110,12 +110,12 @@ class AdministratorController extends Controller
     }
 
     /**
-     * @param UserFormRequest $request
+     * @param AdministratorFormRequest $request
      * @return array
      */
-    public function store(UserFormRequest $request)
+    public function store(AdministratorFormRequest $request)
     {
-        return (new UserResource($this->service->create($request->all())))->toArray($request);
+        return (new AdministratorResource($this->service->create($request->all())))->toArray($request);
     }
 
     /**
@@ -125,7 +125,7 @@ class AdministratorController extends Controller
     public function show($id)
     {
         /** @var array $resource */
-        $resource = (new UserResource($this->service->getOne($id)))->toArray(request());
+        $resource = (new AdministratorResource($this->service->getOne($id)))->toArray(request());
 
         return view('administrators.view', compact('resource'));
     }
@@ -137,7 +137,7 @@ class AdministratorController extends Controller
     public function edit($id)
     {
         /** @var array $resource */
-        $resource                    = (new UserResource($this->service->getOne($id)))->toArray(request());
+        $resource                    = (new AdministratorResource($this->service->getOne($id)))->toArray(request());
         $resource['salutationsList'] = $this->service->getSalutationsList();
         $resource['rolesList']       = $this->service->getRolesList();
         $resource['locationsList']   = $this->locationService->getList();
@@ -146,13 +146,13 @@ class AdministratorController extends Controller
     }
 
     /**
-     * @param UserFormRequest $request
+     * @param AdministratorFormRequest $request
      * @param                 $id
      * @return array
      */
-    public function update(UserFormRequest $request, $id)
+    public function update(AdministratorFormRequest $request, $id)
     {
-        return (new UserResource($this->service->update($request->all(), $id)))->toArray($request);
+        return (new AdministratorResource($this->service->update($request->all(), $id)))->toArray($request);
     }
 
     /**
@@ -163,7 +163,7 @@ class AdministratorController extends Controller
     {
         $this->service->remove($id);
 
-        return response()->json(['redirect_url' => action('UserController@index')]);
+        return response()->json(['redirect_url' => action('AdministratorController@index')]);
     }
 
     /**
@@ -173,6 +173,6 @@ class AdministratorController extends Controller
      */
     public function export(Request $request, ExportService $exportService)
     {
-        return $exportService->export($request, $this->service, UserCollection::class, User::class);
+        return $exportService->export($request, $this->service, AdministratorCollection::class, User::class);
     }
 }
