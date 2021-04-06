@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
  * @property string          $email
  * @property string          $image_name
  * @property LocationGroup[] $locationGroups
+ * @property Company         $company
  */
 class Location extends Model
 {

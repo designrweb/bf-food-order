@@ -81,7 +81,11 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
+<<<<<<< HEAD
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+=======
 /******/ 	return __webpack_require__(__webpack_require__.s = 31);
+>>>>>>> origin/master
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -37321,7 +37325,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+<<<<<<< HEAD
+/***/ 32:
+=======
 /***/ 31:
+>>>>>>> origin/master
 /*!***********************************!*\
   !*** multi ./resources/js/app.js ***!
   \***********************************/
