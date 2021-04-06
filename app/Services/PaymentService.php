@@ -435,9 +435,13 @@ class PaymentService extends BaseModelService
         return $paymentType;
     }
 
+    /**
+     * @param $order
+     * @param $price
+     */
     public function createCashRegisterPayment($order, $price)
     {
-        $paymentMessage = 'Cash register ' . $price;
+        $paymentMessage = __('app.Cash register', ['price' => $price]);
 
         $payment = $this->repository->add([
             'consumer_id' => $order->consumer_id,

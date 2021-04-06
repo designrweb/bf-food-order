@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\pos;
 
 use App\ConsumerQrCode;
+use App\Http\Requests\CashRegisterFormRequest;
 use App\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -36,34 +37,24 @@ class CashRegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CashRegisterFormRequest $request)
     {
-        $term    = $request->get('term');
-        $price   = $request->get('price');
-        $errors  = [];
-        $message = 'Order is successfully created!';
-
-        if (empty($term)) {
-            return response()->json(['errors' => 'QR code not received!'], 422);
-        }
-
-        if (empty($price)) {
-            return response()->json(['errors' => 'Price not received!'], 422);
-        }
+        $data    = $request->all();
+        $message = __('order.Order is successfully created');
 
         DB::beginTransaction();
 
         try {
             $qrCode = ConsumerQrCode::with('consumer')
-                ->where(['qr_code_hash' => $term])
+                ->where(['qr_code_hash' => $data['code']])
                 ->first();
 
             if (!$qrCode) {
-                return response()->json(['errors' => 'Consumer not found!'], 422);
+                return response()->json(['errors' => __('consumer.Consumer not found')], 422);
             }
 
-            if ($qrCode->consumer->balance < $price) {
-                return response()->json(['errors' => 'Consumer has not enough balance!'], 422);
+            if ($qrCode->consumer->balance < $data['price']) {
+                return response()->json(['errors' => __('app.Please increase your balance')], 422);
             }
 
             $data['type']        = Order::TYPE_CASH_REGISTER;
@@ -73,15 +64,13 @@ class CashRegisterController extends Controller
             $data['day']         = date('Y-m-d');
             $data['pickedup_at'] = date('Y-m-d H:i:s');
 
-            $this->orderService->createCashRegisterOrder($data, $price);
+            $this->orderService->createCashRegisterOrder($data, $data['price']);
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
 
-            $errors[] = env('APP_DEBUG') == true ? $e->getMessage() : 'Something went wrong!';
-
-            return response()->json(['errors' => $errors], 422);
+            return response()->json(['errors' => [$e->getMessage()]], 422);
         }
 
         return response()->json(['message' => $message, 'success' => true]);
