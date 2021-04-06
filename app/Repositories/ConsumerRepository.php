@@ -307,7 +307,7 @@ class ConsumerRepository implements RepositoryInterface
                 empty($subsidizationRule->end_date)
                 && empty($subsidization->subsidization_end)
             ) {
-                return 'Forever';
+                return __('app.Forever');
             }
 
             if (
