@@ -390,7 +390,7 @@ class ConsumerService extends BaseModelService
                 'label' => __('subsidization.Subsidization status')
             ];
             $fields[] = [
-                'key'   => 'subsidization.subsidization_end',
+                'key'   => 'subsidization.final_end_date',
                 'label' => __('subsidization.Subsidization Date end')
             ];
         }
@@ -401,11 +401,12 @@ class ConsumerService extends BaseModelService
 
     /**
      * @param $email
+     * @param $id
      * @return string
      */
-    public function getSubsidizationStatus($email)
+    public function getSubsidizationStatus($email, $id)
     {
-        if ($this->repository->isSubsidized(date('Y-m-d'))) {
+        if ($this->repository->isSubsidized(date('Y-m-d'), $id)) {
             return __('subsidization.Subsidization granted');
         } elseif ($this->userService->isAdminOrSuperAdmin()) {
             return __('subsidization.Subsidization not granted');
@@ -414,6 +415,15 @@ class ConsumerService extends BaseModelService
                 'email' => $email
             ]);
         }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getSubsidizationFinalEndDate($id)
+    {
+        return $this->repository->getSubsidizationFinalEndDate($id);
     }
 
     /**
