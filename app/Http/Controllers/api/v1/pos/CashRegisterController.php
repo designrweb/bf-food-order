@@ -47,6 +47,10 @@ class CashRegisterController extends Controller
             return response()->json(['errors' => 'QR code not received!'], 422);
         }
 
+        if (empty($price)) {
+            return response()->json(['errors' => 'Price not received!'], 422);
+        }
+
         DB::beginTransaction();
 
         try {
