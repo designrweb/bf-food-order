@@ -14,6 +14,10 @@ class CateringItemPosTerminalCollection extends JsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        $data['quantity'] = 0;
+
+        return $data;
     }
 }

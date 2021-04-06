@@ -16,7 +16,14 @@ class CreateCateringOrdersTable extends Migration
         Schema::create('catering_orders', function (Blueprint $table) {
             $table->id();
             $table->dateTime('delivery_date')->nullable();
+            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 

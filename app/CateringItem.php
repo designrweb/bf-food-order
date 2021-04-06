@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -43,6 +44,23 @@ class CateringItem extends Model
      * @var string[]
      */
     protected $appends = ['status_human', 'created_at_human', 'updated_at_human'];
+
+    /**
+     * @return \Closure|mixed|void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        return static::addGlobalScope('company', function (Builder $builder) {
+            if (auth()->check() && auth()->user()->role !== User::ROLE_USER) {
+                $builder->whereHas('cateringCategory.location', function ($query) {
+                    $query->where('locations.company_id', auth()->user()->company_id)
+                        ->orWhere('locations.id', auth()->user()->location_id);
+                });
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -108,5 +108,8 @@ Route::prefix('v1')->group(function () {
 
         // catering items
         Route::get('catering-items', 'CateringItemController@index');
+
+        // catering order
+        Route::post('catering-order', 'CateringOrderController@store');
     });
 });
