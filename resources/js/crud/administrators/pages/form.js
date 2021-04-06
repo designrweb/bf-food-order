@@ -1,14 +1,10 @@
 import FormComponent                     from "../components/FormComponent";
-import VueCompositionAPI from '@vue/composition-api'
-
 
 window.Vue = require('vue');
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
-Vue.use(VueCompositionAPI)
-
 
 function init() {
     let $page = document.querySelector('#grid-form-page');

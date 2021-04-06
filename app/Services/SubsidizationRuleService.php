@@ -16,10 +16,22 @@ class SubsidizationRuleService extends BaseModelService
 {
 
     protected $repository;
+    /**
+     * @var SubsidizedMenuCategoriesService
+     */
+    private $subsidizedMenuCategoriesService;
+    /**
+     * @var ConsumerSubsidizationService
+     */
+    private $consumerSubsidizationService;
 
-    public function __construct(SubsidizationRuleRepository $repository)
+    public function __construct(SubsidizationRuleRepository $repository,
+                                SubsidizedMenuCategoriesService $subsidizedMenuCategoriesService,
+                                ConsumerSubsidizationService $consumerSubsidizationService)
     {
-        $this->repository = $repository;
+        $this->repository                      = $repository;
+        $this->subsidizedMenuCategoriesService = $subsidizedMenuCategoriesService;
+        $this->consumerSubsidizationService    = $consumerSubsidizationService;
     }
 
     /**
@@ -45,7 +57,20 @@ class SubsidizationRuleService extends BaseModelService
      */
     public function create($data)
     {
-        return $this->repository->add($data);
+        $model = $this->repository->add($data);
+
+        $subsidizedMenuCategories = [];
+
+        foreach ($data['subsidization_menu_categories_list'] as $menuCategoryId => $menuData) {
+            $subsidizedMenuCategoriesModel                   = new SubsidizedMenuCategories();
+            $subsidizedMenuCategoriesModel->menu_category_id = $menuCategoryId;
+            $subsidizedMenuCategoriesModel->percent          = $menuData['percent_full'];
+            $subsidizedMenuCategories[]                      = $subsidizedMenuCategoriesModel;
+        }
+
+        $model->subsidizedMenuCategories()->saveMany($subsidizedMenuCategories);
+
+        return $model;
     }
 
     /**
@@ -82,6 +107,9 @@ class SubsidizationRuleService extends BaseModelService
      */
     public function remove($id): bool
     {
+        $this->consumerSubsidizationService->removeBySubsidizationRuleId($id);
+        $this->subsidizedMenuCategoriesService->removeBySubsidizationRuleId($id);
+
         return $this->repository->delete($id);
     }
 

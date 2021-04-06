@@ -81,7 +81,11 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
+<<<<<<< HEAD
 /******/ 	return __webpack_require__(__webpack_require__.s = 32);
+=======
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+>>>>>>> origin/master
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -37321,14 +37325,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 32:
+=======
+/***/ 31:
+>>>>>>> origin/master
 /*!***********************************!*\
   !*** multi ./resources/js/app.js ***!
   \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/horror/www/foodorder_laravel/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/aburda/www/foodorder_laravel/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

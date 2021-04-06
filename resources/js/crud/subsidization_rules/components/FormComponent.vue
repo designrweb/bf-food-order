@@ -115,6 +115,7 @@
                                                 <spin-button
                                                     :ref="`percent_full_`+ menu_category.id"
                                                     :value="menu_category.percent_full"
+                                                    v-model="menu_category.percent_full"
                                                     :name="`menu_category[${menu_category.id}]`"
                                                     min="0"
                                                     max="100"
@@ -240,8 +241,10 @@ export default {
             let presaleprice             = this.form.subsidization_menu_categories_list[id].presaleprice;
             let value                    = (presaleprice * (val / 100)).toFixed(2);
 
-            this.$refs[subsidizationPrice][0].value           = value.replace(".", ",");
-            this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - value).toFixed(2).replace(".", ",");
+            this.form.subsidization_menu_categories_list[id].percent_full        = val;
+            this.form.subsidization_menu_categories_list[id].subsidization_price = value;
+            this.$refs[subsidizationPrice][0].value                              = value.replace(".", ",");
+            this.$refs[resultSubsidizationPrice][0].innerText                    = (presaleprice - value).toFixed(2).replace(".", ",");
         },
         handleSubsidizationPrice(val, id) {
             val                          = val.replace(",", ".");
@@ -257,7 +260,7 @@ export default {
                 percentValue = parseInt((val / presaleprice) * 100)
             }
 
-            this.$refs[percentFull][0].value = percentValue;
+            this.$refs[percentFull][0].value                  = percentValue;
             this.$refs[resultSubsidizationPrice][0].innerText = (presaleprice - parseFloat(val).toFixed(2)).toFixed(2).replace(".", ",");
         },
         async onSubmit(evt) {

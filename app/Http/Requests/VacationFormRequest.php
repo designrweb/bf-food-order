@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidationFactory;
+use Illuminate\Validation\Rule;
 
 class VacationFormRequest extends FormRequest
 {
@@ -22,7 +23,9 @@ class VacationFormRequest extends FormRequest
             'start_date'        => 'required|date|before:end_date',
             'end_date'          => 'required|date|after:start_date',
             'location_id'       => 'required|numeric',
-            'location_group_id' => 'required|array|exists:App\LocationGroup,id',
+            'location_group_id' => ['required', 'array', Rule::exists('location_groups', 'id')->where(function ($query) {
+                return $query->where('location_id', $this->location_id);
+            })],
         ];
     }
 
@@ -55,7 +58,7 @@ class VacationFormRequest extends FormRequest
         }
 
         $startDate = Carbon::parse($startDate)->format('Y-m-d');
-        $endDate = Carbon::parse($endDate)->format('Y-m-d');
+        $endDate   = Carbon::parse($endDate)->format('Y-m-d');
 
         return app(OrderService::class)->getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroupIds);
     }

@@ -62,3 +62,8 @@ export const switchCompany = (url) => api
 export const switchConsumer = (url) => api
     .request(url)
     .get();
+
+
+export const getCategoryOrderByLocationId = (mainRoute, id) => api
+    .request(mainRoute + '/get-order/' + id)
+    .get();

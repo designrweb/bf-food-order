@@ -91,14 +91,22 @@ class VacationRepository implements RepositoryInterface
     }
 
     /**
-     * @param $startDate
-     * @param $endDate
+     * @param      $startDate
+     * @param      $endDate
+     * @param null $locationGroupId
      * @return VacationResource
      */
-    public function getVacationByPeriod($startDate, $endDate)
+    public function getVacationByPeriod($startDate, $endDate, $locationGroupId = null)
     {
-        return $this->model::whereBetween('start_date', [$startDate, $endDate])
-            ->orWhereBetween('end_date', [$startDate, $endDate])
-            ->get();
+        $query = $this->model::where('start_date', '<=', $endDate)
+            ->where('end_date', '>=', $startDate);
+
+        if ($locationGroupId) {
+            $query->whereHas('locationGroups', function ($q) use ($locationGroupId) {
+                $q->where('vacation_location_group.location_group_id', $locationGroupId);
+            });
+        }
+
+        return $query->get();
     }
 }

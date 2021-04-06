@@ -1,24 +1,20 @@
-import FormComponent                     from "../components/FormComponent";
-import VueCompositionAPI from '@vue/composition-api'
-
+import ViewComponent                     from "../components/ViewComponent";
 
 window.Vue = require('vue');
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
-Vue.use(VueCompositionAPI)
-
 
 function init() {
-    let $page = document.querySelector('#grid-form-page');
+    let $page = document.querySelector('#grid-view-page');
 
     if (typeof($page) == 'undefined' || $page == null) return false;
 
     new Vue({
-        el:    '#grid-form-page',
+        el:    '#grid-view-page',
         components: {
-            "grid-form": FormComponent
+            "grid-view": ViewComponent
         },
         props: {
             main_route: String

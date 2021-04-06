@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Closure;
 use App\User;
 
-class UserSearch extends BaseSearch
+class AdministratorSearch extends BaseSearch
 {
     /**
      * @param         $request
@@ -20,16 +20,15 @@ class UserSearch extends BaseSearch
         $this->builder = $next($request);
 
         $this->builder->select(['users.*'])
-            ->selectRaw('IF(locations.name, locations.name, "") as location_name, IF(companies.name, companies.name, "") as company_name')
+             ->selectRaw('IF(locations.name, locations.name, "") as location_name, IF(companies.name, companies.name, "") as company_name')
             ->leftJoin('locations', 'users.location_id', '=', 'locations.id')
             ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
             ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
-            ->whereIn('users.role', [User::ROLE_USER]);
-        // TODO: implement with user companies relation functionality
-        //            ->where(function ($q) {
-        //                $q->orWhere('users.company_id', request()->user()->company_id);
-        //                $q->orWhere('locations.company_id', request()->user()->company_id);
-        //            });
+            ->whereIn('users.role', [User::ROLE_ADMIN, User::ROLE_POS_MANAGER])
+            ->where(function ($q) {
+                $q->orWhere('users.company_id', request()->user()->company_id);
+                $q->orWhere('locations.company_id', request()->user()->company_id);
+            });
 
         // filters
         $this->applyFilter('users.id', request('filters.id'));

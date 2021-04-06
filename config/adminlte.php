@@ -241,6 +241,7 @@ return [
             'route'   => 'companies.index',
             'icon'    => 'nav-icon fa fa-building',
             'can'     => ['menu-Company'],
+            'active'  => ['*admin/companies*'],
             'classes' => 'admin-companies-menu'
         ],
         [
@@ -248,6 +249,7 @@ return [
             'route'   => 'locations.index',
             'icon'    => 'nav-icon fa fa-map-marked',
             'can'     => ['menu-Location'],
+            'active'  => ['*admin/locations*'],
             'classes' => 'admin-locations-menu'
         ],
         [
@@ -255,13 +257,22 @@ return [
             'route'   => 'location-groups.index',
             'icon'    => 'nav-icon fa fa-object-ungroup',
             'can'     => ['menu-LocationGroup'],
+            'active'  => ['*admin/location-groups*'],
             'classes' => 'admin-location-groups-menu'
         ],
         [
             'text'    => 'Administrators',
+            'route'   => 'administrators.index',
+            'icon'    => 'nav-icon fa fa-user-shield',
+            'can'     => ['menu-User'],
+            'classes' => 'admin-administrators-menu'
+        ],
+        [
+            'text'    => 'Users',
             'route'   => 'users.index',
             'icon'    => 'nav-icon fa fa-user-friends',
             'can'     => ['menu-User'],
+            'active'  => ['*admin/users*'],
             'classes' => 'admin-administrators-menu'
         ],
         [
@@ -269,6 +280,7 @@ return [
             'route'   => 'consumers.index',
             'icon'    => 'nav-icon fa fa-users',
             'can'     => ['menu-Consumer'],
+            'active'  => ['*admin/consumers*'],
             'classes' => 'admin-consumers-menu'
         ],
         [
@@ -311,6 +323,7 @@ return [
             'text'    => 'Subsidization',
             'icon'    => 'nav-icon fa fa-hand-holding-heart',
             'can'     => ['menu-SubsidizationOrganization', 'menu-SubsidizationRule'],
+            'active'  => ['*admin/subsidization-organizations*', '*admin/subsidization-rules*'],
             'classes' => 'admin-subsidization-menu',
             'submenu' => [
                 [
@@ -336,6 +349,7 @@ return [
             'route'   => 'menu-categories.index',
             'icon'    => 'nav-icon fas fa-book-open',
             'can'     => ['menu-MenuCategory'],
+            'active'  => ['*admin/menu-categories*'],
             'classes' => 'admin-menu-categories-menu',
         ],
         [
@@ -343,6 +357,7 @@ return [
             'route'   => 'menu-items.index',
             'icon'    => 'nav-icon fa fa-utensils',
             'can'     => ['menu-MenuItem'],
+            'active'  => ['*admin/menu-items*'],
             'classes' => 'admin-menu-items-menu',
         ],
         [
@@ -374,6 +389,7 @@ return [
             'route'   => 'orders.index',
             'icon'    => 'nav-icon fa fa-list-ol',
             'can'     => ['menu-Order'],
+            'active'  => ['*admin/orders*'],
             'classes' => 'admin-orders-menu',
         ],
         [
@@ -381,6 +397,7 @@ return [
             'route'   => 'voucher-limits.index',
             'icon'    => 'nav-icon fas fa-calendar-week',
             'can'     => ['menu-VoucherLimit'],
+            'active'  => ['*admin/voucher-limits*'],
             'classes' => 'admin-voucher-limits-menu',
         ],
         [
@@ -388,6 +405,7 @@ return [
             'route'   => 'delivery-planning.index',
             'icon'    => 'nav-icon fa fa-calendar-alt',
             'can'     => ['menu-Order'],
+            'active'  => ['*admin/delivery-planning*'],
             'classes' => 'admin-delivery-planning-menu',
         ],
         [
@@ -403,6 +421,7 @@ return [
             'route'   => 'settings.combined_index',
             'icon'    => 'nav-icon fa fa-cogs',
             'can'     => ['menu-Setting'],
+            'active'  => ['*admin/settings*'],
             'classes' => 'admin-settings-menu',
         ],
         [
@@ -410,6 +429,7 @@ return [
             'route'   => 'financial-report.index',
             'icon'    => 'nav-icon fa fa-file',
             'can'     => ['menu-Payment'],
+            'active'  => ['*admin/financial-report*'],
             'classes' => 'admin-financial-report-menu',
         ],
         //user side menus
@@ -474,34 +494,34 @@ return [
             'classes' => 'user-consumers-menu'
         ],
 
-//        [
-//            'text' => 'Vacation Location Group',
-//            'url'  => 'admin/vacation-location-group',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
-//        [
-//            'text' => 'Subsidized Menu Categories',
-//            'url'  => 'admin/subsidized-menu-categories',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
-//
-//        [
-//            'text' => 'Consumer Subsidizations',
-//            'url'  => 'admin/consumer-subsidizations',
-//            'icon' => 'far fa-fw fa-file',
-//        ],
+        //        [
+        //            'text' => 'Vacation Location Group',
+        //            'url'  => 'admin/vacation-location-group',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
+        //        [
+        //            'text' => 'Subsidized Menu Categories',
+        //            'url'  => 'admin/subsidized-menu-categories',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
+        //
+        //        [
+        //            'text' => 'Consumer Subsidizations',
+        //            'url'  => 'admin/consumer-subsidizations',
+        //            'icon' => 'far fa-fw fa-file',
+        //        ],
 
-//        [
-//            'text'  => 'Auto Orders',
-//            'route' => 'consumer-auto-orders.index',
-//            'icon'  => 'far fa-fw fa-file',
-//        ],
-//        [
-//            'text'  => 'Consumer QR Codes',
-//            'route' => 'consumer-qr-codes.index',
-//            'icon'  => 'far fa-fw fa-file',
-//            'can'   => 'menu-ConsumerQrCode',
-//        ],
+        //        [
+        //            'text'  => 'Auto Orders',
+        //            'route' => 'consumer-auto-orders.index',
+        //            'icon'  => 'far fa-fw fa-file',
+        //        ],
+        //        [
+        //            'text'  => 'Consumer QR Codes',
+        //            'route' => 'consumer-qr-codes.index',
+        //            'icon'  => 'far fa-fw fa-file',
+        //            'can'   => 'menu-ConsumerQrCode',
+        //        ],
     ],
 
     /*
