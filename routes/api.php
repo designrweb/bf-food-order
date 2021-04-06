@@ -106,6 +106,8 @@ Route::prefix('v1')->group(function () {
         Route::get('search/consumer', 'ConsumerController@searchByConsumer');
         Route::get('search/consumer-qr-code', 'ConsumerController@searchByQrCode');
 
+        Route::post('cash-register-order/create', 'CashRegisterController@store');
+
         // catering items
         Route::get('catering-items', 'CateringItemController@index');
 

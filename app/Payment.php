@@ -34,6 +34,7 @@ class Payment extends Model
     const TYPE_POS_ORDER                                = 10; //negative
     const TYPE_POS_ORDER_SUBSIDIZED                     = 11; //negative
     const TYPE_POS_ORDER_SUBSIDIZED_REFUND              = 12; //positive
+    const TYPE_POS_ORDER_CASH_REGISTER                  = 13; //positive
 
     /**
      * The "type" of the auto-incrementing ID.

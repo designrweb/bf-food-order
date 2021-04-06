@@ -248,7 +248,7 @@ class PaymentService extends BaseModelService
     {
         $orderQuantity = $order->quantity;
 
-        $amount = $order->menuItem->menuCategory->presaleprice * $orderQuantity;
+        $amount         = $order->menuItem->menuCategory->presaleprice * $orderQuantity;
         $paymentMessage = sprintf('Abgebrochen "%s"', $order->menuItem->name);
 
         $payment = $this->repository->add([
@@ -262,7 +262,7 @@ class PaymentService extends BaseModelService
         $consumer = $payment->consumer;
 
         if ($consumer) {
-            $consumer = $consumer->fresh();
+            $consumer          = $consumer->fresh();
             $consumer->balance += $amount;
             $consumer->save();
         }
@@ -316,7 +316,7 @@ class PaymentService extends BaseModelService
         $subsidization = $payment->consumer->subsidization;
 
         $subsidizedMenuCategory = $this->subsidizedMenuCategoriesService->getMenuCategoryWithSubsidization($order->menuItem->menuCategory->id, $subsidization->subsidization_rule_id);
-        $amount = $this->getReversePaymentAmount($order->quantity, $payment->amount, $subsidizedMenuCategory->percent, $order->type);
+        $amount                 = $this->getReversePaymentAmount($order->quantity, $payment->amount, $subsidizedMenuCategory->percent, $order->type);
 
         $reversePayment           = $payment->replicate();
         $reversePayment->amount   = $amount;
@@ -326,7 +326,7 @@ class PaymentService extends BaseModelService
         $reversePayment->save();
 
         if ($order->consumer) {
-            $consumer = $order->consumer->fresh();
+            $consumer          = $order->consumer->fresh();
             $consumer->balance += $amount;
             $consumer->save();
         }
@@ -433,5 +433,29 @@ class PaymentService extends BaseModelService
         }
 
         return $paymentType;
+    }
+
+    /**
+     * @param $order
+     * @param $price
+     */
+    public function createCashRegisterPayment($order, $price)
+    {
+        $paymentMessage = __('app.Cash register', ['price' => $price]);
+
+        $payment = $this->repository->add([
+            'consumer_id' => $order->consumer_id,
+            'type'        => Payment::TYPE_POS_ORDER_CASH_REGISTER,
+            'order_id'    => $order->id,
+            'amount'      => $price,
+            'comment'     => $paymentMessage
+        ]);
+
+        $consumer = $payment->consumer;
+
+        if ($consumer) {
+            $consumer->balance -= $price;
+            $consumer->save();
+        }
     }
 }

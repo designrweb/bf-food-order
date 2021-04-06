@@ -4,6 +4,7 @@
  */
 return [
     'Consumers'                                                                                                                                                                                    => 'Kunde/Essensteilnehmer',
+    'Consumer not found'                                                                                                                                                                           => 'Verbraucher nicht gefunden',
     'Consumer'                                                                                                                                                                                     => 'Essensteilnehmer',
     'Account'                                                                                                                                                                                      => 'Kundennummer',
     'Parent Salutation'                                                                                                                                                                            => 'Anrede Erziehungsberechtigter',
