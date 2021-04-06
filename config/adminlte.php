@@ -361,6 +361,30 @@ return [
             'classes' => 'admin-menu-items-menu',
         ],
         [
+            'text'    => 'Catering',
+            'icon'    => 'nav-icon fa fa-shopping-basket',
+            'can'     => ['menu-CateringCategory', 'menu-CateringItem'],
+            'classes' => 'admin-catering-menu',
+            'submenu' => [
+                [
+                    'text'    => 'Catering Categories',
+                    'route'   => 'catering-categories.index',
+                    'icon'    => 'nav-icon fas fa-cookie-bite',
+                    'can'     => ['menu-CateringCategory'],
+                    'active'  => ['*catering-categories*'],
+                    'classes' => 'admin-menu-categories-menu',
+                ],
+                [
+                    'text'    => 'Catering Items',
+                    'route'   => 'catering-items.index',
+                    'icon'    => 'nav-icon fa fa-coffee',
+                    'can'     => ['menu-CateringItem'],
+                    'active'  => ['*catering-items*'],
+                    'classes' => 'admin-menu-items-menu',
+                ],
+            ],
+        ],
+        [
             'text'    => 'Food Orders',
             'route'   => 'orders.index',
             'icon'    => 'nav-icon fa fa-list-ol',

@@ -25,6 +25,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property UserInfo $userInfo
  * @property Consumer $consumers
  * @property Location $location
+ * @property Company  $company
  *
  * @package App
  */

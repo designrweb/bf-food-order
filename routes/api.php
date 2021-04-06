@@ -105,5 +105,11 @@ Route::prefix('v1')->group(function () {
         Route::get('consumer', 'ConsumerController@index');
         Route::get('search/consumer', 'ConsumerController@searchByConsumer');
         Route::get('search/consumer-qr-code', 'ConsumerController@searchByQrCode');
+
+        // catering items
+        Route::get('catering-items', 'CateringItemController@index');
+
+        // catering order
+        Route::post('catering-order', 'CateringOrderController@store');
     });
 });
