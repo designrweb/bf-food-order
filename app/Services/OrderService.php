@@ -83,6 +83,20 @@ class OrderService extends BaseModelService
 
     /**
      * @param $data
+     * @param $price
+     * @return mixed
+     */
+    public function createCashRegisterOrder($data, $price)
+    {
+        $order = $this->repository->add($data);
+
+        $this->paymentService->createCashRegisterPayment($order, $price);
+
+        return $order;
+    }
+
+    /**
+     * @param $data
      * @param $id
      * @return mixed
      */
@@ -204,8 +218,8 @@ class OrderService extends BaseModelService
 
     /**
      * @param Model $model
-     * @todo - need to think how to add condition by order type here
      * @return array
+     * @todo - need to think how to add condition by order type here
      */
     public function getIndexFieldsLabels(Model $model): array
     {

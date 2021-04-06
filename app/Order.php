@@ -32,11 +32,13 @@ class Order extends Model
     const TYPE_PRE_ORDER     = 1;
     const TYPE_POS_ORDER     = 2;
     const TYPE_VOUCHER_ORDER = 3;
+    const TYPE_CASH_REGISTER = 4;
 
     const TYPES = [
         self::TYPE_PRE_ORDER     => 'Vorbestellung',
         self::TYPE_POS_ORDER     => 'Spontanessen',
         self::TYPE_VOUCHER_ORDER => 'Bestellung mit Kioskbezahlung',
+        self::TYPE_CASH_REGISTER => 'Kasse',
     ];
 
     const IS_SUBSIDIZED     = 1;
