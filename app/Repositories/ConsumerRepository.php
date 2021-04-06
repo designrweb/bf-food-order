@@ -283,10 +283,56 @@ class ConsumerRepository implements RepositoryInterface
 
     /**
      * @param $date
+     * @param $id
      * @return bool
      */
-    public function isSubsidized($date): bool
+    public function isSubsidized($date, $id): bool
     {
-        return $this->model->isSubsidized($date);
+        return $this->getModel($id)->isSubsidized($date);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getSubsidizationFinalEndDate($id)
+    {
+        $model = $this->getModel($id);
+
+        $subsidization     = $model->subsidization;
+        $subsidizationRule = optional($subsidization)->subsidizationRule;
+
+        if (!empty($subsidization->subsidization_rule_id)) {
+            if (
+                empty($subsidizationRule->end_date)
+                && empty($subsidization->subsidization_end)
+            ) {
+                return 'Forever';
+            }
+
+            if (
+                !empty($subsidizationRule->end_date)
+                && !empty($subsidization->subsidization_end)
+            ) {
+                return date('d.m.Y', strtotime(min([$subsidizationRule->end_date,
+                    $subsidization->subsidization_end])));
+            }
+
+            if (
+                empty($subsidizationRule->end_date)
+                && !empty($subsidization->subsidization_end)
+            ) {
+                return date('d.m.Y', strtotime($subsidization->subsidization_end));
+            }
+
+            if (
+                !empty($subsidizationRule->end_date)
+                && empty($subsidization->subsidization_end)
+            ) {
+                return date('d.m.Y', strtotime($subsidizationRule->end_date));
+            }
+        }
+
+        return false;
     }
 }
