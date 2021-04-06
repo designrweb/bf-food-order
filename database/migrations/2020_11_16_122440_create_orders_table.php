@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('type')->nullable();
-            $table->unsignedBigInteger('menuitem_id')->index();
+            $table->unsignedBigInteger('menuitem_id')->nullable()->index();
             $table->unsignedBigInteger('consumer_id')->nullable()->index();
             $table->date('day')->nullable();
             $table->boolean('pickedup')->nullable()->default(0);

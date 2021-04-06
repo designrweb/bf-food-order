@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api\v1\pos;
 
 use App\ConsumerQrCode;
 use App\Order;
-use App\Services\CashRegisterService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
