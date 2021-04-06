@@ -34,7 +34,7 @@ class SubmitCateringOrderEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Test Subject')
+        return $this->subject('Catering Order')
             ->from(env("MAIL_FROM_EMAIL"), env("MAIL_FROM_NAME"))
             ->view('mail.pos.catering_order.submit_order');
     }
