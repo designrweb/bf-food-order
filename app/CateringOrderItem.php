@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed         $created_at
  * @property mixed         $updated_at
  * @property CateringOrder $order
+ * @property CateringItem  $cateringItem
  */
 class CateringOrderItem extends Model
 {
@@ -32,5 +33,13 @@ class CateringOrderItem extends Model
     public function order()
     {
         return $this->belongsTo(CateringOrder::class, 'id', 'catering_order_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cateringItem()
+    {
+        return $this->hasOne(CateringItem::class, 'id', 'catering_item_id');
     }
 }

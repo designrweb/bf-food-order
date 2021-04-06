@@ -26,10 +26,11 @@ class SendCateringOrderConfirmationEmail
     public function handle(CateringOrderSubmit $event)
     {
         $order = $event->order;
+        $email = !empty($order->user->location->company->settings()->where('setting_name', 'email')
+            ->first()) ? $order->user->location->company->settings()->where('setting_name', 'email')->first()->value : null;
 
-        if (!empty($order->user->location->company->settings()->where('setting_name', 'email')
-            ->first())) {
-            Mail::to($order->user->location->company->settings()->where('setting_name', 'email')->first()->value)->send(new \App\Mail\SubmitCateringOrderEmail($order));
+        if ($email) {
+            Mail::to($email)->send(new \App\Mail\SubmitCateringOrderEmail($order));
         }
     }
 }

@@ -1,14 +1,30 @@
 @extends('mail.mail')
 
 @section('content')
-    <div>
-        <img src="{{ asset('image/Coolinary_Logo_rgb.png') }}" alt="{{ config('app.name') }}">
-    </div>
+    <p>Bestelldatum: {{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l, d.m.Y')
+     }}</p>
 
-    <div>
-        <a href="https://lehmanns-gastronomie.de/lehmanns-app/" style="display: block">
-            <img src="{{ asset('image/email_footer.jpg') }}" alt="https://lehmanns-gastronomie.de/lehmanns-app/" style="width: 100%;">
-        </a>
-    </div>
+    <p>Lieferdatum: {{ \Carbon\Carbon::parse($order->delivery_date)->translatedFormat('l, d.m.Y')
+     }}</p>
+
+    <table style="margin-bottom: 30px; border-collapse: collapse;">
+        <thead>
+        <tr style="font-size: 12px;">
+            <th style="border: 1px solid #ccc;">Artikel</th>
+            <th style="border: 1px solid #ccc;">Menge</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ($order->orderItems as $item)
+            <tr>
+                <td style="border: 1px solid #ccc; text-align: center;">{{ $item->cateringItem->cateringCategory->name }}
+                    - {{
+                $item->cateringItem->name
+                }}</td>
+                <td style="border: 1px solid #ccc;text-align: center;">{{ $item->quantity }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 
 @endsection

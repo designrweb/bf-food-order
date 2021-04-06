@@ -13,9 +13,9 @@ class SubmitCateringOrderEmail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var
+     * @var CateringOrder
      */
-    private $order;
+    public $order;
 
     /**
      * Create a new message instance.
@@ -34,7 +34,7 @@ class SubmitCateringOrderEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bestellbestätigung Digitale Osterbörse')
+        return $this->subject('Test Subject')
             ->from(env("MAIL_FROM_EMAIL"), env("MAIL_FROM_NAME"))
             ->view('mail.pos.catering_order.submit_order');
     }
