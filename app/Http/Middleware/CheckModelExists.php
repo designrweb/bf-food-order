@@ -21,7 +21,7 @@ class CheckModelExists
         if (!empty($parameters['id']) && empty($model::find($parameters['id']))) {
             $routeName = $request->route()->getName();
 
-            return redirect()->route(str_replace('.edit', '.index', $routeName));
+            return redirect()->route(str_replace(['.edit', '.show'], '.index', $routeName));
         }
 
         return $next($request);

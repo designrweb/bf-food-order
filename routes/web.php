@@ -31,7 +31,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/', "UserController@index")->name('users.index')->middleware('checkRole:viewAny,App\User');
         Route::post('/', "UserController@store")->name('users.store')->middleware('checkRole:create,App\User');
         Route::get('/{id}/edit', 'UserController@edit')->name('users.edit')->middleware(['checkRole:update,App\User,id', 'checkModelExists:App\User']);
-        Route::get('/{id}', 'UserController@show')->name('users.show')->middleware('checkRole:view,App\User,id');
+        Route::get('/{id}', 'UserController@show')->name('users.show')->middleware(['checkRole:view,App\User,id', 'checkModelExists:App\User']);
         Route::put('/{id}', 'UserController@update')->name('users.update')->middleware('checkRole:update,App\User,id');
         Route::delete('/{id}', "UserController@destroy")->name('users.destroy')->middleware('checkRole:delete,App\User,id');
         Route::get('/export/run', "UserController@export")->name('users.export');
@@ -48,7 +48,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('/', "AdministratorController@store")->name('administrators.store')->middleware('checkRole:create,App\User');
         Route::get('/{id}/edit', 'AdministratorController@edit')->name('administrators.edit')
             ->middleware(['checkRole:update,App\User,id', 'checkModelExists:App\User']);
-        Route::get('/{id}', 'AdministratorController@show')->name('administrators.show')->middleware('checkRole:view,App\User,id');
+        Route::get('/{id}', 'AdministratorController@show')->name('administrators.show')
+            ->middleware(['checkRole:view,App\User,id', 'checkModelExists:App\User']);
         Route::put('/{id}', 'AdministratorController@update')->name('administrators.update')->middleware('checkRole:update,App\User,id');
         Route::delete('/{id}', "AdministratorController@destroy")->name('administrators.destroy')->middleware('checkRole:delete,App\User,id');
         Route::get('/export/run', "AdministratorController@export")->name('administrators.export');
@@ -80,7 +81,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'MenuCategoryController@create')->name('menu-categories.create');
         Route::post('/', "MenuCategoryController@store")->name('menu-categories.store');
         Route::get('/{id}/edit', 'MenuCategoryController@edit')->name('menu-categories.edit')->middleware('checkModelExists:App\MenuCategory');
-        Route::get('/{id}', 'MenuCategoryController@show')->name('menu-categories.show');
+        Route::get('/{id}', 'MenuCategoryController@show')->name('menu-categories.show')->middleware('checkModelExists:App\MenuCategory');
         Route::put('/{id}', 'MenuCategoryController@update')->name('menu-categories.update');
         Route::delete('/{id}', "MenuCategoryController@destroy")->name('menu-categories.destroy');
         Route::get('/get-order/{locationId}', "MenuCategoryController@getCategoryOrder")->name('menu-categories.get-order');
@@ -96,7 +97,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'VacationController@create')->name('vacations.create');
         Route::post('/', "VacationController@store")->name('vacations.store');
         Route::get('/{id}/edit', 'VacationController@edit')->name('vacations.edit')->middleware('checkModelExists:App\Vacation');
-        Route::get('/{id}', 'VacationController@show')->name('vacations.show');
+        Route::get('/{id}', 'VacationController@show')->name('vacations.show')->middleware('checkModelExists:App\Vacation');
         Route::put('/{id}', 'VacationController@update')->name('vacations.update');
         Route::delete('/{id}', "VacationController@destroy")->name('vacations.destroy');
     });
@@ -111,7 +112,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'LocationController@create')->name('locations.create');
         Route::post('/', "LocationController@store")->name('locations.store');
         Route::get('/{id}/edit', 'LocationController@edit')->name('locations.edit')->middleware('checkModelExists:App\Location');
-        Route::get('/{id}', 'LocationController@show')->name('locations.show');
+        Route::get('/{id}', 'LocationController@show')->name('locations.show')->middleware('checkModelExists:App\Location');
         Route::put('/{id}', 'LocationController@update')->name('locations.update');
         Route::delete('/{id}', "LocationController@destroy")->name('locations.destroy');
         Route::post('/{id}/update-image', "LocationController@updateImage")->name('locations.update-image');
@@ -128,7 +129,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'VoucherLimitController@create')->name('voucher-limits.create');
         Route::post('/', "VoucherLimitController@store")->name('voucher-limits.store');
         Route::get('/{id}/edit', 'VoucherLimitController@edit')->name('voucher-limits.edit')->middleware('checkModelExists:App\VoucherLimit');
-        Route::get('/{id}', 'VoucherLimitController@show')->name('voucher-limits.show');
+        Route::get('/{id}', 'VoucherLimitController@show')->name('voucher-limits.show')->middleware('checkModelExists:App\VoucherLimit');
         Route::put('/{id}', 'VoucherLimitController@update')->name('voucher-limits.update');
         Route::delete('/{id}', "VoucherLimitController@destroy")->name('voucher-limits.destroy');
     });
@@ -144,7 +145,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('/', "MenuItemController@store")->name('menu-items.store');
         Route::get('/{id}/edit', 'MenuItemController@edit')->name('menu-items.edit')->middleware('checkModelExists:App\MenuItem');
         Route::get('/{id}/replicate', 'MenuItemController@replicate')->name('menu-items.replicate');
-        Route::get('/{id}', 'MenuItemController@show')->name('menu-items.show');
+        Route::get('/{id}', 'MenuItemController@show')->name('menu-items.show')->middleware('checkModelExists:App\MenuItem');
         Route::put('/{id}', 'MenuItemController@update')->name('menu-items.update');
         Route::delete('/{id}', "MenuItemController@destroy")->name('menu-items.destroy');
     });
@@ -159,7 +160,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'LocationGroupController@create')->name('location-groups.create');
         Route::post('/', "LocationGroupController@store")->name('location-groups.store');
         Route::get('/{id}/edit', 'LocationGroupController@edit')->name('location-groups.edit')->middleware('checkModelExists:App\LocationGroup');
-        Route::get('/{id}', 'LocationGroupController@show')->name('location-groups.show');
+        Route::get('/{id}', 'LocationGroupController@show')->name('location-groups.show')->middleware('checkModelExists:App\LocationGroup');
         Route::put('/{id}', 'LocationGroupController@update')->name('location-groups.update');
         Route::get('/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
     });
@@ -205,7 +206,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('/', "ConsumerController@store")->name('consumers.store')->middleware('checkRole:create,App\Consumer');
         Route::get('/{id}/edit', 'ConsumerController@edit')->name('consumers.edit')
             ->middleware(['checkRole:update,App\Consumer,id', 'checkModelExists:App\Consumer']);
-        Route::get('/{id}', 'ConsumerController@show')->name('consumers.show');
+        Route::get('/{id}', 'ConsumerController@show')->name('consumers.show')->middleware('checkModelExists:App\Consumer');
         Route::put('/{id}', 'ConsumerController@update')->name('consumers.update');
         Route::delete('/{id}', "ConsumerController@destroy")->name('consumers.destroy')->middleware('checkRole:delete,App\Consumer,id');
         Route::post('/{id}/update-image', "ConsumerController@updateImage")->name('consumers.update-image');
@@ -241,7 +242,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'OrderController@create')->name('orders.create');
         Route::post('/', "OrderController@store")->name('orders.store');
         Route::get('/{id}/edit', 'OrderController@edit')->name('orders.edit')->middleware('checkModelExists:App\Order');
-        Route::get('/{id}', 'OrderController@show')->name('orders.show');
+        Route::get('/{id}', 'OrderController@show')->name('orders.show')->middleware('checkModelExists:App\Order');
         Route::put('/{id}', 'OrderController@update')->name('orders.update');
         Route::delete('/{id}', "OrderController@destroy")->name('orders.destroy');
         Route::get('/export/run', "OrderController@export")->name('orders.export');
@@ -275,7 +276,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'PaymentController@create')->name('payments.create');
         Route::post('/', "PaymentController@store")->name('payments.store');
         Route::get('/{id}/edit', 'PaymentController@edit')->name('payments.edit')->middleware('checkModelExists:App\Payment');
-        Route::get('/{id}', 'PaymentController@show')->name('payments.show');
+        Route::get('/{id}', 'PaymentController@show')->name('payments.show')->middleware('checkModelExists:App\Payment');
         Route::put('/{id}', 'PaymentController@update')->name('payments.update');
         Route::delete('/{id}', "PaymentController@destroy")->name('payments.destroy');
     });
@@ -332,7 +333,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'SubsidizationRuleController@create')->name('subsidization-rules.create');
         Route::post('/', "SubsidizationRuleController@store")->name('subsidization-rules.store');
         Route::get('/{id}/edit', 'SubsidizationRuleController@edit')->name('subsidization-rules.edit')->middleware('checkModelExists:App\SubsidizationRule');
-        Route::get('/{id}', 'SubsidizationRuleController@show')->name('subsidization-rules.show');
+        Route::get('/{id}', 'SubsidizationRuleController@show')->name('subsidization-rules.show')->middleware('checkModelExists:App\SubsidizationRule');
         Route::put('/{id}', 'SubsidizationRuleController@update')->name('subsidization-rules.update');
         Route::delete('/{id}', "SubsidizationRuleController@destroy")->name('subsidization-rules.destroy');
         Route::get('/get-list-by-organization/{organizationId?}', "SubsidizationRuleController@getList")->name('subsidization-rules.get-list-by-organization');
@@ -390,7 +391,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'CateringCategoryController@create')->name('catering-categories.create');
         Route::post('/', "CateringCategoryController@store")->name('catering-categories.store');
         Route::get('/{id}/edit', 'CateringCategoryController@edit')->name('catering-categories.edit')->middleware('checkModelExists:App\CateringCategory');
-        Route::get('/{id}', 'CateringCategoryController@show')->name('catering-categories.show');
+        Route::get('/{id}', 'CateringCategoryController@show')->name('catering-categories.show')->middleware('checkModelExists:App\CateringCategory');
         Route::put('/{id}', 'CateringCategoryController@update')->name('catering-categories.update');
         Route::delete('/{id}', "CateringCategoryController@destroy")->name('catering-categories.destroy');
     });
@@ -405,7 +406,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/create', 'CateringItemController@create')->name('catering-items.create');
         Route::post('/', "CateringItemController@store")->name('catering-items.store');
         Route::get('/{id}/edit', 'CateringItemController@edit')->name('catering-items.edit')->middleware('checkModelExists:App\CateringItem');
-        Route::get('/{id}', 'CateringItemController@show')->name('catering-items.show');
+        Route::get('/{id}', 'CateringItemController@show')->name('catering-items.show')->middleware('checkModelExists:App\CateringItem');
         Route::put('/{id}', 'CateringItemController@update')->name('catering-items.update');
         Route::delete('/{id}', "CateringItemController@destroy")->name('catering-items.destroy');
     });
