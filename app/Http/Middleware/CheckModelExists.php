@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class checkModelExists
+class CheckModelExists
 {
     /**
      * Handle an incoming request.
