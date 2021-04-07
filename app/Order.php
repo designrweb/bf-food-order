@@ -38,7 +38,7 @@ class Order extends Model
         self::TYPE_PRE_ORDER     => 'Vorbestellung',
         self::TYPE_POS_ORDER     => 'Spontanessen',
         self::TYPE_VOUCHER_ORDER => 'Bestellung mit Kioskbezahlung',
-        self::TYPE_CASH_REGISTER => 'Kasse',
+        self::TYPE_CASH_REGISTER => 'Registrierkasse',
     ];
 
     const IS_SUBSIDIZED     = 1;
