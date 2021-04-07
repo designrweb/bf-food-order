@@ -445,8 +445,8 @@ class PaymentService extends BaseModelService
 
         $payment = $this->repository->add([
             'consumer_id' => $order->consumer_id,
-            'type'     => Payment::TYPE_POS_ORDER_CASH_REGISTER,
-            'order_id' => $order->id,
+            'type'        => Payment::TYPE_POS_ORDER_CASH_REGISTER,
+            'order_id'    => $order->id,
             'amount'      => $price,
             'comment'     => $paymentMessage
         ]);
