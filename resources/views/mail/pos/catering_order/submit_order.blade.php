@@ -11,7 +11,7 @@
      }}</p>
     <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 0; padding: 0;">
         Ort: {{ $order->user->location->name }}</p>
-    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 40px; padding: 0;">
+    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0px 0px 40px 0px; padding: 0;">
         Lieferdatum: {{ \Carbon\Carbon::parse($order->delivery_date)->translatedFormat('l, d.m.Y')
      }}</p>
 
