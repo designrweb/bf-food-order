@@ -35,6 +35,14 @@ class CateringItemRepository implements RepositoryInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllPos()
+    {
+        return $this->model->with('cateringCategory')->get();
+    }
+
+    /**
      * @param array $data
      * @return mixed
      */
