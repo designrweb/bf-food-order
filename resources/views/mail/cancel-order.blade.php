@@ -12,15 +12,4 @@
     <br>
     <p>Das LEHMANNs <strong><span style="color:#96c11f">cool</span>inary</strong>-Team</p>
 
-    <p style="border-top: 1px dashed black; padding-top: 30px; margin-top: 30px;"><strong><span style="color:#96c11f">cool</span>inary</strong> ist ein Partner von
-        <br>
-        <img src="{{ asset('image/logo_small.png') }}" alt="{{ config('app.name') }}" style="border-top: 4px solid black; height: 32px;">
-    </p>
-
-    <div>
-        <a href="https://lehmanns-gastronomie.de/lehmanns-app/" style="display: block">
-            <img src="{{ asset('image/email_footer.jpg') }}" alt="https://lehmanns-gastronomie.de/lehmanns-app/" style="width: 100%;">
-        </a>
-    </div>
-
 @endsection
