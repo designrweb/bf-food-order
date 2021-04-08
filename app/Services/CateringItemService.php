@@ -49,6 +49,14 @@ class CateringItemService extends BaseModelService
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllPos()
+    {
+        return $this->repository->getAllPos();
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */

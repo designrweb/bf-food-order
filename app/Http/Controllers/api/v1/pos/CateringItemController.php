@@ -12,6 +12,11 @@ class CateringItemController extends Controller
     /** @var CateringItemService $service */
     protected $service;
 
+    /**
+     * CateringItemController constructor.
+     *
+     * @param CateringItemService $service
+     */
     public function __construct(CateringItemService $service)
     {
         $this->service = $service;
@@ -19,10 +24,10 @@ class CateringItemController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
-        return CateringItemPosTerminalCollection::collection($this->service->all());
+        return CateringItemPosTerminalCollection::collection($this->service->getAllPos())->collection->groupBy('cateringCategory.name');
     }
 }

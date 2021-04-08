@@ -36,17 +36,14 @@ class CateringOrderController extends Controller
      */
     public function store(CateringOrderFormRequest $request)
     {
-        $errors  = [];
-        $message = 'Order is successfully created';
+        $message = __('order.Order is successfully created');
 
         try {
             $model = $this->service->create($request->all());
 
             event(new CateringOrderSubmit($model));
         } catch (\Exception $e) {
-            $errors[] = env('APP_DEBUG') == true ? $e->getMessage() : 'Something went wrong!';
-
-            return response()->json(['errors' => $errors], 422);
+            return response()->json(['errors' => [$e->getMessage()]], 422);
         }
 
         return response()->json(['message' => $message, 'success' => true]);
