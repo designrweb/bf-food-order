@@ -1,5 +1,9 @@
 <?php
 
+use App\Consumer;
+use App\Notifications\AfterConsumerCreatedNotification;
+use App\Notifications\WelcomeNotification;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +26,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         return view('admin');
     });
 
+    Route::get('/notification', function () {
+        $invoice = User::find(1);
+        $consumer = Consumer::find(1);
+        $mdenus = \App\MenuCategory::all();
+
+        return (new AfterConsumerCreatedNotification($consumer, $mdenus))
+            ->toMail($invoice);
+    });
     /** users routes */
     Route::prefix('users')->middleware(['auth'])->group(function () {
         Route::get('/get-all', 'UserController@getAll')->name('users.get-all');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use App\Services\UserService;
 use App\User;
@@ -61,7 +62,7 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         $user = $this->create($request->all());
-        event(new Registered($user));
+        $user->notify(new WelcomeNotification());
 
         return $request->wantsJson()
             ? new JsonResponse([], 201)

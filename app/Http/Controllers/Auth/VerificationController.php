@@ -104,14 +104,12 @@ class VerificationController extends Controller
     /**
      * The user has been verified.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return mixed
      */
     protected function verified(Request $request)
     {
         if (!$request->user()) return;
-
-        $request->user()->notify(new WelcomeNotification());
     }
 
     /**
@@ -129,7 +127,11 @@ class VerificationController extends Controller
                 : redirect($this->redirectPath());
         }
 
-        event(new Registered($userService->getByEmail($request->get('email'))));
+        $user = $userService->getByEmail($request->get('email'));
+
+        if (!empty($user)) {
+            $user->notify(new WelcomeNotification());
+        }
 
         return $request->wantsJson()
             ? new JsonResponse([], 202)

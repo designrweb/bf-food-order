@@ -16,11 +16,4 @@
         <br>
         <img src="{{ asset('image/logo_small.png') }}" alt="{{ config('app.name') }}" style="border-top: 4px solid black; height: 32px;">
     </p>
-
-    <div>
-        <a href="https://lehmanns-gastronomie.de/lehmanns-app/" style="display: block">
-            <img src="{{ asset('image/email_footer.jpg') }}" alt="https://lehmanns-gastronomie.de/lehmanns-app/" style="width: 100%;">
-        </a>
-    </div>
-
 @endsection

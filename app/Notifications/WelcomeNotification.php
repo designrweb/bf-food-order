@@ -4,6 +4,9 @@ namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 
 class WelcomeNotification extends Notification
 {
@@ -26,9 +29,31 @@ class WelcomeNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $verificationUrl = $this->verificationUrl($notifiable);
+
         return (new MailMessage)
             ->subject(__('user.Welcome to My Food Order'))
-            ->line(__('user.Your account has been successfully registered'))
-            ->action(__('user.Go to application'), url('/'));
+            ->view('mail.auth.register.welcome', [
+                'user'            => $notifiable,
+                'verificationUrl' => $verificationUrl
+            ]);
+    }
+
+    /**
+     * Get the verification URL for the given notifiable.
+     *
+     * @param  mixed  $notifiable
+     * @return string
+     */
+    protected function verificationUrl($notifiable)
+    {
+        return URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
     }
 }

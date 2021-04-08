@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -15,6 +16,13 @@
     </style>
 </head>
 <body>
-@yield('content')
+    @yield('content')
+
+    <div>
+        <a href="https://lehmanns-gastronomie.de/lehmanns-app/" style="display: block">
+            <img src="{{ asset('image/email_footer.jpg') }}"
+                 alt="https://lehmanns-gastronomie.de/lehmanns-app/" style="width: 100%;">
+        </a>
+    </div>
 </body>
 </html>

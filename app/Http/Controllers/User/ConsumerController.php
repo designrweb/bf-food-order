@@ -6,11 +6,13 @@ use App\Consumer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ConsumerCollection;
 use App\Http\Resources\ConsumerResource;
+use App\Notifications\AfterConsumerCreatedNotification;
 use App\Services\ConsumerService;
 use App\Http\Requests\ConsumerFormRequest;
 use App\Services\ExportService;
 use App\Services\LocationGroupService;
 use App\Services\LocationService;
+use App\Services\MenuCategoryService;
 use App\Services\SettingService;
 use App\Services\SubsidizationOrganizationService;
 use App\Services\UserService;
@@ -121,12 +123,24 @@ class ConsumerController extends Controller
 
     /**
      * @param ConsumerFormRequest $request
-     * @return array
-     * @throws Exception
+     * @param MenuCategoryService $menuCategoryService
+     * @return array|JsonResponse
      */
-    public function store(ConsumerFormRequest $request)
+    public function store(ConsumerFormRequest $request, MenuCategoryService $menuCategoryService)
     {
-        return (new ConsumerResource($this->service->create($request)))->toArray($request);
+        try {
+            $consumer       = $this->service->create($request);
+            $model          = (new ConsumerResource($consumer))->toArray($request);
+            $menuCategories = $menuCategoryService->all();
+
+            if ($request->user()->consumers->count() == 1) {
+                $request->user()->notify(new AfterConsumerCreatedNotification($consumer, $menuCategories));
+            }
+        } catch (\Throwable $t) {
+            return response()->json(['error' => $t->getMessage()]);
+        }
+
+        return $model;
     }
 
     /**
