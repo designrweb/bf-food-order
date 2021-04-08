@@ -53,5 +53,5 @@ return [
     'Zip'                                        => 'PLZ',
     'Please increase your balance'               => 'Bitte erhöhen Sie Ihr Guthaben',
     'Forever'                                    => 'Für immer',
-    'Cash register'                              => 'Registrierkasse :price , :date',
+    'Cash register'                              => 'Registrierkasse :date',
 ];
