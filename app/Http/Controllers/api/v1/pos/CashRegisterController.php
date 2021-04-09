@@ -49,7 +49,7 @@ class CashRegisterController extends Controller
                 ->where(['qr_code_hash' => $data['code']])
                 ->first();
 
-            if (!$qrCode) {
+            if (empty($qrCode->consumer)) {
                 return response()->json(['errors' => __('consumer.Consumer not found')], 422);
             }
 
