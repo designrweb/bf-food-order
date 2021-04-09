@@ -106,6 +106,7 @@ class LoginController extends Controller
 
             //logout user to not display user name in header
             auth()->logout();
+
             return $this->sendEmailNotConfirmedResponse($request);
         }
 
@@ -117,11 +118,10 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-
     /**
      * Get the failed login response instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -129,7 +129,7 @@ class LoginController extends Controller
     protected function sendEmailNotConfirmedResponse(Request $request)
     {
         throw ValidationException::withMessages([
-            'hasNoVerifiedEmail' => $request->get('email'),
+            $this->username() => [trans('auth.not_verified')],
         ]);
     }
 }
