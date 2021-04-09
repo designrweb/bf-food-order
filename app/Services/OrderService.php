@@ -229,7 +229,7 @@ class OrderService extends BaseModelService
                 'label' => __('order.Child Full Name')
             ],
             [
-                'key'   => 'menu_item.name',
+                'key'   => 'menu_item_name',
                 'label' => __('menu-item.Menuitem')
             ],
             [
@@ -241,7 +241,7 @@ class OrderService extends BaseModelService
                 'label' => __('app.Day')
             ],
             [
-                'key'   => 'menu_item.menu_category.location.name',
+                'key'   => 'location_name',
                 'label' => __('order.Location')
             ],
         ];
@@ -255,7 +255,7 @@ class OrderService extends BaseModelService
     {
         return [
             [
-                'key'   => 'menu_item.name',
+                'key'   => 'menu_item_name',
                 'label' => __('menu-item.Menuitem')
             ],
             [
@@ -276,11 +276,11 @@ class OrderService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'consumer.full_name'                    => '',
-            'menu_item.name'                        => '',
-            'quantity'                              => '',
-            'translated_day'                        => '',
-            'menu_item.menu_category.location.name' => '',
+            'consumer.full_name' => '',
+            'menu_item_name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
+            'location_name'      => '',
         ];
     }
 
@@ -291,7 +291,7 @@ class OrderService extends BaseModelService
     protected function getSortFieldsForUser(Model $model): array
     {
         return [
-            'menu_item.name' => '',
+            'menu_item_name' => '',
             'quantity'       => '',
             'translated_day' => '',
         ];
@@ -304,11 +304,11 @@ class OrderService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'consumer.full_name'                    => '',
-            'menu_item.name'                        => '',
-            'quantity'                              => '',
-            'translated_day'                        => '',
-            'menu_item.menu_category.location.name' => [
+            'consumer.full_name' => '',
+            'menu_item_name'     => '',
+            'quantity'           => '',
+            'translated_day'     => '',
+            'location_name'      => [
                 'values' => $this->locationService->getList(),
                 'filter' => '',
                 'type'   => 'select',
@@ -323,7 +323,7 @@ class OrderService extends BaseModelService
     protected function getFiltersForUser(Model $model): array
     {
         return [
-            'menu_item.name' => '',
+            'menu_item_name' => '',
             'quantity'       => '',
             'translated_day' => '',
         ];
