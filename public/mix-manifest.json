@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css_frontend/app_frontend.css": "/css_frontend/app_frontend.css",
+    "/js/crud/administrators.js": "/js/crud/administrators.js",
     "/js/crud/catering_categories.js": "/js/crud/catering_categories.js",
     "/js/crud/catering_items.js": "/js/crud/catering_items.js",
     "/js/crud/companies.js": "/js/crud/companies.js",

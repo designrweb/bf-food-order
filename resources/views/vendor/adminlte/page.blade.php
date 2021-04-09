@@ -39,6 +39,9 @@
             <div class="content-header">
                 @includeWhen($currentConsumer && empty($currentConsumer->subsidization) && $currentConsumer->balance <
                  $currentConsumer->balance_limit , 'adminlte::partials.balance_limit_bar')
+
+                @includeWhen(!auth()->user()->userInfo->isCompletedProfile(), 'adminlte::partials.not_completed_profile')
+
                 <div class="{{ config('adminlte.classes_content_header') ?: $def_container_class }}">
                     @yield('content_header')
                 </div>

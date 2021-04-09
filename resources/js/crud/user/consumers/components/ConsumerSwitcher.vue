@@ -18,7 +18,7 @@
                 <span class="add-consumer-btn">+ Kind anlegen</span>
             </b-dropdown-item>
         </b-dropdown>
-        <b-dropdown-item :href="main_route + '/create'" v-else>
+        <b-dropdown-item :href="main_route + '/create'" :disabled="!isCompletedProfile" v-else>
             <span class="add-consumer-btn">+ Kind anlegen</span>
         </b-dropdown-item>
     </div>
@@ -37,9 +37,12 @@ export default {
     computed: {
         selectedConsumerFullName() {
             return this.selected_consumer ? this.selected_consumer.full_name : null;
+        },
+        isCompletedProfile: function () {
+            return document.querySelector('meta[name="is-completed-profile"]').getAttribute('content');
         }
     },
-    methods: {
+    methods:  {
         async switchCompany(id) {
             await switchConsumer(this.main_route + '/' + id + '/switch-consumer');
 

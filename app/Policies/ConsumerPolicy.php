@@ -60,7 +60,7 @@ class ConsumerPolicy
      */
     public function create(User $user)
     {
-        if (in_array($user->role, [User::ROLE_USER])) {
+        if (in_array($user->role, [User::ROLE_USER]) && auth()->user()->userInfo->isCompletedProfile()) {
             return true;
         }
 

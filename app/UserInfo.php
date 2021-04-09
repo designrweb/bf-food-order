@@ -51,4 +51,17 @@ class UserInfo extends Model
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    /**
+     * @return bool
+     */
+    public function isCompletedProfile(): bool
+    {
+        return !empty($this->first_name)
+            && !empty($this->last_name)
+            && !empty($this->salutation)
+            && !empty($this->zip)
+            && !empty($this->city)
+            && !empty($this->street);
+    }
 }
