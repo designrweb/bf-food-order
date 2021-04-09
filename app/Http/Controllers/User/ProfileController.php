@@ -93,4 +93,12 @@ class ProfileController extends Controller
     {
         $this->userService->update($request->all(), auth()->user()->id)->toArray();
     }
+
+    /**
+     * @return bool
+     */
+    public function isCompletedProfile(): bool
+    {
+        return $this->userService->isCompletedProfile();
+    }
 }

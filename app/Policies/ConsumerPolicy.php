@@ -3,12 +3,28 @@
 namespace App\Policies;
 
 use App\Consumer;
+use App\Services\UserService;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ConsumerPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * @var UserService
+     */
+    public $userService;
+
+    /**
+     * ConsumerPolicy constructor.
+     *
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -60,7 +76,7 @@ class ConsumerPolicy
      */
     public function create(User $user)
     {
-        if (in_array($user->role, [User::ROLE_USER]) && auth()->user()->userInfo->isCompletedProfile()) {
+        if (in_array($user->role, [User::ROLE_USER]) && $this->userService->isCompletedProfile()) {
             return true;
         }
 
@@ -70,7 +86,7 @@ class ConsumerPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\User     $user
+     * @param \App\User $user
      * @return mixed
      */
     public function update(User $user)

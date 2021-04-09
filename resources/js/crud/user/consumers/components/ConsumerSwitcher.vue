@@ -18,28 +18,35 @@
                 <span class="add-consumer-btn">+ Kind anlegen</span>
             </b-dropdown-item>
         </b-dropdown>
-        <b-dropdown-item :href="main_route + '/create'" :disabled="!isCompletedProfile" v-else>
-            <span class="add-consumer-btn">+ Kind anlegen</span>
-        </b-dropdown-item>
+        <b-overlay v-else :show="isLoading" rounded opacity="0.6" spinner-small
+                   class="d-inline-blocks">
+            <b-dropdown-item :href="main_route + '/create'" :disabled="!isProfileCompleted">
+                <span class="add-consumer-btn">+ Kind anlegen</span>
+            </b-dropdown-item>
+        </b-overlay>
     </div>
 </template>
 
 <script>
 import {switchConsumer} from "../../../api/crudRequests";
+import {get}            from "../../../api/profile";
 
 export default {
-    name:     "ConsumerSwitcher",
-    props:    {
+    name:  "ConsumerSwitcher",
+    props: {
         consumers:         Array,
         selected_consumer: Object,
         main_route:        String
     },
+    data() {
+        return {
+            isProfileCompleted: false,
+            isLoading:          false,
+        }
+    },
     computed: {
         selectedConsumerFullName() {
             return this.selected_consumer ? this.selected_consumer.full_name : null;
-        },
-        isCompletedProfile: function () {
-            return document.querySelector('meta[name="is-completed-profile"]').getAttribute('content');
         }
     },
     methods:  {
@@ -47,8 +54,19 @@ export default {
             await switchConsumer(this.main_route + '/' + id + '/switch-consumer');
 
             location.reload();
-        }
-    }
+        },
+        async _isProfileCompleted() {
+            this.isLoading = true;
+
+            let data                = await get('/user/profile/completed-profile');
+            this.isProfileCompleted = data.data;
+
+            this.isLoading = false;
+        },
+    },
+    async mounted() {
+        await this._isProfileCompleted();
+    },
 }
 </script>
 

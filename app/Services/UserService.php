@@ -75,6 +75,14 @@ class UserService extends BaseModelService
     }
 
     /**
+     * @return bool
+     */
+    public function isCompletedProfile(): bool
+    {
+        return $this->repository->isCompletedProfile();
+    }
+
+    /**
      * @return array
      */
     public function getSalutationsList(): array

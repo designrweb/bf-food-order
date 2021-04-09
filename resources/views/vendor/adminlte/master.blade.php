@@ -9,10 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @if (Auth::check())
-        <meta name="is-completed-profile" content="{{ auth()->user()->userInfo->isCompletedProfile() }}" />
-    @endif
-
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
 

@@ -423,6 +423,7 @@ Route::prefix('user')
             Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
             Route::get('/balance-limit', 'ProfileController@update')->name('profile.update');
             Route::put('/{id}', 'ProfileController@update')->name('profile.update');
+            Route::get('/completed-profile', 'ProfileController@isCompletedProfile')->name('profile.completed');
         });
 
         Route::get('/location-groups/get-list-by-location/{locationId?}', "LocationGroupController@getList")->name('location-groups.get-list-by-location');
