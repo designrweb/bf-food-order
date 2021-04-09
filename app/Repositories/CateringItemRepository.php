@@ -37,9 +37,9 @@ class CateringItemRepository implements RepositoryInterface
     /**
      * @return mixed
      */
-    public function getAllPos()
+    public function getAllForPos()
     {
-        return $this->model->with('cateringCategory')->get();
+        return $this->model->with('cateringCategory')->where('catering_items.status', $this->model::STATUS_ACTIVE)->get();
     }
 
     /**

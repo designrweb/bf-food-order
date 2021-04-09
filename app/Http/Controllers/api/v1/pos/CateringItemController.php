@@ -28,6 +28,6 @@ class CateringItemController extends Controller
      */
     public function index(Request $request)
     {
-        return CateringItemPosTerminalCollection::collection($this->service->getAllPos())->collection->groupBy('cateringCategory.name');
+        return CateringItemPosTerminalCollection::collection($this->service->getAllForPos())->collection->groupBy('cateringCategory.name');
     }
 }

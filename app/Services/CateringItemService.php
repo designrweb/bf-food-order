@@ -51,9 +51,9 @@ class CateringItemService extends BaseModelService
     /**
      * @return mixed
      */
-    public function getAllPos()
+    public function getAllForPos()
     {
-        return $this->repository->getAllPos();
+        return $this->repository->getAllForPos();
     }
 
     /**
