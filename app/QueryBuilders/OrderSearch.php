@@ -2,6 +2,7 @@
 
 namespace App\QueryBuilders;
 
+use App\Order;
 use bigfood\grid\BaseSearch;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,8 @@ class OrderSearch extends BaseSearch
         /** @var Builder $builder */
         $this->builder = $next($request);
 
-        $this->builder->select(['orders.*', 'menu_items.name as menu_item_name', 'locations.name as location_name'])
+        $this->builder->select(['orders.*', 'locations.name as location_name'])
+            ->selectRaw('IF(`orders`.`type` = ' . Order::TYPE_CASH_REGISTER . ', "' . Order::TYPES[Order::TYPE_CASH_REGISTER] . '", menu_items.name) as menu_item_name')
             ->leftJoin('menu_items', 'menu_items.id', '=', 'orders.menuitem_id')
             ->leftJoin('menu_categories', 'menu_categories.id', '=', 'menu_items.menu_category_id')
             ->leftJoin('locations', 'locations.id', '=', 'menu_categories.location_id')
@@ -41,8 +43,8 @@ class OrderSearch extends BaseSearch
             $this->applyFilter('menu_categories.location_id', request('filters.menu_item.menu_category.location.name'));
         }
 
-        $this->builder->when(request('filters.menu_item.name'), function (Builder $query) {
-            $query->where('menu_items.name', 'like', '%' . request('filters.menu_item.name') . '%');
+        $this->builder->when(request('filters.menu_item_name'), function (Builder $query) {
+            $this->builder->whereRaw("IF(`orders`.`type` = " . Order::TYPE_CASH_REGISTER . ", '" . Order::TYPES[Order::TYPE_CASH_REGISTER] . "', menu_items.name) like '%" . request('filters.menu_item_name') . "%' ");
         });
 
         if (!empty(request('filters.consumer.full_name'))) {
