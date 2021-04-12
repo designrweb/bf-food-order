@@ -6,6 +6,8 @@
             split-variant="outline-success"
             variant="success"
             :text="selected_consumer ? selectedConsumerFullName : 'Verbraucher wählen'"
+            menu-class="consumer-switcher-menu"
+            toggle-class="consumer-switcher-button"
             class="m-3">
             <b-dropdown-item
                 class="consumer-switcher-list"
