@@ -8,7 +8,7 @@
             :text="selected_consumer ? selectedConsumerFullName : 'Verbraucher wählen'"
             menu-class="consumer-switcher-menu"
             toggle-class="consumer-switcher-button"
-            class="m-3 22222222">
+            class="m-3">
             <b-dropdown-item
                 class="consumer-switcher-list"
                 v-if="selected_consumer && selected_consumer.id !== consumer.id"
