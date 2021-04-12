@@ -1,14 +1,19 @@
 <footer class="main-footer">
     <div class="d-flex justify-content-between">
         <div class="text-left">
-            <a href="/pdf/MyFoodOrder_coolinary_Datenschutz-Impressum.pdf" target="_blank" class="brand-color
+            <a href="{{ url('/pdf/MyFoodOrder_coolinary_Datenschutz-Impressum.pdf') }}"
+               target="_blank" class="brand-color
         p-2">Datenschutz-Impressum</a>
-            <a href="/pdf/MyFoodOrder_coolinary_Wiederrufbelehrung.pdf" target="_blank" class="brand-color
+            <a href="{{ url('/pdf/MyFoodOrder_coolinary_Wiederrufbelehrung.pdf') }}" target="_froblank"
+               class="brand-color
         p-2">Widerrufsbelehrung</a>
-            <a href="/pdf/MyFoodOrder_coolinary_AGBs.pdf" target="_blank" class="brand-color p-2 mr-3">AGB</a>
-            <a href="/pdf/MyFoodOrder_coolinary_Allgemeines-Infoschreiben_Web.pdf" target="_blank" class="brand-color
+            <a href="{{ url('/pdf/MyFoodOrder_coolinary_AGBs.pdf') }}" target="_blank"
+               class="brand-color p-2 mr-3">AGB</a>
+            <a href="{{ url('/pdf/MyFoodOrder_coolinary_Allgemeines-Infoschreiben_Web.pdf') }}"
+               target="_blank" class="brand-color
          p-2">Allgemeines Infoschreiben</a>
-            <a href="/pdf/MyFoodOrder_coolinary_Anmeldeformular_web.pdf" target="_blank" class="brand-color
+            <a href="{{ url('/pdf/MyFoodOrder_coolinary_Anmeldeformular_web.pdf') }}"
+               target="_blank" class="brand-color
         p-2">Anmeldeformular</a>
         </div>
         <!-- To the right -->
