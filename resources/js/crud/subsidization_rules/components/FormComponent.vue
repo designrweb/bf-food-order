@@ -6,7 +6,7 @@
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">
                     <div class="col-12 col-sm-8">
-                        <h3 class="card-title">{{ form.id ? ': ' + form.rule_name : '' }}</h3>
+                        <h3 class="card-title">{{ form.id ? form.rule_name : '' }}</h3>
                     </div>
                 </div>
             </div>
@@ -142,8 +142,11 @@
                                             </td>
 
                                             <td>
-                                                <span :ref="`result_subsidization_price_`+ menu_category.id">
-                                                    {{ menu_category.resulted_price.toString().replace(".", ",") }}
+                                                <span
+                                                    :ref="`result_subsidization_price_`+ menu_category.id">
+                                                    {{
+                                                        menu_category.resulted_price.toString().replace(".", ",")
+                                                    }}
                                                 </span>
                                                 <span> €</span>
                                             </td>

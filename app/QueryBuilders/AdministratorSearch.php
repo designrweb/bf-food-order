@@ -20,7 +20,7 @@ class AdministratorSearch extends BaseSearch
         $this->builder = $next($request);
 
         $this->builder->select(['users.*'])
-             ->selectRaw('IF(locations.name, locations.name, "") as location_name, IF(companies.name, companies.name, "") as company_name')
+             ->selectRaw('IF(locations.name, locations.name, "") as location_name, IF(companies.name, companies.name, "") as company_name, CONCAT_WS(" ", user_info.first_name, user_info.last_name) as user_full_name')
             ->leftJoin('locations', 'users.location_id', '=', 'locations.id')
             ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
             ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
@@ -38,6 +38,12 @@ class AdministratorSearch extends BaseSearch
         if (!empty(request('filters.location.name'))) {
             $this->builder->whereHas('location', function ($query) {
                 $query->where('locations.name', 'like', '%' . request('filters.location.name') . '%');
+            });
+        }
+
+        if (!empty(request('filters.user_info.full_name'))) {
+            $this->builder->whereHas('userInfo', function ($query) {
+                $query->whereRaw("CONCAT_WS(' ', user_info.first_name, user_info.last_name) like '%" . request('filters.user_info.full_name') . "%' ");;
             });
         }
 
