@@ -4,17 +4,25 @@
         <div class="card-body">
             <div>Bislang sind keine Kinder angelegt.</div>
 
-            <a :href="main_route + '/create'" class="btn btn-success mt-2">+ Kind anlegen</a>
+            <div class="mt-2">
+                <create-consumer-button :mainRoute="main_route + '/create'"
+                                        :label="'+ Kind anlegen'"></create-consumer-button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import {CreateConsumerButton} from "./grid-buttons";
+
 export default {
-    name: "NoConsumersComponent",
-    props: {
+    name:       "NoConsumersComponent",
+    components: {
+        'create-consumer-button': CreateConsumerButton,
+    },
+    props:      {
         main_route: String
-    }
+    },
 }
 </script>
 

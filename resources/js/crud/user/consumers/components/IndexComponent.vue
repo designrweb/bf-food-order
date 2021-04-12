@@ -2,20 +2,24 @@
     <div class="card">
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
-            <create-button v-if="allowActions.create && allowActions.all" :mainRoute="main_route"></create-button>
+            <create-consumer-button :mainRoute="main_route + '/create'" :label="'+ Erstellen'"
+                                    :classes="'float-right'"></create-consumer-button>
         </div>
         <div class="card-body overflow-auto">
             <div class="card-header bg-light">
                 <div class="float-right">
-                    <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+                    <pagination-into-component :firstItem="firstItem" :lastItems="lastItems"
+                                               :totalItems="totalItems"></pagination-into-component>
                 </div>
             </div>
             <div class="kv-panel-before">
                 <div class="float-right">
-                    <export-button :main_route="main_route" :filters="filters" :sort="sort"></export-button>
+                    <export-button :main_route="main_route" :filters="filters"
+                                   :sort="sort"></export-button>
                 </div>
                 <div class="float-right">
-                    <show-all-button :itemsPerPage.sync="itemsPerPage" :total="totalItems"></show-all-button>
+                    <show-all-button :itemsPerPage.sync="itemsPerPage"
+                                     :total="totalItems"></show-all-button>
                 </div>
             </div>
             <div class="text-center" v-if="isPageBusy">
@@ -37,8 +41,10 @@
                         <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"
                              @click="changeSort(scope.column)">
                             {{ scope.label }}
-                            <b-icon icon="sort-down" v-if="sort[scope.column] == 'desc'" font-scale="1.5"></b-icon>
-                            <b-icon icon="sort-down-alt" v-else-if="sort[scope.column] == 'asc'" font-scale="1.5"></b-icon>
+                            <b-icon icon="sort-down" v-if="sort[scope.column] == 'desc'"
+                                    font-scale="1.5"></b-icon>
+                            <b-icon icon="sort-down-alt" v-else-if="sort[scope.column] == 'asc'"
+                                    font-scale="1.5"></b-icon>
                         </div>
                         <div v-else>{{ scope.label }}</div>
                     </div>
@@ -65,7 +71,8 @@
                                        :id="data.item.id"></delete-button>
                     </div>
                     <div v-else-if="data.field.key ==='imageurl'">
-                        <b-img rounded center :src="data.value" v-bind="{ width: 75, height: 75}" alt="Fluid image"></b-img>
+                        <b-img rounded center :src="data.value" v-bind="{ width: 75, height: 75}"
+                               alt="Fluid image"></b-img>
                     </div>
                     <div v-else>
                         {{ data.value }}
@@ -87,7 +94,8 @@
                     ></b-pagination>
                 </b-col>
                 <b-col cols="2">
-                    <b-form-select v-model="itemsPerPage" :options="itemsPerPageOptions"></b-form-select>
+                    <b-form-select v-model="itemsPerPage"
+                                   :options="itemsPerPageOptions"></b-form-select>
                 </b-col>
             </b-row>
         </div>
@@ -95,18 +103,27 @@
 </template>
 
 <script>
-import FilterTextInput                                                    from "../../../shared/filters/TextFilterComponent";
-import FilterSelectInput                                                  from "../../../shared/filters/SelectFilterComponent";
-import FilterDatePickerInput                                              from "../../../shared/filters/DatePickerFilterComponent";
-import FilterNumberInput                                                  from "../../../shared/filters/NumberFilterComponent";
-import FilterDateRangePickerInput                                         from "../../../shared/filters/DateRangePickerFilterComponent";
-import {CreateButton, ViewButton, EditButton, DeleteButton, ExportButton} from "../../../shared/grid-buttons";
-import {getStructure, getItems}                                           from "../../../api/crudRequests";
-import SpinnerComponent                                                   from "../../../shared/SpinnerComponent";
-import PaginationInfoComponent                                            from "../../../shared/PaginationInfoComponent";
-import ShowAllButton                                                      from "../../../shared/grid-buttons/ShowAllButton";
-import NoDataComponent                                                    from "../../../shared/NoDataComponent";
-import {actionColumnMixin}                                                from "../../../mixins/actionColumnMixin";
+import FilterTextInput            from "../../../shared/filters/TextFilterComponent";
+import FilterSelectInput          from "../../../shared/filters/SelectFilterComponent";
+import FilterDatePickerInput      from "../../../shared/filters/DatePickerFilterComponent";
+import FilterNumberInput          from "../../../shared/filters/NumberFilterComponent";
+import FilterDateRangePickerInput from "../../../shared/filters/DateRangePickerFilterComponent";
+import {
+    CreateConsumerButton,
+    ViewButton,
+    EditButton,
+    DeleteButton,
+    ExportButton
+}                                 from "../../../shared/grid-buttons";
+import {
+    getStructure,
+    getItems
+}                                 from "../../../api/crudRequests";
+import SpinnerComponent           from "../../../shared/SpinnerComponent";
+import PaginationInfoComponent    from "../../../shared/PaginationInfoComponent";
+import ShowAllButton              from "../../../shared/grid-buttons/ShowAllButton";
+import NoDataComponent            from "../../../shared/NoDataComponent";
+import {actionColumnMixin}        from "../../../mixins/actionColumnMixin";
 
 export default {
     components: {
@@ -115,7 +132,7 @@ export default {
         'filter-date-picker':        FilterDatePickerInput,
         'filter-number':             FilterNumberInput,
         'filter-date-range-picker':  FilterDateRangePickerInput,
-        'create-button':             CreateButton,
+        'create-consumer-button':    CreateConsumerButton,
         'view-button':               ViewButton,
         'edit-button':               EditButton,
         'delete-button':             DeleteButton,

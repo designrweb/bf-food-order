@@ -110,6 +110,8 @@ class VerificationController extends Controller
     protected function verified(Request $request)
     {
         if (!$request->user()) return;
+
+        $this->redirectTo = route('profile.edit');
     }
 
     /**

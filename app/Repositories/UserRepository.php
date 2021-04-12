@@ -176,4 +176,19 @@ class UserRepository implements RepositoryInterface
     {
         return $this->model->where('email', $email)->first();
     }
+
+    /**
+     * Check if logged user finish registration
+     *
+     * @return bool
+     */
+    public function isCompletedProfile(): bool
+    {
+        return !empty(auth()->user()->userInfo->first_name)
+            && !empty(auth()->user()->userInfo->last_name)
+            && !empty(auth()->user()->userInfo->salutation)
+            && !empty(auth()->user()->userInfo->zip)
+            && !empty(auth()->user()->userInfo->city)
+            && !empty(auth()->user()->userInfo->street);
+    }
 }
