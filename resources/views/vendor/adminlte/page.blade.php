@@ -53,9 +53,7 @@
 
         </div>
 
-
         @include('footer')
-
 
         {{-- Right Control Sidebar --}}
         @if(config('adminlte.right_sidebar'))
