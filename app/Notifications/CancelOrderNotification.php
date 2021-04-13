@@ -14,13 +14,20 @@ class CancelOrderNotification extends Notification implements ShouldQueue
     private $date;
 
     /**
-     * Create a new notification instance.
+     * @var
+     */
+    private $consumer;
+
+    /**
+     * CancelOrderNotification constructor.
      *
      * @param $date
+     * @param $consumer
      */
-    public function __construct($date)
+    public function __construct($date, $consumer)
     {
-        $this->date = $date;
+        $this->date     = $date;
+        $this->consumer = $consumer;
     }
 
     /**
@@ -46,7 +53,8 @@ class CancelOrderNotification extends Notification implements ShouldQueue
             ->subject('Stornierung Essen - myfoodorder')
             ->view('mail.cancel-order', [
                 'user'           => $notifiable,
-                'vacationPeriod' => $this->date
+                'vacationPeriod' => $this->date,
+                'consumer'       => $this->consumer,
             ]);
     }
 

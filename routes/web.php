@@ -463,6 +463,7 @@ Route::prefix('user')
             Route::get('/food-orders', 'FoodOrderController@foodOrders')->name('user.food-order.food-orders');
             Route::get('/get-structure', 'FoodOrderController@getIndexStructure')->name('user.food-order.index-structure');
             Route::get('/get-all', 'FoodOrderController@getAll')->name('user.food-order.get-all');
+            Route::get('/export/run', "FoodOrderController@export")->name('user.food-order.export');
         });
 
 

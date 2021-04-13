@@ -2,11 +2,19 @@
     <div class="card" v-if="user_consumer_exists">
         <div class="card-header" v-if="!isPageBusy">
             <h3 class="card-title">{{ title }}</h3>
+            <a class="btn btn-success float-right" :href="main_route">+ Erstellen</a>
         </div>
         <div class="card-body overflow-auto">
             <div class="card-header bg-light">
                 <div class="float-right">
-                    <pagination-into-component :firstItem="firstItem" :lastItems="lastItems" :totalItems="totalItems"></pagination-into-component>
+                    <pagination-into-component :firstItem="firstItem" :lastItems="lastItems"
+                                               :totalItems="totalItems"></pagination-into-component>
+                </div>
+            </div>
+            <div class="kv-panel-before">
+                <div class="float-right">
+                    <export-button :main_route="main_route" :filters="filters"
+                                   :sort="sort"></export-button>
                 </div>
             </div>
             <div class="text-center" v-if="isPageBusy">
@@ -28,8 +36,10 @@
                         <div v-if="sort.hasOwnProperty(scope.column)" class="sortable"
                              @click="changeSort(scope.column)">
                             {{ scope.label }}
-                            <b-icon icon="sort-down" v-if="sort[scope.column] == 'desc'" font-scale="1.5"></b-icon>
-                            <b-icon icon="sort-down-alt" v-else-if="sort[scope.column] == 'asc'" font-scale="1.5"></b-icon>
+                            <b-icon icon="sort-down" v-if="sort[scope.column] == 'desc'"
+                                    font-scale="1.5"></b-icon>
+                            <b-icon icon="sort-down-alt" v-else-if="sort[scope.column] == 'asc'"
+                                    font-scale="1.5"></b-icon>
                         </div>
                         <div v-else>{{ scope.label }}</div>
                     </div>
@@ -75,7 +85,8 @@
                     ></b-pagination>
                 </b-col>
                 <b-col cols="2">
-                    <b-form-select v-model="itemsPerPage" :options="itemsPerPageOptions"></b-form-select>
+                    <b-form-select v-model="itemsPerPage"
+                                   :options="itemsPerPageOptions"></b-form-select>
                 </b-col>
             </b-row>
         </div>
@@ -84,16 +95,22 @@
 </template>
 
 <script>
-import FilterTextInput                                      from "../../../shared/filters/TextFilterComponent";
-import {CreateButton, ViewButton, EditButton, DeleteButton} from "../../../shared/grid-buttons";
-import {getStructure, getItems}                             from "../../../api/crudRequests";
-import SpinnerComponent                                     from "../../../shared/SpinnerComponent";
-import FormDatePickerFilterComponent                        from "../../../shared/filters/FormDatePickerFilterComponent";
-import FilterFloatInput                                     from "../../../shared/filters/FloatFilterComponent";
-import PaginationInfoComponent                              from "../../../shared/PaginationInfoComponent";
-import NoDataComponent                                      from "../../../shared/NoDataComponent";
-import {actionColumnMixin}                                  from "../../../mixins/actionColumnMixin";
-import NoConsumersComponent                                 from "../../../shared/NoConsumersComponent";
+import FilterTextInput               from "../../../shared/filters/TextFilterComponent";
+import {
+    CreateButton,
+    ViewButton,
+    EditButton,
+    DeleteButton,
+    ExportButton
+}                                    from "../../../shared/grid-buttons";
+import {getStructure, getItems}      from "../../../api/crudRequests";
+import SpinnerComponent              from "../../../shared/SpinnerComponent";
+import FormDatePickerFilterComponent from "../../../shared/filters/FormDatePickerFilterComponent";
+import FilterFloatInput              from "../../../shared/filters/FloatFilterComponent";
+import PaginationInfoComponent       from "../../../shared/PaginationInfoComponent";
+import NoDataComponent               from "../../../shared/NoDataComponent";
+import {actionColumnMixin}           from "../../../mixins/actionColumnMixin";
+import NoConsumersComponent          from "../../../shared/NoConsumersComponent";
 
 export default {
     components: {
@@ -104,6 +121,7 @@ export default {
         'edit-button':               EditButton,
         'delete-button':             DeleteButton,
         'spinner-component':         SpinnerComponent,
+        'export-button':             ExportButton,
         'filter-form-date-picker':   FormDatePickerFilterComponent,
         'pagination-into-component': PaginationInfoComponent,
         'no-data-component':         NoDataComponent,

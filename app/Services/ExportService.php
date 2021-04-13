@@ -25,13 +25,16 @@ class ExportService
      * @param         $service
      * @param         $collectionResource
      * @param         $model
-     * @return mixed
+     * @param string  $method
+     * @param array   $params
+     * @param string  $fieldsMethod
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function export(Request $request, $service, $collectionResource, $model)
+    public function export(Request $request, $service, $collectionResource, $model, $method = 'all', $params = [], $fieldsMethod = 'getIndexFieldsLabels')
     {
         $type      = $request->get('exportType', self::TYPES[self::DEFAULT_TYPE]);
         $extension = self::TYPES[$type];
 
-        return (new CollectionExport($request, $service, $collectionResource, $model))->download('data.' . $extension, constant('\Maatwebsite\Excel\Excel::' . $type));
+        return (new CollectionExport($request, $service, $collectionResource, $model, $method, $params, $fieldsMethod))->download('data.' . $extension, constant('\Maatwebsite\Excel\Excel::' . $type));
     }
 }

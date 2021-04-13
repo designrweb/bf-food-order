@@ -172,7 +172,7 @@ class UserService extends BaseModelService
             'create' => true,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 
@@ -188,7 +188,7 @@ class UserService extends BaseModelService
             'create' => false,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 
@@ -284,16 +284,12 @@ class UserService extends BaseModelService
     {
         return [
             [
+                'key'   => 'user_info.full_name',
+                'label' => __('app.Name')
+            ],
+            [
                 'key'   => 'email',
                 'label' => __('app.Email')
-            ],
-            [
-                'key'   => 'location.name',
-                'label' => __('location.Location')
-            ],
-            [
-                'key'   => 'company.name',
-                'label' => __('company.Company')
             ],
             [
                 'key'   => 'role',
@@ -335,11 +331,9 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'accounts'      => '',
-            'email'         => '',
-            'location.name' => '',
-            'company.name'  => '',
-            'role'          => '',
+            'user_info.full_name' => '',
+            'email'               => '',
+            'role'                => '',
         ];
     }
 
@@ -350,11 +344,9 @@ class UserService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'accounts'      => '',
-            'email'         => '',
-            'location.name' => '',
-            'company.name'  => '',
-            'role'          => '',
+            'user_info.full_name' => '',
+            'email'               => '',
+            'role'                => '',
         ];
     }
 
