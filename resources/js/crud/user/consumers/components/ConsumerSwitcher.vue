@@ -6,7 +6,7 @@
             split-variant="outline-success"
             variant="success"
             :text="selected_consumer ? selectedConsumerFullName : 'Verbraucher wählen'"
-            menu-class="consumer-switcher-menu"
+            menu-class="consumer-switcher-menu menu-scroll"
             toggle-class="consumer-switcher-button"
             class="m-3">
             <b-dropdown-item
@@ -75,5 +75,10 @@ export default {
 <style lang="scss">
 .add-consumer-btn {
     color: var(--main-theme-color) !important
+}
+
+.menu-scroll {
+    max-height: 280px !important;
+    overflow-y: auto !important;
 }
 </style>
