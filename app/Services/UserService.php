@@ -139,9 +139,9 @@ class UserService extends BaseModelService
     public function getAdministratorFullStructure(Model $model): array
     {
         return [
-            'filters'      => $this->getFilters($model),
-            'sort'         => $this->getSortFields($model),
-            'fields'       => $this->getIndexFieldsLabels($model),
+            'filters'      => $this->getAdministratorFilters($model),
+            'sort'         => $this->getAdministratorSortFields($model),
+            'fields'       => $this->getAdministratorIndexFieldsLabels($model),
             'allowActions' => $this->getAdministratorAllowActions(),
         ];
     }
@@ -172,7 +172,7 @@ class UserService extends BaseModelService
             'create' => true,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 
@@ -188,7 +188,7 @@ class UserService extends BaseModelService
             'create' => false,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 
@@ -284,16 +284,38 @@ class UserService extends BaseModelService
     {
         return [
             [
+                'key'   => 'user_info.full_name',
+                'label' => __('app.Name')
+            ],
+            [
+                'key'   => 'email',
+                'label' => __('app.Email')
+            ],
+            [
+                'key'   => 'role',
+                'label' => __('user.Access level')
+            ]
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return \string[][]
+     */
+    public function getAdministratorIndexFieldsLabels(Model $model): array
+    {
+        return [
+            [
+                'key'   => 'user_info.full_name',
+                'label' => __('app.Name')
+            ],
+            [
                 'key'   => 'email',
                 'label' => __('app.Email')
             ],
             [
                 'key'   => 'location.name',
                 'label' => __('location.Location')
-            ],
-            [
-                'key'   => 'company.name',
-                'label' => __('company.Company')
             ],
             [
                 'key'   => 'role',
@@ -309,11 +331,9 @@ class UserService extends BaseModelService
     protected function getFilters(Model $model): array
     {
         return [
-            'accounts'      => '',
-            'email'         => '',
-            'location.name' => '',
-            'company.name'  => '',
-            'role'          => '',
+            'user_info.full_name' => '',
+            'email'               => '',
+            'role'                => '',
         ];
     }
 
@@ -324,11 +344,37 @@ class UserService extends BaseModelService
     protected function getSortFields(Model $model): array
     {
         return [
-            'accounts'      => '',
-            'email'         => '',
-            'location.name' => '',
-            'company.name'  => '',
-            'role'          => '',
+            'user_info.full_name' => '',
+            'email'               => '',
+            'role'                => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getAdministratorFilters(Model $model): array
+    {
+        return [
+            'user_info.full_name' => '',
+            'email'               => '',
+            'location.name'       => '',
+            'role'                => '',
+        ];
+    }
+
+    /**
+     * @param Model $model
+     * @return array
+     */
+    protected function getAdministratorSortFields(Model $model): array
+    {
+        return [
+            'user_info.full_name' => '',
+            'email'               => '',
+            'location.name'       => '',
+            'role'                => '',
         ];
     }
 }

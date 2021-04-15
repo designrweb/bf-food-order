@@ -20,7 +20,10 @@ class AdministratorSearch extends BaseSearch
         $this->builder = $next($request);
 
         $this->builder->select(['users.*'])
-             ->selectRaw('IF(locations.name, locations.name, "") as location_name, IF(companies.name, companies.name, "") as company_name')
+            ->selectRaw(
+                'IF(locations.name, locations.name, "") as location_name, 
+                IF(companies.name, companies.name, "") as company_name, 
+                CONCAT_WS(" ", user_info.first_name, user_info.last_name) as user_full_name')
             ->leftJoin('locations', 'users.location_id', '=', 'locations.id')
             ->leftJoin('user_info', 'users.id', '=', 'user_info.user_id')
             ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
@@ -41,6 +44,12 @@ class AdministratorSearch extends BaseSearch
             });
         }
 
+        if (!empty(request('filters.user_info.full_name'))) {
+            $this->builder->whereHas('userInfo', function ($query) {
+                $query->whereRaw("CONCAT_WS(' ', user_info.first_name, user_info.last_name) like '%" . request('filters.user_info.full_name') . "%' ");;
+            });
+        }
+
         if (!empty(request('filters.company.name'))) {
             $this->builder->whereHas('company', function ($query) {
                 $query->where('companies.name', 'like', '%' . request('filters.company.name') . '%');
@@ -58,6 +67,10 @@ class AdministratorSearch extends BaseSearch
 
         $this->builder->when(request('sort.location.name'), function (Builder $q) {
             return $q->orderBy('locations.name', request('sort.location.name'));
+        });
+
+        $this->builder->when(request('sort.user_info.full_name'), function (Builder $q) {
+            return $q->orderByRaw("CONCAT_WS(' ', user_info.first_name, user_info.last_name) " . request('sort.user_info.full_name'));
         });
 
         return $this->builder;

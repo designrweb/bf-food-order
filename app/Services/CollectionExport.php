@@ -54,20 +54,35 @@ class CollectionExport implements FromArray, WithHeadings, WithEvents
     protected $fields;
 
     /**
+     * @var
+     */
+    protected $method;
+
+    /**
+     * @var array|mixed
+     */
+    protected $params;
+
+    /**
      * CollectionExport constructor.
      *
-     * @param $service
      * @param $request
+     * @param $service
      * @param $collectionResource
      * @param $model
+     * @param $method
+     * @param $params
+     * @param $fieldsMethod
      */
-    public function __construct($request, $service, $collectionResource, $model)
+    public function __construct($request, $service, $collectionResource, $model, $method, $params, $fieldsMethod)
     {
         $this->request            = $request;
         $this->service            = $service;
         $this->collectionResource = $collectionResource;
         $this->model              = $model;
-        $this->fields             = $this->service->getIndexFieldsLabels(new $this->model);
+        $this->fields             = call_user_func_array([$this->service, $fieldsMethod], [new $this->model]);
+        $this->method             = $method;
+        $this->params             = $params;
     }
 
     /**
@@ -85,13 +100,19 @@ class CollectionExport implements FromArray, WithHeadings, WithEvents
     {
         $formattedData = [];
         request()->merge(['itemsPerPage' => 0]);
+        $call = call_user_func_array([$this->service, $this->method], $this->params);
 
-        $collectionData = (new $this->collectionResource($this->service->all()))
-            ->toArray($this->request);
+        if ($this->collectionResource) {
+            $data           = (new $this->collectionResource($call))
+                ->toArray($this->request);
+            $collectionData = $data['data'];
+        } else {
+            $collectionData = $call;
+        }
 
-        foreach ($collectionData['data'] as $item) {
-
+        foreach ($collectionData as $item) {
             $row = [];
+
             foreach ($this->fields as $field) {
                 $value                = $this->getValueByIndexesPath($field, $item);
                 $row[$field['label']] = $value;

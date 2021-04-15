@@ -146,7 +146,7 @@ class OrderService extends BaseModelService
         $users = collect();
         $dates = collect();
         foreach ($canceledOrders as $canceledOrder) {
-            $users->push($canceledOrder->consumer->user);
+            $users->put($canceledOrder->consumer->user, $canceledOrder->consumer);
             $dates->push($canceledOrder->day);
 
             //create payment and refund money
@@ -161,9 +161,9 @@ class OrderService extends BaseModelService
         }
 
         //send cancel order email to each user
-        foreach ($users->unique() as $user) {
+        foreach ($users->unique() as $user => $consumer) {
             /** @var User $user */
-            $user->notify(new CancelOrderNotification($vacationPeriod));
+            $user->notify(new CancelOrderNotification($vacationPeriod, $consumer));
         }
     }
 
@@ -201,6 +201,14 @@ class OrderService extends BaseModelService
     }
 
     /**
+     * @return array
+     */
+    public function addFilters(): array
+    {
+        return $this->repository->addFilters();
+    }
+
+    /**
      * Returns allowed actions for the front-end part
      *
      * @return array
@@ -212,7 +220,7 @@ class OrderService extends BaseModelService
             'create' => false,
             'view'   => false,
             'edit'   => false,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 

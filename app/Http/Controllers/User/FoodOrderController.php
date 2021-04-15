@@ -8,6 +8,7 @@ use App\Http\Requests\OrderFormRequest;
 use App\Http\Resources\OrderCollection;
 use App\Order;
 use App\Services\ConsumerService;
+use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -116,7 +117,7 @@ class FoodOrderController extends Controller
      */
     public function foodOrders(Request $request, ConsumerService $consumerService, UserService $userService)
     {
-        $orders = $this->orderService->getOrdersForConsumer($consumerService->getCurrentConsumer()->id);
+        $orders             = $this->orderService->getOrdersForConsumer($consumerService->getCurrentConsumer()->id);
         $userConsumerExists = $userService->isConsumersExists($request->user());
 
         return view('user.food_order.orders', compact('orders', 'userConsumerExists'));
@@ -139,5 +140,16 @@ class FoodOrderController extends Controller
     public function getAll(Request $request, ConsumerService $consumerService)
     {
         return (new OrderCollection($this->orderService->getOrdersOverviewForConsumers($consumerService->getCurrentConsumer()->id)))->toArray($request);
+    }
+
+    /**
+     * @param Request         $request
+     * @param ExportService   $exportService
+     * @param ConsumerService $consumerService
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request, ExportService $exportService, ConsumerService $consumerService)
+    {
+        return $exportService->export($request, $this->orderService, false, Order::class, 'getOrdersOverviewForConsumers', ['consumerId' => $consumerService->getCurrentConsumer()->id], 'getIndexFieldsForUser');
     }
 }

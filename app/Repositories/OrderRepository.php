@@ -72,6 +72,14 @@ class OrderRepository extends Repository
     }
 
     /**
+     * @return array
+     */
+    public function addFilters(): array
+    {
+        return ['type' => $this->model::TYPE_PRE_ORDER];
+    }
+
+    /**
      * @param $consumerId
      * @return mixed
      */

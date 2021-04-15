@@ -173,6 +173,6 @@ class AdministratorController extends Controller
      */
     public function export(Request $request, ExportService $exportService)
     {
-        return $exportService->export($request, $this->service, AdministratorCollection::class, User::class);
+        return $exportService->export($request, $this->service, AdministratorCollection::class, User::class, 'allAdministrators', [], 'getAdministratorIndexFieldsLabels');
     }
 }

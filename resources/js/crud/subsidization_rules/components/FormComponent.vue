@@ -6,7 +6,7 @@
             <div class="card-header" v-if="!isPageBusy">
                 <div class="row">
                     <div class="col-12 col-sm-8">
-                        <h3 class="card-title">{{ form.id ? ': ' + form.rule_name : '' }}</h3>
+                        <h3 class="card-title">{{ form.id ? form.rule_name : '' }}</h3>
                     </div>
                 </div>
             </div>

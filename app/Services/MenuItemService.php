@@ -130,7 +130,7 @@ class MenuItemService extends BaseModelService
             'create' => true,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
             'copy'   => true,
         ];
     }
@@ -271,10 +271,11 @@ class MenuItemService extends BaseModelService
      */
     public function usersFoodOrdersByConsumerId($consumerId, $menuItems)
     {
-        $orders = $this->orderService->getOrdersForConsumer($consumerId);
+        $orders  = $this->orderService->getOrdersForConsumer($consumerId);
+        $filters = $this->orderService->addFilters();
 
         foreach ($menuItems as $menuItem) {
-            $order = $orders->where('menuitem_id', $menuItem->id)->first();
+            $order = $orders->where(['menuitem_id' => $menuItem->id] + $filters)->first();
             $menuItem->setAttribute('users_food_orders', $order);
         }
 

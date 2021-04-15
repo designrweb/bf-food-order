@@ -210,4 +210,20 @@ class CateringItemService extends BaseModelService
             'status_human'           => '',
         ];
     }
+
+    /**
+     * Returns allowed actions for the front-end part
+     *
+     * @return array
+     */
+    protected function getAllowActions()
+    {
+        return [
+            'all'    => true,
+            'create' => true,
+            'view'   => true,
+            'edit'   => true,
+            'delete' => false,
+        ];
+    }
 }

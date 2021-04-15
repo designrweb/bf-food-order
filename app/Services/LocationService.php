@@ -244,7 +244,7 @@ class LocationService extends BaseModelService
             'create' => true,
             'view'   => true,
             'edit'   => true,
-            'delete' => true,
+            'delete' => false,
         ];
     }
 }

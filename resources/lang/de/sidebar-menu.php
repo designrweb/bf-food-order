@@ -27,7 +27,7 @@ return [
     'QR Code'             => 'QR Code',
     'Order Now'           => 'Jetzt bestellen',
     'Children'            => 'Kinder',
-    'Orders'              => 'Aufträge',
+    'Orders'              => 'Bestellübersicht',
     'Catering'            => 'Gastronomie',
     'Catering Categories' => 'Catering-Kategorien',
     'Catering Items'      => 'Catering-Artikel',

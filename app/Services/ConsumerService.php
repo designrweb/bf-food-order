@@ -593,7 +593,7 @@ class ConsumerService extends BaseModelService
             'create' => auth()->user()->can('create', Consumer::class),
             'view'   => true,
             'edit'   => auth()->user()->can('create', Consumer::class),
-            'delete' => true,
+            'delete' => false,
         ];
     }
 
