@@ -488,4 +488,10 @@ Route::prefix('user')
         });
     });
 
+/** Temp routes */
+Route::permanentRedirect('/igsbn', '/login');
+Route::permanentRedirect('/igsbn/register', '/register');
+Route::permanentRedirect('/zentrale-lehmanns', '/login');
+Route::permanentRedirect('/zentrale-lehmanns/register', '/register');
+
 Auth::routes(['verify' => true]);
