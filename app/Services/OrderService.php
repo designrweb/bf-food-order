@@ -143,10 +143,14 @@ class OrderService extends BaseModelService
     {
         $canceledOrders = $this->repository->getPreOrdersByDateRangeAndLocationGroup($startDate, $endDate, $locationGroup);
 
-        $users = collect();
-        $dates = collect();
+        $usersConsumers = collect();
+        $dates          = collect();
+
         foreach ($canceledOrders as $canceledOrder) {
-            $users->put($canceledOrder->consumer->user, $canceledOrder->consumer);
+            $usersConsumers->push([
+                'user'     => $canceledOrder->consumer->user,
+                'consumer' => $canceledOrder->consumer
+            ]);
             $dates->push($canceledOrder->day);
 
             //create payment and refund money
@@ -161,9 +165,9 @@ class OrderService extends BaseModelService
         }
 
         //send cancel order email to each user
-        foreach ($users->unique() as $user => $consumer) {
+        foreach ($usersConsumers->unique('user') as $userConsumer) {
             /** @var User $user */
-            $user->notify(new CancelOrderNotification($vacationPeriod, $consumer));
+            $userConsumer['user']->notify(new CancelOrderNotification($vacationPeriod, $userConsumer['consumer']));
         }
     }
 

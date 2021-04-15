@@ -4,12 +4,24 @@
         <div class="card">
 
             <b-modal ref="orders-exists" id="bv-modal-example" hide-footer title="Warnung">
-                <p>Möchten Sie alle Bestellungen in diesem Zeitraum stornieren? Das Geld wird den Bestellern automatisch gutgeschrieben</p>
+                <p>Möchten Sie alle Bestellungen in diesem Zeitraum stornieren? Das Geld wird den
+                    Bestellern automatisch gutgeschrieben</p>
                 <ul>
-                    <li v-for="order in validation['orders_exists']['message']">Bestellung #: {{ order.id }}</li>
+                    <li v-for="order in validation['orders_exists']['message']">Bestellung #:
+                        {{ order.id }}
+                    </li>
                 </ul>
                 <b-button @click="$refs['orders-exists'].hide()">Schließen</b-button>
-                <b-button variant="danger" @click="proceedWithDeleteOrder($event)">Löschen</b-button>
+
+                <b-overlay
+                    :show="isDeletingOrders"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    class="d-inline-block">
+                    <b-button variant="danger" @click="proceedWithDeleteOrder($event)">Löschen
+                    </b-button>
+                </b-overlay>
             </b-modal>
 
             <div class="card-header" v-if="!isPageBusy">
@@ -132,7 +144,8 @@
                         </b-form-invalid-feedback>
                     </b-form-group>
 
-                    <b-button id="vacation-submit-btn" type="submit" variant="primary">Einreichen</b-button>
+                    <b-button id="vacation-submit-btn" type="submit" variant="primary">Einreichen
+                    </b-button>
                 </b-form>
 
 
@@ -153,7 +166,8 @@ import {getItem, store, getLocationGroupsByLocationId} from "../../api/crudReque
 import SpinnerComponent                                from "../../shared/SpinnerComponent";
 import BackButtonComponent                             from "../../shared/BackButtonComponent";
 import DatePicker                                      from 'vue2-datepicker'
-import Multiselect                                     from '@vueform/multiselect/dist/multiselect.vue2.js'
+import Multiselect
+                                                       from '@vueform/multiselect/dist/multiselect.vue2.js'
 import _                                               from 'lodash'
 
 export default {
@@ -172,6 +186,7 @@ export default {
     data() {
         return {
             isPageBusy:          false,
+            isDeletingOrders:    false,
             itemData:            [],
             location_group_list: [],
             location_group_ids:  [],
@@ -197,8 +212,10 @@ export default {
     },
     methods: {
         async proceedWithDeleteOrder(evt) {
+            this.isDeletingOrders             = true;
             this.form['with_deleting_orders'] = true;
             await this.onSubmit(evt);
+            this.isDeletingOrders = false;
             self.$refs['orders-exists'].hide();
         },
         async getLocationGroupsByLocationId(event) {
@@ -209,7 +226,10 @@ export default {
 
             try {
                 let response             = await getLocationGroupsByLocationId('/admin/location-groups/get-list-by-location/' + this.form.location_id);
-                this.location_group_list = _.map(response['data'], location => ({value: location.id, name: location.name}))
+                this.location_group_list = _.map(response['data'], location => ({
+                    value: location.id,
+                    name:  location.name
+                }))
 
                 this.location_group_ids = _.map(this.form.location_group_id, 'id');
             } catch (error) {
