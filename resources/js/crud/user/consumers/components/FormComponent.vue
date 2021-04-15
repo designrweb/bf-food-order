@@ -89,8 +89,8 @@
                                     {{ validation['birthday']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
-
-                            <b-form-group
+                            <!--                            todo hide for editing because of POS crashing-->
+                            <b-form-group v-if="!form.id"
                                 id="input-location_id"
                                 label="Location"
                                 label-for="input-location_id"
@@ -122,7 +122,8 @@
                                     :disabled="location_group_list.length === 0"
                                     disabled-field="notEnabled"
                                 ></b-form-select>
-                                <b-form-invalid-feedback :state="validation['location_group_id']['state']">
+                                <b-form-invalid-feedback
+                                    :state="validation['location_group_id']['state']">
                                     {{ validation['location_group_id']['message'] }}
                                 </b-form-invalid-feedback>
                             </b-form-group>
@@ -142,7 +143,8 @@
                             <div class="text-center" v-if="isPageBusy">
                                 <spinner-component></spinner-component>
                             </div>
-                            <b-form @submit="onSubmit" @reset="onReset" id="consumer-form-balance-limit" v-if="!isPageBusy">
+                            <b-form @submit="onSubmit" @reset="onReset"
+                                    id="consumer-form-balance-limit" v-if="!isPageBusy">
                                 <b-form-group
                                     label="Mindest-Guthaben"
                                     label-for="consumerform-balance_limit">
@@ -153,12 +155,15 @@
                                         placeholder="Mindest-Guthaben"
                                         autocomplete="off"
                                     ></b-form-input>
-                                    <b-form-invalid-feedback :state="validation['balance_limit']['state']">
+                                    <b-form-invalid-feedback
+                                        :state="validation['balance_limit']['state']">
                                         {{ validation['balance_limit']['message'] }}
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
-                                <b-button type="submit" id="consumers-submit-btn" variant="primary">Einreichen</b-button>
+                                <b-button type="submit" id="consumers-submit-btn" variant="primary">
+                                    Einreichen
+                                </b-button>
                             </b-form>
                         </div>
                     </div>
@@ -170,9 +175,12 @@
 
 <script>
 import {getItem, getLocationGroupsByLocationId, storeFormData} from "../../../api/crudRequests";
-import SpinnerComponent                                        from "../../../shared/SpinnerComponent";
-import BackButtonComponent                                     from "../../../shared/BackButtonComponent";
-import ImageUploadComponent                                    from "../../../shared/ImageUploadComponent";
+import SpinnerComponent
+                                                               from "../../../shared/SpinnerComponent";
+import BackButtonComponent
+                                                               from "../../../shared/BackButtonComponent";
+import ImageUploadComponent
+                                                               from "../../../shared/ImageUploadComponent";
 import _                                                       from 'lodash'
 import DatePicker                                              from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
