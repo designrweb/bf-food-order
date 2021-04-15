@@ -107,7 +107,7 @@
                                         <tbody>
                                         <tr v-for="(menu_category, key) in this.form.subsidization_menu_categories_list"
                                             :key="menu_category.id">
-                                            <td class="text-left">{{ menu_category.name }}</td>
+                                            <td class="text-left menu-category-name">{{ menu_category.name }}</td>
                                             <td>{{ menu_category.presaleprice.replace(".", ",") }}
                                                 €
                                             </td>
@@ -117,6 +117,7 @@
                                                     :value="menu_category.percent_full"
                                                     v-model="menu_category.percent_full"
                                                     :name="`menu_category[${menu_category.id}]`"
+                                                    class="menu-category-percent"
                                                     min="0"
                                                     max="100"
                                                     inline
@@ -134,6 +135,7 @@
                                                         :ref="`subsidization_price_`+ menu_category.id"
                                                         type="text"
                                                         @keypress="isNumber($event)"
+                                                        class="menu-category-percent-price"
                                                         min="0"
                                                         step="0.1"
                                                         @change="handleSubsidizationPrice($event, menu_category.id)"
@@ -142,7 +144,7 @@
                                             </td>
 
                                             <td>
-                                                <span :ref="`result_subsidization_price_`+ menu_category.id">
+                                                <span :ref="`result_subsidization_price_`+ menu_category.id" class="menu-category-final-price">
                                                     {{ menu_category.resulted_price.toString().replace(".", ",") }}
                                                 </span>
                                                 <span> €</span>
