@@ -128,8 +128,6 @@ class LoginController extends Controller
      */
     protected function sendEmailNotConfirmedResponse(Request $request)
     {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.not_verified')],
-        ]);
+        return redirect()->route('login')->with('hasNoVerifiedEmail', $request->get('email'));
     }
 }

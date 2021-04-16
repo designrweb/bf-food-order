@@ -196,10 +196,11 @@ return [
     'Confirm Password'                                                                                                             => 'Kennwort bestätigen',
     'Verify Your Email Address'                                                                                                    => 'Bestätige deine Email-Adresse',
     'Before proceeding, please check your email for a verification link.'                                                          => 'Bevor Sie fortfahren, überprüfen Sie bitte Ihre E-Mails auf einen Bestätigungslink.',
+    'Please check your email for a verification link.'                                                                             => 'Bitte überprüfen Sie Ihre E-Mail für einen Bestätigungslink.',
     'If you did not receive the email'                                                                                             => 'Wenn Sie die E-Mail nicht erhalten haben',
     'click here to request another'                                                                                                => 'Klicken Sie hier, um einen anderen anzufordern',
     'A fresh verification link has been sent to your email address.'                                                               => 'Ein neuer Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.',
     'Welcome to My Food Order'                                                                                                     => 'Willkommen zu My Food Order',
     'Your account has been successfully registered'                                                                                => 'Ihr Konto wurde erfolgreich registriert',
-    'Go to application'                                                                                => 'Zur Anwendung gehen',
+    'Go to application'                                                                                                            => 'Zur Anwendung gehen',
 ];
